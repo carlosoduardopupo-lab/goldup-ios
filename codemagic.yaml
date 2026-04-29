@@ -31,24 +31,13 @@ workflows:
           sed -i '' 's/TARGETED_DEVICE_FAMILY = "1,2"/TARGETED_DEVICE_FAMILY = "1"/g' "$PBXPROJ_PATH"
           grep "TARGETED_DEVICE_FAMILY" "$PBXPROJ_PATH"
 
-      - name: Build iOS (Flutter)
+      - name: Set up code signing
         script: |
-          flutter build ios --release --no-codesign
+          xcode-project use-profiles
 
-      - name: Archive with Xcode (workspace + scheme)
+      - name: Build IPA
         script: |
-          xcodebuild -workspace ios/Runner.xcworkspace \
-            -scheme Runner \
-            -configuration Release \
-            -archivePath build/ios/archive/Runner.xcarchive \
-            archive
-
-      - name: Export IPA
-        script: |
-          xcodebuild -exportArchive \
-            -archivePath build/ios/archive/Runner.xcarchive \
-            -exportOptionsPlist $CM_EXPORT_OPTIONS_PLIST \
-            -exportPath build/ios/ipa
+          flutter build ipa --release --flavor ios-production -t lib/main_prod.dart --export-options-plist=$CM_EXPORT_OPTIONS_PLIST
 
     artifacts:
       - build/ios/ipa/*.ipa

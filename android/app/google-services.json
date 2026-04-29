@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "351723314046",
+    "project_id": "calendar-ten2s9",
+    "storage_bucket": "calendar-ten2s9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351723314046:android:46d711de183dbdbe5eb12f",
+        "android_client_info": {
+          "package_name": "com.goldup.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351723314046-4vla58eophee9sn61o33la46c8tfts0f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goldup.app",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "351723314046-e4n5f633cqfi9shqfe0obnr7qq13sqg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXrf_Cnbb27aRsdMwNx0TIEYD89N5PiSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351723314046-e4n5f633cqfi9shqfe0obnr7qq13sqg3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "351723314046-2t8vs6359hj8aj59u2lh77m8rq1fft2h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.goldup.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

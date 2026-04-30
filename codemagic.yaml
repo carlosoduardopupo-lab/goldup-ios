@@ -14,6 +14,7 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.goldup.app
+        automatic_code_signing: true   # ← ESTA LÍNEA ES LA CLAVE
 
     scripts:
       - name: Install Flutter dependencies
@@ -60,4 +61,3 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
-

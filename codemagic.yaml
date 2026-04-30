@@ -33,7 +33,7 @@ workflows:
 
       - name: Set up code signing
         script: |
-          xcode-project use-profiles --certificate "goldup_distribution_cert" --profile "goldup_appstore_profile"
+          xcode-project use-profiles
 
       - name: Build IPA
         script: |

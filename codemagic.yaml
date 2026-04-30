@@ -14,7 +14,6 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.goldup.app
-        automatic_code_signing: true   # ← ESTA LÍNEA ES LA CLAVE
 
     scripts:
       - name: Install Flutter dependencies
@@ -45,14 +44,16 @@ workflows:
           grep "TARGETED_DEVICE_FAMILY" "$PBXPROJ_PATH"
           xcodebuild -list -project ios/Runner.xcodeproj
 
-      - name: Build IPA
+      - name: Set up code signing
         script: |
-          if [ -z "$CM_EXPORT_OPTIONS_PLIST" ]; then
-            echo "CM_EXPORT_OPTIONS_PLIST está vacío"
-            exit 1
-          fi
+          xcode-project use-profiles --project ios/Runner.xcodeproj
 
-          flutter build ipa --release --export-options-plist="$CM_EXPORT_OPTIONS_PLIST"
+      - name: Build iOS and IPA
+        script: |
+          flutter build ios --release --no-codesign
+          xcode-project build-ipa \
+            --project ios/Runner.xcodeproj \
+            --scheme Runner
 
     artifacts:
       - build/ios/ipa/*.ipa

@@ -1,4 +1,4 @@
-import FirebaseMessaging
+
 import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {

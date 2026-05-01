@@ -45,18 +45,6 @@ workflows:
           grep "TARGETED_DEVICE_FAMILY" "$PBXPROJ_PATH"
           xcodebuild -list -project ios/Runner.xcodeproj
 
-      - name: Fix ImageNotification Pods link
-        script: |
-          PBXPROJ="ios/Runner.xcodeproj/project.pbxproj"
-
-          echo "Removing Pods_ImageNotification references..."
-          sed -i '' '/Pods_ImageNotification/d' "$PBXPROJ"
-
-          echo "Removing Pods-ImageNotification references..."
-          sed -i '' '/Pods-ImageNotification/d' "$PBXPROJ"
-
-          echo "Done fixing ImageNotification pod links"
-
       - name: Set up code signing
         script: |
           xcode-project use-profiles --project ios/Runner.xcodeproj

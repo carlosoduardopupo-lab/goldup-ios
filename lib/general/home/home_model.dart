@@ -1,8 +1,4 @@
 import '/acciones/ajustes/ajustes_widget.dart';
-import '/adds/banner/banner_widget.dart';
-import '/adds/banner2/banner2_widget.dart';
-import '/adds/banner3/banner3_widget.dart';
-import '/adds/banner4/banner4_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -11,9 +7,9 @@ import '/backend/schema/structs/index.dart';
 import '/calendario/calendar_comp/calendar_comp_widget.dart';
 import '/components/bokimg_widget.dart';
 import '/components/news_views_widget.dart';
+import '/components/tarjetade_adds_widget.dart';
 import '/components/tarjetadenoticias_widget.dart';
 import '/eventos/accion_crear/accion_crear_widget.dart';
-import '/flutter_flow/flutter_flow_ad_banner.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -72,18 +68,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   DocumentsRecord? isset;
   // Model for cardBill component.
   late CardBillModel cardBillModel1;
-  // Model for banner component.
-  late BannerModel bannerModel;
+  // Models for TarjetadeAdds dynamic component.
+  late FlutterFlowDynamicModels<TarjetadeAddsModel> tarjetadeAddsModels;
   // Models for Tarjetadenoticias dynamic component.
   late FlutterFlowDynamicModels<TarjetadenoticiasModel> tarjetadenoticiasModels;
   // Model for CalendarComp component.
   late CalendarCompModel calendarCompModel;
-  // Model for banner2 component.
-  late Banner2Model banner2Model;
-  // Model for banner3 component.
-  late Banner3Model banner3Model;
-  // Model for banner4 component.
-  late Banner4Model banner4Model;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? incomes;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
@@ -110,13 +100,10 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   @override
   void initState(BuildContext context) {
     cardBillModel1 = createModel(context, () => CardBillModel());
-    bannerModel = createModel(context, () => BannerModel());
+    tarjetadeAddsModels = FlutterFlowDynamicModels(() => TarjetadeAddsModel());
     tarjetadenoticiasModels =
         FlutterFlowDynamicModels(() => TarjetadenoticiasModel());
     calendarCompModel = createModel(context, () => CalendarCompModel());
-    banner2Model = createModel(context, () => Banner2Model());
-    banner3Model = createModel(context, () => Banner3Model());
-    banner4Model = createModel(context, () => Banner4Model());
     bankAcountModels1 = FlutterFlowDynamicModels(() => BankAcountModel());
     bankAcountModels2 = FlutterFlowDynamicModels(() => BankAcountModel());
     metascardModels = FlutterFlowDynamicModels(() => MetascardModel());
@@ -126,12 +113,9 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   void dispose() {
     tabBarController?.dispose();
     cardBillModel1.dispose();
-    bannerModel.dispose();
+    tarjetadeAddsModels.dispose();
     tarjetadenoticiasModels.dispose();
     calendarCompModel.dispose();
-    banner2Model.dispose();
-    banner3Model.dispose();
-    banner4Model.dispose();
     bankAcountModels1.dispose();
     bankAcountModels2.dispose();
     metascardModels.dispose();

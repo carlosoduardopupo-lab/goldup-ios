@@ -1,8 +1,4 @@
 import '/acciones/ajustes/ajustes_widget.dart';
-import '/adds/banner/banner_widget.dart';
-import '/adds/banner2/banner2_widget.dart';
-import '/adds/banner3/banner3_widget.dart';
-import '/adds/banner4/banner4_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -11,9 +7,9 @@ import '/backend/schema/structs/index.dart';
 import '/calendario/calendar_comp/calendar_comp_widget.dart';
 import '/components/bokimg_widget.dart';
 import '/components/news_views_widget.dart';
+import '/components/tarjetade_adds_widget.dart';
 import '/components/tarjetadenoticias_widget.dart';
 import '/eventos/accion_crear/accion_crear_widget.dart';
-import '/flutter_flow/flutter_flow_ad_banner.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -2260,15 +2256,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                       ),
                                                                 ),
                                                               ),
-                                                              wrapWithModel(
-                                                                model: _model
-                                                                    .bannerModel,
-                                                                updateCallback: () =>
-                                                                    safeSetState(
-                                                                        () {}),
-                                                                child:
-                                                                    BannerWidget(),
-                                                              ),
                                                             ]
                                                                 .divide(SizedBox(
                                                                     height:
@@ -2652,11 +2639,18 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             (context) {
                                                                           if (rowFeedItemsRecord.adRef !=
                                                                               null) {
-                                                                            return FlutterFlowAdBanner(
-                                                                              width: 315.0,
-                                                                              height: 335.0,
-                                                                              showsTestAd: false,
-                                                                              androidAdUnitID: 'ca-app-pub-1155465785334479/5892037841',
+                                                                            return wrapWithModel(
+                                                                              model: _model.tarjetadeAddsModels.getModel(
+                                                                                rowFeedItemsRecord.adRef!.id,
+                                                                                rowIndex,
+                                                                              ),
+                                                                              updateCallback: () => safeSetState(() {}),
+                                                                              child: TarjetadeAddsWidget(
+                                                                                key: Key(
+                                                                                  'Keyiud_${rowFeedItemsRecord.adRef!.id}',
+                                                                                ),
+                                                                                adRef: rowFeedItemsRecord.adRef!,
+                                                                              ),
                                                                             );
                                                                           } else {
                                                                             return InkWell(
@@ -3601,23 +3595,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         );
                                                       },
                                                     ),
-                                                    if (valueOrDefault<bool>(
-                                                            currentUserDocument
-                                                                ?.isBasicWhitAnunces,
-                                                            false) ==
-                                                        true)
-                                                      AuthUserStreamWidget(
-                                                        builder: (context) =>
-                                                            wrapWithModel(
-                                                          model: _model
-                                                              .banner2Model,
-                                                          updateCallback: () =>
-                                                              safeSetState(
-                                                                  () {}),
-                                                          child:
-                                                              Banner2Widget(),
-                                                        ),
-                                                      ),
                                                   ]
                                                       .divide(SizedBox(
                                                           height: 10.0))
@@ -3951,21 +3928,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       );
                                                     },
                                                   ),
-                                                  if (valueOrDefault<bool>(
-                                                          currentUserDocument
-                                                              ?.isBasicWhitAnunces,
-                                                          false) ==
-                                                      true)
-                                                    AuthUserStreamWidget(
-                                                      builder: (context) =>
-                                                          wrapWithModel(
-                                                        model:
-                                                            _model.banner3Model,
-                                                        updateCallback: () =>
-                                                            safeSetState(() {}),
-                                                        child: Banner3Widget(),
-                                                      ),
-                                                    ),
                                                   Text(
                                                     FFLocalizations.of(context)
                                                         .getText(
@@ -4280,21 +4242,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       );
                                                     },
                                                   ),
-                                                  if (valueOrDefault<bool>(
-                                                          currentUserDocument
-                                                              ?.isBasicWhitAnunces,
-                                                          false) ==
-                                                      true)
-                                                    AuthUserStreamWidget(
-                                                      builder: (context) =>
-                                                          wrapWithModel(
-                                                        model:
-                                                            _model.banner4Model,
-                                                        updateCallback: () =>
-                                                            safeSetState(() {}),
-                                                        child: Banner4Widget(),
-                                                      ),
-                                                    ),
                                                 ]
                                                     .divide(
                                                         SizedBox(height: 10.0))

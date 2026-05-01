@@ -20,10 +20,11 @@ workflows:
         script: |
           flutter pub get
 
-      - name: Install CocoaPods
+      - name: Clean and install CocoaPods
         script: |
           cd ios
-          pod install
+          rm -rf Pods Podfile.lock
+          pod install --repo-update
           cd ..
 
       - name: Force iPhone-only build safely
@@ -43,7 +44,7 @@ workflows:
           PY
 
           grep "TARGETED_DEVICE_FAMILY" "$PBXPROJ_PATH"
-          xcodebuild -list -project ios/Runner.xcodeproj
+          xcodebuild -list -workspace ios/Runner.xcworkspace
 
       - name: Set up code signing
         script: |
@@ -51,9 +52,10 @@ workflows:
 
       - name: Build iOS and IPA
         script: |
+          set -e
           flutter build ios --release --no-codesign
           xcode-project build-ipa \
-            --project ios/Runner.xcodeproj \
+            --workspace ios/Runner.xcworkspace \
             --scheme Runner
 
     artifacts:

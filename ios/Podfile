@@ -39,10 +39,6 @@ target 'Runner' do
       :tag => '11.13.0'
 end
 
-target 'ImageNotification' do
-  use_frameworks! :linkage => :static
-  # Target vacío para que la extensión NO cargue Firebase ni FBLPromises
-end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

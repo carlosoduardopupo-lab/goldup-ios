@@ -88,13 +88,13 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                       'ozu0i2js' /* ¿Deseas eliminar esta cuenta? */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.outfit(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .headlineSmall
                                 .fontStyle,
                           ),
-                          color: Color(0xFF14181B),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 24.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -115,7 +115,7 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                     '8l0pv8x6' /* Si elimina esta cuenta, se eli... */,
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .fontWeight,
@@ -184,7 +184,7 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyLarge
                                     .override(
-                                      font: GoogleFonts.plusJakartaSans(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.normal,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyLarge
@@ -254,7 +254,7 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                       color: Color(0xFF01654D),
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
-                                font: GoogleFonts.golosText(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .fontWeight,

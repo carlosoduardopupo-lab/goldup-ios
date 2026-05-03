@@ -151,13 +151,13 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                       ),
                       style:
                           FlutterFlowTheme.of(context).headlineSmall.override(
-                                font: GoogleFonts.outfit(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .headlineSmall
                                       .fontStyle,
                                 ),
-                                color: Color(0xFF14181B),
+                                color: FlutterFlowTheme.of(context).primary,
                                 fontSize: 24.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w500,
@@ -182,7 +182,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'yk59jgil' /* Nombre */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -240,7 +240,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -262,7 +262,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -314,7 +314,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -353,7 +353,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'fsbkajws' /* Descripción (opcional) */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -411,7 +411,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -433,7 +433,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -485,7 +485,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -524,7 +524,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'eawdl1yo' /* Fecha de Inicio */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -574,7 +574,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -615,7 +615,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'l33lmzmt' /* Fecha de Culminación */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -659,7 +659,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                               headerTextStyle: FlutterFlowTheme.of(context)
                                   .headlineLarge
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .headlineLarge
@@ -739,7 +739,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
@@ -766,7 +766,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
@@ -825,7 +825,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -876,7 +876,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'yus5xd1m' /* Monto Total de la Meta */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -935,7 +935,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -957,7 +957,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -1009,7 +1009,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -1051,7 +1051,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'urbyunnx' /* Frecuencia de la Cuota */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1140,7 +1140,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                         height: 40.0,
                         textStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1194,7 +1194,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           '3g6k3lv1' /* Número de cuotas  */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1262,7 +1262,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -1298,7 +1298,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'frfrncfz' /* Tamaño de la Cuota */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1366,7 +1366,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -1402,7 +1402,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           'd8vj6zoh' /* Cuenta Emisora (de donde se en... */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1464,7 +1464,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                         height: 40.0,
                         textStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1518,7 +1518,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                           '0pj7nsq2' /* Cuenta Receptora ( La que reci... */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1580,7 +1580,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                         height: 40.0,
                         textStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1649,7 +1649,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -1682,7 +1682,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -1770,7 +1770,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -2201,7 +2201,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: Color(0xFF01654D),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .fontWeight,

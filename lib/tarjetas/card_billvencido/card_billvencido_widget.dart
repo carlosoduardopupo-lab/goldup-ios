@@ -107,7 +107,7 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -137,7 +137,7 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                           'fecha',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -168,7 +168,7 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                     '0',
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FontWeight.w600,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -199,7 +199,7 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                           maxLines: 1,
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.normal,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium

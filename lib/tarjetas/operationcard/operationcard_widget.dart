@@ -89,7 +89,7 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                         ),
                         maxLines: 1,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -117,7 +117,7 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                     '0',
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FontWeight.w500,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -172,7 +172,7 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                   locale: FFLocalizations.of(context).languageCode,
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.golosText(
+                      font: GoogleFonts.roboto(
                         fontWeight: FontWeight.w500,
                         fontStyle:
                             FlutterFlowTheme.of(context).bodyMedium.fontStyle,

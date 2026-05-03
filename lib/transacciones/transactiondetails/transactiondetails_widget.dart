@@ -92,7 +92,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                       'tp9mn64l' /* Detalles de la transacción */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .headlineSmall
                                 .fontWeight,
@@ -100,6 +100,8 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                 .headlineSmall
                                 .fontStyle,
                           ),
+                          color: FlutterFlowTheme.of(context).primary,
+                          fontSize: 22.0,
                           letterSpacing: 0.0,
                           fontWeight: FlutterFlowTheme.of(context)
                               .headlineSmall
@@ -172,7 +174,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyLarge
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyLarge
@@ -221,7 +223,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyLarge
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .fontWeight,
@@ -293,7 +295,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -343,7 +345,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight: FontWeight.w600,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
@@ -372,7 +374,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyLarge
@@ -436,7 +438,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight: FontWeight.w600,
                                                   fontStyle:
                                                       FlutterFlowTheme.of(
@@ -467,7 +469,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyLarge
@@ -529,7 +531,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w600,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
@@ -573,7 +575,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -600,7 +602,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -649,7 +651,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -676,7 +678,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -727,7 +729,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -762,7 +764,7 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge

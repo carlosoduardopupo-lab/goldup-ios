@@ -112,7 +112,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -143,7 +143,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -186,7 +186,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                         ),
                         maxLines: 2,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -211,7 +211,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -235,7 +235,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -270,7 +270,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                         '0',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium

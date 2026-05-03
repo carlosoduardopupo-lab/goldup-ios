@@ -115,7 +115,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                         ),
                         style:
                             FlutterFlowTheme.of(context).headlineSmall.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .fontWeight,
@@ -123,6 +123,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                         .headlineSmall
                                         .fontStyle,
                                   ),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  fontSize: 23.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .headlineSmall
@@ -184,7 +186,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight: FontWeight.w600,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
@@ -214,7 +216,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyLarge
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .fontWeight,
@@ -343,7 +345,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         .bodyLarge
                                                         .override(
                                                           font: GoogleFonts
-                                                              .golosText(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             fontStyle:
@@ -391,8 +393,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           context)
                                                       .bodyLarge
                                                       .override(
-                                                        font: GoogleFonts
-                                                            .golosText(
+                                                        font:
+                                                            GoogleFonts.roboto(
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -435,8 +437,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           context)
                                                       .bodyLarge
                                                       .override(
-                                                        font: GoogleFonts
-                                                            .golosText(
+                                                        font:
+                                                            GoogleFonts.roboto(
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -474,8 +476,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           context)
                                                       .bodyLarge
                                                       .override(
-                                                        font: GoogleFonts
-                                                            .golosText(
+                                                        font:
+                                                            GoogleFonts.roboto(
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -528,8 +530,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           context)
                                                       .bodyLarge
                                                       .override(
-                                                        font: GoogleFonts
-                                                            .golosText(
+                                                        font:
+                                                            GoogleFonts.roboto(
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontStyle:
@@ -570,7 +572,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         .bodyLarge
                                                         .override(
                                                           font: GoogleFonts
-                                                              .golosText(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -614,7 +616,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                       context)
                                                   .bodyLarge
                                                   .override(
-                                                    font: GoogleFonts.golosText(
+                                                    font: GoogleFonts.roboto(
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontStyle:
@@ -652,8 +654,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -695,7 +696,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                       context)
                                                   .bodyLarge
                                                   .override(
-                                                    font: GoogleFonts.golosText(
+                                                    font: GoogleFonts.roboto(
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontStyle:
@@ -741,8 +742,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -801,7 +801,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                                 .bodyLarge
                                                                 .override(
                                                                   font: GoogleFonts
-                                                                      .golosText(
+                                                                      .roboto(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -844,8 +844,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           context)
                                                       .bodyLarge
                                                       .override(
-                                                        font: GoogleFonts
-                                                            .golosText(
+                                                        font:
+                                                            GoogleFonts.roboto(
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -910,8 +910,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontStyle:
@@ -940,7 +939,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                       context)
                                                   .bodyMedium
                                                   .override(
-                                                    font: GoogleFonts.golosText(
+                                                    font: GoogleFonts.roboto(
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       fontStyle:
@@ -979,7 +978,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyLarge
                                                 .override(
-                                                  font: GoogleFonts.golosText(
+                                                  font: GoogleFonts.roboto(
                                                     fontWeight: FontWeight.w600,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
@@ -1008,34 +1007,35 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         .languageCode,
                                               ),
                                               textAlign: TextAlign.start,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyLarge
-                                                  .override(
-                                                    font: GoogleFonts.golosText(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontStyle,
-                                                    ),
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontStyle,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyLarge
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.roboto(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontStyle,
+                                                      ),
                                             ),
                                           ),
                                         ],
@@ -1052,7 +1052,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyLarge
                                                 .override(
-                                                  font: GoogleFonts.golosText(
+                                                  font: GoogleFonts.roboto(
                                                     fontWeight: FontWeight.w600,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
@@ -1081,34 +1081,35 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                     FFLocalizations.of(context)
                                                         .languageCode,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyLarge
-                                                  .override(
-                                                    font: GoogleFonts.golosText(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontStyle,
-                                                    ),
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontStyle,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyLarge
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.roboto(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyLarge
+                                                                .fontStyle,
+                                                      ),
                                             ),
                                           ),
                                         ],
@@ -1148,8 +1149,9 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                                   .of(context)
                                                               .bodyLarge
                                                               .override(
-                                                                font: GoogleFonts
-                                                                    .golosText(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .roboto(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
@@ -1188,7 +1190,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         .bodyLarge
                                                         .override(
                                                           font: GoogleFonts
-                                                              .golosText(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -1248,7 +1250,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           .bodyLarge
                                                           .override(
                                                             font: GoogleFonts
-                                                                .golosText(
+                                                                .roboto(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,
@@ -1286,8 +1288,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1345,7 +1346,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                           .bodyLarge
                                                           .override(
                                                             font: GoogleFonts
-                                                                .golosText(
+                                                                .roboto(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w600,
@@ -1397,8 +1398,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1475,7 +1475,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyLarge
                                                 .override(
-                                                  font: GoogleFonts.golosText(
+                                                  font: GoogleFonts.roboto(
                                                     fontWeight: FontWeight.w600,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
@@ -1506,7 +1506,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -1610,7 +1610,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
-                                        font: GoogleFonts.plusJakartaSans(
+                                        font: GoogleFonts.roboto(
                                           fontWeight: FontWeight.normal,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
@@ -1694,7 +1694,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.plusJakartaSans(
+                                          font: GoogleFonts.roboto(
                                             fontWeight: FontWeight.normal,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)

@@ -117,13 +117,13 @@ class _SaveWidgetState extends State<SaveWidget> {
                       ),
                       style:
                           FlutterFlowTheme.of(context).headlineSmall.override(
-                                font: GoogleFonts.outfit(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .headlineSmall
                                       .fontStyle,
                                 ),
-                                color: Color(0xFF14181B),
+                                color: FlutterFlowTheme.of(context).primary,
                                 fontSize: 24.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                         locale: FFLocalizations.of(context).languageCode,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -181,7 +181,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           '4b7ln67a' /* Tipo */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -241,7 +241,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                         height: 40.0,
                         textStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -295,7 +295,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           'xagkfr7g' /* Descripción (opcional) */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -353,7 +353,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -375,7 +375,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -427,7 +427,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -466,7 +466,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           '1yowpdo8' /* Monto  */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -525,7 +525,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -547,7 +547,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -599,7 +599,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -673,7 +673,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                         'i5ftp4cb' /* Ahorro recurrente */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -708,7 +708,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -778,7 +778,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                           height: 40.0,
                           textStyle:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -844,7 +844,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -877,7 +877,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -969,7 +969,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                               textStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -1196,7 +1196,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: Color(0xFF01654D),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .fontWeight,

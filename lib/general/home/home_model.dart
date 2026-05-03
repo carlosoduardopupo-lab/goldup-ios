@@ -50,6 +50,8 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   DocumentReference? userViewedRef;
 
+  String? url;
+
   ///  State fields for stateful widgets in this page.
 
   bool biometricResult = false;
@@ -91,7 +93,9 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   // Models for BankAcount dynamic component.
   late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels2;
   // Stores action output result for [Cloud Function - startPlaidLinkWebV2] action in Button widget.
-  StartPlaidLinkWebV2CloudFunctionCallResponse? cloudFunction99k;
+  StartPlaidLinkWebV2CloudFunctionCallResponse? plaidStartResult;
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  PlaidLinkSessionsRecord? weburl;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<BankAccountsRecord>? accounts;
   // Models for metascard dynamic component.

@@ -67,15 +67,16 @@ class _InfoEfectivorestanteWidgetState
                       'i8fyxdw7' /* Efectivo Restante sin Categori... */,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.golosText(
-                            fontWeight: FontWeight.w600,
+                          font: GoogleFonts.roboto(
+                            fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
-                          fontSize: 18.0,
+                          color: FlutterFlowTheme.of(context).primary,
+                          fontSize: 20.0,
                           letterSpacing: 0.0,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
@@ -104,7 +105,7 @@ class _InfoEfectivorestanteWidgetState
                   '7t1uv5t5' /* El efectivo restante sin categ... */,
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.golosText(
+                      font: GoogleFonts.roboto(
                         fontWeight:
                             FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                         fontStyle:
@@ -135,7 +136,7 @@ class _InfoEfectivorestanteWidgetState
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: Color(0xFF01654D),
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .titleSmall
                               .fontWeight,

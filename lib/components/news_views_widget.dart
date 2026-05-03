@@ -187,7 +187,7 @@ class _NewsViewsWidgetState extends State<NewsViewsWidget> {
                         'title',
                       ),
                       style: FlutterFlowTheme.of(context).titleLarge.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .titleLarge
                                   .fontWeight,
@@ -210,7 +210,7 @@ class _NewsViewsWidgetState extends State<NewsViewsWidget> {
                         'description',
                       ),
                       style: FlutterFlowTheme.of(context).titleSmall.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w500,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
@@ -233,7 +233,7 @@ class _NewsViewsWidgetState extends State<NewsViewsWidget> {
                           'sourse',
                         ),
                         style: FlutterFlowTheme.of(context).titleSmall.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
@@ -262,7 +262,7 @@ class _NewsViewsWidgetState extends State<NewsViewsWidget> {
                           'isl7qn49' /* Leer mas... */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium

@@ -105,5 +105,12 @@ service cloud.firestore {
       allow write: if request.auth != null;
       allow delete: if request.auth != null;
     }
+
+    match /plaid_link_sessions/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
   }
 }

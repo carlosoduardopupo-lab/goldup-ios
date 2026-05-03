@@ -83,13 +83,13 @@ class _CorreoEnviadoWidgetState extends State<CorreoEnviadoWidget> {
                       '2dhh6xvc' /* Hemos enviado un email */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.outfit(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .headlineSmall
                                 .fontStyle,
                           ),
-                          color: Color(0xFF14181B),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 24.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -110,7 +110,7 @@ class _CorreoEnviadoWidgetState extends State<CorreoEnviadoWidget> {
                     'jnpje9w9' /* Hemos enviado un email a tu cu... */,
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .fontWeight,
@@ -150,7 +150,7 @@ class _CorreoEnviadoWidgetState extends State<CorreoEnviadoWidget> {
                       color: Color(0xFF01654D),
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
-                                font: GoogleFonts.golosText(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .fontWeight,

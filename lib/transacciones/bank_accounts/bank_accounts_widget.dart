@@ -87,13 +87,13 @@ class _BankAccountsWidgetState extends State<BankAccountsWidget> {
                       '7ymly05i' /* Cuentas Bancarias */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.outfit(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .headlineSmall
                                 .fontStyle,
                           ),
-                          color: Color(0xFF14181B),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 24.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,

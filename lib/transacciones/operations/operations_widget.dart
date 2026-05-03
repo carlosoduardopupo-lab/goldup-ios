@@ -86,12 +86,13 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontStyle,
                                     ),
+                                    color: FlutterFlowTheme.of(context).primary,
                                     fontSize: 24.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
@@ -185,7 +186,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                             .bodyMedium
                                                             .override(
                                                               font: GoogleFonts
-                                                                  .golosText(
+                                                                  .roboto(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -239,7 +240,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                         .bodyMedium
                                                         .override(
                                                           font: GoogleFonts
-                                                              .golosText(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontStyle:
@@ -299,8 +300,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                         context)
                                                     .bodyMedium
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
@@ -350,7 +350,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                         .bodyMedium
                                                         .override(
                                                           font: GoogleFonts
-                                                              .golosText(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -380,8 +380,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                         context)
                                                     .bodyMedium
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -432,7 +431,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -464,7 +463,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -507,7 +506,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -534,7 +533,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -571,7 +570,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                           'ohs96x74' /* Pendientes */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -724,7 +723,7 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                           'afh1uauu' /* Registradas */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,

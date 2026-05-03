@@ -128,13 +128,13 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                       ),
                       style:
                           FlutterFlowTheme.of(context).headlineSmall.override(
-                                font: GoogleFonts.outfit(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FlutterFlowTheme.of(context)
                                       .headlineSmall
                                       .fontStyle,
                                 ),
-                                color: Color(0xFF14181B),
+                                color: FlutterFlowTheme.of(context).primary,
                                 fontSize: 24.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.w500,
@@ -159,7 +159,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'ppeg59y8' /* Nombre */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -217,7 +217,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -239,7 +239,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -291,7 +291,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -330,7 +330,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'mrwpgb5q' /* Descripción (opcional) */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -388,7 +388,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -410,7 +410,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -462,7 +462,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -503,7 +503,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'dpsfmiex' /* Fecha de Inicio */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -547,7 +547,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                               headerTextStyle: FlutterFlowTheme.of(context)
                                   .headlineLarge
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .headlineLarge
@@ -622,7 +622,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -664,7 +664,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           '19oqb6ac' /* Fecha de Culminación */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -708,7 +708,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                               headerTextStyle: FlutterFlowTheme.of(context)
                                   .headlineLarge
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .headlineLarge
@@ -785,7 +785,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontWeight,
@@ -828,7 +828,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'wnlnn3ju' /* Frecuencia de Pago de las Cuot... */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -914,7 +914,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                         height: 40.0,
                         textStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -968,7 +968,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'o7capmna' /* Monto Total de la Meta */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1027,7 +1027,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             labelStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -1049,7 +1049,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             hintStyle: FlutterFlowTheme.of(context)
                                 .labelMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -1101,7 +1101,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontWeight,
@@ -1143,7 +1143,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           'tamj5w17' /* Número de cuotas  */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1201,7 +1201,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -1237,7 +1237,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           '10fe6qcz' /* Tamaño de la Cuota */,
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -1300,7 +1300,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -1347,7 +1347,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1409,7 +1409,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1475,7 +1475,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1537,7 +1537,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -1604,7 +1604,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -1637,7 +1637,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .bodyMedium
@@ -1726,7 +1726,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -2134,7 +2134,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: Color(0xFF01654D),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .fontWeight,

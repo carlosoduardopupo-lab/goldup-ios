@@ -103,7 +103,7 @@ class _CarOtroGastWidgetState extends State<CarOtroGastWidget> {
                         locale: FFLocalizations.of(context).languageCode,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -133,7 +133,7 @@ class _CarOtroGastWidgetState extends State<CarOtroGastWidget> {
                     '0',
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FontWeight.w600,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -156,7 +156,7 @@ class _CarOtroGastWidgetState extends State<CarOtroGastWidget> {
                       ),
                       maxLines: 2,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.normal,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium

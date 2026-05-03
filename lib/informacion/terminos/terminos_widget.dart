@@ -65,12 +65,13 @@ class _TerminosWidgetState extends State<TerminosWidget> {
                       'oq59rmz6' /* Términos del Servicio  */,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w600,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
@@ -102,7 +103,7 @@ class _TerminosWidgetState extends State<TerminosWidget> {
                   '5ivxvsyj' /* Última actualización: Febrero ... */,
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.golosText(
+                      font: GoogleFonts.roboto(
                         fontWeight:
                             FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                         fontStyle:
@@ -133,7 +134,7 @@ class _TerminosWidgetState extends State<TerminosWidget> {
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: Color(0xFF01654D),
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .titleSmall
                               .fontWeight,

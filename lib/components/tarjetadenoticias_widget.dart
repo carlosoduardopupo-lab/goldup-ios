@@ -124,7 +124,7 @@ class _TarjetadenoticiasWidgetState extends State<TarjetadenoticiasWidget> {
                       ),
                       maxLines: 3,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium

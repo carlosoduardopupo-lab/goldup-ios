@@ -74,12 +74,13 @@ class _SettWidgetState extends State<SettWidget> {
                         'h6l9fr95' /* Ajustes */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w500,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
+                            color: FlutterFlowTheme.of(context).primary,
                             fontSize: 24.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w500,
@@ -110,7 +111,7 @@ class _SettWidgetState extends State<SettWidget> {
                   child: Text(
                     currentUserEmail,
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -152,7 +153,7 @@ class _SettWidgetState extends State<SettWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -225,7 +226,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -349,7 +350,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -445,7 +446,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -532,34 +533,35 @@ class _SettWidgetState extends State<SettWidget> {
                                                   .getText(
                                                 'v0lzv9c4' /* Actualizar Plan */,
                                               ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    font: GoogleFonts.golosText(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .fontStyle,
-                                                    ),
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.roboto(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
                                             ),
                                           ].divide(SizedBox(width: 10.0)),
                                         ),
@@ -601,7 +603,7 @@ class _SettWidgetState extends State<SettWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -674,7 +676,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -796,8 +798,7 @@ class _SettWidgetState extends State<SettWidget> {
                                                         context)
                                                     .bodyMedium
                                                     .override(
-                                                      font:
-                                                          GoogleFonts.golosText(
+                                                      font: GoogleFonts.roboto(
                                                         fontWeight:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -863,7 +864,7 @@ class _SettWidgetState extends State<SettWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -928,7 +929,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -1023,7 +1024,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -1118,7 +1119,7 @@ class _SettWidgetState extends State<SettWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -1190,7 +1191,7 @@ class _SettWidgetState extends State<SettWidget> {
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: Colors.transparent,
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .titleSmall
                               .fontWeight,

@@ -209,7 +209,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.bold,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -277,7 +277,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                       child: TabBar(
                                         isScrollable: true,
                                         tabAlignment: TabAlignment.center,
-                                        labelColor: Color(0xFF101213),
+                                        labelColor: FlutterFlowTheme.of(context)
+                                            .primary,
                                         unselectedLabelColor: Color(0xFF57636C),
                                         labelPadding:
                                             EdgeInsetsDirectional.fromSTEB(
@@ -285,7 +286,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .titleMedium
                                             .override(
-                                              font: GoogleFonts.plusJakartaSans(
+                                              font: GoogleFonts.roboto(
                                                 fontWeight: FontWeight.w500,
                                                 fontStyle:
                                                     FlutterFlowTheme.of(context)
@@ -305,7 +306,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                 .of(context)
                                             .titleMedium
                                             .override(
-                                              font: GoogleFonts.plusJakartaSans(
+                                              font: GoogleFonts.roboto(
                                                 fontWeight: FontWeight.w500,
                                                 fontStyle:
                                                     FlutterFlowTheme.of(context)
@@ -382,7 +383,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                         .headlineMedium
                                                         .override(
                                                           font: GoogleFonts
-                                                              .plusJakartaSans(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontStyle:
@@ -391,8 +392,9 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     .headlineMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color:
-                                                              Color(0xFF101213),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
                                                           fontSize: 24.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
@@ -422,7 +424,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                           .labelMedium
                                                           .override(
                                                             font: GoogleFonts
-                                                                .plusJakartaSans(
+                                                                .roboto(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
@@ -477,7 +479,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .labelLarge
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -564,7 +566,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             .bodyLarge
                                                             .override(
                                                               font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                                  .roboto(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -629,7 +631,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .labelLarge
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -737,7 +739,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             .bodyLarge
                                                             .override(
                                                               font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                                  .roboto(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -862,7 +864,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                       .bodyMedium
                                                                       .override(
                                                                         font: GoogleFonts
-                                                                            .golosText(
+                                                                            .roboto(
                                                                           fontWeight: FlutterFlowTheme.of(context)
                                                                               .bodyMedium
                                                                               .fontWeight,
@@ -889,7 +891,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     'b9o0tuaa' /* Términos del Servicio  */,
                                                                   ),
                                                                   style:
-                                                                      TextStyle(
+                                                                      GoogleFonts
+                                                                          .roboto(
                                                                     color: Color(
                                                                         0xFF003326),
                                                                     fontWeight:
@@ -929,8 +932,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                       .getText(
                                                                     'tkjz5xiv' /* y la  */,
                                                                   ),
-                                                                  style:
-                                                                      TextStyle(),
+                                                                  style: GoogleFonts
+                                                                      .roboto(),
                                                                 ),
                                                                 TextSpan(
                                                                   text: FFLocalizations.of(
@@ -939,7 +942,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     'wmyxe84y' /* Política de Privacidad */,
                                                                   ),
                                                                   style:
-                                                                      TextStyle(
+                                                                      GoogleFonts
+                                                                          .roboto(
                                                                     color: Color(
                                                                         0xFF003326),
                                                                     fontWeight:
@@ -979,7 +983,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .bodyMedium
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .golosText(
+                                                                        .roboto(
                                                                       fontWeight: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium
@@ -1132,7 +1136,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .titleSmall
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -1204,7 +1208,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                   Text(
                                                     FFLocalizations.of(context)
                                                         .getText(
-                                                      'o6fgy1ob' /* Vienvenido de Vuelta */,
+                                                      'o6fgy1ob' /* Bienvenido de Vuelta */,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                     style: FlutterFlowTheme.of(
@@ -1212,7 +1216,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                         .headlineMedium
                                                         .override(
                                                           font: GoogleFonts
-                                                              .plusJakartaSans(
+                                                              .roboto(
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontStyle:
@@ -1221,8 +1225,9 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     .headlineMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color:
-                                                              Color(0xFF101213),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
                                                           fontSize: 24.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
@@ -1252,7 +1257,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                           .labelMedium
                                                           .override(
                                                             font: GoogleFonts
-                                                                .plusJakartaSans(
+                                                                .roboto(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
@@ -1307,7 +1312,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .labelLarge
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -1398,7 +1403,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             .bodyLarge
                                                             .override(
                                                               font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                                  .roboto(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -1463,7 +1468,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .labelLarge
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -1575,7 +1580,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             .bodyLarge
                                                             .override(
                                                               font: GoogleFonts
-                                                                  .plusJakartaSans(
+                                                                  .roboto(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w500,
@@ -1687,7 +1692,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .titleSmall
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
@@ -1844,7 +1849,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .bodyMedium
                                                                   .override(
                                                                     font: GoogleFonts
-                                                                        .plusJakartaSans(
+                                                                        .roboto(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,

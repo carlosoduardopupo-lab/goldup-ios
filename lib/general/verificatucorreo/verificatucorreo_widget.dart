@@ -66,7 +66,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 200.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -75,13 +75,13 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                       'snqulxdm' /* Verifica tu correo */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          font: GoogleFonts.outfit(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .headlineSmall
                                 .fontStyle,
                           ),
-                          color: Color(0xFF14181B),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 24.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -100,12 +100,13 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                   'nijh9tt5' /* Hemos enviado un enlace de ver... */,
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.golosText(
+                      font: GoogleFonts.roboto(
                         fontWeight:
                             FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                         fontStyle:
                             FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
+                      color: Color(0xFF333333),
                       letterSpacing: 0.0,
                       fontWeight:
                           FlutterFlowTheme.of(context).bodyMedium.fontWeight,
@@ -125,7 +126,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                         'cc85de08' /* ¿No recibiste el correo?   */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -133,6 +134,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                                   .bodyMedium
                                   .fontStyle,
                             ),
+                            color: Color(0xFF333333),
                             letterSpacing: 0.0,
                             fontWeight: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -147,7 +149,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                         'gf6f5mif' /* Reenviar */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -182,7 +184,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                     )
                   ],
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .fontWeight,
@@ -235,7 +237,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: Color(0xFF01654D),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.plusJakartaSans(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .titleSmall

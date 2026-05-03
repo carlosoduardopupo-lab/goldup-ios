@@ -126,7 +126,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    font: GoogleFonts.golosText(
+                                    font: GoogleFonts.roboto(
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -157,7 +157,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -193,7 +193,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMedium
@@ -238,7 +238,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                         '0',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w600,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -299,7 +299,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                         ),
                         maxLines: 10,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -340,7 +340,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.normal,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -369,7 +369,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
@@ -413,7 +413,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight: FontWeight.w600,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
@@ -442,7 +442,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                             ),
                             style:
                                 FlutterFlowTheme.of(context).bodyLarge.override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .fontWeight,
@@ -479,7 +479,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight: FontWeight.w600,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)
@@ -524,7 +524,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
-                                              font: GoogleFonts.golosText(
+                                              font: GoogleFonts.roboto(
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyLarge
@@ -550,7 +550,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyLarge
@@ -605,7 +605,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                font: GoogleFonts.golosText(
+                                                font: GoogleFonts.roboto(
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -633,7 +633,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.golosText(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -685,7 +685,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
-                                              font: GoogleFonts.golosText(
+                                              font: GoogleFonts.roboto(
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyLarge
@@ -718,7 +718,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          font: GoogleFonts.golosText(
+                                          font: GoogleFonts.roboto(
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyLarge
@@ -767,7 +767,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                         'gb1i2ycp' /* Este evento esta vinculado a u... */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -795,7 +795,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                         textAlign: TextAlign.center,
                         maxLines: 3,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .fontWeight,
@@ -908,7 +908,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
-                                        font: GoogleFonts.plusJakartaSans(
+                                        font: GoogleFonts.roboto(
                                           fontWeight: FontWeight.normal,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
@@ -1015,7 +1015,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
-                                            font: GoogleFonts.plusJakartaSans(
+                                            font: GoogleFonts.roboto(
                                               fontWeight: FontWeight.normal,
                                               fontStyle:
                                                   FlutterFlowTheme.of(context)

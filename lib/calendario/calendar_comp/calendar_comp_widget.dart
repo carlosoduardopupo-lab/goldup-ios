@@ -162,7 +162,7 @@ class _CalendarCompWidgetState extends State<CalendarCompWidget> {
                       '0',
                     )}',
                     style: FlutterFlowTheme.of(context).labelLarge.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FlutterFlowTheme.of(context)
                                 .labelLarge
                                 .fontWeight,
@@ -402,7 +402,7 @@ class _CalendarCompWidgetState extends State<CalendarCompWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .labelLarge
                                       .override(
-                                        font: GoogleFonts.golosText(
+                                        font: GoogleFonts.roboto(
                                           fontWeight:
                                               FlutterFlowTheme.of(context)
                                                   .labelLarge

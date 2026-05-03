@@ -100,7 +100,7 @@ class _MetascardWidgetState extends State<MetascardWidget> {
                           'name',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -124,7 +124,7 @@ class _MetascardWidgetState extends State<MetascardWidget> {
                         '0',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FontWeight.w500,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium

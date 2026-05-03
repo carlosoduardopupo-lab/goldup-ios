@@ -67,12 +67,13 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                       'pej0j2zm' /* Política de Privacidad */,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w600,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
+                          color: FlutterFlowTheme.of(context).primary,
                           fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
@@ -108,7 +109,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                         'udw5vd2s' /* Última actualización: 26 de ma... */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.golosText(
+                            font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontWeight,
@@ -129,7 +130,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                       text: FFLocalizations.of(context).getText(
                         'v8f93lno' /*  support@goldupgroup.com */,
                       ),
-                      style: TextStyle(
+                      style: GoogleFonts.roboto(
                         color: Color(0xFF0656D1),
                       ),
                       mouseCursor: SystemMouseCursors.click,
@@ -143,7 +144,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                     )
                   ],
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .fontWeight,
@@ -176,7 +177,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                       EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                   color: Color(0xFF01654D),
                   textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                        font: GoogleFonts.golosText(
+                        font: GoogleFonts.roboto(
                           fontWeight: FlutterFlowTheme.of(context)
                               .titleSmall
                               .fontWeight,

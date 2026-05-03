@@ -179,7 +179,7 @@ class _BokimgWidgetState extends State<BokimgWidget> {
                       'd7pvzbe9' /* Hay algo que sabes… pero no di... */,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.golosText(
+                          font: GoogleFonts.roboto(
                             fontWeight: FontWeight.w600,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -207,7 +207,7 @@ class _BokimgWidgetState extends State<BokimgWidget> {
                       color: Color(0xFF01654D),
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
-                                font: GoogleFonts.golosText(
+                                font: GoogleFonts.roboto(
                                   fontWeight: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .fontWeight,

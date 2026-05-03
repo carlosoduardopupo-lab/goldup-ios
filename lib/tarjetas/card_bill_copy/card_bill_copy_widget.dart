@@ -142,7 +142,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FontWeight.normal,
                                         fontStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -185,7 +185,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  font: GoogleFonts.golosText(
+                                                  font: GoogleFonts.roboto(
                                                     fontWeight:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -214,7 +214,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              font: GoogleFonts.golosText(
+                                              font: GoogleFonts.roboto(
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -265,7 +265,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      font: GoogleFonts.golosText(
+                                      font: GoogleFonts.roboto(
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .fontWeight,
@@ -301,7 +301,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                           '0',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.golosText(
+                              font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -336,7 +336,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  font: GoogleFonts.golosText(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.normal,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium

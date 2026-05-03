@@ -155,7 +155,7 @@ class _TerminosWidgetState extends State<TerminosWidget> {
             ),
           ]
               .divide(SizedBox(height: 10.0))
-              .addToStart(SizedBox(height: 20.0))
+              .addToStart(SizedBox(height: 50.0))
               .addToEnd(SizedBox(height: 20.0)),
         ),
       ),

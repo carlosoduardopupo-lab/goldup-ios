@@ -1178,8 +1178,6 @@ class _SettWidgetState extends State<SettWidget> {
                       );
                     },
                   ).then((value) => safeSetState(() {}));
-
-                  context.pushNamed(Auth2Widget.routeName);
                 },
                 text: FFLocalizations.of(context).getText(
                   'pxnwzj3h' /* Cerrar Sesión */,

@@ -184,8 +184,6 @@ class _CerrarSesiWidgetState extends State<CerrarSesiWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      FFAppState().save = 0.0;
-                      safeSetState(() {});
                       GoRouter.of(context).prepareAuthEvent();
                       await authManager.signOut();
                       GoRouter.of(context).clearRedirectLocation();

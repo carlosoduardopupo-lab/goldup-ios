@@ -106,7 +106,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                   children: [
                     TextSpan(
                       text: FFLocalizations.of(context).getText(
-                        'udw5vd2s' /* Última actualización: 26 de ma... */,
+                        'udw5vd2s' /* Última actualización: 2 de may... */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.roboto(
@@ -198,7 +198,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
             ),
           ]
               .divide(SizedBox(height: 10.0))
-              .addToStart(SizedBox(height: 20.0))
+              .addToStart(SizedBox(height: 50.0))
               .addToEnd(SizedBox(height: 20.0)),
         ),
       ),

@@ -74,7 +74,7 @@ class _BokimgWidgetState extends State<BokimgWidget> {
                         EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 10.0, 0.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Align(
                           alignment: AlignmentDirectional(-1.0, 0.0),
@@ -82,7 +82,7 @@ class _BokimgWidgetState extends State<BokimgWidget> {
                             borderRadius: 8.0,
                             buttonSize: 40.0,
                             icon: Icon(
-                              Icons.arrow_back,
+                              Icons.close_sharp,
                               color: FlutterFlowTheme.of(context).info,
                               size: 24.0,
                             ),
@@ -231,6 +231,7 @@ class _BokimgWidgetState extends State<BokimgWidget> {
                   ),
                 ]
                     .divide(SizedBox(height: 10.0))
+                    .addToStart(SizedBox(height: 20.0))
                     .addToEnd(SizedBox(height: 20.0)),
               ),
             ),

@@ -53,7 +53,7 @@ workflows:
       - name: Build iOS and IPA
         script: |
           set -e
-          flutter build ios --release --no-codesign --build-name=1.0.1 --build-number=4
+          flutter build ios --release --no-codesign --build-name=1.0.5 --build-number=8
           xcode-project build-ipa \
             --workspace ios/Runner.xcworkspace \
             --scheme Runner

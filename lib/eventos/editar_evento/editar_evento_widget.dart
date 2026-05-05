@@ -191,15 +191,12 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (widget!.docDocument?.date != null)
+                    if (widget!.docDocument?.date != null &&
+                        widget!.docDocument?.date != '')
                       Text(
                         valueOrDefault<String>(
-                          dateTimeFormat(
-                            "MMMMEEEEd",
-                            widget!.docDocument?.date,
-                            locale: FFLocalizations.of(context).languageCode,
-                          ),
-                          'MMMMEEEEd',
+                          widget!.docDocument?.date,
+                          'date',
                         ),
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.roboto(
@@ -1280,8 +1277,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                               }
                             }(),
                             isIncome: widget!.docDocument?.isIncome,
-                            date: functions.normalizeToCalendarDatedateTime(
-                                widget!.docDocument!.date!),
+                            date: widget!.docDocument?.date,
                             notificationAt: _model.notificationAt,
                             isSave: widget!.docDocument?.isSave,
                             isExpenses: widget!.docDocument?.isExpenses,
@@ -1289,6 +1285,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                             isNotificationScheduledSent: false,
                             isNotificationTodaySent: false,
                             isInternalTransfer: false,
+                            createdAt: getCurrentTimestamp,
                           ));
                           _model.action1 = DocumentsRecord.getDocumentFromData(
                               createDocumentsRecordData(
@@ -1316,8 +1313,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                   }
                                 }(),
                                 isIncome: widget!.docDocument?.isIncome,
-                                date: functions.normalizeToCalendarDatedateTime(
-                                    widget!.docDocument!.date!),
+                                date: widget!.docDocument?.date,
                                 notificationAt: _model.notificationAt,
                                 isSave: widget!.docDocument?.isSave,
                                 isExpenses: widget!.docDocument?.isExpenses,
@@ -1325,6 +1321,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 isNotificationScheduledSent: false,
                                 isNotificationTodaySent: false,
                                 isInternalTransfer: false,
+                                createdAt: getCurrentTimestamp,
                               ),
                               documentsRecordReference1);
 
@@ -1332,21 +1329,21 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                               .update(createDocumentsRecordData(
                             recurrenceId: _model.action1?.reference.id,
                             occurrenceKey: functions
-                                .dateToOccurrenceKey(_model.action1!.date!),
+                                .dateToOccurrenceKey(_model.action1!.date),
                           ));
                           if (_model.action1?.isRecurrent == true) {
                             for (int loop3Index = 0;
                                 loop3Index <
                                     functions
                                         .generateRecurrenceDatesByCode(
-                                            _model.action1!.date!,
+                                            _model.action1!.date,
                                             _model.action1!.frequencyCode,
                                             false)
                                         .length;
                                 loop3Index++) {
                               final currentLoop3Item =
                                   functions.generateRecurrenceDatesByCode(
-                                      _model.action1!.date!,
+                                      _model.action1!.date,
                                       _model.action1!.frequencyCode,
                                       false)[loop3Index];
 
@@ -1357,8 +1354,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 type: _model.action1?.type,
                                 isIncome: _model.action1?.isIncome,
                                 description: _model.action1?.description,
-                                date: functions.normalizeToCalendarDatedateTime(
-                                    currentLoop3Item),
+                                date: currentLoop3Item,
                                 amount: _model.action1?.amount,
                                 isRecurrent: _model.action1?.isRecurrent,
                                 frequency: _model.action1?.frequency,
@@ -1374,6 +1370,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 isNotificationScheduledSent: false,
                                 isNotificationTodaySent: false,
                                 isInternalTransfer: false,
+                                createdAt: getCurrentTimestamp,
                               ));
                               _model.recurrente =
                                   DocumentsRecord.getDocumentFromData(
@@ -1382,9 +1379,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                         isIncome: _model.action1?.isIncome,
                                         description:
                                             _model.action1?.description,
-                                        date: functions
-                                            .normalizeToCalendarDatedateTime(
-                                                currentLoop3Item),
+                                        date: currentLoop3Item,
                                         amount: _model.action1?.amount,
                                         isRecurrent:
                                             _model.action1?.isRecurrent,
@@ -1405,6 +1400,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                         isNotificationScheduledSent: false,
                                         isNotificationTodaySent: false,
                                         isInternalTransfer: false,
+                                        createdAt: getCurrentTimestamp,
                                       ),
                                       documentsRecordReference2);
                             }

@@ -1655,7 +1655,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                               true;
                                                           safeSetState(() {});
 
-                                                          context.goNamedAuth(
+                                                          context.pushNamedAuth(
                                                               HomeWidget
                                                                   .routeName,
                                                               context.mounted);

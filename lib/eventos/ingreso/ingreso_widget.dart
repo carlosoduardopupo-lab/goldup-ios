@@ -1060,6 +1060,10 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                       isNotificationScheduledSent: false,
                       isNotificationTodaySent: false,
                       isInternalTransfer: false,
+                      createdAt: getCurrentTimestamp,
+                      occurrenceKey: functions.dateToOccurrenceKey(
+                          functions.normalizeToCalendarDatedateTime(
+                              FFAppState().selectedDate!)),
                     ));
                     _model.action1 = DocumentsRecord.getDocumentFromData(
                         createDocumentsRecordData(
@@ -1098,33 +1102,36 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                           isNotificationScheduledSent: false,
                           isNotificationTodaySent: false,
                           isInternalTransfer: false,
+                          createdAt: getCurrentTimestamp,
+                          occurrenceKey: functions.dateToOccurrenceKey(
+                              functions.normalizeToCalendarDatedateTime(
+                                  FFAppState().selectedDate!)),
                         ),
                         documentsRecordReference1);
 
                     await _model.action1!.reference
                         .update(createDocumentsRecordData(
-                      recurrenceId: _model.action1?.reference.id,
-                      occurrenceKey:
-                          functions.dateToOccurrenceKey(_model.action1!.date!),
-                      isPending: _model.action1!.date! <=
-                              functions.normalizeToCalendarDatedateTime(
-                                  getCurrentTimestamp)
+                      isPending: _model.action1!.occurrenceKey <=
+                              functions.dateToOccurrenceKey(
+                                  functions.normalizeToCalendarDatedateTime(
+                                      getCurrentTimestamp))
                           ? false
                           : true,
+                      recurrenceId: _model.action1?.reference.id,
                     ));
                     if (_model.action1?.isRecurrent == true) {
                       for (int loop1Index = 0;
                           loop1Index <
                               functions
                                   .generateRecurrenceDatesByCode(
-                                      _model.action1!.date!,
+                                      _model.action1!.date,
                                       _model.action1!.frequencyCode,
                                       false)
                                   .length;
                           loop1Index++) {
                         final currentLoop1Item =
                             functions.generateRecurrenceDatesByCode(
-                                _model.action1!.date!,
+                                _model.action1!.date,
                                 _model.action1!.frequencyCode,
                                 false)[loop1Index];
 
@@ -1135,8 +1142,7 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                           type: _model.type,
                           isIncome: true,
                           description: _model.description,
-                          date: functions.normalizeToCalendarDatedateTime(
-                              currentLoop1Item),
+                          date: currentLoop1Item,
                           amount: _model.amount,
                           isRecurrent: true,
                           frequency: _model.frequency,
@@ -1154,14 +1160,14 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                           isNotificationScheduledSent: false,
                           isNotificationTodaySent: false,
                           isInternalTransfer: false,
+                          createdAt: _model.action1?.createdAt,
                         ));
                         _model.recurrente = DocumentsRecord.getDocumentFromData(
                             createDocumentsRecordData(
                               type: _model.type,
                               isIncome: true,
                               description: _model.description,
-                              date: functions.normalizeToCalendarDatedateTime(
-                                  currentLoop1Item),
+                              date: currentLoop1Item,
                               amount: _model.amount,
                               isRecurrent: true,
                               frequency: _model.frequency,
@@ -1179,6 +1185,7 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                               isNotificationScheduledSent: false,
                               isNotificationTodaySent: false,
                               isInternalTransfer: false,
+                              createdAt: _model.action1?.createdAt,
                             ),
                             documentsRecordReference2);
                       }

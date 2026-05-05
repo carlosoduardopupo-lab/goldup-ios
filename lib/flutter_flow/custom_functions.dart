@@ -15,7 +15,7 @@ import '/auth/firebase_auth/auth_util.dart';
 
 List<CalendarDayStruct> getCalendarForMonth(
   DateTime inputDate,
-  List<DateTime>? docDates,
+  List<String>? docDates,
   List<bool>? docIsIncome,
   List<bool>? docIsEvent,
   List<bool>? docIsSave,
@@ -28,22 +28,17 @@ List<CalendarDayStruct> getCalendarForMonth(
     inputDate.day,
   );
 
-  final List<DateTime> dates = docDates ?? <DateTime>[];
+  final List<String> dates = docDates ?? <String>[];
   final List<bool?> incomes = docIsIncome ?? <bool?>[];
   final List<bool?> events = docIsEvent ?? <bool?>[];
   final List<bool?> saves = docIsSave ?? <bool?>[];
   final List<bool?> expenses = docIsExpense ?? <bool?>[];
   final List<bool?> internalTransfers = docIsInternalTransfer ?? <bool?>[];
 
-  DateTime dayOnly(DateTime d) {
-    return DateTime(d.year, d.month, d.day);
-  }
-
   String dayKey(DateTime d) {
-    final dt = dayOnly(d);
-    return '${dt.year.toString().padLeft(4, '0')}-'
-        '${dt.month.toString().padLeft(2, '0')}-'
-        '${dt.day.toString().padLeft(2, '0')}';
+    return '${d.year.toString().padLeft(4, '0')}-'
+        '${d.month.toString().padLeft(2, '0')}-'
+        '${d.day.toString().padLeft(2, '0')}';
   }
 
   int n = dates.length;
@@ -60,7 +55,7 @@ List<CalendarDayStruct> getCalendarForMonth(
   final Set<String> internalTransferDays = <String>{};
 
   for (int i = 0; i < n; i++) {
-    final String key = dayKey(dates[i]);
+    final String key = dates[i];
 
     if (incomes[i] == true) incomeDays.add(key);
     if (expenses[i] == true) expenseDays.add(key);
@@ -86,22 +81,16 @@ List<CalendarDayStruct> getCalendarForMonth(
       d = d.add(const Duration(days: 1))) {
     final String key = dayKey(d);
 
-    final bool hasIncome = incomeDays.contains(key);
-    final bool hasExpense = expenseDays.contains(key);
-    final bool hasEvent = eventDays.contains(key);
-    final bool hasSave = saveDays.contains(key);
-    final bool hasInternalTransfer = internalTransferDays.contains(key);
-
     calendar.add(
       CalendarDayStruct(
         calendarDate: DateTime(d.year, d.month, d.day),
         isPreviousMonth: d.isBefore(firstOfMonth),
         isNextMonth: d.isAfter(lastOfMonth),
-        hasIncome: hasIncome,
-        hasExpense: hasExpense,
-        hasEvent: hasEvent,
-        hasSave: hasSave,
-        hasInternalTransfer: hasInternalTransfer,
+        hasIncome: incomeDays.contains(key),
+        hasExpense: expenseDays.contains(key),
+        hasEvent: eventDays.contains(key),
+        hasSave: saveDays.contains(key),
+        hasInternalTransfer: internalTransferDays.contains(key),
       ),
     );
   }
@@ -155,55 +144,38 @@ double sumexpenses(List<double> docs) {
   return total;
 }
 
-DateTime normalizeToCalendarDatedateTime(DateTime dateTime) {
-  final utc = dateTime.toUtc();
+String normalizeToCalendarDatedateTime(DateTime dateTime) {
+  final year = dateTime.year.toString().padLeft(4, '0');
+  final month = dateTime.month.toString().padLeft(2, '0');
+  final day = dateTime.day.toString().padLeft(2, '0');
 
-  final year = utc.year;
-
-  // Segundo domingo de marzo
-  final march1 = DateTime.utc(year, 3, 1);
-  final firstSundayMarch =
-      march1.weekday == DateTime.sunday ? 1 : 8 - march1.weekday;
-  final secondSundayMarch = firstSundayMarch + 7;
-  final dstStart = DateTime.utc(year, 3, secondSundayMarch, 10);
-
-  // Primer domingo de noviembre
-  final november1 = DateTime.utc(year, 11, 1);
-  final firstSundayNovember =
-      november1.weekday == DateTime.sunday ? 1 : 8 - november1.weekday;
-  final dstEnd = DateTime.utc(year, 11, firstSundayNovember, 9);
-
-  final isDST = !utc.isBefore(dstStart) && utc.isBefore(dstEnd);
-
-  final offsetHours = isDST ? -7 : -8;
-
-  final laTime = utc.add(Duration(hours: offsetHours));
-
-  // 👇 CLAVE: devolver fecha local (no UTC)
-  return DateTime(
-    laTime.year,
-    laTime.month,
-    laTime.day,
-  );
+  return '$year-$month-$day';
 }
 
-String dateToOccurrenceKey(DateTime date) {
-  final d = DateTime(date.year, date.month, date.day);
-  return '${d.year.toString().padLeft(4, '0')}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
+int dateToOccurrenceKey(String date) {
+  // "YYYY-MM-DD" → "YYYYMMDD" → int
+  return int.parse(date.replaceAll('-', ''));
 }
 
-List<DateTime> generateRecurrenceDatesByCode(
-  DateTime startDate,
+List<String> generateRecurrenceDatesByCode(
+  String startDate,
   int frequencyCode,
   bool includeStart,
 ) {
-  // frequencyCode:
-  // 1=diario, 7=semanal, 14=quincenal,
-  // 1001=mensual, 1003=trimestral, 1012=anual.
+  final parts = startDate.split('-');
+
+  if (parts.length != 3) {
+    return <String>[];
+  }
+
+  final int year = int.parse(parts[0]);
+  final int month = int.parse(parts[1]);
+  final int day = int.parse(parts[2]);
+
+  final DateTime parsedStart = DateTime(year, month, day, 0, 0, 0);
 
   int lastDayOfMonth(int y, int m) => DateTime(y, m + 1, 0).day;
 
-  // Normaliza SIEMPRE a 12:00 AM (00:00)
   DateTime normalizeToMidnight(DateTime d) =>
       DateTime(d.year, d.month, d.day, 0, 0, 0);
 
@@ -212,36 +184,36 @@ List<DateTime> generateRecurrenceDatesByCode(
     return DateTime(y, m, safeDay, 0, 0, 0);
   }
 
-  // Start (normalizado)
-  final DateTime start = normalizeToMidnight(startDate);
+  String toDateString(DateTime d) {
+    final y = d.year.toString().padLeft(4, '0');
+    final m = d.month.toString().padLeft(2, '0');
+    final dd = d.day.toString().padLeft(2, '0');
 
-  // ✅ Límite: crear recurrencias SOLO hasta el 31 de diciembre del mismo año
+    return '$y-$m-$dd';
+  }
+
+  final DateTime start = normalizeToMidnight(parsedStart);
   final DateTime limitDate = DateTime(start.year, 12, 31, 23, 59, 59);
 
-  final List<DateTime> out = <DateTime>[];
+  final List<String> out = <String>[];
 
-  // Determina el paso
   int stepDays = 0;
   int stepMonths = 0;
 
   if (frequencyCode < 1000) {
-    // 1, 7, 14
     stepDays = frequencyCode;
-    if (stepDays <= 0) return <DateTime>[];
+    if (stepDays <= 0) return <String>[];
   } else {
-    // 1001, 1003, 1012 -> meses = code - 1000
     stepMonths = frequencyCode - 1000;
-    if (stepMonths <= 0) return <DateTime>[];
+    if (stepMonths <= 0) return <String>[];
   }
 
   DateTime current = start;
 
   if (includeStart) {
-    out.add(current);
+    out.add(toDateString(current));
   }
 
-  // Día objetivo para mensual/trimestral/anual
-  // (mantiene 29/30/31 con “safe day” en febrero)
   final int targetDay = start.day;
 
   while (true) {
@@ -250,36 +222,35 @@ List<DateTime> generateRecurrenceDatesByCode(
     } else {
       final int totalMonths =
           (current.year * 12 + (current.month - 1)) + stepMonths;
+
       final int ny = totalMonths ~/ 12;
       final int nm = (totalMonths % 12) + 1;
 
       current = makeMonthlyDateAtMidnight(ny, nm, targetDay);
     }
 
-    // ✅ Para al llegar al fin de año
     if (current.isAfter(limitDate)) break;
 
-    out.add(current);
+    out.add(toDateString(current));
   }
 
   return out;
 }
 
-String selectedDayToOccurrenceKey(DateTime selectedDay) {
-  final d = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-  return '${d.year.toString().padLeft(4, '0')}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
-}
+List<int> monthBoundaries(DateTime inputDate) {
+  final int year = inputDate.year;
+  final int month = inputDate.month;
 
-List<DateTime> monthBoundaries(DateTime inputDate) {
-  final d = inputDate.toUtc();
+// inicio del mes → YYYYMM01
+  final int startKey = year * 10000 + month * 100 + 1;
 
-  final startOfMonth = DateTime.utc(d.year, d.month, 1);
+// último día del mes
+  final int lastDay = DateTime(year, month + 1, 0).day;
 
-  final startOfNextMonth = (d.month == 12)
-      ? DateTime.utc(d.year + 1, 1, 1)
-      : DateTime.utc(d.year, d.month + 1, 1);
+// fin del mes → YYYYMMDD
+  final int endKey = year * 10000 + month * 100 + lastDay;
 
-  return [startOfMonth, startOfNextMonth];
+  return [startKey, endKey];
 }
 
 double? calcNetCashflow(
@@ -297,24 +268,24 @@ double? calcNetCashflow(
 
 double sumAmountsInYear(
   List<double>? amounts,
-  List<DateTime>? dates,
+  List<int>? occurrenceKey,
   DateTime referenceDate,
 ) {
-  // Normalizamos las listas (aquí se acaba el dolor)
   final safeAmounts = amounts ?? <double>[];
-  final safeDates = dates ?? <DateTime>[];
+  final safeKeys = occurrenceKey ?? <int>[];
 
-  final startOfYear = DateTime(referenceDate.year, 1, 1);
-  final endOfYear = DateTime(referenceDate.year + 1, 1, 1);
+  final int year = referenceDate.year;
+  final int startKey = year * 10000 + 101; // YYYY0101
+  final int endKey = (year + 1) * 10000 + 101; // próximo año
 
   double total = 0.0;
 
-  final len = math.min(safeAmounts.length, safeDates.length);
+  final len = math.min(safeAmounts.length, safeKeys.length);
 
   for (int i = 0; i < len; i++) {
-    final d = safeDates[i];
+    final k = safeKeys[i];
 
-    if (!d.isBefore(startOfYear) && d.isBefore(endOfYear)) {
+    if (k >= startKey && k < endKey) {
       total += safeAmounts[i];
     }
   }
@@ -343,12 +314,23 @@ double uncategorizedCash(
 }
 
 dynamic calculateGoalInstallmentsFn(
-  DateTime startDate,
-  DateTime endDate,
+  String startDate,
+  String endDate,
   double totalAmount,
   int frequencyCode,
 ) {
-// Normaliza fechas sin hora
+  DateTime parseDate(String d) {
+    final parts = d.split('-');
+    if (parts.length != 3) {
+      throw Exception("Invalid date format: $d");
+    }
+    return DateTime(
+      int.parse(parts[0]),
+      int.parse(parts[1]),
+      int.parse(parts[2]),
+    );
+  }
+
   DateTime normalize(DateTime d) => DateTime(d.year, d.month, d.day);
 
   int lastDayOfMonth(int y, int m) => DateTime(y, m + 1, 0).day;
@@ -366,25 +348,25 @@ dynamic calculateGoalInstallmentsFn(
 
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
-      case 1: // diario
+      case 1:
         return current.add(const Duration(days: 1));
-      case 7: // semanal
+      case 7:
         return current.add(const Duration(days: 7));
-      case 14: // quincenal
+      case 14:
         return current.add(const Duration(days: 14));
-      case 1001: // mensual
+      case 1001:
         return addMonthsClamped(current, 1);
-      case 1003: // trimestral
+      case 1003:
         return addMonthsClamped(current, 3);
-      case 1012: // anual
+      case 1012:
         return addMonthsClamped(current, 12);
       default:
         throw Exception('Unsupported frequencyCode: $frequencyCode');
     }
   }
 
-  final s = normalize(startDate);
-  final e = normalize(endDate);
+  final DateTime s = normalize(parseDate(startDate));
+  final DateTime e = normalize(parseDate(endDate));
 
   if (totalAmount <= 0) {
     return {"success": false, "error": "totalAmount must be > 0"};
@@ -411,11 +393,33 @@ dynamic calculateGoalInstallmentsFn(
   };
 }
 
-List<DateTime> buildTransferScheduleDatesFn(
-  DateTime startDate,
-  DateTime endDate,
+List<String> buildTransferScheduleDatesFn(
+  String startDate,
+  String endDate,
   int frequencyCode,
 ) {
+  DateTime parseDate(String value) {
+    final parts = value.split('-');
+
+    if (parts.length != 3) {
+      throw Exception('Invalid date format: $value');
+    }
+
+    return DateTime(
+      int.parse(parts[0]),
+      int.parse(parts[1]),
+      int.parse(parts[2]),
+    );
+  }
+
+  String toDateString(DateTime d) {
+    final y = d.year.toString().padLeft(4, '0');
+    final m = d.month.toString().padLeft(2, '0');
+    final day = d.day.toString().padLeft(2, '0');
+
+    return '$y-$m-$day';
+  }
+
   DateTime normalize(DateTime d) => DateTime(d.year, d.month, d.day);
 
   int lastDayOfMonth(int y, int m) => DateTime(y, m + 1, 0).day;
@@ -433,45 +437,46 @@ List<DateTime> buildTransferScheduleDatesFn(
 
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
-      case 1: // diario
+      case 1:
         return current.add(const Duration(days: 1));
-      case 7: // semanal
+      case 7:
         return current.add(const Duration(days: 7));
-      case 14: // quincenal
+      case 14:
         return current.add(const Duration(days: 14));
-      case 1001: // mensual
+      case 1001:
         return addMonthsClamped(current, 1);
-      case 1003: // trimestral
+      case 1003:
         return addMonthsClamped(current, 3);
-      case 1012: // anual
+      case 1012:
         return addMonthsClamped(current, 12);
       default:
         throw Exception('Unsupported frequencyCode: $frequencyCode');
     }
   }
 
-  final s = normalize(startDate);
-  final e = normalize(endDate);
+  final s = normalize(parseDate(startDate));
+  final e = normalize(parseDate(endDate));
 
-  // Si la meta está mal, devuelve lista vacía
-  if (e.isBefore(s)) return <DateTime>[];
+  if (e.isBefore(s)) return <String>[];
 
-  final dates = <DateTime>[];
+  final List<String> dates = [];
   DateTime cursor = s;
 
-  // Safety cap (evita loops accidentales)
   const int maxItems = 50000;
 
   while (!cursor.isAfter(e)) {
-    dates.add(cursor);
+    dates.add(toDateString(cursor));
+
     if (dates.length > maxItems) {
       throw Exception('Too many dates generated. Check inputs.');
     }
 
     final nxt = nextDate(cursor);
+
     if (!nxt.isAfter(cursor)) {
       throw Exception('Invalid next date (non-increasing).');
     }
+
     cursor = nxt;
   }
 
@@ -480,14 +485,28 @@ List<DateTime> buildTransferScheduleDatesFn(
 
 dynamic goalCurrentStatusFn(
   double currentAmount,
-  DateTime startDate,
-  DateTime endDate,
+  String startDate,
+  String endDate,
   DateTime currentTime,
   int frequencyCode,
   double installmentAmount,
   int installmentsCount,
 ) {
 // Helpers
+  DateTime parseDate(String value) {
+    final parts = value.split('-');
+
+    if (parts.length != 3) {
+      throw Exception('Invalid date format: $value');
+    }
+
+    return DateTime(
+      int.parse(parts[0]),
+      int.parse(parts[1]),
+      int.parse(parts[2]),
+    );
+  }
+
   DateTime normalize(DateTime d) => DateTime(d.year, d.month, d.day);
 
   int lastDayOfMonth(int y, int m) => DateTime(y, m + 1, 0).day;
@@ -505,17 +524,17 @@ dynamic goalCurrentStatusFn(
 
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
-      case 1: // diario
+      case 1:
         return current.add(const Duration(days: 1));
-      case 7: // semanal
+      case 7:
         return current.add(const Duration(days: 7));
-      case 14: // quincenal
+      case 14:
         return current.add(const Duration(days: 14));
-      case 1001: // mensual
+      case 1001:
         return addMonthsClamped(current, 1);
-      case 1003: // trimestral
+      case 1003:
         return addMonthsClamped(current, 3);
-      case 1012: // anual
+      case 1012:
         return addMonthsClamped(current, 12);
       default:
         throw Exception('Unsupported frequencyCode: $frequencyCode');
@@ -524,72 +543,80 @@ dynamic goalCurrentStatusFn(
 
   double clamp01(double v) => v < 0 ? 0 : (v > 1 ? 1 : v);
 
-  // Normalize dates (sin hora)
-  final s = normalize(startDate);
-  final e = normalize(endDate);
-  final now = normalize(currentTime);
+  // 🔹 Normalización
+  final DateTime s = normalize(parseDate(startDate));
+  final DateTime e = normalize(parseDate(endDate));
+  final DateTime now = normalize(currentTime);
 
-  // Validations
+  // 🔹 Validaciones
   if (installmentsCount <= 0) {
     return {"success": false, "error": "installmentsCount must be > 0"};
   }
+
   if (installmentAmount <= 0) {
     return {"success": false, "error": "installmentAmount must be > 0"};
   }
+
   if (e.isBefore(s)) {
     return {"success": false, "error": "endDate must be >= startDate"};
   }
 
-  // Total goal amount
+  // 🔹 Total objetivo
   final totalGoalAmount = installmentAmount * installmentsCount;
 
-  // Real progress by amount
+  // 🔹 Porcentaje actual
   final currentPercent = clamp01(
         totalGoalAmount == 0 ? 0 : (currentAmount / totalGoalAmount),
       ) *
       100;
 
-  // Remaining amount
+  // 🔹 Monto restante
   final remainingAmount = (totalGoalAmount - currentAmount) <= 0
       ? 0.0
       : (totalGoalAmount - currentAmount);
 
-  // Paid installments by amount
+  // 🔹 Cuotas pagadas
   final paidInstallments =
       currentAmount <= 0 ? 0 : (currentAmount / installmentAmount).floor();
 
-  // Remaining installments by amount
+  // 🔹 Cuotas restantes
   final remainingInstallments = (installmentsCount - paidInstallments) <= 0
       ? 0
       : (installmentsCount - paidInstallments);
 
-  // (Extra útil) Expected installments up to currentTime (por calendario)
+  // 🔹 Cuotas esperadas según calendario
   int expectedInstallments = 0;
+
   if (!now.isBefore(s)) {
     DateTime cursor = s;
     const int maxIter = 50000;
 
     while (!cursor.isAfter(e) && !cursor.isAfter(now)) {
       expectedInstallments += 1;
+
       if (expectedInstallments > maxIter) {
         return {"success": false, "error": "Too many iterations"};
       }
+
       final nxt = nextDate(cursor);
+
       if (!nxt.isAfter(cursor)) {
         return {"success": false, "error": "Invalid next date"};
       }
+
       cursor = nxt;
     }
   }
-  if (expectedInstallments > installmentsCount)
+
+  if (expectedInstallments > installmentsCount) {
     expectedInstallments = installmentsCount;
+  }
 
   return {
     "success": true,
-    "currentPercent": currentPercent, // 0..100
+    "currentPercent": currentPercent,
     "remainingAmount": remainingAmount,
     "remainingInstallments": remainingInstallments,
-    // opcional (por si lo quiere usar después):
     "expectedInstallments": expectedInstallments,
   };
 }
@@ -649,4 +676,22 @@ List<DateTime> buildGoalPeriodDatesExcludeStart(
   }
 
   return out;
+}
+
+DateTime stringToDateTime(String? date) {
+  if (date == null || date.isEmpty) {
+    throw Exception('Date is null or empty');
+  }
+
+  final parts = date.split('-');
+
+  if (parts.length != 3) {
+    throw Exception('Invalid date format: $date');
+  }
+
+  return DateTime(
+    int.parse(parts[0]),
+    int.parse(parts[1]),
+    int.parse(parts[2]),
+  );
 }

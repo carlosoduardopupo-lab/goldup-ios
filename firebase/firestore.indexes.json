@@ -41,6 +41,28 @@
       ]
     },
     {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isPending",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "feedItems",
       "queryScope": "COLLECTION",
       "fields": [
@@ -111,7 +133,25 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "date",
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
         }
       ]
@@ -129,7 +169,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "date",
+          "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
         }
       ]

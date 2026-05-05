@@ -9,8 +9,6 @@ import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'ditar_goald_widget.dart' show DitarGoaldWidget;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +27,9 @@ class DitarGoaldModel extends FlutterFlowModel<DitarGoaldWidget> {
 
   int? notificationAt = 72;
 
-  DateTime? initialDate;
+  String? initialDate;
 
-  DateTime? endDate;
+  String? endDate;
 
   double? totalAmount;
 
@@ -76,18 +74,6 @@ class DitarGoaldModel extends FlutterFlowModel<DitarGoaldWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue4;
   FormFieldController<String>? dropDownValueController4;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  List<DocumentsRecord>? docus;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  List<DocumentsRecord>? documentos;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  GoaldsRecord? goal;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  DocumentsRecord? action1;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  DocumentsRecord? recurrente;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  BankAccountsRecord? account;
 
   @override
   void initState(BuildContext context) {}

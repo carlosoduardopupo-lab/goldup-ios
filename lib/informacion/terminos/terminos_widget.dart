@@ -79,20 +79,6 @@ class _TerminosWidgetState extends State<TerminosWidget> {
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close_outlined,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
-                    ),
-                  ),
                 ],
               ),
             ),

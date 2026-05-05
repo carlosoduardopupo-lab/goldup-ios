@@ -264,8 +264,8 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                     getJsonField(
                                       functions.goalCurrentStatusFn(
                                           widget!.docDocument!.currentAmount,
-                                          widget!.docDocument!.startedDate!,
-                                          widget!.docDocument!.finishedDate!,
+                                          widget!.docDocument!.startedDate,
+                                          widget!.docDocument!.finishedDate,
                                           getCurrentTimestamp,
                                           widget!.docDocument!.frequencyCode,
                                           widget!.docDocument!.quotes,
@@ -724,9 +724,9 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         columnGoaldsRecord
                                                             .currentAmount,
                                                         columnGoaldsRecord
-                                                            .startedDate!,
+                                                            .startedDate,
                                                         columnGoaldsRecord
-                                                            .finishedDate!,
+                                                            .finishedDate,
                                                         getCurrentTimestamp,
                                                         columnGoaldsRecord
                                                             .frequencyCode,
@@ -999,13 +999,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                             alignment:
                                                 AlignmentDirectional(-1.0, 0.0),
                                             child: Text(
-                                              dateTimeFormat(
-                                                "yMMMd",
-                                                columnGoaldsRecord.startedDate!,
-                                                locale:
-                                                    FFLocalizations.of(context)
-                                                        .languageCode,
-                                              ),
+                                              columnGoaldsRecord.startedDate,
                                               textAlign: TextAlign.start,
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -1073,14 +1067,7 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                             alignment:
                                                 AlignmentDirectional(-1.0, 0.0),
                                             child: Text(
-                                              dateTimeFormat(
-                                                "yMMMd",
-                                                columnGoaldsRecord
-                                                    .finishedDate!,
-                                                locale:
-                                                    FFLocalizations.of(context)
-                                                        .languageCode,
-                                              ),
+                                              columnGoaldsRecord.finishedDate,
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
@@ -1380,9 +1367,9 @@ class _GoaldInfoWidgetState extends State<GoaldInfoWidget> {
                                                         columnGoaldsRecord
                                                             .currentAmount,
                                                         columnGoaldsRecord
-                                                            .startedDate!,
+                                                            .startedDate,
                                                         columnGoaldsRecord
-                                                            .finishedDate!,
+                                                            .finishedDate,
                                                         getCurrentTimestamp,
                                                         columnGoaldsRecord
                                                             .frequencyCode,

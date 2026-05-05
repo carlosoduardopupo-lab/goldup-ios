@@ -8,8 +8,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -70,20 +68,18 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
         TextEditingController(text: widget!.goaldDocument?.description);
     _model.textFieldFocusNode2 ??= FocusNode();
 
-    _model.textController3 ??= TextEditingController();
+    _model.textController3 ??= TextEditingController(
+        text: valueOrDefault<String>(
+      _model.endDate,
+      'date',
+    ));
     _model.textFieldFocusNode3 ??= FocusNode();
 
     _model.textController4 ??= TextEditingController(
         text: widget!.goaldDocument?.totalAmount?.toString());
     _model.textFieldFocusNode4 ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
-          _model.textController3?.text = dateTimeFormat(
-            "yMMMd",
-            _model.endDate,
-            locale: FFLocalizations.of(context).languageCode,
-          );
-        }));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -566,10 +562,9 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            dateTimeFormat(
-                              "yMMMd",
-                              _model.initialDate,
-                              locale: FFLocalizations.of(context).languageCode,
+                            valueOrDefault<String>(
+                              _model.endDate,
+                              'date',
                             ),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -701,7 +696,7 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
                             _model.datePicked = getCurrentTimestamp;
                           });
                         }
-                        _model.endDate = _model.datePicked;
+                        _model.endDate = _model.datePicked?.toString();
                         safeSetState(() {});
                       },
                       child: Container(
@@ -1812,382 +1807,8 @@ class _DitarGoaldWidgetState extends State<DitarGoaldWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
-                  onPressed: () async {
-                    if ((widget!.goaldDocument?.frequencyCode ==
-                            _model.frequencyCode) &&
-                        (widget!.goaldDocument?.finishedDate ==
-                            _model.endDate)) {
-                      _model.docus = await queryDocumentsRecordOnce(
-                        queryBuilder: (documentsRecord) => documentsRecord
-                            .where(
-                              'userRef',
-                              isEqualTo: currentUserReference,
-                            )
-                            .where(
-                              'recurrenceId',
-                              isEqualTo:
-                                  widget!.goaldDocument?.recurrentDocumentId,
-                            ),
-                      );
-                      for (int loop1Index = 0;
-                          loop1Index < _model.docus!.length;
-                          loop1Index++) {
-                        final currentLoop1Item = _model.docus![loop1Index];
-
-                        await currentLoop1Item.reference
-                            .update(createDocumentsRecordData(
-                          description: _model.description,
-                          amount: _model.quote,
-                          goaldName: currentLoop1Item.goaldName,
-                        ));
-                      }
-
-                      await widget!.goaldDocument!.reference
-                          .update(createGoaldsRecordData(
-                        quotes: valueOrDefault<double>(
-                          getJsonField(
-                            functions.calculateGoalInstallmentsFn(
-                                _model.initialDate!,
-                                _model.endDate!,
-                                _model.totalAmount!, () {
-                              if (_model.frequency == 'Diario') {
-                                return 1;
-                              } else if (_model.frequency == 'Semanal') {
-                                return 7;
-                              } else if (_model.frequency == 'Quincenal') {
-                                return 14;
-                              } else if (_model.frequency == 'Mensual') {
-                                return 1001;
-                              } else if (_model.frequency == 'Trimestral') {
-                                return 1003;
-                              } else if (_model.frequency == 'Anual') {
-                                return 1012;
-                              } else {
-                                return 0;
-                              }
-                            }()),
-                            r'''$.installmentAmount''',
-                          ),
-                          0.0,
-                        ),
-                        name: _model.nombre,
-                        description: _model.description,
-                        resiverAccount: _model.accountResepter,
-                        totalAmount: _model.totalAmount,
-                        senderAccount: _model.accountSender,
-                      ));
-                    } else {
-                      _model.documentos = await queryDocumentsRecordOnce(
-                        queryBuilder: (documentsRecord) => documentsRecord
-                            .where(
-                              'recurrenceId',
-                              isEqualTo:
-                                  widget!.goaldDocument?.recurrentDocumentId,
-                            )
-                            .where(
-                              'userRef',
-                              isEqualTo: currentUserReference,
-                            ),
-                      );
-                      for (int loop2Index = 0;
-                          loop2Index < _model.documentos!.length;
-                          loop2Index++) {
-                        final currentLoop2Item = _model.documentos![loop2Index];
-                        await currentLoop2Item.reference.delete();
-                      }
-                      await widget!.goaldDocument!.reference.delete();
-
-                      var goaldsRecordReference = GoaldsRecord.collection.doc();
-                      await goaldsRecordReference.set({
-                        ...createGoaldsRecordData(
-                          userRef: currentUserReference,
-                          startedDate:
-                              functions.normalizeToCalendarDatedateTime(
-                                  widget!.goaldDocument!.startedDate!),
-                          finishedDate: functions
-                              .normalizeToCalendarDatedateTime(_model.endDate!),
-                          totalAmount: _model.totalAmount,
-                          quotes: getJsonField(
-                            functions.calculateGoalInstallmentsFn(
-                                widget!.goaldDocument!.startedDate!,
-                                _model.endDate!,
-                                _model.totalAmount!, () {
-                              if (_model.frequency == 'Diario') {
-                                return 1;
-                              } else if (_model.frequency == 'Semanal') {
-                                return 7;
-                              } else if (_model.frequency == 'Quincenal') {
-                                return 14;
-                              } else if (_model.frequency == 'Mensual') {
-                                return 1001;
-                              } else if (_model.frequency == 'Trimestral') {
-                                return 1003;
-                              } else if (_model.frequency == 'Anual') {
-                                return 1012;
-                              } else {
-                                return 0;
-                              }
-                            }()),
-                            r'''$.installmentAmount''',
-                          ),
-                          name: _model.nombre,
-                          description: _model.description,
-                          freuency: _model.frequency,
-                          isFrozen: false,
-                          isComplited: false,
-                          senderAccount: _model.accountSender,
-                          resiverAccount: _model.accountResepter,
-                          porcent: 0.0,
-                          currentAmount: 0.0,
-                          totalQuotesNumbers: getJsonField(
-                            functions.calculateGoalInstallmentsFn(
-                                widget!.goaldDocument!.startedDate!,
-                                _model.endDate!,
-                                _model.totalAmount!, () {
-                              if (_model.frequency == 'Diario') {
-                                return 1;
-                              } else if (_model.frequency == 'Semanal') {
-                                return 7;
-                              } else if (_model.frequency == 'Quincenal') {
-                                return 14;
-                              } else if (_model.frequency == 'Mensual') {
-                                return 1001;
-                              } else if (_model.frequency == 'Trimestral') {
-                                return 1003;
-                              } else if (_model.frequency == 'Anual') {
-                                return 1012;
-                              } else {
-                                return 0;
-                              }
-                            }()),
-                            r'''$.installmentsCount''',
-                          ),
-                          frequencyCode: _model.frequencyCode,
-                        ),
-                        ...mapToFirestore(
-                          {
-                            'updatedDate': FieldValue.serverTimestamp(),
-                          },
-                        ),
-                      });
-                      _model.goal = GoaldsRecord.getDocumentFromData({
-                        ...createGoaldsRecordData(
-                          userRef: currentUserReference,
-                          startedDate:
-                              functions.normalizeToCalendarDatedateTime(
-                                  widget!.goaldDocument!.startedDate!),
-                          finishedDate: functions
-                              .normalizeToCalendarDatedateTime(_model.endDate!),
-                          totalAmount: _model.totalAmount,
-                          quotes: getJsonField(
-                            functions.calculateGoalInstallmentsFn(
-                                widget!.goaldDocument!.startedDate!,
-                                _model.endDate!,
-                                _model.totalAmount!, () {
-                              if (_model.frequency == 'Diario') {
-                                return 1;
-                              } else if (_model.frequency == 'Semanal') {
-                                return 7;
-                              } else if (_model.frequency == 'Quincenal') {
-                                return 14;
-                              } else if (_model.frequency == 'Mensual') {
-                                return 1001;
-                              } else if (_model.frequency == 'Trimestral') {
-                                return 1003;
-                              } else if (_model.frequency == 'Anual') {
-                                return 1012;
-                              } else {
-                                return 0;
-                              }
-                            }()),
-                            r'''$.installmentAmount''',
-                          ),
-                          name: _model.nombre,
-                          description: _model.description,
-                          freuency: _model.frequency,
-                          isFrozen: false,
-                          isComplited: false,
-                          senderAccount: _model.accountSender,
-                          resiverAccount: _model.accountResepter,
-                          porcent: 0.0,
-                          currentAmount: 0.0,
-                          totalQuotesNumbers: getJsonField(
-                            functions.calculateGoalInstallmentsFn(
-                                widget!.goaldDocument!.startedDate!,
-                                _model.endDate!,
-                                _model.totalAmount!, () {
-                              if (_model.frequency == 'Diario') {
-                                return 1;
-                              } else if (_model.frequency == 'Semanal') {
-                                return 7;
-                              } else if (_model.frequency == 'Quincenal') {
-                                return 14;
-                              } else if (_model.frequency == 'Mensual') {
-                                return 1001;
-                              } else if (_model.frequency == 'Trimestral') {
-                                return 1003;
-                              } else if (_model.frequency == 'Anual') {
-                                return 1012;
-                              } else {
-                                return 0;
-                              }
-                            }()),
-                            r'''$.installmentsCount''',
-                          ),
-                          frequencyCode: _model.frequencyCode,
-                        ),
-                        ...mapToFirestore(
-                          {
-                            'updatedDate': DateTime.now(),
-                          },
-                        ),
-                      }, goaldsRecordReference);
-
-                      await _model.goal!.reference.update({
-                        ...mapToFirestore(
-                          {
-                            'ejecutionDates':
-                                functions.buildTransferScheduleDatesFn(
-                                    widget!.goaldDocument!.startedDate!,
-                                    _model.goal!.finishedDate!,
-                                    _model.goal!.frequencyCode),
-                          },
-                        ),
-                      });
-
-                      var documentsRecordReference1 =
-                          DocumentsRecord.collection.doc();
-                      await documentsRecordReference1
-                          .set(createDocumentsRecordData(
-                        type: 'Meta Financiera',
-                        description: _model.description,
-                        date: functions.normalizeToCalendarDatedateTime(
-                            widget!.goaldDocument!.startedDate!),
-                        amount: _model.quote,
-                        isRecurrent: true,
-                        frequency: _model.frequency,
-                        userRef: currentUserReference,
-                        frequencyCode: _model.frequencyCode,
-                        notificationAt: _model.notificationAt,
-                        isSave: true,
-                        isIncome: false,
-                        isExpenses: false,
-                        isEvent: false,
-                        source: 'manual',
-                        isGoal: true,
-                      ));
-                      _model.action1 = DocumentsRecord.getDocumentFromData(
-                          createDocumentsRecordData(
-                            type: 'Meta Financiera',
-                            description: _model.description,
-                            date: functions.normalizeToCalendarDatedateTime(
-                                widget!.goaldDocument!.startedDate!),
-                            amount: _model.quote,
-                            isRecurrent: true,
-                            frequency: _model.frequency,
-                            userRef: currentUserReference,
-                            frequencyCode: _model.frequencyCode,
-                            notificationAt: _model.notificationAt,
-                            isSave: true,
-                            isIncome: false,
-                            isExpenses: false,
-                            isEvent: false,
-                            source: 'manual',
-                            isGoal: true,
-                          ),
-                          documentsRecordReference1);
-
-                      await _model.action1!.reference
-                          .update(createDocumentsRecordData(
-                        recurrenceId: _model.action1?.reference.id,
-                        occurrenceKey: functions.dateToOccurrenceKey(
-                            widget!.goaldDocument!.startedDate!),
-                      ));
-                      if (_model.action1?.isRecurrent == true) {
-                        for (int loop3Index = 0;
-                            loop3Index <
-                                functions
-                                    .buildGoalPeriodDatesExcludeStart(
-                                        _model.initialDate!,
-                                        _model.endDate!,
-                                        _model.frequencyCode)
-                                    .length;
-                            loop3Index++) {
-                          final currentLoop3Item =
-                              functions.buildGoalPeriodDatesExcludeStart(
-                                  _model.initialDate!,
-                                  _model.endDate!,
-                                  _model.frequencyCode)[loop3Index];
-
-                          var documentsRecordReference2 =
-                              DocumentsRecord.collection.doc();
-                          await documentsRecordReference2
-                              .set(createDocumentsRecordData(
-                            type: _model.action1?.type,
-                            description: _model.action1?.description,
-                            date: currentLoop3Item,
-                            amount: _model.action1?.amount,
-                            isRecurrent: true,
-                            frequency: _model.action1?.frequency,
-                            userRef: currentUserReference,
-                            frequencyCode: _model.action1?.frequencyCode,
-                            recurrenceId: _model.action1?.recurrenceId,
-                            occurrenceKey:
-                                functions.dateToOccurrenceKey(currentLoop3Item),
-                            notificationAt: _model.action1?.notificationAt,
-                            isSave: true,
-                            isIncome: false,
-                            isExpenses: false,
-                            isEvent: false,
-                            source: 'manual',
-                            isGoal: true,
-                          ));
-                          _model.recurrente =
-                              DocumentsRecord.getDocumentFromData(
-                                  createDocumentsRecordData(
-                                    type: _model.action1?.type,
-                                    description: _model.action1?.description,
-                                    date: currentLoop3Item,
-                                    amount: _model.action1?.amount,
-                                    isRecurrent: true,
-                                    frequency: _model.action1?.frequency,
-                                    userRef: currentUserReference,
-                                    frequencyCode:
-                                        _model.action1?.frequencyCode,
-                                    recurrenceId: _model.action1?.recurrenceId,
-                                    occurrenceKey: functions
-                                        .dateToOccurrenceKey(currentLoop3Item),
-                                    notificationAt:
-                                        _model.action1?.notificationAt,
-                                    isSave: true,
-                                    isIncome: false,
-                                    isExpenses: false,
-                                    isEvent: false,
-                                    source: 'manual',
-                                    isGoal: true,
-                                  ),
-                                  documentsRecordReference2);
-                        }
-                      }
-                      _model.account = await queryBankAccountsRecordOnce(
-                        queryBuilder: (bankAccountsRecord) =>
-                            bankAccountsRecord.where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        ),
-                        singleRecord: true,
-                      ).then((s) => s.firstOrNull);
-
-                      await _model.goal!.reference
-                          .update(createGoaldsRecordData(
-                        recurrentDocumentId: _model.action1?.reference.id,
-                        bankAccountsRef: _model.account?.reference,
-                      ));
-                    }
-
-                    Navigator.pop(context);
-
-                    safeSetState(() {});
+                  onPressed: () {
+                    print('Button pressed ...');
                   },
                   text: FFLocalizations.of(context).getText(
                     'lxex0fh8' /* Editar Meta */,

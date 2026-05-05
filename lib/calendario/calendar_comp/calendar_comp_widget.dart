@@ -268,7 +268,6 @@ class _CalendarCompWidgetState extends State<CalendarCompWidget> {
                           _model.inputDate!,
                           widget!.documents
                               ?.map((e) => e.date)
-                              .withoutNulls
                               .toList()
                               ?.toList(),
                           widget!.documents

@@ -24,12 +24,6 @@ class FFAppState extends ChangeNotifier {
       _isDarkMode = prefs.getBool('ff_isDarkMode') ?? _isDarkMode;
     });
     _safeInit(() {
-      _selectedDate = prefs.containsKey('ff_selectedDate')
-          ? DateTime.fromMillisecondsSinceEpoch(
-              prefs.getInt('ff_selectedDate')!)
-          : _selectedDate;
-    });
-    _safeInit(() {
       _sumExpenses = prefs.getDouble('ff_sumExpenses') ?? _sumExpenses;
     });
     _safeInit(() {
@@ -64,6 +58,12 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _isCreditSelect = prefs.getBool('ff_isCreditSelect') ?? _isCreditSelect;
     });
+    _safeInit(() {
+      _selectedDate = prefs.containsKey('ff_selectedDate')
+          ? DateTime.fromMillisecondsSinceEpoch(
+              prefs.getInt('ff_selectedDate')!)
+          : _selectedDate;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -78,15 +78,6 @@ class FFAppState extends ChangeNotifier {
   set isDarkMode(bool value) {
     _isDarkMode = value;
     prefs.setBool('ff_isDarkMode', value);
-  }
-
-  DateTime? _selectedDate = DateTime.fromMillisecondsSinceEpoch(1770753600000);
-  DateTime? get selectedDate => _selectedDate;
-  set selectedDate(DateTime? value) {
-    _selectedDate = value;
-    value != null
-        ? prefs.setInt('ff_selectedDate', value.millisecondsSinceEpoch)
-        : prefs.remove('ff_selectedDate');
   }
 
   double _sumExpenses = 0.0;
@@ -200,6 +191,15 @@ class FFAppState extends ChangeNotifier {
   set isCreditSelect(bool value) {
     _isCreditSelect = value;
     prefs.setBool('ff_isCreditSelect', value);
+  }
+
+  DateTime? _selectedDate;
+  DateTime? get selectedDate => _selectedDate;
+  set selectedDate(DateTime? value) {
+    _selectedDate = value;
+    value != null
+        ? prefs.setInt('ff_selectedDate', value.millisecondsSinceEpoch)
+        : prefs.remove('ff_selectedDate');
   }
 }
 

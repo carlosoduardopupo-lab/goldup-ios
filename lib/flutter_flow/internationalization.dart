@@ -2444,6 +2444,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Descubrir en Amazon',
       'en': '',
     },
+    'y68vfliu': {
+      'es': 'Cancelar Acción',
+      'en': '',
+    },
   },
   // BankAccounts
   {

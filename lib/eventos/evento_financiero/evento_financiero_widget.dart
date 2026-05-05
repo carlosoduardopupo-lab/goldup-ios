@@ -869,6 +869,10 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                             isNotificationScheduledSent: false,
                             isNotificationTodaySent: false,
                             isInternalTransfer: false,
+                            createdAt: getCurrentTimestamp,
+                            occurrenceKey: functions.dateToOccurrenceKey(
+                                functions.normalizeToCalendarDatedateTime(
+                                    FFAppState().selectedDate!)),
                           ));
                           _model.action1 = DocumentsRecord.getDocumentFromData(
                               createDocumentsRecordData(
@@ -906,28 +910,30 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                 isNotificationScheduledSent: false,
                                 isNotificationTodaySent: false,
                                 isInternalTransfer: false,
+                                createdAt: getCurrentTimestamp,
+                                occurrenceKey: functions.dateToOccurrenceKey(
+                                    functions.normalizeToCalendarDatedateTime(
+                                        FFAppState().selectedDate!)),
                               ),
                               documentsRecordReference1);
 
                           await _model.action1!.reference
                               .update(createDocumentsRecordData(
                             recurrenceId: _model.action1?.reference.id,
-                            occurrenceKey: functions
-                                .dateToOccurrenceKey(_model.action1!.date!),
                           ));
                           if (_model.action1?.isRecurrent == true) {
                             for (int loop1Index = 0;
                                 loop1Index <
                                     functions
                                         .generateRecurrenceDatesByCode(
-                                            _model.action1!.date!,
+                                            _model.action1!.date,
                                             _model.action1!.frequencyCode,
                                             false)
                                         .length;
                                 loop1Index++) {
                               final currentLoop1Item =
                                   functions.generateRecurrenceDatesByCode(
-                                      _model.action1!.date!,
+                                      _model.action1!.date,
                                       _model.action1!.frequencyCode,
                                       false)[loop1Index];
 
@@ -937,8 +943,7 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                   .set(createDocumentsRecordData(
                                 type: _model.type,
                                 description: _model.description,
-                                date: functions.normalizeToCalendarDatedateTime(
-                                    currentLoop1Item),
+                                date: currentLoop1Item,
                                 isRecurrent: true,
                                 frequency: _model.frequency,
                                 userRef: currentUserReference,
@@ -956,15 +961,14 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                 isNotificationScheduledSent: false,
                                 isNotificationTodaySent: false,
                                 isInternalTransfer: false,
+                                createdAt: getCurrentTimestamp,
                               ));
                               _model.duplicado =
                                   DocumentsRecord.getDocumentFromData(
                                       createDocumentsRecordData(
                                         type: _model.type,
                                         description: _model.description,
-                                        date: functions
-                                            .normalizeToCalendarDatedateTime(
-                                                currentLoop1Item),
+                                        date: currentLoop1Item,
                                         isRecurrent: true,
                                         frequency: _model.frequency,
                                         userRef: currentUserReference,
@@ -986,6 +990,7 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                         isNotificationScheduledSent: false,
                                         isNotificationTodaySent: false,
                                         isInternalTransfer: false,
+                                        createdAt: getCurrentTimestamp,
                                       ),
                                       documentsRecordReference2);
                             }

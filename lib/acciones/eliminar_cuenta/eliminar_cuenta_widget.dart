@@ -225,8 +225,6 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                       }
                       await currentUserReference!.delete();
                       FFAppState().isDarkMode = true;
-                      FFAppState().selectedDate =
-                          DateTime.fromMillisecondsSinceEpoch(1770753600000);
                       FFAppState().sumExpenses = 0.0;
                       FFAppState().sumIncomes = 0.0;
                       FFAppState().save = 0.0;
@@ -236,6 +234,7 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                       FFAppState().mensualCashFlow = 0.0;
                       FFAppState().isNotificationRequested = false;
                       FFAppState().anualSaves = 0.0;
+                      FFAppState().selectedDate = null;
                       safeSetState(() {});
 
                       context.pushNamed(Auth2Widget.routeName);

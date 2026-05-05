@@ -90,8 +90,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               _model.selectedDate = functions
                   .normalizeToCalendarDatedateTime(getCurrentTimestamp);
               safeSetState(() {});
-              FFAppState().selectedDate = functions
-                  .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+              FFAppState().selectedDate = getCurrentTimestamp;
               safeSetState(() {});
               setDarkModeSetting(context, ThemeMode.light);
             }),
@@ -151,8 +150,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
             _model.selectedDate =
                 functions.normalizeToCalendarDatedateTime(getCurrentTimestamp);
             safeSetState(() {});
-            FFAppState().selectedDate =
-                functions.normalizeToCalendarDatedateTime(getCurrentTimestamp);
+            FFAppState().selectedDate = getCurrentTimestamp;
             safeSetState(() {});
             setDarkModeSetting(context, ThemeMode.light);
           }),
@@ -952,11 +950,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                             )
                                                                                             .where(
                                                                                               'date',
-                                                                                              isGreaterThanOrEqualTo: functions.monthBoundaries(getCurrentTimestamp).firstOrNull,
+                                                                                              isGreaterThanOrEqualTo: functions.monthBoundaries(getCurrentTimestamp).firstOrNull?.toString(),
                                                                                             )
                                                                                             .where(
                                                                                               'date',
-                                                                                              isLessThan: functions.monthBoundaries(getCurrentTimestamp).lastOrNull,
+                                                                                              isLessThan: functions.monthBoundaries(getCurrentTimestamp).lastOrNull?.toString(),
                                                                                             )
                                                                                             .orderBy('date'),
                                                                                       ),
@@ -1554,7 +1552,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                         .where(
                                                                           'date',
                                                                           isGreaterThan:
-                                                                              getCurrentTimestamp,
+                                                                              getCurrentTimestamp.toString(),
                                                                         )
                                                                         .orderBy('date'),
                                                                     singleRecord:
@@ -1940,14 +1938,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                               isEqualTo: true,
                                                                                             )
                                                                                             .where(
-                                                                                              'date',
+                                                                                              'occurrenceKey',
                                                                                               isGreaterThanOrEqualTo: functions.monthBoundaries(getCurrentTimestamp).firstOrNull,
                                                                                             )
                                                                                             .where(
-                                                                                              'date',
+                                                                                              'occurrenceKey',
                                                                                               isLessThan: functions.monthBoundaries(getCurrentTimestamp).lastOrNull,
                                                                                             )
-                                                                                            .orderBy('date'),
+                                                                                            .orderBy('occurrenceKey'),
                                                                                       ),
                                                                                       builder: (context, snapshot) {
                                                                                         // Customize what your widget looks like when it's loading.
@@ -2092,14 +2090,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                               isEqualTo: false,
                                                                                             )
                                                                                             .where(
-                                                                                              'date',
+                                                                                              'occurrenceKey',
                                                                                               isGreaterThanOrEqualTo: functions.monthBoundaries(getCurrentTimestamp).firstOrNull,
                                                                                             )
                                                                                             .where(
-                                                                                              'date',
+                                                                                              'occurrenceKey',
                                                                                               isLessThan: functions.monthBoundaries(getCurrentTimestamp).lastOrNull,
                                                                                             )
-                                                                                            .orderBy('date'),
+                                                                                            .orderBy('occurrenceKey'),
                                                                                       ),
                                                                                       builder: (context, snapshot) {
                                                                                         // Customize what your widget looks like when it's loading.
@@ -3144,7 +3142,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                             onSelectDateAction:
                                                                 (selectedDate) async {
                                                               _model.selectedDate =
-                                                                  selectedDate;
+                                                                  selectedDate
+                                                                      ?.toString();
                                                               safeSetState(
                                                                   () {});
                                                             },
@@ -3375,7 +3374,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       ),
                                                     ),
                                                     if (_model.selectedDate !=
-                                                        null)
+                                                            null &&
+                                                        _model.selectedDate !=
+                                                            '')
                                                       Container(
                                                         decoration:
                                                             BoxDecoration(
@@ -3489,10 +3490,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                             (documentsRecord) =>
                                                                 documentsRecord
                                                                     .where(
-                                                                      'occurrenceKey',
+                                                                      'date',
                                                                       isEqualTo:
                                                                           functions
-                                                                              .selectedDayToOccurrenceKey(FFAppState().selectedDate!),
+                                                                              .normalizeToCalendarDatedateTime(FFAppState().selectedDate!),
                                                                     )
                                                                     .where(
                                                                       'userRef',
@@ -3675,19 +3676,19 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             true,
                                                                       )
                                                                       .where(
-                                                                        'date',
+                                                                        'occurrenceKey',
                                                                         isGreaterThanOrEqualTo: functions
                                                                             .monthBoundaries(getCurrentTimestamp)
                                                                             .firstOrNull,
                                                                       )
                                                                       .where(
-                                                                        'date',
+                                                                        'occurrenceKey',
                                                                         isLessThan: functions
                                                                             .monthBoundaries(getCurrentTimestamp)
                                                                             .lastOrNull,
                                                                       )
                                                                       .orderBy(
-                                                                          'date'),
+                                                                          'occurrenceKey'),
                                                         ),
                                                         builder: (context,
                                                             snapshot) {
@@ -3821,21 +3822,21 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                         true,
                                                                   )
                                                                   .where(
-                                                                    'date',
+                                                                    'occurrenceKey',
                                                                     isGreaterThanOrEqualTo: functions
                                                                         .monthBoundaries(
                                                                             getCurrentTimestamp)
                                                                         .firstOrNull,
                                                                   )
                                                                   .where(
-                                                                    'date',
+                                                                    'occurrenceKey',
                                                                     isLessThan: functions
                                                                         .monthBoundaries(
                                                                             getCurrentTimestamp)
                                                                         .lastOrNull,
                                                                   )
                                                                   .orderBy(
-                                                                      'date'),
+                                                                      'occurrenceKey'),
                                                     ),
                                                     builder:
                                                         (context, snapshot) {
@@ -3989,19 +3990,19 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             false,
                                                                       )
                                                                       .where(
-                                                                        'date',
+                                                                        'occurrenceKey',
                                                                         isGreaterThanOrEqualTo: functions
                                                                             .monthBoundaries(getCurrentTimestamp)
                                                                             .firstOrNull,
                                                                       )
                                                                       .where(
-                                                                        'date',
+                                                                        'occurrenceKey',
                                                                         isLessThan: functions
                                                                             .monthBoundaries(getCurrentTimestamp)
                                                                             .lastOrNull,
                                                                       )
                                                                       .orderBy(
-                                                                          'date'),
+                                                                          'occurrenceKey'),
                                                         ),
                                                         builder: (context,
                                                             snapshot) {
@@ -4135,21 +4136,21 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                         false,
                                                                   )
                                                                   .where(
-                                                                    'date',
+                                                                    'occurrenceKey',
                                                                     isGreaterThanOrEqualTo: functions
                                                                         .monthBoundaries(
                                                                             getCurrentTimestamp)
                                                                         .firstOrNull,
                                                                   )
                                                                   .where(
-                                                                    'date',
+                                                                    'occurrenceKey',
                                                                     isLessThan: functions
                                                                         .monthBoundaries(
                                                                             getCurrentTimestamp)
                                                                         .lastOrNull,
                                                                   )
                                                                   .orderBy(
-                                                                      'date'),
+                                                                      'occurrenceKey'),
                                                     ),
                                                     builder:
                                                         (context, snapshot) {
@@ -10003,9 +10004,8 @@ Ej: carro, ... */
                                       safeSetState(() {});
                                     },
                                     () async {
-                                      FFAppState().selectedDate = functions
-                                          .normalizeToCalendarDatedateTime(
-                                              getCurrentTimestamp);
+                                      FFAppState().selectedDate =
+                                          getCurrentTimestamp;
                                       safeSetState(() {});
                                       _model.selectedDate = functions
                                           .normalizeToCalendarDatedateTime(
@@ -10029,20 +10029,19 @@ Ej: carro, ... */
                                                       isEqualTo: true,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isGreaterThanOrEqualTo:
                                                           functions
                                                               .monthBoundaries(
                                                                   getCurrentTimestamp)
-                                                              .elementAtOrNull(
-                                                                  0),
+                                                              .firstOrNull,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isLessThan: functions
                                                           .monthBoundaries(
                                                               getCurrentTimestamp)
-                                                          .elementAtOrNull(1),
+                                                          .lastOrNull,
                                                     ),
                                           );
                                         }),
@@ -10061,20 +10060,19 @@ Ej: carro, ... */
                                                       isEqualTo: true,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isGreaterThanOrEqualTo:
                                                           functions
                                                               .monthBoundaries(
                                                                   getCurrentTimestamp)
-                                                              .elementAtOrNull(
-                                                                  0),
+                                                              .firstOrNull,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isLessThan: functions
                                                           .monthBoundaries(
                                                               getCurrentTimestamp)
-                                                          .elementAtOrNull(1),
+                                                          .lastOrNull,
                                                     ),
                                           );
                                         }),
@@ -10093,20 +10091,19 @@ Ej: carro, ... */
                                                       isEqualTo: true,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isGreaterThanOrEqualTo:
                                                           functions
                                                               .monthBoundaries(
                                                                   getCurrentTimestamp)
-                                                              .elementAtOrNull(
-                                                                  0),
+                                                              .firstOrNull,
                                                     )
                                                     .where(
-                                                      'date',
+                                                      'occurrenceKey',
                                                       isLessThan: functions
                                                           .monthBoundaries(
                                                               getCurrentTimestamp)
-                                                          .elementAtOrNull(1),
+                                                          .lastOrNull,
                                                     ),
                                           );
                                         }),
@@ -10181,13 +10178,10 @@ Ej: carro, ... */
                                                   .toList()
                                                   ?.toList(),
                                               _model.anualncomes
-                                                  ?.map((e) => e.date)
-                                                  .withoutNulls
+                                                  ?.map((e) => e.occurrenceKey)
                                                   .toList()
                                                   ?.toList(),
-                                              functions
-                                                  .normalizeToCalendarDatedateTime(
-                                                      getCurrentTimestamp));
+                                              getCurrentTimestamp);
                                       FFAppState().anualExpenses =
                                           functions.sumAmountsInYear(
                                               _model.anualExpense
@@ -10195,13 +10189,10 @@ Ej: carro, ... */
                                                   .toList()
                                                   ?.toList(),
                                               _model.anualExpense
-                                                  ?.map((e) => e.date)
-                                                  .withoutNulls
+                                                  ?.map((e) => e.occurrenceKey)
                                                   .toList()
                                                   ?.toList(),
-                                              functions
-                                                  .normalizeToCalendarDatedateTime(
-                                                      getCurrentTimestamp));
+                                              getCurrentTimestamp);
                                       FFAppState().anualSaves =
                                           functions.sumAmountsInYear(
                                               _model.anualSaves
@@ -10209,13 +10200,10 @@ Ej: carro, ... */
                                                   .toList()
                                                   ?.toList(),
                                               _model.anualSaves
-                                                  ?.map((e) => e.date)
-                                                  .withoutNulls
+                                                  ?.map((e) => e.occurrenceKey)
                                                   .toList()
                                                   ?.toList(),
-                                              functions
-                                                  .normalizeToCalendarDatedateTime(
-                                                      getCurrentTimestamp));
+                                              getCurrentTimestamp);
                                       safeSetState(() {});
                                       FFAppState().anualCashFlow =
                                           functions.calcNetCashflow(

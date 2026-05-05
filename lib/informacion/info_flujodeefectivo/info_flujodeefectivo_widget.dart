@@ -80,20 +80,6 @@ class _InfoFlujodeefectivoWidgetState extends State<InfoFlujodeefectivoWidget> {
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.close_outlined,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -156,7 +142,7 @@ class _InfoFlujodeefectivoWidgetState extends State<InfoFlujodeefectivoWidget> {
             ),
           ]
               .divide(SizedBox(height: 10.0))
-              .addToStart(SizedBox(height: 20.0))
+              .addToStart(SizedBox(height: 40.0))
               .addToEnd(SizedBox(height: 20.0)),
         ),
       ),

@@ -365,11 +365,9 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                               Align(
                                 alignment: AlignmentDirectional(-1.0, 0.0),
                                 child: Text(
-                                  dateTimeFormat(
-                                    "yMMMd",
-                                    widget!.docDocument!.date!,
-                                    locale: FFLocalizations.of(context)
-                                        .languageCode,
+                                  valueOrDefault<String>(
+                                    widget!.docDocument?.date,
+                                    'date',
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyLarge

@@ -31,11 +31,6 @@ class DocumentsRecord extends FirestoreRecord {
   String get description => _description ?? '';
   bool hasDescription() => _description != null;
 
-  // "date" field.
-  DateTime? _date;
-  DateTime? get date => _date;
-  bool hasDate() => _date != null;
-
   // "amount" field.
   double? _amount;
   double get amount => _amount ?? 0.0;
@@ -60,11 +55,6 @@ class DocumentsRecord extends FirestoreRecord {
   String? _recurrenceId;
   String get recurrenceId => _recurrenceId ?? '';
   bool hasRecurrenceId() => _recurrenceId != null;
-
-  // "occurrenceKey" field.
-  String? _occurrenceKey;
-  String get occurrenceKey => _occurrenceKey ?? '';
-  bool hasOccurrenceKey() => _occurrenceKey != null;
 
   // "frequencyCode" field.
   int? _frequencyCode;
@@ -225,17 +215,30 @@ class DocumentsRecord extends FirestoreRecord {
   String get institutionName => _institutionName ?? '';
   bool hasInstitutionName() => _institutionName != null;
 
+  // "date" field.
+  String? _date;
+  String get date => _date ?? '';
+  bool hasDate() => _date != null;
+
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
+  // "occurrenceKey" field.
+  int? _occurrenceKey;
+  int get occurrenceKey => _occurrenceKey ?? 0;
+  bool hasOccurrenceKey() => _occurrenceKey != null;
+
   void _initializeFields() {
     _type = snapshotData['type'] as String?;
     _isIncome = snapshotData['isIncome'] as bool?;
     _description = snapshotData['description'] as String?;
-    _date = snapshotData['date'] as DateTime?;
     _amount = castToType<double>(snapshotData['amount']);
     _isRecurrent = snapshotData['isRecurrent'] as bool?;
     _frequency = snapshotData['frequency'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _recurrenceId = snapshotData['recurrenceId'] as String?;
-    _occurrenceKey = snapshotData['occurrenceKey'] as String?;
     _frequencyCode = castToType<int>(snapshotData['frequencyCode']);
     _notificationAt = castToType<int>(snapshotData['notificationAt']);
     _isOtherExpenses = snapshotData['isOtherExpenses'] as bool?;
@@ -270,6 +273,9 @@ class DocumentsRecord extends FirestoreRecord {
     _goaldName = snapshotData['goaldName'] as String?;
     _accountName = snapshotData['accountName'] as String?;
     _institutionName = snapshotData['InstitutionName'] as String?;
+    _date = snapshotData['date'] as String?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
+    _occurrenceKey = castToType<int>(snapshotData['occurrenceKey']);
   }
 
   static CollectionReference get collection =>
@@ -310,13 +316,11 @@ Map<String, dynamic> createDocumentsRecordData({
   String? type,
   bool? isIncome,
   String? description,
-  DateTime? date,
   double? amount,
   bool? isRecurrent,
   String? frequency,
   DocumentReference? userRef,
   String? recurrenceId,
-  String? occurrenceKey,
   int? frequencyCode,
   int? notificationAt,
   bool? isOtherExpenses,
@@ -348,19 +352,20 @@ Map<String, dynamic> createDocumentsRecordData({
   String? goaldName,
   String? accountName,
   String? institutionName,
+  String? date,
+  DateTime? createdAt,
+  int? occurrenceKey,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'type': type,
       'isIncome': isIncome,
       'description': description,
-      'date': date,
       'amount': amount,
       'isRecurrent': isRecurrent,
       'frequency': frequency,
       'userRef': userRef,
       'recurrenceId': recurrenceId,
-      'occurrenceKey': occurrenceKey,
       'frequencyCode': frequencyCode,
       'notificationAt': notificationAt,
       'isOtherExpenses': isOtherExpenses,
@@ -392,6 +397,9 @@ Map<String, dynamic> createDocumentsRecordData({
       'goaldName': goaldName,
       'accountName': accountName,
       'InstitutionName': institutionName,
+      'date': date,
+      'createdAt': createdAt,
+      'occurrenceKey': occurrenceKey,
     }.withoutNulls,
   );
 
@@ -406,13 +414,11 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
     return e1?.type == e2?.type &&
         e1?.isIncome == e2?.isIncome &&
         e1?.description == e2?.description &&
-        e1?.date == e2?.date &&
         e1?.amount == e2?.amount &&
         e1?.isRecurrent == e2?.isRecurrent &&
         e1?.frequency == e2?.frequency &&
         e1?.userRef == e2?.userRef &&
         e1?.recurrenceId == e2?.recurrenceId &&
-        e1?.occurrenceKey == e2?.occurrenceKey &&
         e1?.frequencyCode == e2?.frequencyCode &&
         e1?.notificationAt == e2?.notificationAt &&
         e1?.isOtherExpenses == e2?.isOtherExpenses &&
@@ -445,7 +451,10 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e1?.merchantLogo == e2?.merchantLogo &&
         e1?.goaldName == e2?.goaldName &&
         e1?.accountName == e2?.accountName &&
-        e1?.institutionName == e2?.institutionName;
+        e1?.institutionName == e2?.institutionName &&
+        e1?.date == e2?.date &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.occurrenceKey == e2?.occurrenceKey;
   }
 
   @override
@@ -453,13 +462,11 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.type,
         e?.isIncome,
         e?.description,
-        e?.date,
         e?.amount,
         e?.isRecurrent,
         e?.frequency,
         e?.userRef,
         e?.recurrenceId,
-        e?.occurrenceKey,
         e?.frequencyCode,
         e?.notificationAt,
         e?.isOtherExpenses,
@@ -490,7 +497,10 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.merchantLogo,
         e?.goaldName,
         e?.accountName,
-        e?.institutionName
+        e?.institutionName,
+        e?.date,
+        e?.createdAt,
+        e?.occurrenceKey
       ]);
 
   @override

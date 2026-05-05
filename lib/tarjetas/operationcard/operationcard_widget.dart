@@ -166,10 +166,9 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
             child: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 0.0, 0.0),
               child: Text(
-                dateTimeFormat(
-                  "MMMMEEEEd",
-                  widget!.document!.date!,
-                  locale: FFLocalizations.of(context).languageCode,
+                valueOrDefault<String>(
+                  widget!.document?.date,
+                  'date',
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.roboto(

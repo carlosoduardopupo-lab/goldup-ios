@@ -21,16 +21,6 @@ class GoaldsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
-  // "startedDate" field.
-  DateTime? _startedDate;
-  DateTime? get startedDate => _startedDate;
-  bool hasStartedDate() => _startedDate != null;
-
-  // "finishedDate" field.
-  DateTime? _finishedDate;
-  DateTime? get finishedDate => _finishedDate;
-  bool hasFinishedDate() => _finishedDate != null;
-
   // "updatedDate" field.
   DateTime? _updatedDate;
   DateTime? get updatedDate => _updatedDate;
@@ -136,10 +126,18 @@ class GoaldsRecord extends FirestoreRecord {
   DocumentReference? get bankAccountsRef => _bankAccountsRef;
   bool hasBankAccountsRef() => _bankAccountsRef != null;
 
+  // "startedDate" field.
+  String? _startedDate;
+  String get startedDate => _startedDate ?? '';
+  bool hasStartedDate() => _startedDate != null;
+
+  // "finishedDate" field.
+  String? _finishedDate;
+  String get finishedDate => _finishedDate ?? '';
+  bool hasFinishedDate() => _finishedDate != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
-    _startedDate = snapshotData['startedDate'] as DateTime?;
-    _finishedDate = snapshotData['finishedDate'] as DateTime?;
     _updatedDate = snapshotData['updatedDate'] as DateTime?;
     _totalAmount = castToType<double>(snapshotData['totalAmount']);
     _quotes = castToType<double>(snapshotData['quotes']);
@@ -161,6 +159,8 @@ class GoaldsRecord extends FirestoreRecord {
     _recurrentDocumentId = snapshotData['recurrentDocumentId'] as String?;
     _transferId = snapshotData['transferId'] as String?;
     _bankAccountsRef = snapshotData['bank_accountsRef'] as DocumentReference?;
+    _startedDate = snapshotData['startedDate'] as String?;
+    _finishedDate = snapshotData['finishedDate'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -198,8 +198,6 @@ class GoaldsRecord extends FirestoreRecord {
 
 Map<String, dynamic> createGoaldsRecordData({
   DocumentReference? userRef,
-  DateTime? startedDate,
-  DateTime? finishedDate,
   DateTime? updatedDate,
   double? totalAmount,
   double? quotes,
@@ -220,12 +218,12 @@ Map<String, dynamic> createGoaldsRecordData({
   String? recurrentDocumentId,
   String? transferId,
   DocumentReference? bankAccountsRef,
+  String? startedDate,
+  String? finishedDate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'userRef': userRef,
-      'startedDate': startedDate,
-      'finishedDate': finishedDate,
       'updatedDate': updatedDate,
       'totalAmount': totalAmount,
       'quotes': quotes,
@@ -246,6 +244,8 @@ Map<String, dynamic> createGoaldsRecordData({
       'recurrentDocumentId': recurrentDocumentId,
       'transferId': transferId,
       'bank_accountsRef': bankAccountsRef,
+      'startedDate': startedDate,
+      'finishedDate': finishedDate,
     }.withoutNulls,
   );
 
@@ -259,8 +259,6 @@ class GoaldsRecordDocumentEquality implements Equality<GoaldsRecord> {
   bool equals(GoaldsRecord? e1, GoaldsRecord? e2) {
     const listEquality = ListEquality();
     return e1?.userRef == e2?.userRef &&
-        e1?.startedDate == e2?.startedDate &&
-        e1?.finishedDate == e2?.finishedDate &&
         e1?.updatedDate == e2?.updatedDate &&
         e1?.totalAmount == e2?.totalAmount &&
         e1?.quotes == e2?.quotes &&
@@ -281,14 +279,14 @@ class GoaldsRecordDocumentEquality implements Equality<GoaldsRecord> {
         e1?.notificationAt == e2?.notificationAt &&
         e1?.recurrentDocumentId == e2?.recurrentDocumentId &&
         e1?.transferId == e2?.transferId &&
-        e1?.bankAccountsRef == e2?.bankAccountsRef;
+        e1?.bankAccountsRef == e2?.bankAccountsRef &&
+        e1?.startedDate == e2?.startedDate &&
+        e1?.finishedDate == e2?.finishedDate;
   }
 
   @override
   int hash(GoaldsRecord? e) => const ListEquality().hash([
         e?.userRef,
-        e?.startedDate,
-        e?.finishedDate,
         e?.updatedDate,
         e?.totalAmount,
         e?.quotes,
@@ -309,7 +307,9 @@ class GoaldsRecordDocumentEquality implements Equality<GoaldsRecord> {
         e?.notificationAt,
         e?.recurrentDocumentId,
         e?.transferId,
-        e?.bankAccountsRef
+        e?.bankAccountsRef,
+        e?.startedDate,
+        e?.finishedDate
       ]);
 
   @override

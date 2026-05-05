@@ -1,5 +1,4 @@
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,8 +7,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -589,7 +586,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             _model.datePicked1 = getCurrentTimestamp;
                           });
                         }
-                        _model.initialDate = _model.datePicked1;
+                        _model.initialDate = _model.datePicked1?.toString();
                         safeSetState(() {});
                       },
                       child: Container(
@@ -613,11 +610,9 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              dateTimeFormat(
-                                "yMMMd",
+                              valueOrDefault<String>(
                                 _model.initialDate,
-                                locale:
-                                    FFLocalizations.of(context).languageCode,
+                                'date',
                               ),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -750,7 +745,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             _model.datePicked2 = getCurrentTimestamp;
                           });
                         }
-                        _model.endDate = _model.datePicked2;
+                        _model.endDate = _model.datePicked2?.toString();
                         safeSetState(() {});
                       },
                       child: Container(
@@ -776,11 +771,9 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                             Align(
                               alignment: AlignmentDirectional(0.0, 0.0),
                               child: Text(
-                                dateTimeFormat(
-                                  "yMMMd",
+                                valueOrDefault<String>(
                                   _model.endDate,
-                                  locale:
-                                      FFLocalizations.of(context).languageCode,
+                                  'date',
                                 ),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
@@ -1184,8 +1177,10 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                         alignment: AlignmentDirectional(0.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
-                            (_model.initialDate != null) &&
-                                    (_model.endDate != null) &&
+                            (_model.initialDate != null &&
+                                        _model.initialDate != '') &&
+                                    (_model.endDate != null &&
+                                        _model.endDate != '') &&
                                     (_model.totalAmount > 0.0) &&
                                     (_model.frequencyCode != null)
                                 ? getJsonField(
@@ -1279,8 +1274,10 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                         child: Text(
                           valueOrDefault<String>(
                             formatNumber(
-                              (_model.initialDate != null) &&
-                                      (_model.endDate != null) &&
+                              (_model.initialDate != null &&
+                                          _model.initialDate != '') &&
+                                      (_model.endDate != null &&
+                                          _model.endDate != '') &&
                                       (_model.totalAmount > 0.0) &&
                                       (_model.frequencyCode != null)
                                   ? getJsonField(
@@ -1768,359 +1765,8 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
-                  onPressed: () async {
-                    var goaldsRecordReference = GoaldsRecord.collection.doc();
-                    await goaldsRecordReference.set({
-                      ...createGoaldsRecordData(
-                        userRef: currentUserReference,
-                        startedDate: functions.normalizeToCalendarDatedateTime(
-                            _model.initialDate!),
-                        finishedDate: functions
-                            .normalizeToCalendarDatedateTime(_model.endDate!),
-                        totalAmount: _model.totalAmount,
-                        quotes: getJsonField(
-                          functions.calculateGoalInstallmentsFn(
-                              _model.initialDate!,
-                              _model.endDate!,
-                              _model.totalAmount, () {
-                            if (_model.frequency == 'Diario') {
-                              return 1;
-                            } else if (_model.frequency == 'Semanal') {
-                              return 7;
-                            } else if (_model.frequency == 'Quincenal') {
-                              return 14;
-                            } else if (_model.frequency == 'Mensual') {
-                              return 1001;
-                            } else if (_model.frequency == 'Trimestral') {
-                              return 1003;
-                            } else if (_model.frequency == 'Anual') {
-                              return 1012;
-                            } else {
-                              return 0;
-                            }
-                          }()),
-                          r'''$.installmentAmount''',
-                        ),
-                        name: _model.nombre,
-                        description: _model.description,
-                        freuency: _model.frequency,
-                        isFrozen: false,
-                        isComplited: false,
-                        senderAccount: _model.accountSender,
-                        resiverAccount: _model.accountResepter,
-                        porcent: 0.0,
-                        currentAmount: 0.0,
-                        totalQuotesNumbers: getJsonField(
-                          functions.calculateGoalInstallmentsFn(
-                              _model.initialDate!,
-                              _model.endDate!,
-                              _model.totalAmount, () {
-                            if (_model.frequency == 'Diario') {
-                              return 1;
-                            } else if (_model.frequency == 'Semanal') {
-                              return 7;
-                            } else if (_model.frequency == 'Quincenal') {
-                              return 14;
-                            } else if (_model.frequency == 'Mensual') {
-                              return 1001;
-                            } else if (_model.frequency == 'Trimestral') {
-                              return 1003;
-                            } else if (_model.frequency == 'Anual') {
-                              return 1012;
-                            } else {
-                              return 0;
-                            }
-                          }()),
-                          r'''$.installmentsCount''',
-                        ),
-                        frequencyCode: _model.frequencyCode,
-                        notificationAt: _model.notificationAt,
-                      ),
-                      ...mapToFirestore(
-                        {
-                          'updatedDate': FieldValue.serverTimestamp(),
-                        },
-                      ),
-                    });
-                    _model.goalds = GoaldsRecord.getDocumentFromData({
-                      ...createGoaldsRecordData(
-                        userRef: currentUserReference,
-                        startedDate: functions.normalizeToCalendarDatedateTime(
-                            _model.initialDate!),
-                        finishedDate: functions
-                            .normalizeToCalendarDatedateTime(_model.endDate!),
-                        totalAmount: _model.totalAmount,
-                        quotes: getJsonField(
-                          functions.calculateGoalInstallmentsFn(
-                              _model.initialDate!,
-                              _model.endDate!,
-                              _model.totalAmount, () {
-                            if (_model.frequency == 'Diario') {
-                              return 1;
-                            } else if (_model.frequency == 'Semanal') {
-                              return 7;
-                            } else if (_model.frequency == 'Quincenal') {
-                              return 14;
-                            } else if (_model.frequency == 'Mensual') {
-                              return 1001;
-                            } else if (_model.frequency == 'Trimestral') {
-                              return 1003;
-                            } else if (_model.frequency == 'Anual') {
-                              return 1012;
-                            } else {
-                              return 0;
-                            }
-                          }()),
-                          r'''$.installmentAmount''',
-                        ),
-                        name: _model.nombre,
-                        description: _model.description,
-                        freuency: _model.frequency,
-                        isFrozen: false,
-                        isComplited: false,
-                        senderAccount: _model.accountSender,
-                        resiverAccount: _model.accountResepter,
-                        porcent: 0.0,
-                        currentAmount: 0.0,
-                        totalQuotesNumbers: getJsonField(
-                          functions.calculateGoalInstallmentsFn(
-                              _model.initialDate!,
-                              _model.endDate!,
-                              _model.totalAmount, () {
-                            if (_model.frequency == 'Diario') {
-                              return 1;
-                            } else if (_model.frequency == 'Semanal') {
-                              return 7;
-                            } else if (_model.frequency == 'Quincenal') {
-                              return 14;
-                            } else if (_model.frequency == 'Mensual') {
-                              return 1001;
-                            } else if (_model.frequency == 'Trimestral') {
-                              return 1003;
-                            } else if (_model.frequency == 'Anual') {
-                              return 1012;
-                            } else {
-                              return 0;
-                            }
-                          }()),
-                          r'''$.installmentsCount''',
-                        ),
-                        frequencyCode: _model.frequencyCode,
-                        notificationAt: _model.notificationAt,
-                      ),
-                      ...mapToFirestore(
-                        {
-                          'updatedDate': DateTime.now(),
-                        },
-                      ),
-                    }, goaldsRecordReference);
-
-                    await _model.goalds!.reference.update({
-                      ...mapToFirestore(
-                        {
-                          'ejecutionDates':
-                              functions.buildTransferScheduleDatesFn(
-                                  _model.goalds!.startedDate!,
-                                  _model.goalds!.finishedDate!,
-                                  _model.goalds!.frequencyCode),
-                        },
-                      ),
-                    });
-
-                    var documentsRecordReference1 =
-                        DocumentsRecord.collection.doc();
-                    await documentsRecordReference1
-                        .set(createDocumentsRecordData(
-                      type: 'Meta Financiera',
-                      description: _model.description,
-                      date: functions
-                          .normalizeToCalendarDatedateTime(_model.initialDate!),
-                      amount: valueOrDefault<double>(
-                        (_model.initialDate != null) &&
-                                (_model.endDate != null) &&
-                                (_model.totalAmount > 0.0) &&
-                                (_model.frequencyCode != null)
-                            ? getJsonField(
-                                functions.calculateGoalInstallmentsFn(
-                                    _model.initialDate!,
-                                    _model.endDate!,
-                                    _model.totalAmount,
-                                    _model.frequencyCode),
-                                r'''$.installmentAmount''',
-                              )
-                            : 0.0,
-                        0.0,
-                      ),
-                      isRecurrent: true,
-                      frequency: _model.frequency,
-                      userRef: currentUserReference,
-                      frequencyCode: () {
-                        if (_model.frequency == 'Diario') {
-                          return 1;
-                        } else if (_model.frequency == 'Semanal') {
-                          return 7;
-                        } else if (_model.frequency == 'Quincenal') {
-                          return 14;
-                        } else if (_model.frequency == 'Mensual') {
-                          return 1001;
-                        } else if (_model.frequency == 'Trimestral') {
-                          return 1003;
-                        } else if (_model.frequency == 'Anual') {
-                          return 1012;
-                        } else {
-                          return 0;
-                        }
-                      }(),
-                      notificationAt: _model.notificationAt,
-                      isSave: true,
-                      isIncome: false,
-                      isExpenses: false,
-                      isEvent: false,
-                      source: 'manual',
-                      isGoal: true,
-                    ));
-                    _model.action1 = DocumentsRecord.getDocumentFromData(
-                        createDocumentsRecordData(
-                          type: 'Meta Financiera',
-                          description: _model.description,
-                          date: functions.normalizeToCalendarDatedateTime(
-                              _model.initialDate!),
-                          amount: valueOrDefault<double>(
-                            (_model.initialDate != null) &&
-                                    (_model.endDate != null) &&
-                                    (_model.totalAmount > 0.0) &&
-                                    (_model.frequencyCode != null)
-                                ? getJsonField(
-                                    functions.calculateGoalInstallmentsFn(
-                                        _model.initialDate!,
-                                        _model.endDate!,
-                                        _model.totalAmount,
-                                        _model.frequencyCode),
-                                    r'''$.installmentAmount''',
-                                  )
-                                : 0.0,
-                            0.0,
-                          ),
-                          isRecurrent: true,
-                          frequency: _model.frequency,
-                          userRef: currentUserReference,
-                          frequencyCode: () {
-                            if (_model.frequency == 'Diario') {
-                              return 1;
-                            } else if (_model.frequency == 'Semanal') {
-                              return 7;
-                            } else if (_model.frequency == 'Quincenal') {
-                              return 14;
-                            } else if (_model.frequency == 'Mensual') {
-                              return 1001;
-                            } else if (_model.frequency == 'Trimestral') {
-                              return 1003;
-                            } else if (_model.frequency == 'Anual') {
-                              return 1012;
-                            } else {
-                              return 0;
-                            }
-                          }(),
-                          notificationAt: _model.notificationAt,
-                          isSave: true,
-                          isIncome: false,
-                          isExpenses: false,
-                          isEvent: false,
-                          source: 'manual',
-                          isGoal: true,
-                        ),
-                        documentsRecordReference1);
-
-                    await _model.action1!.reference
-                        .update(createDocumentsRecordData(
-                      recurrenceId: _model.action1?.reference.id,
-                      occurrenceKey:
-                          functions.dateToOccurrenceKey(_model.action1!.date!),
-                    ));
-                    if (_model.action1?.isRecurrent == true) {
-                      for (int loop1Index = 0;
-                          loop1Index <
-                              functions
-                                  .buildGoalPeriodDatesExcludeStart(
-                                      _model.initialDate!,
-                                      _model.endDate!,
-                                      _model.frequencyCode)
-                                  .length;
-                          loop1Index++) {
-                        final currentLoop1Item =
-                            functions.buildGoalPeriodDatesExcludeStart(
-                                _model.initialDate!,
-                                _model.endDate!,
-                                _model.frequencyCode)[loop1Index];
-
-                        var documentsRecordReference2 =
-                            DocumentsRecord.collection.doc();
-                        await documentsRecordReference2
-                            .set(createDocumentsRecordData(
-                          type: _model.action1?.type,
-                          description: _model.action1?.description,
-                          date: currentLoop1Item,
-                          amount: _model.action1?.amount,
-                          isRecurrent: true,
-                          frequency: _model.action1?.frequency,
-                          userRef: currentUserReference,
-                          frequencyCode: _model.action1?.frequencyCode,
-                          recurrenceId: _model.action1?.reference.id,
-                          occurrenceKey:
-                              functions.dateToOccurrenceKey(currentLoop1Item),
-                          notificationAt: _model.action1?.notificationAt,
-                          isSave: true,
-                          isIncome: false,
-                          isExpenses: false,
-                          isEvent: false,
-                          source: 'manual',
-                          isGoal: true,
-                        ));
-                        _model.recurrente = DocumentsRecord.getDocumentFromData(
-                            createDocumentsRecordData(
-                              type: _model.action1?.type,
-                              description: _model.action1?.description,
-                              date: currentLoop1Item,
-                              amount: _model.action1?.amount,
-                              isRecurrent: true,
-                              frequency: _model.action1?.frequency,
-                              userRef: currentUserReference,
-                              frequencyCode: _model.action1?.frequencyCode,
-                              recurrenceId: _model.action1?.reference.id,
-                              occurrenceKey: functions
-                                  .dateToOccurrenceKey(currentLoop1Item),
-                              notificationAt: _model.action1?.notificationAt,
-                              isSave: true,
-                              isIncome: false,
-                              isExpenses: false,
-                              isEvent: false,
-                              source: 'manual',
-                              isGoal: true,
-                            ),
-                            documentsRecordReference2);
-                      }
-                    }
-                    _model.bankAccounts = await queryBankAccountsRecordOnce(
-                      queryBuilder: (bankAccountsRecord) =>
-                          bankAccountsRecord.where(
-                        'userRef',
-                        isEqualTo: currentUserReference,
-                      ),
-                      singleRecord: true,
-                    ).then((s) => s.firstOrNull);
-
-                    await _model.goalds!.reference
-                        .update(createGoaldsRecordData(
-                      recurrentDocumentId: _model.action1?.reference.id,
-                      bankAccountsRef: _model.bankAccounts?.reference,
-                    ));
-
-                    await currentUserReference!.update(createUserRecordData(
-                      isGoalCreated: true,
-                    ));
-                    Navigator.pop(context);
-
-                    safeSetState(() {});
+                  onPressed: () {
+                    print('Button pressed ...');
                   },
                   text: FFLocalizations.of(context).getText(
                     'a9a0q436' /* Crear  */,

@@ -628,13 +628,15 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                   'date',
                                   isGreaterThanOrEqualTo: functions
                                       .monthBoundaries(getCurrentTimestamp)
-                                      .firstOrNull,
+                                      .firstOrNull
+                                      ?.toString(),
                                 )
                                 .where(
                                   'date',
                                   isLessThan: functions
                                       .monthBoundaries(getCurrentTimestamp)
-                                      .lastOrNull,
+                                      .lastOrNull
+                                      ?.toString(),
                                 ),
                           ),
                           builder: (context, snapshot) {
@@ -781,13 +783,15 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                   'date',
                                   isGreaterThanOrEqualTo: functions
                                       .monthBoundaries(getCurrentTimestamp)
-                                      .firstOrNull,
+                                      .firstOrNull
+                                      ?.toString(),
                                 )
                                 .where(
                                   'date',
                                   isLessThan: functions
                                       .monthBoundaries(getCurrentTimestamp)
-                                      .lastOrNull,
+                                      .lastOrNull
+                                      ?.toString(),
                                 ),
                           ),
                           builder: (context, snapshot) {

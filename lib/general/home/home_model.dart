@@ -44,7 +44,7 @@ import 'package:provider/provider.dart';
 class HomeModel extends FlutterFlowModel<HomeWidget> {
   ///  Local state fields for this page.
 
-  DateTime? selectedDate;
+  String? selectedDate;
 
   String? codigo;
 

@@ -9,7 +9,6 @@ import '/informacion/politica/politica_widget.dart';
 import '/informacion/terminos/terminos_widget.dart';
 import 'dart:math';
 import 'dart:ui';
-import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
@@ -1640,19 +1639,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             return;
                                                           }
 
-                                                          await Future.delayed(
-                                                            Duration(
-                                                              milliseconds:
-                                                                  3000,
-                                                            ),
-                                                          );
-                                                          await requestPermission(
-                                                              notificationsPermission);
                                                           FFAppState()
                                                                   .isCalendarSet =
-                                                              true;
-                                                          FFAppState()
-                                                                  .isNotificationRequested =
                                                               true;
                                                           FFAppState()
                                                                   .seeAmounts =

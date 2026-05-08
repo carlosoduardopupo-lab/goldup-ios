@@ -25,7 +25,6 @@ import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
 import '/tarjetas/metascard/metascard_widget.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
-import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'home_widget.dart' show HomeWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';

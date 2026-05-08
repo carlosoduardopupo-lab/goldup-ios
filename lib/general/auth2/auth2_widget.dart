@@ -1028,78 +1028,80 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     false)
                                                                 ? null
                                                                 : () async {
-                                                                    await Future
-                                                                        .wait([
-                                                                      Future(
-                                                                          () async {
-                                                                        GoRouter.of(context)
-                                                                            .prepareAuthEvent();
+                                                                    GoRouter.of(
+                                                                            context)
+                                                                        .prepareAuthEvent();
 
-                                                                        final user =
-                                                                            await authManager.createAccountWithEmail(
-                                                                          context,
-                                                                          _model
-                                                                              .emailAddressCreateTextController
-                                                                              .text,
-                                                                          _model
-                                                                              .passwordCreateTextController
-                                                                              .text,
-                                                                        );
-                                                                        if (user ==
-                                                                            null) {
-                                                                          return;
-                                                                        }
-
-                                                                        await currentUserReference!
-                                                                            .update(createUserRecordData(
-                                                                          isPremium:
-                                                                              false,
-                                                                          notificationAt:
-                                                                              72,
-                                                                          notificationAjustValue:
-                                                                              1,
-                                                                          isBasic:
-                                                                              true,
-                                                                          isBasicWhitAnunces:
-                                                                              false,
-                                                                          isPilotoTest:
-                                                                              true,
-                                                                          language:
-                                                                              FFLocalizations.of(context).languageCode,
-                                                                        ));
+                                                                    final user =
                                                                         await authManager
-                                                                            .sendEmailVerification();
-                                                                        await showModalBottomSheet(
-                                                                          isScrollControlled:
-                                                                              true,
-                                                                          backgroundColor:
-                                                                              Colors.transparent,
-                                                                          enableDrag:
-                                                                              false,
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (context) {
-                                                                            return Padding(
-                                                                              padding: MediaQuery.viewInsetsOf(context),
-                                                                              child: VerificatucorreoWidget(),
-                                                                            );
-                                                                          },
-                                                                        ).then((value) =>
-                                                                            safeSetState(() {}));
-                                                                      }),
-                                                                      Future(
-                                                                          () async {
-                                                                        FFAppState().isCalendarSet =
-                                                                            true;
-                                                                        FFAppState().seeAmounts =
-                                                                            true;
-                                                                        FFAppState().isChekSelect =
-                                                                            true;
+                                                                            .createAccountWithEmail(
+                                                                      context,
+                                                                      _model
+                                                                          .emailAddressCreateTextController
+                                                                          .text,
+                                                                      _model
+                                                                          .passwordCreateTextController
+                                                                          .text,
+                                                                    );
+                                                                    if (user ==
+                                                                        null) {
+                                                                      return;
+                                                                    }
+
+                                                                    await currentUserReference!
+                                                                        .update(
+                                                                            createUserRecordData(
+                                                                      isPremium:
+                                                                          false,
+                                                                      notificationAt:
+                                                                          72,
+                                                                      notificationAjustValue:
+                                                                          1,
+                                                                      isBasic:
+                                                                          true,
+                                                                      isBasicWhitAnunces:
+                                                                          false,
+                                                                      isPilotoTest:
+                                                                          true,
+                                                                      language:
+                                                                          FFLocalizations.of(context)
+                                                                              .languageCode,
+                                                                    ));
+                                                                    FFAppState()
+                                                                            .isCalendarSet =
+                                                                        true;
+                                                                    FFAppState()
+                                                                            .seeAmounts =
+                                                                        true;
+                                                                    FFAppState()
+                                                                            .isChekSelect =
+                                                                        true;
+                                                                    safeSetState(
+                                                                        () {});
+                                                                    await authManager
+                                                                        .sendEmailVerification();
+                                                                    await showModalBottomSheet(
+                                                                      isScrollControlled:
+                                                                          true,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      enableDrag:
+                                                                          false,
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return Padding(
+                                                                          padding:
+                                                                              MediaQuery.viewInsetsOf(context),
+                                                                          child:
+                                                                              VerificatucorreoWidget(),
+                                                                        );
+                                                                      },
+                                                                    ).then((value) =>
                                                                         safeSetState(
-                                                                            () {});
-                                                                      }),
-                                                                    ]);
+                                                                            () {}));
                                                                   },
                                                         text:
                                                             FFLocalizations.of(

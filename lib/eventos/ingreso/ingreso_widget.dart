@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/flutter_flow/permissions_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -1021,52 +1022,12 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    var documentsRecordReference1 =
-                        DocumentsRecord.collection.doc();
-                    await documentsRecordReference1
-                        .set(createDocumentsRecordData(
-                      type: _model.type,
-                      isIncome: true,
-                      description: _model.description,
-                      date: functions.normalizeToCalendarDatedateTime(
-                          FFAppState().selectedDate!),
-                      amount: _model.amount,
-                      isRecurrent: _model.isRecurrent,
-                      frequency: _model.frequency,
-                      userRef: currentUserReference,
-                      frequencyCode: () {
-                        if (_model.frequency == 'Diario') {
-                          return 1;
-                        } else if (_model.frequency == 'Semanal') {
-                          return 7;
-                        } else if (_model.frequency == 'Quincenal') {
-                          return 14;
-                        } else if (_model.frequency == 'Mensual') {
-                          return 1001;
-                        } else if (_model.frequency == 'Trimestral') {
-                          return 1003;
-                        } else if (_model.frequency == 'Anual') {
-                          return 1012;
-                        } else {
-                          return 0;
-                        }
-                      }(),
-                      notificationAt: _model.notificationAt,
-                      isSave: false,
-                      isExpenses: false,
-                      isEvent: false,
-                      source: 'manual',
-                      isGoal: false,
-                      isNotificationScheduledSent: false,
-                      isNotificationTodaySent: false,
-                      isInternalTransfer: false,
-                      createdAt: getCurrentTimestamp,
-                      occurrenceKey: functions.dateToOccurrenceKey(
-                          functions.normalizeToCalendarDatedateTime(
-                              FFAppState().selectedDate!)),
-                    ));
-                    _model.action1 = DocumentsRecord.getDocumentFromData(
-                        createDocumentsRecordData(
+                    await Future.wait([
+                      Future(() async {
+                        var documentsRecordReference1 =
+                            DocumentsRecord.collection.doc();
+                        await documentsRecordReference1
+                            .set(createDocumentsRecordData(
                           type: _model.type,
                           isIncome: true,
                           description: _model.description,
@@ -1106,68 +1067,85 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                           occurrenceKey: functions.dateToOccurrenceKey(
                               functions.normalizeToCalendarDatedateTime(
                                   FFAppState().selectedDate!)),
-                        ),
-                        documentsRecordReference1);
-
-                    await _model.action1!.reference
-                        .update(createDocumentsRecordData(
-                      isPending: _model.action1!.occurrenceKey <=
-                              functions.dateToOccurrenceKey(
-                                  functions.normalizeToCalendarDatedateTime(
-                                      getCurrentTimestamp))
-                          ? false
-                          : true,
-                      recurrenceId: _model.action1?.reference.id,
-                    ));
-                    if (_model.action1?.isRecurrent == true) {
-                      for (int loop1Index = 0;
-                          loop1Index <
-                              functions
-                                  .generateRecurrenceDatesByCode(
-                                      _model.action1!.date,
-                                      _model.action1!.frequencyCode,
-                                      false)
-                                  .length;
-                          loop1Index++) {
-                        final currentLoop1Item =
-                            functions.generateRecurrenceDatesByCode(
-                                _model.action1!.date,
-                                _model.action1!.frequencyCode,
-                                false)[loop1Index];
-
-                        var documentsRecordReference2 =
-                            DocumentsRecord.collection.doc();
-                        await documentsRecordReference2
-                            .set(createDocumentsRecordData(
-                          type: _model.type,
-                          isIncome: true,
-                          description: _model.description,
-                          date: currentLoop1Item,
-                          amount: _model.amount,
-                          isRecurrent: true,
-                          frequency: _model.frequency,
-                          userRef: currentUserReference,
-                          frequencyCode: _model.action1?.frequencyCode,
-                          recurrenceId: _model.action1?.reference.id,
-                          occurrenceKey:
-                              functions.dateToOccurrenceKey(currentLoop1Item),
-                          notificationAt: _model.action1?.notificationAt,
-                          isSave: false,
-                          isExpenses: false,
-                          isEvent: false,
-                          source: 'manual',
-                          isGoal: false,
-                          isNotificationScheduledSent: false,
-                          isNotificationTodaySent: false,
-                          isInternalTransfer: false,
-                          createdAt: _model.action1?.createdAt,
                         ));
-                        _model.recurrente = DocumentsRecord.getDocumentFromData(
+                        _model.action1 = DocumentsRecord.getDocumentFromData(
                             createDocumentsRecordData(
                               type: _model.type,
                               isIncome: true,
                               description: _model.description,
-                              date: currentLoop1Item,
+                              date: functions.normalizeToCalendarDatedateTime(
+                                  FFAppState().selectedDate!),
+                              amount: _model.amount,
+                              isRecurrent: _model.isRecurrent,
+                              frequency: _model.frequency,
+                              userRef: currentUserReference,
+                              frequencyCode: () {
+                                if (_model.frequency == 'Diario') {
+                                  return 1;
+                                } else if (_model.frequency == 'Semanal') {
+                                  return 7;
+                                } else if (_model.frequency == 'Quincenal') {
+                                  return 14;
+                                } else if (_model.frequency == 'Mensual') {
+                                  return 1001;
+                                } else if (_model.frequency == 'Trimestral') {
+                                  return 1003;
+                                } else if (_model.frequency == 'Anual') {
+                                  return 1012;
+                                } else {
+                                  return 0;
+                                }
+                              }(),
+                              notificationAt: _model.notificationAt,
+                              isSave: false,
+                              isExpenses: false,
+                              isEvent: false,
+                              source: 'manual',
+                              isGoal: false,
+                              isNotificationScheduledSent: false,
+                              isNotificationTodaySent: false,
+                              isInternalTransfer: false,
+                              createdAt: getCurrentTimestamp,
+                              occurrenceKey: functions.dateToOccurrenceKey(
+                                  functions.normalizeToCalendarDatedateTime(
+                                      FFAppState().selectedDate!)),
+                            ),
+                            documentsRecordReference1);
+
+                        await _model.action1!.reference
+                            .update(createDocumentsRecordData(
+                          isPending: _model.action1!.occurrenceKey <=
+                                  functions.dateToOccurrenceKey(
+                                      functions.normalizeToCalendarDatedateTime(
+                                          getCurrentTimestamp))
+                              ? false
+                              : true,
+                          recurrenceId: _model.action1?.reference.id,
+                        ));
+                        if (_model.action1?.isRecurrent == true) {
+                          for (int loop1Index = 0;
+                              loop1Index <
+                                  functions
+                                      .generateRecurrenceDatesByCode(
+                                          _model.action1!.date,
+                                          _model.action1!.frequencyCode,
+                                          false)
+                                      .length;
+                              loop1Index++) {
+                            final currentLoop1Item =
+                                functions.generateRecurrenceDatesByCode(
+                                    _model.action1!.date,
+                                    _model.action1!.frequencyCode,
+                                    false)[loop1Index];
+
+                            var documentsRecordReference2 =
+                                DocumentsRecord.collection.doc();
+                            await documentsRecordReference2
+                                .set(createDocumentsRecordData(
+                              type: _model.type,
+                              isIncome: true,
+                              description: _model.description,
+                              date: loop1Index.toString(),
                               amount: _model.amount,
                               isRecurrent: true,
                               frequency: _model.frequency,
@@ -1175,7 +1153,7 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                               frequencyCode: _model.action1?.frequencyCode,
                               recurrenceId: _model.action1?.reference.id,
                               occurrenceKey: functions
-                                  .dateToOccurrenceKey(currentLoop1Item),
+                                  .dateToOccurrenceKey(loop1Index.toString()),
                               notificationAt: _model.action1?.notificationAt,
                               isSave: false,
                               isExpenses: false,
@@ -1186,15 +1164,59 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                               isNotificationTodaySent: false,
                               isInternalTransfer: false,
                               createdAt: _model.action1?.createdAt,
-                            ),
-                            documentsRecordReference2);
-                      }
-                    }
+                            ));
+                            _model.recurrente =
+                                DocumentsRecord.getDocumentFromData(
+                                    createDocumentsRecordData(
+                                      type: _model.type,
+                                      isIncome: true,
+                                      description: _model.description,
+                                      date: loop1Index.toString(),
+                                      amount: _model.amount,
+                                      isRecurrent: true,
+                                      frequency: _model.frequency,
+                                      userRef: currentUserReference,
+                                      frequencyCode:
+                                          _model.action1?.frequencyCode,
+                                      recurrenceId:
+                                          _model.action1?.reference.id,
+                                      occurrenceKey:
+                                          functions.dateToOccurrenceKey(
+                                              loop1Index.toString()),
+                                      notificationAt:
+                                          _model.action1?.notificationAt,
+                                      isSave: false,
+                                      isExpenses: false,
+                                      isEvent: false,
+                                      source: 'manual',
+                                      isGoal: false,
+                                      isNotificationScheduledSent: false,
+                                      isNotificationTodaySent: false,
+                                      isInternalTransfer: false,
+                                      createdAt: _model.action1?.createdAt,
+                                    ),
+                                    documentsRecordReference2);
+                          }
+                        }
 
-                    await currentUserReference!.update(createUserRecordData(
-                      isDocumentCreated: true,
-                      isIncomeCreated: true,
-                    ));
+                        await currentUserReference!.update(createUserRecordData(
+                          isDocumentCreated: true,
+                          isIncomeCreated: true,
+                        ));
+                      }),
+                      Future(() async {
+                        if (FFAppState().isNotificationRequested != true) {
+                          await requestPermission(notificationsPermission);
+                          await Future.delayed(
+                            Duration(
+                              milliseconds: 3000,
+                            ),
+                          );
+                          FFAppState().isNotificationRequested = true;
+                          safeSetState(() {});
+                        }
+                      }),
+                    ]);
                     Navigator.pop(context);
 
                     safeSetState(() {});

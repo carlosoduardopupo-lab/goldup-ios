@@ -25,7 +25,6 @@ import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
 import '/tarjetas/metascard/metascard_widget.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
-import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -3538,53 +3537,26 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         highlightColor:
                                                             Colors.transparent,
                                                         onTap: () async {
-                                                          await Future.wait([
-                                                            Future(() async {
-                                                              await showModalBottomSheet(
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                enableDrag:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return Padding(
-                                                                    padding: MediaQuery
-                                                                        .viewInsetsOf(
-                                                                            context),
-                                                                    child:
-                                                                        AccionCrearWidget(),
-                                                                  );
-                                                                },
-                                                              ).then((value) =>
-                                                                  safeSetState(
-                                                                      () {}));
-                                                            }),
-                                                            Future(() async {
-                                                              if (FFAppState()
-                                                                      .isNotificationRequested !=
-                                                                  true) {
-                                                                await requestPermission(
-                                                                    notificationsPermission);
-                                                                await Future
-                                                                    .delayed(
-                                                                  Duration(
-                                                                    milliseconds:
-                                                                        3000,
-                                                                  ),
-                                                                );
-                                                                FFAppState()
-                                                                        .isNotificationRequested =
-                                                                    true;
-                                                                safeSetState(
-                                                                    () {});
-                                                              }
-                                                            }),
-                                                          ]);
+                                                          await showModalBottomSheet(
+                                                            isScrollControlled:
+                                                                true,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            enableDrag: false,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return Padding(
+                                                                padding: MediaQuery
+                                                                    .viewInsetsOf(
+                                                                        context),
+                                                                child:
+                                                                    AccionCrearWidget(),
+                                                              );
+                                                            },
+                                                          ).then((value) =>
+                                                              safeSetState(
+                                                                  () {}));
                                                         },
                                                         child: Icon(
                                                           Icons.add,

@@ -1178,6 +1178,9 @@ class _SettWidgetState extends State<SettWidget> {
                       );
                     },
                   ).then((value) => safeSetState(() {}));
+
+                  FFAppState().isNotificationRequested = false;
+                  safeSetState(() {});
                 },
                 text: FFLocalizations.of(context).getText(
                   'pxnwzj3h' /* Cerrar Sesión */,

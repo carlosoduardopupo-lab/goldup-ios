@@ -22,10 +22,10 @@ import '/tarjetas/bank_acount/bank_acount_widget.dart';
 import '/tarjetas/card_bill/card_bill_widget.dart';
 import '/tarjetas/card_bill_copy/card_bill_copy_widget.dart';
 import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
-import '/tarjetas/credit_card/credit_card_widget.dart';
 import '/tarjetas/metascard/metascard_widget.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'home_widget.dart' show HomeWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,6 +76,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   late FlutterFlowDynamicModels<TarjetadenoticiasModel> tarjetadenoticiasModels;
   // Model for CalendarComp component.
   late CalendarCompModel calendarCompModel;
+  // Models for cardBillCopy dynamic component.
+  late FlutterFlowDynamicModels<CardBillCopyModel> cardBillCopyModels;
+  // Models for cardBill dynamic component.
+  late FlutterFlowDynamicModels<CardBillModel> cardBillModels2;
+  // Models for cardBillvencido dynamic component.
+  late FlutterFlowDynamicModels<CardBillvencidoModel> cardBillvencidoModels;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? incomes;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
@@ -92,6 +98,8 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels1;
   // Models for BankAcount dynamic component.
   late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels2;
+  // Models for BankAcount dynamic component.
+  late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels3;
   // Stores action output result for [Cloud Function - startPlaidLinkWebV2] action in Button widget.
   StartPlaidLinkWebV2CloudFunctionCallResponse? plaidStartResult;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
@@ -108,8 +116,13 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     tarjetadenoticiasModels =
         FlutterFlowDynamicModels(() => TarjetadenoticiasModel());
     calendarCompModel = createModel(context, () => CalendarCompModel());
+    cardBillCopyModels = FlutterFlowDynamicModels(() => CardBillCopyModel());
+    cardBillModels2 = FlutterFlowDynamicModels(() => CardBillModel());
+    cardBillvencidoModels =
+        FlutterFlowDynamicModels(() => CardBillvencidoModel());
     bankAcountModels1 = FlutterFlowDynamicModels(() => BankAcountModel());
     bankAcountModels2 = FlutterFlowDynamicModels(() => BankAcountModel());
+    bankAcountModels3 = FlutterFlowDynamicModels(() => BankAcountModel());
     metascardModels = FlutterFlowDynamicModels(() => MetascardModel());
   }
 
@@ -120,8 +133,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     tarjetadeAddsModels.dispose();
     tarjetadenoticiasModels.dispose();
     calendarCompModel.dispose();
+    cardBillCopyModels.dispose();
+    cardBillModels2.dispose();
+    cardBillvencidoModels.dispose();
     bankAcountModels1.dispose();
     bankAcountModels2.dispose();
+    bankAcountModels3.dispose();
     metascardModels.dispose();
   }
 }

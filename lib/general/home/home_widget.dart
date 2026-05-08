@@ -22,10 +22,10 @@ import '/tarjetas/bank_acount/bank_acount_widget.dart';
 import '/tarjetas/card_bill/card_bill_widget.dart';
 import '/tarjetas/card_bill_copy/card_bill_copy_widget.dart';
 import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
-import '/tarjetas/credit_card/credit_card_widget.dart';
 import '/tarjetas/metascard/metascard_widget.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -64,133 +64,149 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (FFAppState().isBiometricEnabled == true) {
-        FFAppState().isBlokedHome = true;
-        safeSetState(() {});
-        final _localAuth = LocalAuthentication();
-        bool _isBiometricSupported = await _localAuth.isDeviceSupported();
+      await Future.wait([
+        Future(() async {
+          if (FFAppState().isBiometricEnabled == true) {
+            FFAppState().isBlokedHome = true;
+            safeSetState(() {});
+            final _localAuth = LocalAuthentication();
+            bool _isBiometricSupported = await _localAuth.isDeviceSupported();
 
-        if (_isBiometricSupported) {
-          try {
-            _model.biometricResult = await _localAuth.authenticate(
-                localizedReason: FFLocalizations.of(context).getText(
-              'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
-            ));
-          } on PlatformException {
-            _model.biometricResult = false;
-          }
-          safeSetState(() {});
-        }
-
-        if (_model.biometricResult == true) {
-          FFAppState().isBlokedHome = false;
-          safeSetState(() {});
-          await Future.wait([
-            Future(() async {
-              _model.selectedDate = functions
-                  .normalizeToCalendarDatedateTime(getCurrentTimestamp);
-              safeSetState(() {});
-              FFAppState().selectedDate = getCurrentTimestamp;
-              safeSetState(() {});
-              setDarkModeSetting(context, ThemeMode.light);
-            }),
-            Future(() async {
-              _model.apiResultthj = await GetUserLocationByIPCall.call();
-
-              if ((_model.apiResultthj?.succeeded ?? true)) {
-                await currentUserReference!.update({
-                  ...createUserRecordData(
-                    country: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
-                      r'''$.country_code2''',
-                    ).toString(),
-                    state: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
-                      r'''$.state_prov''',
-                    ).toString(),
-                    city: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
-                      r'''$.city''',
-                    ).toString(),
-                    zipCode: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
-                      r'''$.zipcode''',
-                    ).toString(),
-                    timeZone: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
-                      r'''$.time_zone.name''',
-                    ).toString(),
-                  ),
-                  ...mapToFirestore(
-                    {
-                      'locationUpdatedAt': FieldValue.serverTimestamp(),
-                    },
-                  ),
-                });
+            if (_isBiometricSupported) {
+              try {
+                _model.biometricResult = await _localAuth.authenticate(
+                    localizedReason: FFLocalizations.of(context).getText(
+                  'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
+                ));
+              } on PlatformException {
+                _model.biometricResult = false;
               }
-            }),
-          ]);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Error de autenticación.',
-                style: TextStyle(
-                  color: FlutterFlowTheme.of(context).primaryText,
-                ),
-              ),
-              duration: Duration(milliseconds: 4000),
-              backgroundColor: FlutterFlowTheme.of(context).secondary,
-            ),
-          );
-        }
-      } else {
-        await Future.wait([
-          Future(() async {
-            _model.selectedDate =
-                functions.normalizeToCalendarDatedateTime(getCurrentTimestamp);
-            safeSetState(() {});
-            FFAppState().selectedDate = getCurrentTimestamp;
-            safeSetState(() {});
-            setDarkModeSetting(context, ThemeMode.light);
-          }),
-          Future(() async {
-            _model.apiResult = await GetUserLocationByIPCall.call();
-
-            if ((_model.apiResult?.succeeded ?? true)) {
-              await currentUserReference!.update({
-                ...createUserRecordData(
-                  country: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.country_code2''',
-                  ).toString(),
-                  state: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.state_prov''',
-                  ).toString(),
-                  city: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.city''',
-                  ).toString(),
-                  zipCode: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.zipcode''',
-                  ).toString(),
-                  timeZone: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.time_zone.name''',
-                  ).toString(),
-                ),
-                ...mapToFirestore(
-                  {
-                    'locationUpdatedAt': FieldValue.serverTimestamp(),
-                  },
-                ),
-              });
+              safeSetState(() {});
             }
-          }),
-        ]);
-      }
+
+            if (_model.biometricResult == true) {
+              FFAppState().isBlokedHome = false;
+              safeSetState(() {});
+              await Future.wait([
+                Future(() async {
+                  _model.selectedDate = functions
+                      .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+                  safeSetState(() {});
+                  FFAppState().selectedDate = getCurrentTimestamp;
+                  safeSetState(() {});
+                  setDarkModeSetting(context, ThemeMode.light);
+                }),
+                Future(() async {
+                  _model.apiResultthj = await GetUserLocationByIPCall.call();
+
+                  if ((_model.apiResultthj?.succeeded ?? true)) {
+                    await currentUserReference!.update({
+                      ...createUserRecordData(
+                        country: getJsonField(
+                          (_model.apiResultthj?.jsonBody ?? ''),
+                          r'''$.country_code2''',
+                        ).toString(),
+                        state: getJsonField(
+                          (_model.apiResultthj?.jsonBody ?? ''),
+                          r'''$.state_prov''',
+                        ).toString(),
+                        city: getJsonField(
+                          (_model.apiResultthj?.jsonBody ?? ''),
+                          r'''$.city''',
+                        ).toString(),
+                        zipCode: getJsonField(
+                          (_model.apiResultthj?.jsonBody ?? ''),
+                          r'''$.zipcode''',
+                        ).toString(),
+                        timeZone: getJsonField(
+                          (_model.apiResultthj?.jsonBody ?? ''),
+                          r'''$.time_zone.name''',
+                        ).toString(),
+                      ),
+                      ...mapToFirestore(
+                        {
+                          'locationUpdatedAt': FieldValue.serverTimestamp(),
+                        },
+                      ),
+                    });
+                  }
+                }),
+              ]);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Error de autenticación.',
+                    style: GoogleFonts.roboto(
+                      color: Color(0xFFECF3F9),
+                    ),
+                  ),
+                  duration: Duration(milliseconds: 4000),
+                  backgroundColor: FlutterFlowTheme.of(context).secondary,
+                ),
+              );
+            }
+          } else {
+            await Future.wait([
+              Future(() async {
+                _model.selectedDate = functions
+                    .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+                safeSetState(() {});
+                FFAppState().selectedDate = getCurrentTimestamp;
+                safeSetState(() {});
+                setDarkModeSetting(context, ThemeMode.light);
+              }),
+              Future(() async {
+                _model.apiResult = await GetUserLocationByIPCall.call();
+
+                if ((_model.apiResult?.succeeded ?? true)) {
+                  await currentUserReference!.update({
+                    ...createUserRecordData(
+                      country: getJsonField(
+                        (_model.apiResult?.jsonBody ?? ''),
+                        r'''$.country_code2''',
+                      ).toString(),
+                      state: getJsonField(
+                        (_model.apiResult?.jsonBody ?? ''),
+                        r'''$.state_prov''',
+                      ).toString(),
+                      city: getJsonField(
+                        (_model.apiResult?.jsonBody ?? ''),
+                        r'''$.city''',
+                      ).toString(),
+                      zipCode: getJsonField(
+                        (_model.apiResult?.jsonBody ?? ''),
+                        r'''$.zipcode''',
+                      ).toString(),
+                      timeZone: getJsonField(
+                        (_model.apiResult?.jsonBody ?? ''),
+                        r'''$.time_zone.name''',
+                      ).toString(),
+                    ),
+                    ...mapToFirestore(
+                      {
+                        'locationUpdatedAt': FieldValue.serverTimestamp(),
+                      },
+                    ),
+                  });
+                }
+              }),
+            ]);
+          }
+        }),
+        Future(() async {
+          if (FFAppState().isNotificationRequested != true) {
+            await requestPermission(notificationsPermission);
+            await Future.delayed(
+              Duration(
+                milliseconds: 3000,
+              ),
+            );
+            FFAppState().isNotificationRequested = true;
+            safeSetState(() {});
+          }
+        }),
+      ]);
     });
 
     _model.tabBarController = TabController(
@@ -376,25 +392,34 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
-                                                    if (FFAppState()
-                                                            .seeAmounts ==
-                                                        false)
-                                                      FlutterFlowIconButton(
-                                                        borderRadius: 8.0,
-                                                        buttonSize: 40.0,
-                                                        icon: FaIcon(
-                                                          FontAwesomeIcons.eye,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          size: 20.0,
+                                                    if ((FFAppState()
+                                                                .seeAmounts ==
+                                                            false) &&
+                                                        (valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isDocumentCreated,
+                                                                false) ==
+                                                            true))
+                                                      AuthUserStreamWidget(
+                                                        builder: (context) =>
+                                                            FlutterFlowIconButton(
+                                                          borderRadius: 8.0,
+                                                          buttonSize: 40.0,
+                                                          icon: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .eye,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 20.0,
+                                                          ),
+                                                          onPressed: () async {
+                                                            FFAppState()
+                                                                    .seeAmounts =
+                                                                true;
+                                                            safeSetState(() {});
+                                                          },
                                                         ),
-                                                        onPressed: () async {
-                                                          FFAppState()
-                                                                  .seeAmounts =
-                                                              true;
-                                                          safeSetState(() {});
-                                                        },
                                                       ),
                                                     if ((FFAppState()
                                                                 .seeAmounts ==
@@ -933,30 +958,17 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 children: [
                                                                                   if (FFAppState().seeAmounts == true)
-                                                                                    StreamBuilder<List<DocumentsRecord>>(
-                                                                                      stream: queryDocumentsRecord(
-                                                                                        queryBuilder: (documentsRecord) => documentsRecord
+                                                                                    StreamBuilder<List<BankAccountsRecord>>(
+                                                                                      stream: queryBankAccountsRecord(
+                                                                                        queryBuilder: (bankAccountsRecord) => bankAccountsRecord
                                                                                             .where(
                                                                                               'userRef',
                                                                                               isEqualTo: currentUserReference,
                                                                                             )
                                                                                             .where(
-                                                                                              'isExpenses',
+                                                                                              'isChequingAccount',
                                                                                               isEqualTo: true,
-                                                                                            )
-                                                                                            .where(
-                                                                                              'isPending',
-                                                                                              isEqualTo: true,
-                                                                                            )
-                                                                                            .where(
-                                                                                              'date',
-                                                                                              isGreaterThanOrEqualTo: functions.monthBoundaries(getCurrentTimestamp).firstOrNull?.toString(),
-                                                                                            )
-                                                                                            .where(
-                                                                                              'date',
-                                                                                              isLessThan: functions.monthBoundaries(getCurrentTimestamp).lastOrNull?.toString(),
-                                                                                            )
-                                                                                            .orderBy('date'),
+                                                                                            ),
                                                                                       ),
                                                                                       builder: (context, snapshot) {
                                                                                         // Customize what your widget looks like when it's loading.
@@ -973,12 +985,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                             ),
                                                                                           );
                                                                                         }
-                                                                                        List<DocumentsRecord> textDocumentsRecordList = snapshot.data!;
+                                                                                        List<BankAccountsRecord> textBankAccountsRecordList = snapshot.data!;
 
                                                                                         return Text(
                                                                                           valueOrDefault<String>(
                                                                                             formatNumber(
-                                                                                              functions.sumexpenses(textDocumentsRecordList.map((e) => e.amount).toList()),
+                                                                                              functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
                                                                                               formatType: FormatType.decimal,
                                                                                               decimalType: DecimalType.automatic,
                                                                                               currency: '\$',
@@ -991,7 +1003,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                                   fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                                 ),
                                                                                                 color: FlutterFlowTheme.of(context).alternate,
-                                                                                                fontSize: 22.0,
+                                                                                                fontSize: 18.0,
                                                                                                 letterSpacing: 0.0,
                                                                                                 fontWeight: FontWeight.w500,
                                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -1063,21 +1075,58 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 children: [
                                                                                   if (FFAppState().seeAmounts == true)
-                                                                                    Text(
-                                                                                      FFLocalizations.of(context).getText(
-                                                                                        'dritbtq3' /* 0 */,
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    StreamBuilder<List<BankAccountsRecord>>(
+                                                                                      stream: queryBankAccountsRecord(
+                                                                                        queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                                            .where(
+                                                                                              'userRef',
+                                                                                              isEqualTo: currentUserReference,
+                                                                                            )
+                                                                                            .where(
+                                                                                              'isSavingAccount',
+                                                                                              isEqualTo: true,
                                                                                             ),
-                                                                                            color: FlutterFlowTheme.of(context).alternate,
-                                                                                            fontSize: 22.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.w500,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      builder: (context, snapshot) {
+                                                                                        // Customize what your widget looks like when it's loading.
+                                                                                        if (!snapshot.hasData) {
+                                                                                          return Center(
+                                                                                            child: SizedBox(
+                                                                                              width: 40.0,
+                                                                                              height: 40.0,
+                                                                                              child: CircularProgressIndicator(
+                                                                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                                  FlutterFlowTheme.of(context).primary,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          );
+                                                                                        }
+                                                                                        List<BankAccountsRecord> textBankAccountsRecordList = snapshot.data!;
+
+                                                                                        return Text(
+                                                                                          valueOrDefault<String>(
+                                                                                            formatNumber(
+                                                                                              functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                              formatType: FormatType.decimal,
+                                                                                              decimalType: DecimalType.automatic,
+                                                                                              currency: '\$',
+                                                                                            ),
+                                                                                            '0',
                                                                                           ),
+                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                font: GoogleFonts.roboto(
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                ),
+                                                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                                                fontSize: 18.0,
+                                                                                                letterSpacing: 0.0,
+                                                                                                fontWeight: FontWeight.w500,
+                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                              ),
+                                                                                        );
+                                                                                      },
                                                                                     ),
                                                                                 ].divide(SizedBox(width: 5.0)),
                                                                               ),
@@ -1142,22 +1191,75 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 mainAxisSize: MainAxisSize.max,
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                                                 children: [
-                                                                                  if (FFAppState().seeAmounts == true)
-                                                                                    Text(
-                                                                                      FFLocalizations.of(context).getText(
-                                                                                        'a0uzjunh' /* 0 */,
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.w500,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                            color: FlutterFlowTheme.of(context).alternate,
-                                                                                            fontSize: 22.0,
-                                                                                            letterSpacing: 0.0,
+                                                                                  Text(
+                                                                                    FFLocalizations.of(context).getText(
+                                                                                      '8nct2kf2' /* - */,
+                                                                                    ),
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          font: GoogleFonts.roboto(
                                                                                             fontWeight: FontWeight.w500,
                                                                                             fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                           ),
+                                                                                          color: FlutterFlowTheme.of(context).alternate,
+                                                                                          fontSize: 20.0,
+                                                                                          letterSpacing: 0.0,
+                                                                                          fontWeight: FontWeight.w500,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                  ),
+                                                                                  if (FFAppState().seeAmounts == true)
+                                                                                    StreamBuilder<List<BankAccountsRecord>>(
+                                                                                      stream: queryBankAccountsRecord(
+                                                                                        queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                                            .where(
+                                                                                              'userRef',
+                                                                                              isEqualTo: currentUserReference,
+                                                                                            )
+                                                                                            .where(
+                                                                                              'isCreditAccount',
+                                                                                              isEqualTo: true,
+                                                                                            ),
+                                                                                      ),
+                                                                                      builder: (context, snapshot) {
+                                                                                        // Customize what your widget looks like when it's loading.
+                                                                                        if (!snapshot.hasData) {
+                                                                                          return Center(
+                                                                                            child: SizedBox(
+                                                                                              width: 40.0,
+                                                                                              height: 40.0,
+                                                                                              child: CircularProgressIndicator(
+                                                                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                                  FlutterFlowTheme.of(context).primary,
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          );
+                                                                                        }
+                                                                                        List<BankAccountsRecord> textBankAccountsRecordList = snapshot.data!;
+
+                                                                                        return Text(
+                                                                                          valueOrDefault<String>(
+                                                                                            formatNumber(
+                                                                                              functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                              formatType: FormatType.decimal,
+                                                                                              decimalType: DecimalType.automatic,
+                                                                                              currency: '\$',
+                                                                                            ),
+                                                                                            '0',
+                                                                                          ),
+                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                font: GoogleFonts.roboto(
+                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                ),
+                                                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                                                fontSize: 18.0,
+                                                                                                letterSpacing: 0.0,
+                                                                                                fontWeight: FontWeight.w500,
+                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                              ),
+                                                                                        );
+                                                                                      },
                                                                                     ),
                                                                                 ].divide(SizedBox(width: 5.0)),
                                                                               ),
@@ -3580,11 +3682,26 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                         () {}));
                                                               },
                                                               child:
-                                                                  CardBillCopyWidget(
-                                                                key: Key(
-                                                                    'Keylco_${columnIndex}_of_${columnDocumentsRecordList.length}'),
-                                                                docDocument:
-                                                                    columnDocumentsRecord,
+                                                                  wrapWithModel(
+                                                                model: _model
+                                                                    .cardBillCopyModels
+                                                                    .getModel(
+                                                                  columnDocumentsRecord
+                                                                      .reference
+                                                                      .id,
+                                                                  columnIndex,
+                                                                ),
+                                                                updateCallback: () =>
+                                                                    safeSetState(
+                                                                        () {}),
+                                                                child:
+                                                                    CardBillCopyWidget(
+                                                                  key: Key(
+                                                                    'Keylco_${columnDocumentsRecord.reference.id}',
+                                                                  ),
+                                                                  docDocument:
+                                                                      columnDocumentsRecord,
+                                                                ),
                                                               ),
                                                             );
                                                           })
@@ -3912,11 +4029,26 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                       () {}));
                                                             },
                                                             child:
-                                                                CardBillWidget(
-                                                              key: Key(
-                                                                  'Key2zj_${columnIndex}_of_${columnDocumentsRecordList.length}'),
-                                                              docDocument:
-                                                                  columnDocumentsRecord,
+                                                                wrapWithModel(
+                                                              model: _model
+                                                                  .cardBillModels2
+                                                                  .getModel(
+                                                                columnDocumentsRecord
+                                                                    .reference
+                                                                    .id,
+                                                                columnIndex,
+                                                              ),
+                                                              updateCallback: () =>
+                                                                  safeSetState(
+                                                                      () {}),
+                                                              child:
+                                                                  CardBillWidget(
+                                                                key: Key(
+                                                                  'Key2zj_${columnDocumentsRecord.reference.id}',
+                                                                ),
+                                                                docDocument:
+                                                                    columnDocumentsRecord,
+                                                              ),
                                                             ),
                                                           );
                                                         })
@@ -4226,11 +4358,26 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                       () {}));
                                                             },
                                                             child:
-                                                                CardBillvencidoWidget(
-                                                              key: Key(
-                                                                  'Keye94_${columnIndex}_of_${columnDocumentsRecordList.length}'),
-                                                              docDocumen:
-                                                                  columnDocumentsRecord,
+                                                                wrapWithModel(
+                                                              model: _model
+                                                                  .cardBillvencidoModels
+                                                                  .getModel(
+                                                                columnDocumentsRecord
+                                                                    .reference
+                                                                    .id,
+                                                                columnIndex,
+                                                              ),
+                                                              updateCallback: () =>
+                                                                  safeSetState(
+                                                                      () {}),
+                                                              child:
+                                                                  CardBillvencidoWidget(
+                                                                key: Key(
+                                                                  'Keye94_${columnDocumentsRecord.reference.id}',
+                                                                ),
+                                                                docDocumen:
+                                                                    columnDocumentsRecord,
+                                                              ),
                                                             ),
                                                           );
                                                         })
@@ -7122,576 +7269,291 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                     true) &&
                                                 (valueOrDefault<bool>(
                                                         currentUserDocument
-                                                            ?.isBasic,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isBasicWhitAnunces,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPilotoTest,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
                                                             ?.isAccountsVinculated,
                                                         false) ==
                                                     true))
                                               AuthUserStreamWidget(
-                                                builder: (context) => Row(
+                                                builder: (context) => Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
                                                   children: [
-                                                    FFButtonWidget(
-                                                      onPressed: () async {
-                                                        FFAppState()
-                                                                .isSaveSelect =
-                                                            false;
-                                                        FFAppState()
-                                                                .isChekSelect =
-                                                            true;
-                                                        FFAppState()
-                                                                .isCreditSelect =
-                                                            false;
-                                                        safeSetState(() {});
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'dxt9kb3c' /* Cheques */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        height: 25.0,
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color: (FFAppState()
-                                                                        .isChekSelect ==
-                                                                    true) &&
-                                                                (FFAppState()
-                                                                        .isSaveSelect ==
-                                                                    false) &&
-                                                                (FFAppState()
-                                                                        .isCreditSelect ==
-                                                                    false)
-                                                            ? Color(0xFF01654D)
-                                                            : FlutterFlowTheme
-                                                                    .of(context)
-                                                                .alternate,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: (FFAppState().isChekSelect == true) &&
-                                                                          (FFAppState().isSaveSelect ==
-                                                                              false) &&
-                                                                          (FFAppState().isCreditSelect ==
-                                                                              false)
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate
-                                                                      : FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                    ),
-                                                    FFButtonWidget(
-                                                      onPressed: () async {
-                                                        FFAppState()
-                                                                .isSaveSelect =
-                                                            true;
-                                                        FFAppState()
-                                                                .isChekSelect =
-                                                            false;
-                                                        FFAppState()
-                                                                .isCreditSelect =
-                                                            false;
-                                                        safeSetState(() {});
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'cxfwph7h' /* Ahorros */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        height: 25.0,
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color: (FFAppState().isChekSelect ==
-                                                                    false) &&
-                                                                (FFAppState()
-                                                                        .isSaveSelect ==
-                                                                    true) &&
-                                                                (FFAppState()
-                                                                        .isCreditSelect ==
-                                                                    false)
-                                                            ? Color(0xFF01654D)
-                                                            : FlutterFlowTheme
-                                                                    .of(context)
-                                                                .alternate,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: (FFAppState().isChekSelect == false) &&
-                                                                          (FFAppState().isSaveSelect ==
-                                                                              true) &&
-                                                                          (FFAppState().isCreditSelect ==
-                                                                              false)
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate
-                                                                      : FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                    ),
-                                                    FFButtonWidget(
-                                                      onPressed: () async {
-                                                        FFAppState()
-                                                                .isSaveSelect =
-                                                            false;
-                                                        FFAppState()
-                                                                .isChekSelect =
-                                                            false;
-                                                        FFAppState()
-                                                                .isCreditSelect =
-                                                            true;
-                                                        safeSetState(() {});
-                                                      },
-                                                      text: FFLocalizations.of(
-                                                              context)
-                                                          .getText(
-                                                        'cdchq82q' /* Créditos */,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        height: 25.0,
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconPadding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color: (FFAppState()
-                                                                        .isChekSelect ==
-                                                                    false) &&
-                                                                (FFAppState()
-                                                                        .isSaveSelect ==
-                                                                    false) &&
-                                                                (FFAppState()
-                                                                        .isCreditSelect ==
-                                                                    true)
-                                                            ? Color(0xFF01654D)
-                                                            : FlutterFlowTheme
-                                                                    .of(context)
-                                                                .alternate,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: (FFAppState().isChekSelect == false) &&
-                                                                          (FFAppState().isSaveSelect ==
-                                                                              false) &&
-                                                                          (FFAppState().isCreditSelect ==
-                                                                              true)
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate
-                                                                      : FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .fontStyle,
-                                                                ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            if ((valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPremium,
-                                                        false) ==
-                                                    true) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isBasic,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isBasicWhitAnunces,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPilotoTest,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isAccountsVinculated,
-                                                        false) ==
-                                                    true))
-                                              AuthUserStreamWidget(
-                                                builder: (context) => Builder(
-                                                  builder: (context) {
-                                                    if ((FFAppState().isChekSelect == true) &&
-                                                        (FFAppState()
-                                                                .isSaveSelect ==
-                                                            false) &&
-                                                        (FFAppState()
-                                                                .isCreditSelect ==
-                                                            false)) {
-                                                      return Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'lj8kxbik' /* Total Acumulado: */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      '5x9jjjmp' /* 1234 */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        FFButtonWidget(
+                                                          onPressed: () async {
+                                                            FFAppState()
+                                                                    .isSaveSelect =
+                                                                false;
+                                                            FFAppState()
+                                                                    .isChekSelect =
+                                                                true;
+                                                            FFAppState()
+                                                                    .isCreditSelect =
+                                                                false;
+                                                            safeSetState(() {});
+                                                          },
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'dxt9kb3c' /* Cheques */,
                                                           ),
-                                                          Padding(
+                                                          options:
+                                                              FFButtonOptions(
+                                                            height: 25.0,
                                                             padding:
                                                                 EdgeInsetsDirectional
                                                                     .fromSTEB(
+                                                                        16.0,
                                                                         0.0,
-                                                                        10.0,
+                                                                        16.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
                                                                         0.0,
                                                                         0.0),
-                                                            child: StreamBuilder<
-                                                                List<
-                                                                    BankAccountsRecord>>(
-                                                              stream:
-                                                                  queryBankAccountsRecord(
-                                                                queryBuilder:
-                                                                    (bankAccountsRecord) =>
-                                                                        bankAccountsRecord
-                                                                            .where(
-                                                                              'userRef',
-                                                                              isEqualTo: currentUserReference,
-                                                                            )
-                                                                            .where(
-                                                                              'isChequingAccount',
-                                                                              isEqualTo: true,
-                                                                            ),
-                                                              ),
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                // Customize what your widget looks like when it's loading.
-                                                                if (!snapshot
-                                                                    .hasData) {
-                                                                  return Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width:
-                                                                          40.0,
-                                                                      height:
-                                                                          40.0,
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
+                                                            color: (FFAppState().isChekSelect == true) &&
+                                                                    (FFAppState()
+                                                                            .isSaveSelect ==
+                                                                        false) &&
+                                                                    (FFAppState()
+                                                                            .isCreditSelect ==
+                                                                        false)
+                                                                ? Color(
+                                                                    0xFF01654D)
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .roboto(
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: (FFAppState().isChekSelect == true) &&
+                                                                              (FFAppState().isSaveSelect ==
+                                                                                  false) &&
+                                                                              (FFAppState().isCreditSelect ==
+                                                                                  false)
+                                                                          ? FlutterFlowTheme.of(context)
+                                                                              .alternate
+                                                                          : FlutterFlowTheme.of(context)
                                                                               .primary,
-                                                                        ),
-                                                                      ),
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
                                                                     ),
-                                                                  );
-                                                                }
-                                                                List<BankAccountsRecord>
-                                                                    listCheqBankAccountsRecordList =
-                                                                    snapshot
-                                                                        .data!;
-
-                                                                return ListView
-                                                                    .separated(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  primary:
-                                                                      false,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis.vertical,
-                                                                  itemCount:
-                                                                      listCheqBankAccountsRecordList
-                                                                          .length,
-                                                                  separatorBuilder: (_,
-                                                                          __) =>
-                                                                      SizedBox(
-                                                                          height:
-                                                                              10.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          listCheqIndex) {
-                                                                    final listCheqBankAccountsRecord =
-                                                                        listCheqBankAccountsRecordList[
-                                                                            listCheqIndex];
-                                                                    return InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          OperationsWidget
-                                                                              .routeName,
-                                                                          queryParameters:
-                                                                              {
-                                                                            'plaidAccountId':
-                                                                                serializeParam(
-                                                                              listCheqBankAccountsRecord.plaidAccountId,
-                                                                              ParamType.String,
-                                                                            ),
-                                                                            'acountDocument':
-                                                                                serializeParam(
-                                                                              listCheqBankAccountsRecord,
-                                                                              ParamType.Document,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                          extra: <String,
-                                                                              dynamic>{
-                                                                            'acountDocument':
-                                                                                listCheqBankAccountsRecord,
-                                                                          },
-                                                                        );
-                                                                      },
-                                                                      child:
-                                                                          wrapWithModel(
-                                                                        model: _model
-                                                                            .bankAcountModels1
-                                                                            .getModel(
-                                                                          listCheqBankAccountsRecord
-                                                                              .reference
-                                                                              .id,
-                                                                          listCheqIndex,
-                                                                        ),
-                                                                        updateCallback:
-                                                                            () =>
-                                                                                safeSetState(() {}),
-                                                                        child:
-                                                                            BankAcountWidget(
-                                                                          key:
-                                                                              Key(
-                                                                            'Keyj2b_${listCheqBankAccountsRecord.reference.id}',
-                                                                          ),
-                                                                          bankAcountDocument:
-                                                                              listCheqBankAccountsRecord,
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                );
-                                                              },
-                                                            ),
+                                                            elevation: 0.0,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
                                                           ),
-                                                        ].divide(SizedBox(
-                                                            height: 10.0)),
-                                                      );
-                                                    } else if ((FFAppState()
-                                                                .isChekSelect ==
-                                                            false) &&
-                                                        (FFAppState()
-                                                                .isSaveSelect ==
-                                                            true) &&
-                                                        (FFAppState()
-                                                                .isCreditSelect ==
-                                                            false)) {
-                                                      return Column(
+                                                        ),
+                                                        FFButtonWidget(
+                                                          onPressed: () async {
+                                                            FFAppState()
+                                                                    .isSaveSelect =
+                                                                true;
+                                                            FFAppState()
+                                                                    .isChekSelect =
+                                                                false;
+                                                            FFAppState()
+                                                                    .isCreditSelect =
+                                                                false;
+                                                            safeSetState(() {});
+                                                          },
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'cxfwph7h' /* Ahorros */,
+                                                          ),
+                                                          options:
+                                                              FFButtonOptions(
+                                                            height: 25.0,
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        0.0,
+                                                                        16.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            color: (FFAppState().isChekSelect == false) &&
+                                                                    (FFAppState()
+                                                                            .isSaveSelect ==
+                                                                        true) &&
+                                                                    (FFAppState()
+                                                                            .isCreditSelect ==
+                                                                        false)
+                                                                ? Color(
+                                                                    0xFF01654D)
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .roboto(
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: (FFAppState().isChekSelect == false) &&
+                                                                              (FFAppState().isSaveSelect ==
+                                                                                  true) &&
+                                                                              (FFAppState().isCreditSelect ==
+                                                                                  false)
+                                                                          ? FlutterFlowTheme.of(context)
+                                                                              .alternate
+                                                                          : FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                            elevation: 0.0,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                          ),
+                                                        ),
+                                                        FFButtonWidget(
+                                                          onPressed: () async {
+                                                            FFAppState()
+                                                                    .isSaveSelect =
+                                                                false;
+                                                            FFAppState()
+                                                                    .isChekSelect =
+                                                                false;
+                                                            FFAppState()
+                                                                    .isCreditSelect =
+                                                                true;
+                                                            safeSetState(() {});
+                                                          },
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'cdchq82q' /* Créditos */,
+                                                          ),
+                                                          options:
+                                                              FFButtonOptions(
+                                                            height: 25.0,
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        0.0,
+                                                                        16.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            color: (FFAppState().isChekSelect == false) &&
+                                                                    (FFAppState()
+                                                                            .isSaveSelect ==
+                                                                        false) &&
+                                                                    (FFAppState()
+                                                                            .isCreditSelect ==
+                                                                        true)
+                                                                ? Color(
+                                                                    0xFF01654D)
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .roboto(
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: (FFAppState().isChekSelect == false) &&
+                                                                              (FFAppState().isSaveSelect ==
+                                                                                  false) &&
+                                                                              (FFAppState().isCreditSelect ==
+                                                                                  true)
+                                                                          ? FlutterFlowTheme.of(context)
+                                                                              .alternate
+                                                                          : FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                            elevation: 0.0,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    if (FFAppState()
+                                                            .isSaveSelect ==
+                                                        true)
+                                                      Column(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
@@ -7734,36 +7596,93 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           .fontStyle,
                                                                     ),
                                                               ),
-                                                              Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'gr1vmvo1' /* 1234 */,
+                                                              StreamBuilder<
+                                                                  List<
+                                                                      BankAccountsRecord>>(
+                                                                stream:
+                                                                    queryBankAccountsRecord(
+                                                                  queryBuilder: (bankAccountsRecord) =>
+                                                                      bankAccountsRecord
+                                                                          .where(
+                                                                            'userRef',
+                                                                            isEqualTo:
+                                                                                currentUserReference,
+                                                                          )
+                                                                          .where(
+                                                                            'isSavingAccount',
+                                                                            isEqualTo:
+                                                                                true,
+                                                                          ),
                                                                 ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .roboto(
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  // Customize what your widget looks like when it's loading.
+                                                                  if (!snapshot
+                                                                      .hasData) {
+                                                                    return Center(
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            40.0,
+                                                                        height:
+                                                                            40.0,
+                                                                        child:
+                                                                            CircularProgressIndicator(
+                                                                          valueColor:
+                                                                              AlwaysStoppedAnimation<Color>(
+                                                                            FlutterFlowTheme.of(context).primary,
+                                                                          ),
+                                                                        ),
                                                                       ),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
+                                                                    );
+                                                                  }
+                                                                  List<BankAccountsRecord>
+                                                                      textBankAccountsRecordList =
+                                                                      snapshot
+                                                                          .data!;
+
+                                                                  return Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      formatNumber(
+                                                                        functions.sumincomes(textBankAccountsRecordList
+                                                                            .map((e) =>
+                                                                                e.currentBalance)
+                                                                            .toList()),
+                                                                        formatType:
+                                                                            FormatType.decimal,
+                                                                        decimalType:
+                                                                            DecimalType.automatic,
+                                                                        currency:
+                                                                            '\$',
+                                                                      ),
+                                                                      '0',
                                                                     ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.roboto(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                          fontSize:
+                                                                              18.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  );
+                                                                },
                                                               ),
                                                             ],
                                                           ),
@@ -7820,104 +7739,53 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     snapshot
                                                                         .data!;
 
-                                                                return ListView
-                                                                    .separated(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  primary:
-                                                                      false,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis.vertical,
-                                                                  itemCount:
+                                                                return Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: List.generate(
                                                                       listSaveBankAccountsRecordList
                                                                           .length,
-                                                                  separatorBuilder: (_,
-                                                                          __) =>
-                                                                      SizedBox(
-                                                                          height:
-                                                                              10.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          listSaveIndex) {
+                                                                      (listSaveIndex) {
                                                                     final listSaveBankAccountsRecord =
                                                                         listSaveBankAccountsRecordList[
                                                                             listSaveIndex];
-                                                                    return InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          OperationsWidget
-                                                                              .routeName,
-                                                                          queryParameters:
-                                                                              {
-                                                                            'plaidAccountId':
-                                                                                serializeParam(
-                                                                              listSaveBankAccountsRecord.plaidAccountId,
-                                                                              ParamType.String,
-                                                                            ),
-                                                                            'acountDocument':
-                                                                                serializeParam(
-                                                                              listSaveBankAccountsRecord,
-                                                                              ParamType.Document,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                          extra: <String,
-                                                                              dynamic>{
-                                                                            'acountDocument':
-                                                                                listSaveBankAccountsRecord,
-                                                                          },
-                                                                        );
-                                                                      },
+                                                                    return wrapWithModel(
+                                                                      model: _model
+                                                                          .bankAcountModels1
+                                                                          .getModel(
+                                                                        listSaveBankAccountsRecord
+                                                                            .reference
+                                                                            .id,
+                                                                        listSaveIndex,
+                                                                      ),
+                                                                      updateCallback:
+                                                                          () =>
+                                                                              safeSetState(() {}),
                                                                       child:
-                                                                          wrapWithModel(
-                                                                        model: _model
-                                                                            .bankAcountModels2
-                                                                            .getModel(
-                                                                          listSaveBankAccountsRecord
-                                                                              .reference
-                                                                              .id,
-                                                                          listSaveIndex,
+                                                                          BankAcountWidget(
+                                                                        key:
+                                                                            Key(
+                                                                          'Keyoo8_${listSaveBankAccountsRecord.reference.id}',
                                                                         ),
-                                                                        updateCallback:
-                                                                            () =>
-                                                                                safeSetState(() {}),
-                                                                        child:
-                                                                            BankAcountWidget(
-                                                                          key:
-                                                                              Key(
-                                                                            'Key1to_${listSaveBankAccountsRecord.reference.id}',
-                                                                          ),
-                                                                          bankAcountDocument:
-                                                                              listSaveBankAccountsRecord,
-                                                                        ),
+                                                                        bankAcountDocument:
+                                                                            listSaveBankAccountsRecord,
                                                                       ),
                                                                     );
-                                                                  },
+                                                                  }).divide(SizedBox(
+                                                                      height:
+                                                                          10.0)),
                                                                 );
                                                               },
                                                             ),
                                                           ),
                                                         ].divide(SizedBox(
                                                             height: 10.0)),
-                                                      );
-                                                    } else {
-                                                      return Column(
+                                                      ),
+                                                    if (FFAppState()
+                                                            .isCreditSelect ==
+                                                        true)
+                                                      Column(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
@@ -7926,134 +7794,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                 MainAxisSize
                                                                     .max,
                                                             children: [
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'p8948fts' /* Total Aprovado: */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      '43kx251v' /* 1234 */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'mdw79wk6' /* Total Recomendado Utilizar: */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'n580j6ib' /* 1234 */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
                                                               Row(
                                                                 mainAxisSize:
                                                                     MainAxisSize
@@ -8089,96 +7829,79 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                               .fontStyle,
                                                                         ),
                                                                   ),
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'jj7q4atz' /* 1234 */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                  StreamBuilder<
+                                                                      List<
+                                                                          BankAccountsRecord>>(
+                                                                    stream:
+                                                                        queryBankAccountsRecord(
+                                                                      queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                          .where(
+                                                                            'userRef',
+                                                                            isEqualTo:
+                                                                                currentUserReference,
+                                                                          )
+                                                                          .where(
+                                                                            'isCreditAccount',
+                                                                            isEqualTo:
+                                                                                true,
                                                                           ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'k8dzkkie' /* Total Disponible: */,
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                    builder:
+                                                                        (context,
+                                                                            snapshot) {
+                                                                      // Customize what your widget looks like when it's loading.
+                                                                      if (!snapshot
+                                                                          .hasData) {
+                                                                        return Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                40.0,
+                                                                            height:
+                                                                                40.0,
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            ),
                                                                           ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'k02h958a' /* 1234 */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                        );
+                                                                      }
+                                                                      List<BankAccountsRecord>
+                                                                          textBankAccountsRecordList =
+                                                                          snapshot
+                                                                              .data!;
+
+                                                                      return Text(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          formatNumber(
+                                                                            functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                            formatType:
+                                                                                FormatType.decimal,
+                                                                            decimalType:
+                                                                                DecimalType.automatic,
+                                                                            currency:
+                                                                                '\$',
                                                                           ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
+                                                                          '0',
                                                                         ),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              font: GoogleFonts.roboto(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              fontSize: 18.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                      );
+                                                                    },
                                                                   ),
                                                                 ],
                                                               ),
@@ -8237,47 +7960,272 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     snapshot
                                                                         .data!;
 
-                                                                return ListView
-                                                                    .separated(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  primary:
-                                                                      false,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis.vertical,
-                                                                  itemCount:
+                                                                return Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: List.generate(
                                                                       listcreditBankAccountsRecordList
                                                                           .length,
-                                                                  separatorBuilder: (_,
-                                                                          __) =>
-                                                                      SizedBox(
-                                                                          height:
-                                                                              10.0),
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          listcreditIndex) {
+                                                                      (listcreditIndex) {
                                                                     final listcreditBankAccountsRecord =
                                                                         listcreditBankAccountsRecordList[
                                                                             listcreditIndex];
-                                                                    return CreditCardWidget(
-                                                                      key: Key(
-                                                                          'Key0my_${listcreditIndex}_of_${listcreditBankAccountsRecordList.length}'),
-                                                                      bankAcountDocument:
-                                                                          listcreditBankAccountsRecord,
+                                                                    return wrapWithModel(
+                                                                      model: _model
+                                                                          .bankAcountModels2
+                                                                          .getModel(
+                                                                        listcreditBankAccountsRecord
+                                                                            .reference
+                                                                            .id,
+                                                                        listcreditIndex,
+                                                                      ),
+                                                                      updateCallback:
+                                                                          () =>
+                                                                              safeSetState(() {}),
+                                                                      child:
+                                                                          BankAcountWidget(
+                                                                        key:
+                                                                            Key(
+                                                                          'Keyqx6_${listcreditBankAccountsRecord.reference.id}',
+                                                                        ),
+                                                                        bankAcountDocument:
+                                                                            listcreditBankAccountsRecord,
+                                                                      ),
                                                                     );
-                                                                  },
+                                                                  }).divide(SizedBox(
+                                                                      height:
+                                                                          10.0)),
                                                                 );
                                                               },
                                                             ),
                                                           ),
                                                         ].divide(SizedBox(
                                                             height: 10.0)),
-                                                      );
-                                                    }
-                                                  },
+                                                      ),
+                                                    if (FFAppState()
+                                                            .isChekSelect ==
+                                                        true)
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(
+                                                                    FFLocalizations.of(
+                                                                            context)
+                                                                        .getText(
+                                                                      'lj8kxbik' /* Total Acumulado: */,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.roboto(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  ),
+                                                                  StreamBuilder<
+                                                                      List<
+                                                                          BankAccountsRecord>>(
+                                                                    stream:
+                                                                        queryBankAccountsRecord(
+                                                                      queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                          .where(
+                                                                            'userRef',
+                                                                            isEqualTo:
+                                                                                currentUserReference,
+                                                                          )
+                                                                          .where(
+                                                                            'isChequingAccount',
+                                                                            isEqualTo:
+                                                                                true,
+                                                                          ),
+                                                                    ),
+                                                                    builder:
+                                                                        (context,
+                                                                            snapshot) {
+                                                                      // Customize what your widget looks like when it's loading.
+                                                                      if (!snapshot
+                                                                          .hasData) {
+                                                                        return Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                40.0,
+                                                                            height:
+                                                                                40.0,
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      List<BankAccountsRecord>
+                                                                          textBankAccountsRecordList =
+                                                                          snapshot
+                                                                              .data!;
+
+                                                                      return Text(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          formatNumber(
+                                                                            functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                            formatType:
+                                                                                FormatType.decimal,
+                                                                            decimalType:
+                                                                                DecimalType.automatic,
+                                                                            currency:
+                                                                                '\$',
+                                                                          ),
+                                                                          '0',
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              font: GoogleFonts.roboto(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              fontSize: 18.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        10.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: StreamBuilder<
+                                                                List<
+                                                                    BankAccountsRecord>>(
+                                                              stream:
+                                                                  queryBankAccountsRecord(
+                                                                queryBuilder:
+                                                                    (bankAccountsRecord) =>
+                                                                        bankAccountsRecord
+                                                                            .where(
+                                                                              'userRef',
+                                                                              isEqualTo: currentUserReference,
+                                                                            )
+                                                                            .where(
+                                                                              'isChequingAccount',
+                                                                              isEqualTo: true,
+                                                                            ),
+                                                              ),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                // Customize what your widget looks like when it's loading.
+                                                                if (!snapshot
+                                                                    .hasData) {
+                                                                  return Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                      width:
+                                                                          40.0,
+                                                                      height:
+                                                                          40.0,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        valueColor:
+                                                                            AlwaysStoppedAnimation<Color>(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                                List<BankAccountsRecord>
+                                                                    listCheqBankAccountsRecordList =
+                                                                    snapshot
+                                                                        .data!;
+
+                                                                return Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: List.generate(
+                                                                      listCheqBankAccountsRecordList
+                                                                          .length,
+                                                                      (listCheqIndex) {
+                                                                    final listCheqBankAccountsRecord =
+                                                                        listCheqBankAccountsRecordList[
+                                                                            listCheqIndex];
+                                                                    return wrapWithModel(
+                                                                      model: _model
+                                                                          .bankAcountModels3
+                                                                          .getModel(
+                                                                        listCheqBankAccountsRecord
+                                                                            .reference
+                                                                            .id,
+                                                                        listCheqIndex,
+                                                                      ),
+                                                                      updateCallback:
+                                                                          () =>
+                                                                              safeSetState(() {}),
+                                                                      child:
+                                                                          BankAcountWidget(
+                                                                        key:
+                                                                            Key(
+                                                                          'Key75e_${listCheqBankAccountsRecord.reference.id}',
+                                                                        ),
+                                                                        bankAcountDocument:
+                                                                            listCheqBankAccountsRecord,
+                                                                      ),
+                                                                    );
+                                                                  }).divide(SizedBox(
+                                                                      height:
+                                                                          10.0)),
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ].divide(SizedBox(
+                                                            height: 10.0)),
+                                                      ),
+                                                  ].divide(
+                                                      SizedBox(height: 20.0)),
                                                 ),
                                               ),
                                             if ((valueOrDefault<bool>(

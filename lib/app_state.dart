@@ -73,7 +73,7 @@ class FFAppState extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  bool _isDarkMode = true;
+  bool _isDarkMode = false;
   bool get isDarkMode => _isDarkMode;
   set isDarkMode(bool value) {
     _isDarkMode = value;
@@ -179,7 +179,7 @@ class FFAppState extends ChangeNotifier {
     prefs.setBool('ff_isSaveSelect', value);
   }
 
-  bool _isChekSelect = false;
+  bool _isChekSelect = true;
   bool get isChekSelect => _isChekSelect;
   set isChekSelect(bool value) {
     _isChekSelect = value;

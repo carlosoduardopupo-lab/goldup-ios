@@ -171,10 +171,18 @@ class _BankAccountsWidgetState extends State<BankAccountsWidget> {
                             },
                           ).then((value) => safeSetState(() {}));
                         },
-                        child: BankAcountWidget(
-                          key: Key(
-                              'Keyd10_${listViewIndex}_of_${listViewBankAccountsRecordList.length}'),
-                          bankAcountDocument: listViewBankAccountsRecord,
+                        child: wrapWithModel(
+                          model: _model.bankAcountModels.getModel(
+                            listViewBankAccountsRecord.reference.id,
+                            listViewIndex,
+                          ),
+                          updateCallback: () => safeSetState(() {}),
+                          child: BankAcountWidget(
+                            key: Key(
+                              'Keyd10_${listViewBankAccountsRecord.reference.id}',
+                            ),
+                            bankAcountDocument: listViewBankAccountsRecord,
+                          ),
                         ),
                       );
                     },

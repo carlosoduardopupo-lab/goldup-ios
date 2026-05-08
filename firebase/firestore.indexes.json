@@ -13,28 +13,6 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "isPending",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "date",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "documents",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "userRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isExpenses",
-          "order": "ASCENDING"
-        },
-        {
           "fieldPath": "date",
           "order": "ASCENDING"
         }

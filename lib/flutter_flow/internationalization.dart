@@ -183,16 +183,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Ahorros',
       'en': '',
     },
-    'dritbtq3': {
-      'es': '0',
-      'en': '',
-    },
     '32wtmtqt': {
       'es': 'Créditos',
       'en': '',
     },
-    'a0uzjunh': {
-      'es': '0',
+    '8nct2kf2': {
+      'es': '-',
       'en': '',
     },
     '069ew9s9': {
@@ -432,52 +428,16 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Créditos',
       'en': '',
     },
-    'lj8kxbik': {
-      'es': 'Total Acumulado:',
-      'en': '',
-    },
-    '5x9jjjmp': {
-      'es': '1234',
-      'en': '',
-    },
     'guxo3dh0': {
       'es': 'Total Ahorrado:',
-      'en': '',
-    },
-    'gr1vmvo1': {
-      'es': '1234',
-      'en': '',
-    },
-    'p8948fts': {
-      'es': 'Total Aprovado:',
-      'en': '',
-    },
-    '43kx251v': {
-      'es': '1234',
-      'en': '',
-    },
-    'mdw79wk6': {
-      'es': 'Total Recomendado Utilizar:',
-      'en': '',
-    },
-    'n580j6ib': {
-      'es': '1234',
       'en': '',
     },
     'cc7ff5vb': {
       'es': 'Total Utilizado:',
       'en': '',
     },
-    'jj7q4atz': {
-      'es': '1234',
-      'en': '',
-    },
-    'k8dzkkie': {
-      'es': 'Total Disponible:',
-      'en': '',
-    },
-    'k02h958a': {
-      'es': '1234',
+    'lj8kxbik': {
+      'es': 'Total Acumulado:',
       'en': '',
     },
     'n0hd9vvq': {
@@ -1331,27 +1291,27 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // ajustes
   {
-    'xssurswd': {
+    'rzj8w5zb': {
       'es': 'Este evento se repite ',
       'en': '',
     },
-    'uo3kvaw3': {
+    '5htws18q': {
       'es': 'Categoría',
       'en': '',
     },
-    'lzeprzv8': {
+    'q11x5wpe': {
       'es': 'Información del Comercio',
       'en': '',
     },
-    'w0yjedb0': {
+    'hgqd25cj': {
       'es': 'Nombre: ',
       'en': '',
     },
-    'fxl8yuxd': {
+    'urv07qc8': {
       'es': 'ID: ',
       'en': '',
     },
-    '7a07152x': {
+    'y3m7hivo': {
       'es': 'Sitio Web: ',
       'en': '',
     },

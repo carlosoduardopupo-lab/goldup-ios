@@ -224,7 +224,7 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                         await currentLoop1Item.reference.delete();
                       }
                       await currentUserReference!.delete();
-                      FFAppState().isDarkMode = true;
+                      FFAppState().isDarkMode = false;
                       FFAppState().sumExpenses = 0.0;
                       FFAppState().sumIncomes = 0.0;
                       FFAppState().save = 0.0;

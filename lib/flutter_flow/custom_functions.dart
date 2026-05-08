@@ -695,3 +695,20 @@ DateTime stringToDateTime(String? date) {
     int.parse(parts[2]),
   );
 }
+
+String base64ToImageUrl(String? base64String) {
+  if (base64String == null || base64String.isEmpty) {
+    return '';
+  }
+
+// Si ya viene como data URL, lo devuelve igual
+  if (base64String.startsWith('data:image')) {
+    return base64String;
+  }
+
+// Limpia posibles espacios o saltos de línea
+  final cleaned = base64String.replaceAll('\n', '').replaceAll('\r', '');
+
+// Devuelve como data URL lista para Image Path
+  return 'data:image/png;base64,$cleaned';
+}

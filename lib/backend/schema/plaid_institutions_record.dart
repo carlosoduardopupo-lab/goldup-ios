@@ -26,9 +26,15 @@ class PlaidInstitutionsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
+  // "primaryColor" field.
+  String? _primaryColor;
+  String get primaryColor => _primaryColor ?? '';
+  bool hasPrimaryColor() => _primaryColor != null;
+
   void _initializeFields() {
     _institutionId = snapshotData['institutionId'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
+    _primaryColor = snapshotData['primaryColor'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -69,11 +75,13 @@ class PlaidInstitutionsRecord extends FirestoreRecord {
 Map<String, dynamic> createPlaidInstitutionsRecordData({
   String? institutionId,
   DocumentReference? userRef,
+  String? primaryColor,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'institutionId': institutionId,
       'userRef': userRef,
+      'primaryColor': primaryColor,
     }.withoutNulls,
   );
 
@@ -86,12 +94,14 @@ class PlaidInstitutionsRecordDocumentEquality
 
   @override
   bool equals(PlaidInstitutionsRecord? e1, PlaidInstitutionsRecord? e2) {
-    return e1?.institutionId == e2?.institutionId && e1?.userRef == e2?.userRef;
+    return e1?.institutionId == e2?.institutionId &&
+        e1?.userRef == e2?.userRef &&
+        e1?.primaryColor == e2?.primaryColor;
   }
 
   @override
-  int hash(PlaidInstitutionsRecord? e) =>
-      const ListEquality().hash([e?.institutionId, e?.userRef]);
+  int hash(PlaidInstitutionsRecord? e) => const ListEquality()
+      .hash([e?.institutionId, e?.userRef, e?.primaryColor]);
 
   @override
   bool isValidKey(Object? o) => o is PlaidInstitutionsRecord;

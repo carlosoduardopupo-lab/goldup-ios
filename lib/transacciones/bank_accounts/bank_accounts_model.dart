@@ -12,9 +12,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class BankAccountsModel extends FlutterFlowModel<BankAccountsWidget> {
-  @override
-  void initState(BuildContext context) {}
+  ///  State fields for stateful widgets in this component.
+
+  // Models for BankAcount dynamic component.
+  late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels;
 
   @override
-  void dispose() {}
+  void initState(BuildContext context) {
+    bankAcountModels = FlutterFlowDynamicModels(() => BankAcountModel());
+  }
+
+  @override
+  void dispose() {
+    bankAcountModels.dispose();
+  }
 }

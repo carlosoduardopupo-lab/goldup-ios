@@ -1091,13 +1091,11 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                       }),
                                                                       Future(
                                                                           () async {
-                                                                        await requestPermission(
-                                                                            notificationsPermission);
                                                                         FFAppState().isCalendarSet =
                                                                             true;
-                                                                        FFAppState().isNotificationRequested =
-                                                                            true;
                                                                         FFAppState().seeAmounts =
+                                                                            true;
+                                                                        FFAppState().isChekSelect =
                                                                             true;
                                                                         safeSetState(
                                                                             () {});
@@ -1642,6 +1640,12 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                             return;
                                                           }
 
+                                                          await Future.delayed(
+                                                            Duration(
+                                                              milliseconds:
+                                                                  3000,
+                                                            ),
+                                                          );
                                                           await requestPermission(
                                                               notificationsPermission);
                                                           FFAppState()
@@ -1653,9 +1657,12 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                           FFAppState()
                                                                   .seeAmounts =
                                                               true;
+                                                          FFAppState()
+                                                                  .isChekSelect =
+                                                              true;
                                                           safeSetState(() {});
 
-                                                          context.pushNamedAuth(
+                                                          context.goNamedAuth(
                                                               HomeWidget
                                                                   .routeName,
                                                               context.mounted);

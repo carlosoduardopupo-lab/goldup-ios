@@ -891,7 +891,7 @@ class _SettWidgetState extends State<SettWidget> {
                             onTap: () async {
                               await launchUrl(Uri(
                                 scheme: 'mailto',
-                                path: 'goldupgroupllc@gmail.com',
+                                path: 'support@goldupgroup.com',
                               ));
                             },
                             child: Container(

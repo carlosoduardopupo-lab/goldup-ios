@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import '/custom_code/actions/index.dart';
+import '/flutter_flow/custom_functions.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,10 +26,51 @@ Future<bool> saveFcmTokenToFirestore() async {
       return false;
     }
 
-    final token = await FirebaseMessaging.instance.getToken();
+    final settings = await FirebaseMessaging.instance.getNotificationSettings();
+
+    if (settings.authorizationStatus != AuthorizationStatus.authorized &&
+        settings.authorizationStatus != AuthorizationStatus.provisional) {
+      print('[FCM] ❌ Notification permission not granted');
+      return false;
+    }
+
+    if (Platform.isIOS) {
+      String? apnsToken;
+
+      for (int i = 0; i < 10; i++) {
+        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+
+        if (apnsToken != null && apnsToken.isNotEmpty) {
+          print('[FCM] ✅ APNs token ready');
+          break;
+        }
+
+        print('[FCM] ⏳ Waiting for APNs token... attempt ${i + 1}');
+        await Future.delayed(const Duration(seconds: 1));
+      }
+
+      if (apnsToken == null || apnsToken.isEmpty) {
+        print('[FCM] ❌ APNs token is null or empty');
+        return false;
+      }
+    }
+
+    String? token;
+
+    for (int i = 0; i < 10; i++) {
+      token = await FirebaseMessaging.instance.getToken();
+
+      if (token != null && token.isNotEmpty) {
+        print('[FCM] ✅ FCM token ready');
+        break;
+      }
+
+      print('[FCM] ⏳ Waiting for FCM token... attempt ${i + 1}');
+      await Future.delayed(const Duration(seconds: 1));
+    }
 
     if (token == null || token.isEmpty) {
-      print('[FCM] ❌ Token is null or empty');
+      print('[FCM] ❌ FCM token is null or empty');
       return false;
     }
 

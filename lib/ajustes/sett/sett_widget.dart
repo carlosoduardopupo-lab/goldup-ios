@@ -57,6 +57,7 @@ class _SettWidgetState extends State<SettWidget> {
     return Scaffold(
       key: scaffoldKey,
       body: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,

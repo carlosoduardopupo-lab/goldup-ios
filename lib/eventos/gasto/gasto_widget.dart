@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/permissions_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -1015,12 +1014,52 @@ class _GastoWidgetState extends State<GastoWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    await Future.wait([
-                      Future(() async {
-                        var documentsRecordReference1 =
-                            DocumentsRecord.collection.doc();
-                        await documentsRecordReference1
-                            .set(createDocumentsRecordData(
+                    var documentsRecordReference1 =
+                        DocumentsRecord.collection.doc();
+                    await documentsRecordReference1
+                        .set(createDocumentsRecordData(
+                      type: _model.type,
+                      description: _model.description,
+                      date: functions.normalizeToCalendarDatedateTime(
+                          FFAppState().selectedDate!),
+                      amount: _model.amount,
+                      isRecurrent: _model.isRecurrent,
+                      frequency: _model.frequency,
+                      userRef: currentUserReference,
+                      frequencyCode: () {
+                        if (_model.frequency == 'Diario') {
+                          return 1;
+                        } else if (_model.frequency == 'Semanal') {
+                          return 7;
+                        } else if (_model.frequency == 'Quincenal') {
+                          return 14;
+                        } else if (_model.frequency == 'Mensual') {
+                          return 1001;
+                        } else if (_model.frequency == 'Trimestral') {
+                          return 1003;
+                        } else if (_model.frequency == 'Anual') {
+                          return 1012;
+                        } else {
+                          return 0;
+                        }
+                      }(),
+                      notificationAt: _model.notificationAt,
+                      isExpenses: true,
+                      isIncome: false,
+                      isSave: false,
+                      isEvent: false,
+                      source: 'manual',
+                      isGoal: false,
+                      isNotificationScheduledSent: false,
+                      isNotificationTodaySent: false,
+                      isInternalTransfer: false,
+                      createdAt: getCurrentTimestamp,
+                      occurrenceKey: functions.dateToOccurrenceKey(
+                          functions.normalizeToCalendarDatedateTime(
+                              FFAppState().selectedDate!)),
+                    ));
+                    _model.action1 = DocumentsRecord.getDocumentFromData(
+                        createDocumentsRecordData(
                           type: _model.type,
                           description: _model.description,
                           date: functions.normalizeToCalendarDatedateTime(
@@ -1060,163 +1099,104 @@ class _GastoWidgetState extends State<GastoWidget> {
                           occurrenceKey: functions.dateToOccurrenceKey(
                               functions.normalizeToCalendarDatedateTime(
                                   FFAppState().selectedDate!)),
-                        ));
-                        _model.action1 = DocumentsRecord.getDocumentFromData(
-                            createDocumentsRecordData(
-                              type: _model.type,
-                              description: _model.description,
-                              date: functions.normalizeToCalendarDatedateTime(
-                                  FFAppState().selectedDate!),
-                              amount: _model.amount,
-                              isRecurrent: _model.isRecurrent,
-                              frequency: _model.frequency,
-                              userRef: currentUserReference,
-                              frequencyCode: () {
-                                if (_model.frequency == 'Diario') {
-                                  return 1;
-                                } else if (_model.frequency == 'Semanal') {
-                                  return 7;
-                                } else if (_model.frequency == 'Quincenal') {
-                                  return 14;
-                                } else if (_model.frequency == 'Mensual') {
-                                  return 1001;
-                                } else if (_model.frequency == 'Trimestral') {
-                                  return 1003;
-                                } else if (_model.frequency == 'Anual') {
-                                  return 1012;
-                                } else {
-                                  return 0;
-                                }
-                              }(),
-                              notificationAt: _model.notificationAt,
-                              isExpenses: true,
-                              isIncome: false,
-                              isSave: false,
-                              isEvent: false,
-                              source: 'manual',
-                              isGoal: false,
-                              isNotificationScheduledSent: false,
-                              isNotificationTodaySent: false,
-                              isInternalTransfer: false,
-                              createdAt: getCurrentTimestamp,
-                              occurrenceKey: functions.dateToOccurrenceKey(
+                        ),
+                        documentsRecordReference1);
+
+                    await _model.action1!.reference
+                        .update(createDocumentsRecordData(
+                      isPending: _model.action1!.occurrenceKey <=
+                              functions.dateToOccurrenceKey(
                                   functions.normalizeToCalendarDatedateTime(
-                                      FFAppState().selectedDate!)),
-                            ),
-                            documentsRecordReference1);
+                                      getCurrentTimestamp))
+                          ? false
+                          : true,
+                      recurrenceId: _model.action1?.reference.id,
+                    ));
+                    if (_model.action1?.isRecurrent == true) {
+                      for (int loop1Index = 0;
+                          loop1Index <
+                              functions
+                                  .generateRecurrenceDatesByCode(
+                                      _model.action1!.date,
+                                      _model.action1!.frequencyCode,
+                                      false)
+                                  .length;
+                          loop1Index++) {
+                        final currentLoop1Item =
+                            functions.generateRecurrenceDatesByCode(
+                                _model.action1!.date,
+                                _model.action1!.frequencyCode,
+                                false)[loop1Index];
 
-                        await _model.action1!.reference
-                            .update(createDocumentsRecordData(
-                          isPending: _model.action1!.occurrenceKey <=
-                                  functions.dateToOccurrenceKey(
-                                      functions.normalizeToCalendarDatedateTime(
-                                          getCurrentTimestamp))
-                              ? false
-                              : true,
+                        var documentsRecordReference2 =
+                            DocumentsRecord.collection.doc();
+                        await documentsRecordReference2
+                            .set(createDocumentsRecordData(
+                          type: _model.type,
+                          description: _model.description,
+                          date: currentLoop1Item,
+                          amount: _model.amount,
+                          isRecurrent: true,
+                          frequency: _model.frequency,
+                          userRef: currentUserReference,
+                          frequencyCode: _model.action1?.frequencyCode,
                           recurrenceId: _model.action1?.reference.id,
+                          occurrenceKey:
+                              functions.dateToOccurrenceKey(currentLoop1Item),
+                          notificationAt: _model.action1?.notificationAt,
+                          isExpenses: true,
+                          isIncome: false,
+                          isSave: false,
+                          isEvent: false,
+                          source: 'manual',
+                          isGoal: false,
+                          isNotificationScheduledSent: false,
+                          isNotificationTodaySent: false,
+                          isInternalTransfer: false,
+                          createdAt: getCurrentTimestamp,
                         ));
-                        if (_model.action1?.isRecurrent == true) {
-                          for (int loop1Index = 0;
-                              loop1Index <
-                                  functions
-                                      .generateRecurrenceDatesByCode(
-                                          _model.action1!.date,
-                                          _model.action1!.frequencyCode,
-                                          false)
-                                      .length;
-                              loop1Index++) {
-                            final currentLoop1Item =
-                                functions.generateRecurrenceDatesByCode(
-                                    _model.action1!.date,
-                                    _model.action1!.frequencyCode,
-                                    false)[loop1Index];
+                        _model.recurrente1 =
+                            DocumentsRecord.getDocumentFromData(
+                                createDocumentsRecordData(
+                                  type: _model.type,
+                                  description: _model.description,
+                                  date: currentLoop1Item,
+                                  amount: _model.amount,
+                                  isRecurrent: true,
+                                  frequency: _model.frequency,
+                                  userRef: currentUserReference,
+                                  frequencyCode: _model.action1?.frequencyCode,
+                                  recurrenceId: _model.action1?.reference.id,
+                                  occurrenceKey: functions
+                                      .dateToOccurrenceKey(currentLoop1Item),
+                                  notificationAt:
+                                      _model.action1?.notificationAt,
+                                  isExpenses: true,
+                                  isIncome: false,
+                                  isSave: false,
+                                  isEvent: false,
+                                  source: 'manual',
+                                  isGoal: false,
+                                  isNotificationScheduledSent: false,
+                                  isNotificationTodaySent: false,
+                                  isInternalTransfer: false,
+                                  createdAt: getCurrentTimestamp,
+                                ),
+                                documentsRecordReference2);
+                      }
+                    } else {
+                      await _model.action1!.reference
+                          .update(createDocumentsRecordData(
+                        isOtherExpenses: true,
+                      ));
+                    }
 
-                            var documentsRecordReference2 =
-                                DocumentsRecord.collection.doc();
-                            await documentsRecordReference2
-                                .set(createDocumentsRecordData(
-                              type: _model.type,
-                              description: _model.description,
-                              date: loop1Index.toString(),
-                              amount: _model.amount,
-                              isRecurrent: true,
-                              frequency: _model.frequency,
-                              userRef: currentUserReference,
-                              frequencyCode: _model.action1?.frequencyCode,
-                              recurrenceId: _model.action1?.reference.id,
-                              occurrenceKey: functions
-                                  .dateToOccurrenceKey(loop1Index.toString()),
-                              notificationAt: _model.action1?.notificationAt,
-                              isExpenses: true,
-                              isIncome: false,
-                              isSave: false,
-                              isEvent: false,
-                              source: 'manual',
-                              isGoal: false,
-                              isNotificationScheduledSent: false,
-                              isNotificationTodaySent: false,
-                              isInternalTransfer: false,
-                              createdAt: getCurrentTimestamp,
-                            ));
-                            _model.recurrente1 =
-                                DocumentsRecord.getDocumentFromData(
-                                    createDocumentsRecordData(
-                                      type: _model.type,
-                                      description: _model.description,
-                                      date: loop1Index.toString(),
-                                      amount: _model.amount,
-                                      isRecurrent: true,
-                                      frequency: _model.frequency,
-                                      userRef: currentUserReference,
-                                      frequencyCode:
-                                          _model.action1?.frequencyCode,
-                                      recurrenceId:
-                                          _model.action1?.reference.id,
-                                      occurrenceKey:
-                                          functions.dateToOccurrenceKey(
-                                              loop1Index.toString()),
-                                      notificationAt:
-                                          _model.action1?.notificationAt,
-                                      isExpenses: true,
-                                      isIncome: false,
-                                      isSave: false,
-                                      isEvent: false,
-                                      source: 'manual',
-                                      isGoal: false,
-                                      isNotificationScheduledSent: false,
-                                      isNotificationTodaySent: false,
-                                      isInternalTransfer: false,
-                                      createdAt: getCurrentTimestamp,
-                                    ),
-                                    documentsRecordReference2);
-                          }
-                        } else {
-                          await _model.action1!.reference
-                              .update(createDocumentsRecordData(
-                            isOtherExpenses: true,
-                          ));
-                        }
-
-                        await currentUserReference!.update(createUserRecordData(
-                          isDocumentCreated: true,
-                          isExpensesCreated: true,
-                        ));
-                      }),
-                      Future(() async {
-                        if (FFAppState().isNotificationRequested != true) {
-                          await requestPermission(notificationsPermission);
-                          await Future.delayed(
-                            Duration(
-                              milliseconds: 3000,
-                            ),
-                          );
-                          await actions.saveFcmTokenToFirestore();
-                          FFAppState().isNotificationRequested = true;
-                          safeSetState(() {});
-                        }
-                      }),
-                    ]);
+                    await currentUserReference!.update(createUserRecordData(
+                      isDocumentCreated: true,
+                      isExpensesCreated: true,
+                    ));
                     Navigator.pop(context);
+                    await requestPermission(notificationsPermission);
 
                     safeSetState(() {});
                   },

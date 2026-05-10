@@ -1680,13 +1680,6 @@ class _Auth2WidgetState extends State<Auth2Widget>
 
                                                             await requestPermission(
                                                                 notificationsPermission);
-                                                            await Future
-                                                                .delayed(
-                                                              Duration(
-                                                                milliseconds:
-                                                                    3000,
-                                                              ),
-                                                            );
                                                             await actions
                                                                 .saveFcmTokenToFirestore();
                                                             FFAppState()
@@ -1697,9 +1690,6 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                 true;
                                                             FFAppState()
                                                                     .isChekSelect =
-                                                                true;
-                                                            FFAppState()
-                                                                    .isNotificationRequested =
                                                                 true;
                                                             safeSetState(() {});
 

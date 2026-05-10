@@ -63,27 +63,89 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      if (FFAppState().isBiometricEnabled == true) {
-        FFAppState().isBlokedHome = true;
-        safeSetState(() {});
-        final _localAuth = LocalAuthentication();
-        bool _isBiometricSupported = await _localAuth.isDeviceSupported();
+      await authManager.refreshUser();
+      if (currentUserEmailVerified == true) {
+        if (FFAppState().isBiometricEnabled == true) {
+          FFAppState().isBlokedHome = true;
+          safeSetState(() {});
+          final _localAuth = LocalAuthentication();
+          bool _isBiometricSupported = await _localAuth.isDeviceSupported();
 
-        if (_isBiometricSupported) {
-          try {
-            _model.biometricResult = await _localAuth.authenticate(
-                localizedReason: FFLocalizations.of(context).getText(
-              'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
-            ));
-          } on PlatformException {
-            _model.biometricResult = false;
+          if (_isBiometricSupported) {
+            try {
+              _model.biometricResult = await _localAuth.authenticate(
+                  localizedReason: FFLocalizations.of(context).getText(
+                'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
+              ));
+            } on PlatformException {
+              _model.biometricResult = false;
+            }
+            safeSetState(() {});
           }
-          safeSetState(() {});
-        }
 
-        if (_model.biometricResult == true) {
-          FFAppState().isBlokedHome = false;
-          safeSetState(() {});
+          if (_model.biometricResult == true) {
+            FFAppState().isBlokedHome = false;
+            safeSetState(() {});
+            await Future.wait([
+              Future(() async {
+                _model.selectedDate = functions
+                    .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+                safeSetState(() {});
+                FFAppState().selectedDate = getCurrentTimestamp;
+                safeSetState(() {});
+                setDarkModeSetting(context, ThemeMode.light);
+              }),
+              Future(() async {
+                _model.apiResultthj = await GetUserLocationByIPCall.call();
+
+                if ((_model.apiResultthj?.succeeded ?? true)) {
+                  await currentUserReference!.update({
+                    ...createUserRecordData(
+                      country: getJsonField(
+                        (_model.apiResultthj?.jsonBody ?? ''),
+                        r'''$.country_code2''',
+                      ).toString(),
+                      state: getJsonField(
+                        (_model.apiResultthj?.jsonBody ?? ''),
+                        r'''$.state_prov''',
+                      ).toString(),
+                      city: getJsonField(
+                        (_model.apiResultthj?.jsonBody ?? ''),
+                        r'''$.city''',
+                      ).toString(),
+                      zipCode: getJsonField(
+                        (_model.apiResultthj?.jsonBody ?? ''),
+                        r'''$.zipcode''',
+                      ).toString(),
+                      timeZone: getJsonField(
+                        (_model.apiResultthj?.jsonBody ?? ''),
+                        r'''$.time_zone.name''',
+                      ).toString(),
+                    ),
+                    ...mapToFirestore(
+                      {
+                        'locationUpdatedAt': FieldValue.serverTimestamp(),
+                      },
+                    ),
+                  });
+                }
+              }),
+            ]);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Error de autenticación.',
+                  style: GoogleFonts.roboto(
+                    color: Color(0xFFECF3F9),
+                  ),
+                ),
+                duration: Duration(milliseconds: 4000),
+                backgroundColor: FlutterFlowTheme.of(context).secondary,
+              ),
+            );
+          }
+        } else {
           await Future.wait([
             Future(() async {
               _model.selectedDate = functions
@@ -94,29 +156,29 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               setDarkModeSetting(context, ThemeMode.light);
             }),
             Future(() async {
-              _model.apiResultthj = await GetUserLocationByIPCall.call();
+              _model.apiResult = await GetUserLocationByIPCall.call();
 
-              if ((_model.apiResultthj?.succeeded ?? true)) {
+              if ((_model.apiResult?.succeeded ?? true)) {
                 await currentUserReference!.update({
                   ...createUserRecordData(
                     country: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
+                      (_model.apiResult?.jsonBody ?? ''),
                       r'''$.country_code2''',
                     ).toString(),
                     state: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
+                      (_model.apiResult?.jsonBody ?? ''),
                       r'''$.state_prov''',
                     ).toString(),
                     city: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
+                      (_model.apiResult?.jsonBody ?? ''),
                       r'''$.city''',
                     ).toString(),
                     zipCode: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
+                      (_model.apiResult?.jsonBody ?? ''),
                       r'''$.zipcode''',
                     ).toString(),
                     timeZone: getJsonField(
-                      (_model.apiResultthj?.jsonBody ?? ''),
+                      (_model.apiResult?.jsonBody ?? ''),
                       r'''$.time_zone.name''',
                     ).toString(),
                   ),
@@ -129,66 +191,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               }
             }),
           ]);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Error de autenticación.',
-                style: GoogleFonts.roboto(
-                  color: Color(0xFFECF3F9),
-                ),
-              ),
-              duration: Duration(milliseconds: 4000),
-              backgroundColor: FlutterFlowTheme.of(context).secondary,
-            ),
-          );
         }
       } else {
-        await Future.wait([
-          Future(() async {
-            _model.selectedDate =
-                functions.normalizeToCalendarDatedateTime(getCurrentTimestamp);
-            safeSetState(() {});
-            FFAppState().selectedDate = getCurrentTimestamp;
-            safeSetState(() {});
-            setDarkModeSetting(context, ThemeMode.light);
-          }),
-          Future(() async {
-            _model.apiResult = await GetUserLocationByIPCall.call();
-
-            if ((_model.apiResult?.succeeded ?? true)) {
-              await currentUserReference!.update({
-                ...createUserRecordData(
-                  country: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.country_code2''',
-                  ).toString(),
-                  state: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.state_prov''',
-                  ).toString(),
-                  city: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.city''',
-                  ).toString(),
-                  zipCode: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.zipcode''',
-                  ).toString(),
-                  timeZone: getJsonField(
-                    (_model.apiResult?.jsonBody ?? ''),
-                    r'''$.time_zone.name''',
-                  ).toString(),
-                ),
-                ...mapToFirestore(
-                  {
-                    'locationUpdatedAt': FieldValue.serverTimestamp(),
-                  },
-                ),
-              });
-            }
-          }),
-        ]);
+        context.pushNamed(Auth2Widget.routeName);
       }
     });
 

@@ -56,12 +56,18 @@ class _SettWidgetState extends State<SettWidget> {
 
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-      body: SafeArea(
-        top: true,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: Image.asset(
+              'assets/images/bnb.png',
+            ).image,
+          ),
+        ),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
@@ -80,7 +86,8 @@ class _SettWidgetState extends State<SettWidget> {
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                            color: FlutterFlowTheme.of(context).primary,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                             fontSize: 24.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w500,
@@ -94,7 +101,7 @@ class _SettWidgetState extends State<SettWidget> {
                       buttonSize: 40.0,
                       icon: Icon(
                         Icons.close_sharp,
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: FlutterFlowTheme.of(context).alternate,
                         size: 24.0,
                       ),
                       onPressed: () async {
@@ -117,6 +124,8 @@ class _SettWidgetState extends State<SettWidget> {
                                 .bodyMedium
                                 .fontStyle,
                           ),
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -1199,7 +1208,7 @@ class _SettWidgetState extends State<SettWidget> {
                           fontStyle:
                               FlutterFlowTheme.of(context).titleSmall.fontStyle,
                         ),
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
                         letterSpacing: 0.0,
                         fontWeight:
                             FlutterFlowTheme.of(context).titleSmall.fontWeight,
@@ -1212,7 +1221,7 @@ class _SettWidgetState extends State<SettWidget> {
               ),
             ]
                 .divide(SizedBox(height: 10.0))
-                .addToStart(SizedBox(height: 20.0))
+                .addToStart(SizedBox(height: 50.0))
                 .addToEnd(SizedBox(height: 20.0)),
           ),
         ),

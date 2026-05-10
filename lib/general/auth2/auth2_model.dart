@@ -9,6 +9,8 @@ import '/informacion/politica/politica_widget.dart';
 import '/informacion/terminos/terminos_widget.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/permissions_util.dart';
 import '/index.dart';
 import 'auth2_widget.dart' show Auth2Widget;
 import 'package:cloud_firestore/cloud_firestore.dart';

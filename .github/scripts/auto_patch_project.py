@@ -130,3 +130,16 @@ if pbx_template.exists():
     print("ios/Runner.xcodeproj/project.pbxproj restored from template.")
 else:
     print("project.pbxproj template not found.")
+
+
+# =========================
+# REMOVE LAUNCHIMAGE
+# =========================
+
+launch_image = Path("ios/Runner/Assets.xcassets/LaunchImage.imageset")
+
+if launch_image.exists():
+    shutil.rmtree(launch_image)
+    print("LaunchImage.imageset removed.")
+else:
+    print("LaunchImage.imageset not found.")

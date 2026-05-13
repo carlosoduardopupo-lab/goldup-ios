@@ -167,5 +167,25 @@ else:
 
 
 
+# =========================
+# RESTORE APP ICON FILES ONLY
+# =========================
 
+appicon_template = Path(".github/templates/Assets.xcassets/AppIcon.appiconset")
+appicon_target = Path("ios/Runner/Assets.xcassets/AppIcon.appiconset")
+
+if appicon_template.exists():
+    appicon_target.mkdir(parents=True, exist_ok=True)
+
+    for item in appicon_target.iterdir():
+        if item.is_file():
+            item.unlink()
+
+    for item in appicon_template.iterdir():
+        if item.is_file():
+            shutil.copy2(item, appicon_target / item.name)
+
+    print("AppIcon.appiconset files restored from template.")
+else:
+    print("AppIcon.appiconset template not found.")
 

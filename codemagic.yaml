@@ -18,7 +18,7 @@ workflows:
     scripts:
       - name: Patch FlutterFlow generated code
         script: |
-          python3 .github/scripts/patch_flutterflow_fonts.py
+          python3 .github/scripts/auto_patch_project.py
 
       - name: Install Flutter dependencies
         script: |

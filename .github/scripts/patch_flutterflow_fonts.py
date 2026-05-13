@@ -109,3 +109,20 @@ else:
     print("ios/ImageNotification not found.")
 
 
+# =========================
+# RESTORE PODFILE
+# =========================
+
+pod_template = Path(".github/templates/Podfile")
+pod_target = Path("ios/Podfile")
+
+if pod_template.exists():
+    pod_target.write_text(
+        pod_template.read_text(encoding="utf-8"),
+        encoding="utf-8"
+    )
+    print("ios/Podfile restored from template.")
+else:
+    print("Podfile template not found.")
+
+

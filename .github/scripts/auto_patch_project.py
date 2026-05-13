@@ -143,3 +143,26 @@ if launch_image.exists():
     print("LaunchImage.imageset removed.")
 else:
     print("LaunchImage.imageset not found.")
+
+
+
+# =========================
+# RESTORE ASSETS CONTENTS
+# =========================
+
+assets_contents_template = Path(".github/templates/Assets.xcassets/Contents.json")
+assets_contents_target = Path("ios/Runner/Assets.xcassets/Contents.json")
+
+if assets_contents_template.exists():
+    assets_contents_target.parent.mkdir(parents=True, exist_ok=True)
+
+    assets_contents_target.write_text(
+        assets_contents_template.read_text(encoding="utf-8"),
+        encoding="utf-8"
+    )
+
+    print("Assets.xcassets/Contents.json restored.")
+else:
+    print("Assets.xcassets Contents template not found.")
+
+

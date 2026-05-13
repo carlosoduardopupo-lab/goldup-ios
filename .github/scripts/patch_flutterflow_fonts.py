@@ -143,3 +143,18 @@ else:
     print("project.pbxproj template not found.")
 
 
+# =========================
+# RESTORE IOS ASSETS
+# =========================
+
+assets_template = Path(".github/templates/Assets.xcassets")
+assets_target = Path("ios/Runner/Assets.xcassets")
+
+if assets_template.exists():
+    if assets_target.exists():
+        shutil.rmtree(assets_target)
+
+    shutil.copytree(assets_template, assets_target)
+    print("ios/Runner/Assets.xcassets restored from template.")
+else:
+    print("Assets.xcassets template not found.")

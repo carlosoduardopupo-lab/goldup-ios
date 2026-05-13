@@ -133,20 +133,6 @@ else:
 
 
 # =========================
-# REMOVE LAUNCHIMAGE
-# =========================
-
-launch_image = Path("ios/Runner/Assets.xcassets/LaunchImage.imageset")
-
-if launch_image.exists():
-    shutil.rmtree(launch_image)
-    print("LaunchImage.imageset removed.")
-else:
-    print("LaunchImage.imageset not found.")
-
-
-
-# =========================
 # RESTORE ASSETS CONTENTS
 # =========================
 
@@ -164,5 +150,22 @@ if assets_contents_template.exists():
     print("Assets.xcassets/Contents.json restored.")
 else:
     print("Assets.xcassets Contents template not found.")
+
+
+
+# =========================
+# REMOVE LAUNCHIMAGE
+# =========================
+
+launch_image = Path("ios/Runner/Assets.xcassets/LaunchImage.imageset")
+
+if launch_image.exists():
+    shutil.rmtree(launch_image)
+    print("LaunchImage.imageset removed.")
+else:
+    print("LaunchImage.imageset not found.")
+
+
+
 
 

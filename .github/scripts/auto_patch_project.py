@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 
 # =========================
 # PATCH FLUTTERFLOW FONTS
@@ -65,11 +66,8 @@ TextStyle safeRoboto({
     }"""
 
     s = s.replace(old_block, new_block)
-
     theme_file.write_text(s, encoding="utf-8")
-
     print("FlutterFlow font patch applied.")
-
 else:
     print("flutter_flow_theme.dart not found, skipping font patch.")
 
@@ -83,10 +81,7 @@ target = Path("codemagic.yaml")
 
 if template.exists():
     if not target.exists():
-        target.write_text(
-            template.read_text(encoding="utf-8"),
-            encoding="utf-8"
-        )
+        target.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
         print("codemagic.yaml created from template.")
     else:
         print("codemagic.yaml already exists.")
@@ -97,8 +92,6 @@ else:
 # =========================
 # REMOVE IMAGENOTIFICATION
 # =========================
-
-import shutil
 
 image_notification = Path("ios/ImageNotification")
 
@@ -117,10 +110,8 @@ pod_template = Path(".github/templates/Podfile")
 pod_target = Path("ios/Podfile")
 
 if pod_template.exists():
-    pod_target.write_text(
-        pod_template.read_text(encoding="utf-8"),
-        encoding="utf-8"
-    )
+    pod_target.parent.mkdir(parents=True, exist_ok=True)
+    pod_target.write_text(pod_template.read_text(encoding="utf-8"), encoding="utf-8")
     print("ios/Podfile restored from template.")
 else:
     print("Podfile template not found.")
@@ -134,10 +125,8 @@ pbx_template = Path(".github/templates/project.pbxproj")
 pbx_target = Path("ios/Runner.xcodeproj/project.pbxproj")
 
 if pbx_template.exists():
-    pbx_target.write_text(
-        pbx_template.read_text(encoding="utf-8"),
-        encoding="utf-8"
-    )
+    pbx_target.parent.mkdir(parents=True, exist_ok=True)
+    pbx_target.write_text(pbx_template.read_text(encoding="utf-8"), encoding="utf-8")
     print("ios/Runner.xcodeproj/project.pbxproj restored from template.")
 else:
     print("project.pbxproj template not found.")
@@ -151,8 +140,13 @@ assets_template = Path(".github/templates/Assets.xcassets")
 assets_target = Path("ios/Runner/Assets.xcassets")
 
 if assets_template.exists():
+    assets_target.parent.mkdir(parents=True, exist_ok=True)
+
     if assets_target.exists():
-        shutil.rmtree(assets_target)
+        if assets_target.is_dir():
+            shutil.rmtree(assets_target)
+        else:
+            assets_target.unlink()
 
     shutil.copytree(assets_template, assets_target)
     print("ios/Runner/Assets.xcassets restored from template.")

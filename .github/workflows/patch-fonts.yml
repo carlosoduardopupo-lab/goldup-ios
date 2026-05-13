@@ -22,6 +22,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add lib/flutter_flow/flutter_flow_theme.dart codemagic.yaml
+          git add -A
           git commit -m "Auto patch FlutterFlow fonts and project files" || echo "No changes to commit"
           git push

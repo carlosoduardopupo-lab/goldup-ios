@@ -81,7 +81,10 @@ target = Path("codemagic.yaml")
 
 if template.exists():
     if not target.exists():
-        target.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
+        target.write_text(
+            template.read_text(encoding="utf-8"),
+            encoding="utf-8"
+        )
         print("codemagic.yaml created from template.")
     else:
         print("codemagic.yaml already exists.")
@@ -111,7 +114,10 @@ pod_target = Path("ios/Podfile")
 
 if pod_template.exists():
     pod_target.parent.mkdir(parents=True, exist_ok=True)
-    pod_target.write_text(pod_template.read_text(encoding="utf-8"), encoding="utf-8")
+    pod_target.write_text(
+        pod_template.read_text(encoding="utf-8"),
+        encoding="utf-8"
+    )
     print("ios/Podfile restored from template.")
 else:
     print("Podfile template not found.")
@@ -126,14 +132,17 @@ pbx_target = Path("ios/Runner.xcodeproj/project.pbxproj")
 
 if pbx_template.exists():
     pbx_target.parent.mkdir(parents=True, exist_ok=True)
-    pbx_target.write_text(pbx_template.read_text(encoding="utf-8"), encoding="utf-8")
+    pbx_target.write_text(
+        pbx_template.read_text(encoding="utf-8"),
+        encoding="utf-8"
+    )
     print("ios/Runner.xcodeproj/project.pbxproj restored from template.")
 else:
     print("project.pbxproj template not found.")
 
 
 # =========================
-# RESTORE ASSETS CONTENTS
+# RESTORE ASSETS ROOT CONTENTS
 # =========================
 
 assets_contents_template = Path(".github/templates/Assets.xcassets/Contents.json")
@@ -150,21 +159,6 @@ if assets_contents_template.exists():
     print("Assets.xcassets/Contents.json restored.")
 else:
     print("Assets.xcassets Contents template not found.")
-
-
-
-# =========================
-# REMOVE LAUNCHIMAGE
-# =========================
-
-launch_image = Path("ios/Runner/Assets.xcassets/LaunchImage.imageset")
-
-if launch_image.exists():
-    shutil.rmtree(launch_image)
-    print("LaunchImage.imageset removed.")
-else:
-    print("LaunchImage.imageset not found.")
-
 
 
 # =========================
@@ -189,3 +183,15 @@ if appicon_template.exists():
 else:
     print("AppIcon.appiconset template not found.")
 
+
+# =========================
+# REMOVE LAUNCHIMAGE
+# =========================
+
+launch_image = Path("ios/Runner/Assets.xcassets/LaunchImage.imageset")
+
+if launch_image.exists():
+    shutil.rmtree(launch_image)
+    print("LaunchImage.imageset removed.")
+else:
+    print("LaunchImage.imageset not found.")

@@ -1,0 +1,27 @@
+name: Patch FlutterFlow Fonts
+
+on:
+  push:
+    branches:
+      - flutterflow
+
+permissions:
+  contents: write
+
+jobs:
+  patch-fonts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch FlutterFlow theme fonts
+        run: python3 .github/scripts/patch_flutterflow_fonts.py
+
+      - name: Commit patched FlutterFlow theme
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add lib/flutter_flow/flutter_flow_theme.dart
+          git commit -m "Auto patch FlutterFlow fonts" || echo "No changes to commit"
+          git push

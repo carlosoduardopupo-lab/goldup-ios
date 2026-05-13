@@ -92,3 +92,20 @@ if template.exists():
         print("codemagic.yaml already exists.")
 else:
     print("codemagic template not found.")
+
+
+# =========================
+# REMOVE IMAGENOTIFICATION
+# =========================
+
+import shutil
+
+image_notification = Path("ios/ImageNotification")
+
+if image_notification.exists():
+    shutil.rmtree(image_notification)
+    print("ios/ImageNotification removed.")
+else:
+    print("ios/ImageNotification not found.")
+
+

@@ -456,9 +456,19 @@ extension TextStyleHelper on TextStyle {
     String? package,
   }) {
     if (useGoogleFonts && fontFamily != null) {
-      font = GoogleFonts.getFont(fontFamily,
+      try {
+        font = GoogleFonts.getFont(
+          fontFamily,
           fontWeight: fontWeight ?? this.fontWeight,
-          fontStyle: fontStyle ?? this.fontStyle);
+          fontStyle: fontStyle ?? this.fontStyle,
+        );
+      } catch (_) {
+        font = TextStyle(
+          fontFamily: fontFamily,
+          fontWeight: fontWeight ?? this.fontWeight,
+          fontStyle: fontStyle ?? this.fontStyle,
+        );
+      }
     }
 
     return font != null

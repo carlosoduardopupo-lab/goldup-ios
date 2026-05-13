@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Patch FlutterFlow theme fonts
-        run: python3 .github/scripts/patch_flutterflow_fonts.py
+        run: python3 .github/scripts/auto_patch_project.py
 
       - name: Commit patched files
         run: |

@@ -97,6 +97,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                 setDarkModeSetting(context, ThemeMode.light);
               }),
               Future(() async {
+                _model.timeZone1 = await actions.getDeviceTimeZone();
+
+                await currentUserReference!.update(createUserRecordData(
+                  timeZone: _model.timeZone1,
+                ));
                 _model.apiResultthj = await GetUserLocationByIPCall.call();
 
                 if ((_model.apiResultthj?.succeeded ?? true)) {
@@ -117,10 +122,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                       zipCode: getJsonField(
                         (_model.apiResultthj?.jsonBody ?? ''),
                         r'''$.zipcode''',
-                      ).toString(),
-                      timeZone: getJsonField(
-                        (_model.apiResultthj?.jsonBody ?? ''),
-                        r'''$.time_zone.name''',
                       ).toString(),
                     ),
                     ...mapToFirestore(
@@ -158,6 +159,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
               setDarkModeSetting(context, ThemeMode.light);
             }),
             Future(() async {
+              _model.timeZone = await actions.getDeviceTimeZone();
+
+              await currentUserReference!.update(createUserRecordData(
+                timeZone: _model.timeZone,
+              ));
               _model.apiResult = await GetUserLocationByIPCall.call();
 
               if ((_model.apiResult?.succeeded ?? true)) {

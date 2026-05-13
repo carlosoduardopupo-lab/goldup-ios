@@ -55,8 +55,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   ///  State fields for stateful widgets in this page.
 
   bool biometricResult = false;
+  // Stores action output result for [Custom Action - getDeviceTimeZone] action in Home widget.
+  String? timeZone1;
   // Stores action output result for [Backend Call - API (GetUserLocationByIP)] action in Home widget.
   ApiCallResponse? apiResultthj;
+  // Stores action output result for [Custom Action - getDeviceTimeZone] action in Home widget.
+  String? timeZone;
   // Stores action output result for [Backend Call - API (GetUserLocationByIP)] action in Home widget.
   ApiCallResponse? apiResult;
   // State field(s) for TabBar widget.

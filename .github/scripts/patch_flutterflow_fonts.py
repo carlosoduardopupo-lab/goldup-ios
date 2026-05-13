@@ -126,3 +126,20 @@ else:
     print("Podfile template not found.")
 
 
+# =========================
+# RESTORE XCODE PROJECT
+# =========================
+
+pbx_template = Path(".github/templates/project.pbxproj")
+pbx_target = Path("ios/Runner.xcodeproj/project.pbxproj")
+
+if pbx_template.exists():
+    pbx_target.write_text(
+        pbx_template.read_text(encoding="utf-8"),
+        encoding="utf-8"
+    )
+    print("ios/Runner.xcodeproj/project.pbxproj restored from template.")
+else:
+    print("project.pbxproj template not found.")
+
+

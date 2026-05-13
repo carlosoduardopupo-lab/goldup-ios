@@ -130,25 +130,3 @@ if pbx_template.exists():
     print("ios/Runner.xcodeproj/project.pbxproj restored from template.")
 else:
     print("project.pbxproj template not found.")
-
-
-# =========================
-# RESTORE IOS ASSETS
-# =========================
-
-assets_template = Path(".github/templates/Assets.xcassets")
-assets_target = Path("ios/Runner/Assets.xcassets")
-
-if assets_template.exists():
-    assets_target.parent.mkdir(parents=True, exist_ok=True)
-
-    if assets_target.exists():
-        if assets_target.is_dir():
-            shutil.rmtree(assets_target)
-        else:
-            assets_target.unlink()
-
-    shutil.copytree(assets_template, assets_target)
-    print("ios/Runner/Assets.xcassets restored from template.")
-else:
-    print("Assets.xcassets template not found.")

@@ -41,6 +41,30 @@ if "TextStyle safeRoboto({" not in s:
 
 s = s.replace("GoogleFonts.roboto(", "safeRoboto(")
 
+old_block = """if (useGoogleFonts && fontFamily != null) {
+      font = GoogleFonts.getFont(fontFamily,
+          fontWeight: fontWeight ?? this.fontWeight,
+          fontStyle: fontStyle ?? this.fontStyle);
+    }"""
+
+new_block = """if (useGoogleFonts && fontFamily != null) {
+      try {
+        font = GoogleFonts.getFont(
+          fontFamily,
+          fontWeight: fontWeight ?? this.fontWeight,
+          fontStyle: fontStyle ?? this.fontStyle,
+        );
+      } catch (_) {
+        font = TextStyle(
+          fontFamily: fontFamily,
+          fontWeight: fontWeight ?? this.fontWeight,
+          fontStyle: fontStyle ?? this.fontStyle,
+        );
+      }
+    }"""
+
+s = s.replace(old_block, new_block)
+
 p.write_text(s, encoding="utf-8")
 
 print("FlutterFlow font patch applied successfully.")

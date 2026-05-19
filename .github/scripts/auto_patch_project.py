@@ -2,6 +2,31 @@ from pathlib import Path
 import shutil
 
 # =========================
+# PATCH PUBSPEC DEPENDENCIES
+# =========================
+
+pubspec = Path("pubspec.yaml")
+
+if pubspec.exists():
+    s = pubspec.read_text(encoding="utf-8")
+
+    replacements = {
+        "font_awesome_flutter: 10.7.0": "font_awesome_flutter: ^10.10.0",
+        "font_awesome_flutter: ^10.7.0": "font_awesome_flutter: ^10.10.0",
+        "page_transition: 2.1.0": "page_transition: ^2.2.1",
+        "page_transition: ^2.1.0": "page_transition: ^2.2.1",
+    }
+
+    for old, new in replacements.items():
+        s = s.replace(old, new)
+
+    pubspec.write_text(s, encoding="utf-8")
+    print("pubspec.yaml dependencies patched.")
+else:
+    print("pubspec.yaml not found.")
+
+
+# =========================
 # PATCH FLUTTERFLOW FONTS
 # =========================
 

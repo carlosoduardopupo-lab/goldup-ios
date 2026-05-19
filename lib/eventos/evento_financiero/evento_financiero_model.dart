@@ -31,6 +31,7 @@ class EventoFinancieroModel extends FlutterFlowModel<EventoFinancieroWidget> {
 
   ///  State fields for stateful widgets in this component.
 
+  final formKey = GlobalKey<FormState>();
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;

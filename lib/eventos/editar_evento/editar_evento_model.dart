@@ -72,6 +72,7 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
 
   ///  State fields for stateful widgets in this component.
 
+  final formKey = GlobalKey<FormState>();
   // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
   IncomeRecord? income;
   // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.

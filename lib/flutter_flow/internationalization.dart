@@ -928,7 +928,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '1jsp3k3f': {
-      'es': 'Descripción (opcional)',
+      'es': 'Descripción ',
       'en': '',
     },
     'shv786po': {
@@ -940,11 +940,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '3eyn3nhx': {
-      'es': 'Cantidad del efectivo...',
-      'en': '',
-    },
-    '1hzpjk2o': {
-      'es': '0',
+      'es': '0.0',
       'en': '',
     },
     '8do17dfy': {
@@ -1070,7 +1066,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'noqmetuh': {
-      'es': 'Descripción (opcional)',
+      'es': 'Descripción',
       'en': '',
     },
     'coajwhl4': {
@@ -1081,12 +1077,12 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Monto ',
       'en': '',
     },
-    'y8ol0s6w': {
-      'es': 'Cantidad del efectivo...',
+    '3d1jc68e': {
+      'es': '',
       'en': '',
     },
-    's1usey8f': {
-      'es': '0',
+    'y8ol0s6w': {
+      'es': '0.0',
       'en': '',
     },
     'znx8mqs5': {
@@ -1201,7 +1197,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'ie1gjvn1': {
-      'es': 'Descripción (opcional)',
+      'es': 'Descripción ',
       'en': '',
     },
     'c8rfxqzp': {
@@ -1634,7 +1630,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'xagkfr7g': {
-      'es': 'Descripción (opcional)',
+      'es': 'Descripción ',
       'en': '',
     },
     '4g0ncbe2': {
@@ -1646,11 +1642,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'ey9l77qp': {
-      'es': 'Cantidad del efectivo...',
-      'en': '',
-    },
-    '8p98mhdp': {
-      'es': '0',
+      'es': '0.0',
       'en': '',
     },
     'i5ftp4cb': {

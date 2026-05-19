@@ -10,22 +10,23 @@ pubspec = Path("pubspec.yaml")
 if pubspec.exists():
     s = pubspec.read_text(encoding="utf-8")
 
-    # Mantener APIs compatibles con FlutterFlow generado
-    s = s.replace("font_awesome_flutter: 10.7.0", "font_awesome_flutter: ^10.6.0")
-    s = s.replace("font_awesome_flutter: ^10.7.0", "font_awesome_flutter: ^10.6.0")
-    s = s.replace("font_awesome_flutter: ^10.10.0", "font_awesome_flutter: ^10.6.0")
-    s = s.replace("font_awesome_flutter: ^10.12.0", "font_awesome_flutter: ^10.6.0")
-    s = s.replace("font_awesome_flutter: ^11.0.0", "font_awesome_flutter: ^10.6.0")
+    # Mantener versiones fijas compatibles con FlutterFlow generado
+    s = s.replace("font_awesome_flutter: ^10.6.0", "font_awesome_flutter: 10.6.0")
+    s = s.replace("font_awesome_flutter: 10.7.0", "font_awesome_flutter: 10.6.0")
+    s = s.replace("font_awesome_flutter: ^10.7.0", "font_awesome_flutter: 10.6.0")
+    s = s.replace("font_awesome_flutter: ^10.10.0", "font_awesome_flutter: 10.6.0")
+    s = s.replace("font_awesome_flutter: ^10.12.0", "font_awesome_flutter: 10.6.0")
+    s = s.replace("font_awesome_flutter: ^11.0.0", "font_awesome_flutter: 10.6.0")
 
     # FlutterFlow usa page_transition internamente, NO eliminar
-    s = s.replace("page_transition: 2.1.0", "page_transition: ^2.1.0")
-    s = s.replace("page_transition: ^2.2.1", "page_transition: ^2.1.0")
+    s = s.replace("page_transition: ^2.1.0", "page_transition: 2.1.0")
+    s = s.replace("page_transition: 2.2.1", "page_transition: 2.1.0")
+    s = s.replace("page_transition: ^2.2.1", "page_transition: 2.1.0")
 
     pubspec.write_text(s, encoding="utf-8")
     print("pubspec.yaml dependencies patched.")
 else:
     print("pubspec.yaml not found.")
-
 
 # =========================
 # PATCH FLUTTERFLOW FONTS

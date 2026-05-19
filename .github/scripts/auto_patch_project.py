@@ -10,15 +10,22 @@ pubspec = Path("pubspec.yaml")
 if pubspec.exists():
     s = pubspec.read_text(encoding="utf-8")
 
-    replacements = {
-        "font_awesome_flutter: 10.7.0": "font_awesome_flutter: ^10.10.0",
-        "font_awesome_flutter: ^10.7.0": "font_awesome_flutter: ^10.10.0",
-        "page_transition: 2.1.0": "page_transition: ^2.2.1",
-        "page_transition: ^2.1.0": "page_transition: ^2.2.1",
-    }
+    # font awesome -> versión compatible con SDK nuevo
+    s = s.replace("font_awesome_flutter: 10.7.0", "font_awesome_flutter: ^11.0.0")
+    s = s.replace("font_awesome_flutter: ^10.7.0", "font_awesome_flutter: ^11.0.0")
+    s = s.replace("font_awesome_flutter: ^10.10.0", "font_awesome_flutter: ^11.0.0")
+    s = s.replace("font_awesome_flutter: ^10.12.0", "font_awesome_flutter: ^11.0.0")
 
-    for old, new in replacements.items():
-        s = s.replace(old, new)
+    # eliminar page_transition completamente
+    lines = s.splitlines()
+    filtered = []
+
+    for line in lines:
+        if "page_transition:" in line:
+            continue
+        filtered.append(line)
+
+    s = "\n".join(filtered)
 
     pubspec.write_text(s, encoding="utf-8")
     print("pubspec.yaml dependencies patched.")

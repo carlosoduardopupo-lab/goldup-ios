@@ -8,7 +8,7 @@ workflows:
       app_store_connect: GoldUpAdmin
 
     environment:
-      flutter: stable
+      flutter: 3.24.5
       xcode: latest
       cocoapods: default
       ios_signing:
@@ -22,6 +22,7 @@ workflows:
 
       - name: Install Flutter dependencies
         script: |
+          flutter --version
           flutter pub get
 
       - name: Clean and install CocoaPods

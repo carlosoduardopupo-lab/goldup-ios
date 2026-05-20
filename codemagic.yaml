@@ -8,7 +8,7 @@ workflows:
       app_store_connect: GoldUpAdmin
 
     environment:
-      flutter: stable
+      flutter: 3.41.9
       xcode: latest
       cocoapods: default
       ios_signing:

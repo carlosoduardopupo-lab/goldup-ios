@@ -46,10 +46,10 @@ class FeedItemsRecord extends FirestoreRecord {
   DateTime? get createdAt => _createdAt;
   bool hasCreatedAt() => _createdAt != null;
 
-  // "language" field.
-  String? _language;
-  String get language => _language ?? '';
-  bool hasLanguage() => _language != null;
+  // "profile" field.
+  String? _profile;
+  String get profile => _profile ?? '';
+  bool hasProfile() => _profile != null;
 
   void _initializeFields() {
     _type = snapshotData['type'] as String?;
@@ -58,7 +58,7 @@ class FeedItemsRecord extends FirestoreRecord {
     _adRef = snapshotData['adRef'] as DocumentReference?;
     _isActive = snapshotData['isActive'] as bool?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
-    _language = snapshotData['language'] as String?;
+    _profile = snapshotData['profile'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -102,7 +102,7 @@ Map<String, dynamic> createFeedItemsRecordData({
   DocumentReference? adRef,
   bool? isActive,
   DateTime? createdAt,
-  String? language,
+  String? profile,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -112,7 +112,7 @@ Map<String, dynamic> createFeedItemsRecordData({
       'adRef': adRef,
       'isActive': isActive,
       'createdAt': createdAt,
-      'language': language,
+      'profile': profile,
     }.withoutNulls,
   );
 
@@ -130,7 +130,7 @@ class FeedItemsRecordDocumentEquality implements Equality<FeedItemsRecord> {
         e1?.adRef == e2?.adRef &&
         e1?.isActive == e2?.isActive &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.language == e2?.language;
+        e1?.profile == e2?.profile;
   }
 
   @override
@@ -141,7 +141,7 @@ class FeedItemsRecordDocumentEquality implements Equality<FeedItemsRecord> {
         e?.adRef,
         e?.isActive,
         e?.createdAt,
-        e?.language
+        e?.profile
       ]);
 
   @override

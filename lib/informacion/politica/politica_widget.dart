@@ -92,7 +92,7 @@ class _PoliticaWidgetState extends State<PoliticaWidget> {
                   children: [
                     TextSpan(
                       text: FFLocalizations.of(context).getText(
-                        'udw5vd2s' /* Última actualización: 2 de may... */,
+                        'udw5vd2s' /* Última actualización: 23 de ma... */,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.roboto(

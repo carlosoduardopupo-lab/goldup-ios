@@ -280,83 +280,37 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                               color: FlutterFlowTheme.of(context).alternate,
                             ),
                           ),
-                          child: FlutterFlowDropDown<String>(
-                            controller: _model.dropDownValueController1 ??=
-                                FormFieldController<String>(
-                              _model.dropDownValue1 ??=
+                          child: Align(
+                            alignment: AlignmentDirectional(-1.0, 0.0),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  20.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                valueOrDefault<String>(
                                   widget!.docDocument?.type,
-                            ),
-                            options: () {
-                              if ((widget!.docDocument?.isIncome == true) &&
-                                  (widget!.docDocument?.isEvent == false) &&
-                                  (widget!.docDocument?.isSave == false) &&
-                                  (widget!.docDocument?.isExpenses == false)) {
-                                return _model.incom;
-                              } else if ((widget!.docDocument?.isIncome ==
-                                      false) &&
-                                  (widget!.docDocument?.isEvent == false) &&
-                                  (widget!.docDocument?.isSave == false) &&
-                                  (widget!.docDocument?.isExpenses == true)) {
-                                return _model.expense;
-                              } else if ((widget!.docDocument?.isIncome ==
-                                      false) &&
-                                  (widget!.docDocument?.isEvent == false) &&
-                                  (widget!.docDocument?.isSave == true) &&
-                                  (widget!.docDocument?.isExpenses == false)) {
-                                return _model.saves;
-                              } else if ((widget!.docDocument?.isIncome ==
-                                      false) &&
-                                  (widget!.docDocument?.isEvent == true) &&
-                                  (widget!.docDocument?.isSave == false) &&
-                                  (widget!.docDocument?.isExpenses == false)) {
-                                return _model.evento;
-                              } else {
-                                return _model.evento;
-                              }
-                            }(),
-                            onChanged: (val) async {
-                              safeSetState(() => _model.dropDownValue1 = val);
-                              _model.type = _model.dropDownValue1;
-                              safeSetState(() {});
-                            },
-                            width: 200.0,
-                            height: 40.0,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
+                                  'type',
                                 ),
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 24.0,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
                             ),
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            elevation: 2.0,
-                            borderColor: Colors.transparent,
-                            borderWidth: 0.0,
-                            borderRadius: 8.0,
-                            margin: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 0.0, 12.0, 0.0),
-                            hidesUnderline: true,
-                            isOverButton: false,
-                            isSearchable: false,
-                            isMultiSelect: false,
                           ),
                         ),
                       ),
@@ -602,8 +556,12 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 '_model.textController2',
                                 Duration(milliseconds: 2000),
                                 () async {
-                                  _model.amount = double.tryParse(
-                                      _model.textController2.text);
+                                  _model.amount =
+                                      _model.textController2.text != null &&
+                                              _model.textController2.text != ''
+                                          ? double.tryParse(
+                                              _model.textController2.text)
+                                          : 0.0;
                                   safeSetState(() {});
                                 },
                               ),
@@ -880,9 +838,9 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                           ),
                           child: AuthUserStreamWidget(
                             builder: (context) => FlutterFlowDropDown<String>(
-                              controller: _model.dropDownValueController2 ??=
+                              controller: _model.dropDownValueController1 ??=
                                   FormFieldController<String>(
-                                _model.dropDownValue2 ??=
+                                _model.dropDownValue1 ??=
                                     widget!.docDocument?.frequency,
                               ),
                               options: [
@@ -906,8 +864,8 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 )
                               ],
                               onChanged: (val) async {
-                                safeSetState(() => _model.dropDownValue2 = val);
-                                _model.frequency = _model.dropDownValue2;
+                                safeSetState(() => _model.dropDownValue1 = val);
+                                _model.frequency = _model.dropDownValue1;
                                 safeSetState(() {});
                               },
                               width: 200.0,
@@ -1088,9 +1046,9 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 ),
                               ),
                               child: FlutterFlowDropDown<String>(
-                                controller: _model.dropDownValueController3 ??=
+                                controller: _model.dropDownValueController2 ??=
                                     FormFieldController<String>(
-                                  _model.dropDownValue3 ??= widget!
+                                  _model.dropDownValue2 ??= widget!
                                       .docDocument?.notificationAt
                                       ?.toString(),
                                 ),
@@ -1110,15 +1068,15 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                 ],
                                 onChanged: (val) async {
                                   safeSetState(
-                                      () => _model.dropDownValue3 = val);
+                                      () => _model.dropDownValue2 = val);
                                   _model.notificationAt = () {
-                                    if (_model.dropDownValue3 == '24') {
+                                    if (_model.dropDownValue2 == '24') {
                                       return 24;
-                                    } else if (_model.dropDownValue3 == '48') {
+                                    } else if (_model.dropDownValue2 == '48') {
                                       return 48;
-                                    } else if (_model.dropDownValue3 == '72') {
+                                    } else if (_model.dropDownValue2 == '72') {
                                       return 72;
-                                    } else if (_model.dropDownValue3 == '96') {
+                                    } else if (_model.dropDownValue2 == '96') {
                                       return 96;
                                     } else {
                                       return 0;
@@ -1175,311 +1133,342 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                   child: FFButtonWidget(
-                    onPressed: () async {
-                      if (_model.formKey.currentState == null ||
-                          !_model.formKey.currentState!.validate()) {
-                        return;
-                      }
-                      if (valueOrDefault<bool>(
-                              currentUserDocument?.isPremium, false) ==
-                          true) {
-                        if (_model.editarSoloEsteEvento == true) {
-                          if (widget!.docDocument?.isExpenses == true) {
-                            await widget!.docDocument!.reference.update({
-                              ...createDocumentsRecordData(
-                                type: _model.type,
-                                description: _model.description,
-                                amount: _model.amount,
-                                isRecurrent: _model.isRecurrent,
-                                notificationAt: _model.notificationAt,
-                                isOtherExpenses: true,
-                              ),
-                              ...mapToFirestore(
-                                {
-                                  'frequency': FieldValue.delete(),
-                                  'recurrenceId': FieldValue.delete(),
-                                  'frequencyCode': FieldValue.delete(),
-                                },
-                              ),
-                            });
-                          } else {
-                            await widget!.docDocument!.reference.update({
-                              ...createDocumentsRecordData(
-                                type: _model.type,
-                                description: _model.description,
-                                amount: _model.amount,
-                                isRecurrent: _model.isRecurrent,
-                                notificationAt: _model.notificationAt,
-                              ),
-                              ...mapToFirestore(
-                                {
-                                  'frequency': FieldValue.delete(),
-                                  'recurrenceId': FieldValue.delete(),
-                                  'frequencyCode': FieldValue.delete(),
-                                },
-                              ),
-                            });
-                          }
-                        } else {
-                          if (widget!.docDocument?.frequency ==
-                              _model.frequency) {
-                            _model.docRecurrentes3 =
-                                await queryDocumentsRecordOnce(
-                              queryBuilder: (documentsRecord) => documentsRecord
-                                  .where(
-                                    'userRef',
-                                    isEqualTo: currentUserReference,
-                                  )
-                                  .where(
-                                    'recurrenceId',
-                                    isEqualTo:
-                                        widget!.docDocument?.recurrenceId,
-                                  ),
-                            );
-                            for (int loop1Index = 0;
-                                loop1Index <
-                                    _model.docRecurrentes3!
-                                        .map((e) => e.reference)
-                                        .toList()
-                                        .length;
-                                loop1Index++) {
-                              final currentLoop1Item = _model.docRecurrentes3!
-                                  .map((e) => e.reference)
-                                  .toList()[loop1Index];
-
-                              await currentLoop1Item
-                                  .update(createDocumentsRecordData(
-                                type: _model.type,
-                                description: _model.description,
-                                amount: _model.amount,
-                                notificationAt: _model.notificationAt,
-                              ));
+                    onPressed: ((widget!.docDocument?.isEvent == false) &&
+                                (_model.amount! <= 0.0)
+                            ? true
+                            : false)
+                        ? null
+                        : () async {
+                            if (_model.formKey.currentState == null ||
+                                !_model.formKey.currentState!.validate()) {
+                              return;
                             }
-                          } else {
-                            _model.docRecurrentes2 =
-                                await queryDocumentsRecordOnce(
-                              queryBuilder: (documentsRecord) => documentsRecord
-                                  .where(
-                                    'userRef',
-                                    isEqualTo: currentUserReference,
-                                  )
-                                  .where(
-                                    'recurrenceId',
-                                    isEqualTo:
-                                        widget!.docDocument?.recurrenceId,
-                                  ),
-                            );
-                            for (int loop2Index = 0;
-                                loop2Index <
-                                    _model.docRecurrentes2!
-                                        .map((e) => e.reference)
-                                        .toList()
-                                        .length;
-                                loop2Index++) {
-                              final currentLoop2Item = _model.docRecurrentes2!
-                                  .map((e) => e.reference)
-                                  .toList()[loop2Index];
-                              await currentLoop2Item.delete();
-                            }
-
-                            var documentsRecordReference1 =
-                                DocumentsRecord.collection.doc();
-                            await documentsRecordReference1
-                                .set(createDocumentsRecordData(
-                              type: _model.type,
-                              description: _model.description,
-                              amount: _model.amount,
-                              isRecurrent: _model.isRecurrent,
-                              frequency: _model.frequency,
-                              userRef: currentUserReference,
-                              frequencyCode: () {
-                                if (_model.frequency == 'Diario') {
-                                  return 1;
-                                } else if (_model.frequency == 'Semanal') {
-                                  return 7;
-                                } else if (_model.frequency == 'Quincenal') {
-                                  return 14;
-                                } else if (_model.frequency == 'Mensual') {
-                                  return 1001;
-                                } else if (_model.frequency == 'Trimestral') {
-                                  return 1003;
-                                } else if (_model.frequency == 'Anual') {
-                                  return 1012;
-                                } else {
-                                  return 0;
-                                }
-                              }(),
-                              isIncome: widget!.docDocument?.isIncome,
-                              date: widget!.docDocument?.date,
-                              notificationAt: _model.notificationAt,
-                              isSave: widget!.docDocument?.isSave,
-                              isExpenses: widget!.docDocument?.isExpenses,
-                              isEvent: widget!.docDocument?.isEvent,
-                              isNotificationScheduledSent: false,
-                              isNotificationTodaySent: false,
-                              isInternalTransfer: false,
-                              createdAt: getCurrentTimestamp,
-                            ));
-                            _model.action1 =
-                                DocumentsRecord.getDocumentFromData(
-                                    createDocumentsRecordData(
+                            if (valueOrDefault<bool>(
+                                    currentUserDocument?.isPremium, false) ==
+                                true) {
+                              if (_model.editarSoloEsteEvento == true) {
+                                if (widget!.docDocument?.isExpenses == true) {
+                                  await widget!.docDocument!.reference.update({
+                                    ...createDocumentsRecordData(
                                       type: _model.type,
                                       description: _model.description,
                                       amount: _model.amount,
                                       isRecurrent: _model.isRecurrent,
-                                      frequency: _model.frequency,
-                                      userRef: currentUserReference,
-                                      frequencyCode: () {
-                                        if (_model.frequency == 'Diario') {
-                                          return 1;
-                                        } else if (_model.frequency ==
-                                            'Semanal') {
-                                          return 7;
-                                        } else if (_model.frequency ==
-                                            'Quincenal') {
-                                          return 14;
-                                        } else if (_model.frequency ==
-                                            'Mensual') {
-                                          return 1001;
-                                        } else if (_model.frequency ==
-                                            'Trimestral') {
-                                          return 1003;
-                                        } else if (_model.frequency ==
-                                            'Anual') {
-                                          return 1012;
-                                        } else {
-                                          return 0;
-                                        }
-                                      }(),
-                                      isIncome: widget!.docDocument?.isIncome,
-                                      date: widget!.docDocument?.date,
                                       notificationAt: _model.notificationAt,
-                                      isSave: widget!.docDocument?.isSave,
-                                      isExpenses:
-                                          widget!.docDocument?.isExpenses,
-                                      isEvent: widget!.docDocument?.isEvent,
-                                      isNotificationScheduledSent: false,
-                                      isNotificationTodaySent: false,
-                                      isInternalTransfer: false,
-                                      createdAt: getCurrentTimestamp,
+                                      isOtherExpenses: true,
                                     ),
-                                    documentsRecordReference1);
+                                    ...mapToFirestore(
+                                      {
+                                        'frequency': FieldValue.delete(),
+                                        'recurrenceId': FieldValue.delete(),
+                                        'frequencyCode': FieldValue.delete(),
+                                      },
+                                    ),
+                                  });
+                                } else {
+                                  await widget!.docDocument!.reference.update({
+                                    ...createDocumentsRecordData(
+                                      type: _model.type,
+                                      description: _model.description,
+                                      amount: _model.amount,
+                                      isRecurrent: _model.isRecurrent,
+                                      notificationAt: _model.notificationAt,
+                                    ),
+                                    ...mapToFirestore(
+                                      {
+                                        'frequency': FieldValue.delete(),
+                                        'recurrenceId': FieldValue.delete(),
+                                        'frequencyCode': FieldValue.delete(),
+                                      },
+                                    ),
+                                  });
+                                }
+                              } else {
+                                if (widget!.docDocument?.frequency ==
+                                    _model.frequency) {
+                                  _model.docRecurrentes3 =
+                                      await queryDocumentsRecordOnce(
+                                    queryBuilder: (documentsRecord) =>
+                                        documentsRecord
+                                            .where(
+                                              'userRef',
+                                              isEqualTo: currentUserReference,
+                                            )
+                                            .where(
+                                              'recurrenceId',
+                                              isEqualTo: widget!
+                                                  .docDocument?.recurrenceId,
+                                            ),
+                                  );
+                                  for (int loop1Index = 0;
+                                      loop1Index <
+                                          _model.docRecurrentes3!
+                                              .map((e) => e.reference)
+                                              .toList()
+                                              .length;
+                                      loop1Index++) {
+                                    final currentLoop1Item = _model
+                                        .docRecurrentes3!
+                                        .map((e) => e.reference)
+                                        .toList()[loop1Index];
 
-                            await _model.action1!.reference
-                                .update(createDocumentsRecordData(
-                              recurrenceId: _model.action1?.reference.id,
-                              occurrenceKey: functions
-                                  .dateToOccurrenceKey(_model.action1!.date),
-                            ));
-                            if (_model.action1?.isRecurrent == true) {
-                              for (int loop3Index = 0;
-                                  loop3Index <
-                                      functions
+                                    await currentLoop1Item
+                                        .update(createDocumentsRecordData(
+                                      type: _model.type,
+                                      description: _model.description,
+                                      amount: _model.amount,
+                                      notificationAt: _model.notificationAt,
+                                    ));
+                                  }
+                                } else {
+                                  _model.docRecurrentes2 =
+                                      await queryDocumentsRecordOnce(
+                                    queryBuilder: (documentsRecord) =>
+                                        documentsRecord
+                                            .where(
+                                              'userRef',
+                                              isEqualTo: currentUserReference,
+                                            )
+                                            .where(
+                                              'recurrenceId',
+                                              isEqualTo: widget!
+                                                  .docDocument?.recurrenceId,
+                                            ),
+                                  );
+                                  for (int loop2Index = 0;
+                                      loop2Index <
+                                          _model.docRecurrentes2!
+                                              .map((e) => e.reference)
+                                              .toList()
+                                              .length;
+                                      loop2Index++) {
+                                    final currentLoop2Item = _model
+                                        .docRecurrentes2!
+                                        .map((e) => e.reference)
+                                        .toList()[loop2Index];
+                                    await currentLoop2Item.delete();
+                                  }
+
+                                  var documentsRecordReference1 =
+                                      DocumentsRecord.collection.doc();
+                                  await documentsRecordReference1
+                                      .set(createDocumentsRecordData(
+                                    type: _model.type,
+                                    description: _model.description,
+                                    amount: _model.amount,
+                                    isRecurrent: _model.isRecurrent,
+                                    frequency: _model.frequency,
+                                    userRef: currentUserReference,
+                                    frequencyCode: () {
+                                      if (_model.frequency == 'Diario') {
+                                        return 1;
+                                      } else if (_model.frequency ==
+                                          'Semanal') {
+                                        return 7;
+                                      } else if (_model.frequency ==
+                                          'Quincenal') {
+                                        return 14;
+                                      } else if (_model.frequency ==
+                                          'Mensual') {
+                                        return 1001;
+                                      } else if (_model.frequency ==
+                                          'Trimestral') {
+                                        return 1003;
+                                      } else if (_model.frequency == 'Anual') {
+                                        return 1012;
+                                      } else {
+                                        return 0;
+                                      }
+                                    }(),
+                                    isIncome: widget!.docDocument?.isIncome,
+                                    date: widget!.docDocument?.date,
+                                    notificationAt: _model.notificationAt,
+                                    isSave: widget!.docDocument?.isSave,
+                                    isExpenses: widget!.docDocument?.isExpenses,
+                                    isEvent: widget!.docDocument?.isEvent,
+                                    isNotificationScheduledSent: false,
+                                    isNotificationTodaySent: false,
+                                    isInternalTransfer: false,
+                                    createdAt: getCurrentTimestamp,
+                                  ));
+                                  _model.action1 =
+                                      DocumentsRecord.getDocumentFromData(
+                                          createDocumentsRecordData(
+                                            type: _model.type,
+                                            description: _model.description,
+                                            amount: _model.amount,
+                                            isRecurrent: _model.isRecurrent,
+                                            frequency: _model.frequency,
+                                            userRef: currentUserReference,
+                                            frequencyCode: () {
+                                              if (_model.frequency ==
+                                                  'Diario') {
+                                                return 1;
+                                              } else if (_model.frequency ==
+                                                  'Semanal') {
+                                                return 7;
+                                              } else if (_model.frequency ==
+                                                  'Quincenal') {
+                                                return 14;
+                                              } else if (_model.frequency ==
+                                                  'Mensual') {
+                                                return 1001;
+                                              } else if (_model.frequency ==
+                                                  'Trimestral') {
+                                                return 1003;
+                                              } else if (_model.frequency ==
+                                                  'Anual') {
+                                                return 1012;
+                                              } else {
+                                                return 0;
+                                              }
+                                            }(),
+                                            isIncome:
+                                                widget!.docDocument?.isIncome,
+                                            date: widget!.docDocument?.date,
+                                            notificationAt:
+                                                _model.notificationAt,
+                                            isSave: widget!.docDocument?.isSave,
+                                            isExpenses:
+                                                widget!.docDocument?.isExpenses,
+                                            isEvent:
+                                                widget!.docDocument?.isEvent,
+                                            isNotificationScheduledSent: false,
+                                            isNotificationTodaySent: false,
+                                            isInternalTransfer: false,
+                                            createdAt: getCurrentTimestamp,
+                                          ),
+                                          documentsRecordReference1);
+
+                                  await _model.action1!.reference
+                                      .update(createDocumentsRecordData(
+                                    recurrenceId: _model.action1?.reference.id,
+                                    occurrenceKey:
+                                        functions.dateToOccurrenceKey(
+                                            _model.action1!.date),
+                                  ));
+                                  if (_model.action1?.isRecurrent == true) {
+                                    for (int loop3Index = 0;
+                                        loop3Index <
+                                            functions
+                                                .generateRecurrenceDatesByCode(
+                                                    _model.action1!.date,
+                                                    _model
+                                                        .action1!.frequencyCode,
+                                                    false)
+                                                .length;
+                                        loop3Index++) {
+                                      final currentLoop3Item = functions
                                           .generateRecurrenceDatesByCode(
                                               _model.action1!.date,
                                               _model.action1!.frequencyCode,
-                                              false)
-                                          .length;
-                                  loop3Index++) {
-                                final currentLoop3Item =
-                                    functions.generateRecurrenceDatesByCode(
-                                        _model.action1!.date,
-                                        _model.action1!.frequencyCode,
-                                        false)[loop3Index];
+                                              false)[loop3Index];
 
-                                var documentsRecordReference2 =
-                                    DocumentsRecord.collection.doc();
-                                await documentsRecordReference2
-                                    .set(createDocumentsRecordData(
-                                  type: _model.action1?.type,
-                                  isIncome: _model.action1?.isIncome,
-                                  description: _model.action1?.description,
-                                  date: currentLoop3Item,
-                                  amount: _model.action1?.amount,
-                                  isRecurrent: _model.action1?.isRecurrent,
-                                  frequency: _model.action1?.frequency,
-                                  userRef: currentUserReference,
-                                  frequencyCode: _model.action1?.frequencyCode,
-                                  recurrenceId: _model.action1?.reference.id,
-                                  occurrenceKey: functions
-                                      .dateToOccurrenceKey(currentLoop3Item),
-                                  notificationAt:
-                                      _model.action1?.notificationAt,
-                                  isSave: _model.action1?.isSave,
-                                  isExpenses: _model.action1?.isExpenses,
-                                  isEvent: _model.action1?.isEvent,
-                                  isNotificationScheduledSent: false,
-                                  isNotificationTodaySent: false,
-                                  isInternalTransfer: false,
-                                  createdAt: getCurrentTimestamp,
-                                ));
-                                _model.recurrente =
-                                    DocumentsRecord.getDocumentFromData(
-                                        createDocumentsRecordData(
-                                          type: _model.action1?.type,
-                                          isIncome: _model.action1?.isIncome,
-                                          description:
-                                              _model.action1?.description,
-                                          date: currentLoop3Item,
-                                          amount: _model.action1?.amount,
-                                          isRecurrent:
-                                              _model.action1?.isRecurrent,
-                                          frequency: _model.action1?.frequency,
-                                          userRef: currentUserReference,
-                                          frequencyCode:
-                                              _model.action1?.frequencyCode,
-                                          recurrenceId:
-                                              _model.action1?.reference.id,
-                                          occurrenceKey:
-                                              functions.dateToOccurrenceKey(
-                                                  currentLoop3Item),
-                                          notificationAt:
-                                              _model.action1?.notificationAt,
-                                          isSave: _model.action1?.isSave,
-                                          isExpenses:
-                                              _model.action1?.isExpenses,
-                                          isEvent: _model.action1?.isEvent,
-                                          isNotificationScheduledSent: false,
-                                          isNotificationTodaySent: false,
-                                          isInternalTransfer: false,
-                                          createdAt: getCurrentTimestamp,
+                                      var documentsRecordReference2 =
+                                          DocumentsRecord.collection.doc();
+                                      await documentsRecordReference2
+                                          .set(createDocumentsRecordData(
+                                        type: _model.action1?.type,
+                                        isIncome: _model.action1?.isIncome,
+                                        description:
+                                            _model.action1?.description,
+                                        date: currentLoop3Item,
+                                        amount: _model.action1?.amount,
+                                        isRecurrent:
+                                            _model.action1?.isRecurrent,
+                                        frequency: _model.action1?.frequency,
+                                        userRef: currentUserReference,
+                                        frequencyCode:
+                                            _model.action1?.frequencyCode,
+                                        recurrenceId:
+                                            _model.action1?.reference.id,
+                                        occurrenceKey:
+                                            functions.dateToOccurrenceKey(
+                                                currentLoop3Item),
+                                        notificationAt:
+                                            _model.action1?.notificationAt,
+                                        isSave: _model.action1?.isSave,
+                                        isExpenses: _model.action1?.isExpenses,
+                                        isEvent: _model.action1?.isEvent,
+                                        isNotificationScheduledSent: false,
+                                        isNotificationTodaySent: false,
+                                        isInternalTransfer: false,
+                                        createdAt: getCurrentTimestamp,
+                                      ));
+                                      _model.recurrente =
+                                          DocumentsRecord.getDocumentFromData(
+                                              createDocumentsRecordData(
+                                                type: _model.action1?.type,
+                                                isIncome:
+                                                    _model.action1?.isIncome,
+                                                description:
+                                                    _model.action1?.description,
+                                                date: currentLoop3Item,
+                                                amount: _model.action1?.amount,
+                                                isRecurrent:
+                                                    _model.action1?.isRecurrent,
+                                                frequency:
+                                                    _model.action1?.frequency,
+                                                userRef: currentUserReference,
+                                                frequencyCode: _model
+                                                    .action1?.frequencyCode,
+                                                recurrenceId: _model
+                                                    .action1?.reference.id,
+                                                occurrenceKey: functions
+                                                    .dateToOccurrenceKey(
+                                                        currentLoop3Item),
+                                                notificationAt: _model
+                                                    .action1?.notificationAt,
+                                                isSave: _model.action1?.isSave,
+                                                isExpenses:
+                                                    _model.action1?.isExpenses,
+                                                isEvent:
+                                                    _model.action1?.isEvent,
+                                                isNotificationScheduledSent:
+                                                    false,
+                                                isNotificationTodaySent: false,
+                                                isInternalTransfer: false,
+                                                createdAt: getCurrentTimestamp,
+                                              ),
+                                              documentsRecordReference2);
+                                    }
+                                  }
+                                }
+                              }
+                            } else {
+                              _model.docRecurrentes1 =
+                                  await queryDocumentsRecordOnce(
+                                queryBuilder: (documentsRecord) =>
+                                    documentsRecord
+                                        .where(
+                                          'userRef',
+                                          isEqualTo: currentUserReference,
+                                        )
+                                        .where(
+                                          'recurrenceId',
+                                          isEqualTo:
+                                              widget!.docDocument?.recurrenceId,
                                         ),
-                                        documentsRecordReference2);
+                              );
+                              for (int loop4Index = 0;
+                                  loop4Index < _model.docRecurrentes1!.length;
+                                  loop4Index++) {
+                                final currentLoop4Item =
+                                    _model.docRecurrentes1![loop4Index];
+
+                                await currentLoop4Item.reference
+                                    .update(createDocumentsRecordData(
+                                  type: _model.type,
+                                  description: _model.description,
+                                  amount: _model.amount,
+                                ));
                               }
                             }
-                          }
-                        }
-                      } else {
-                        _model.docRecurrentes1 = await queryDocumentsRecordOnce(
-                          queryBuilder: (documentsRecord) => documentsRecord
-                              .where(
-                                'userRef',
-                                isEqualTo: currentUserReference,
-                              )
-                              .where(
-                                'recurrenceId',
-                                isEqualTo: widget!.docDocument?.recurrenceId,
-                              ),
-                        );
-                        for (int loop4Index = 0;
-                            loop4Index < _model.docRecurrentes1!.length;
-                            loop4Index++) {
-                          final currentLoop4Item =
-                              _model.docRecurrentes1![loop4Index];
 
-                          await currentLoop4Item.reference
-                              .update(createDocumentsRecordData(
-                            type: _model.type,
-                            description: _model.description,
-                            amount: _model.amount,
-                          ));
-                        }
-                      }
+                            Navigator.pop(context);
 
-                      Navigator.pop(context);
-
-                      safeSetState(() {});
-                    },
+                            safeSetState(() {});
+                          },
                     text: FFLocalizations.of(context).getText(
                       'u7rmh6bb' /* Editar */,
                     ),

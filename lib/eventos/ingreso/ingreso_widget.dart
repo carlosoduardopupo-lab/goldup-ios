@@ -541,8 +541,12 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                               '_model.textController2',
                               Duration(milliseconds: 2000),
                               () async {
-                                _model.amount = double.tryParse(
-                                    _model.textController2.text);
+                                _model.amount =
+                                    _model.textController2.text != null &&
+                                            _model.textController2.text != ''
+                                        ? double.tryParse(
+                                            _model.textController2.text)
+                                        : 0.0;
                                 safeSetState(() {});
                               },
                             ),

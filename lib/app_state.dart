@@ -30,7 +30,7 @@ class FFAppState extends ChangeNotifier {
       _sumIncomes = prefs.getDouble('ff_sumIncomes') ?? _sumIncomes;
     });
     _safeInit(() {
-      _save = prefs.getDouble('ff_save') ?? _save;
+      _sumSave = prefs.getDouble('ff_sumSave') ?? _sumSave;
     });
     _safeInit(() {
       _isNotificationRequested = prefs.getBool('ff_isNotificationRequested') ??
@@ -94,11 +94,11 @@ class FFAppState extends ChangeNotifier {
     prefs.setDouble('ff_sumIncomes', value);
   }
 
-  double _save = 0.0;
-  double get save => _save;
-  set save(double value) {
-    _save = value;
-    prefs.setDouble('ff_save', value);
+  double _sumSave = 0.0;
+  double get sumSave => _sumSave;
+  set sumSave(double value) {
+    _sumSave = value;
+    prefs.setDouble('ff_sumSave', value);
   }
 
   double _anualIncome = 0.0;

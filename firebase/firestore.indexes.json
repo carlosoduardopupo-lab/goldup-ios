@@ -49,7 +49,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "language",
+          "fieldPath": "profile",
           "order": "ASCENDING"
         },
         {

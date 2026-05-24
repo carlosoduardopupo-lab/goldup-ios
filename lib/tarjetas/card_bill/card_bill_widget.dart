@@ -49,7 +49,7 @@ class _CardBillWidgetState extends State<CardBillWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.0,
+      height: 80.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         boxShadow: [
@@ -177,14 +177,14 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.roboto(
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.bold,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                         color: FlutterFlowTheme.of(context).primary,
-                        fontSize: 18.0,
+                        fontSize: 20.0,
                         letterSpacing: 0.0,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         fontStyle:
                             FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
@@ -226,7 +226,7 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                     ),
                   ),
                 ),
-              ].divide(SizedBox(height: 9.0)),
+              ].divide(SizedBox(height: 0.0)),
             ),
           ),
         ],

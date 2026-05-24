@@ -59,8 +59,8 @@ class _TarjetadenoticiasWidgetState extends State<TarjetadenoticiasWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 315.0,
-      height: 335.0,
+      width: 160.8,
+      height: 208.03,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
@@ -104,7 +104,7 @@ class _TarjetadenoticiasWidgetState extends State<TarjetadenoticiasWidget> {
             child: Align(
               alignment: AlignmentDirectional(0.0, -1.0),
               child: Container(
-                height: 90.0,
+                height: 57.0,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).background,
                   borderRadius: BorderRadius.only(
@@ -132,7 +132,7 @@ class _TarjetadenoticiasWidgetState extends State<TarjetadenoticiasWidget> {
                             ),
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            fontSize: 16.0,
+                            fontSize: 12.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w600,
                             fontStyle: FlutterFlowTheme.of(context)

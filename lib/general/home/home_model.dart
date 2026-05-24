@@ -52,8 +52,12 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   String? url;
 
+  int? selectedTab = 0;
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - listenPlaidDeepLink] action in Home widget.
+  String? itemId;
   bool biometricResult = false;
   // Stores action output result for [Custom Action - getDeviceTimeZone] action in Home widget.
   String? timeZone1;

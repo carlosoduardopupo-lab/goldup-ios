@@ -712,3 +712,17 @@ String base64ToImageUrl(String? base64String) {
 // Devuelve como data URL lista para Image Path
   return 'data:image/png;base64,$cleaned';
 }
+
+String? buildProfileCode(
+  String? country,
+  String? language,
+) {
+  final cleanCountry = (country ?? '').trim().toLowerCase();
+  final cleanLanguage = (language ?? '').trim().toLowerCase();
+
+  if (cleanCountry.isEmpty || cleanLanguage.isEmpty) {
+    return '';
+  }
+
+  return '${cleanCountry}_${cleanLanguage}';
+}

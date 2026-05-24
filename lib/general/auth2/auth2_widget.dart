@@ -186,7 +186,7 @@ class _Auth2WidgetState extends State<Auth2Widget>
                         padding: EdgeInsets.all(12.0),
                         child: Container(
                           width: double.infinity,
-                          height: 456.0,
+                          height: 488.03,
                           constraints: BoxConstraints(
                             minHeight: 456.0,
                             maxWidth: 570.0,
@@ -948,8 +948,6 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                   .isChekSelect =
                                                               true;
                                                           safeSetState(() {});
-                                                          await authManager
-                                                              .sendEmailVerification();
                                                           await showModalBottomSheet(
                                                             isScrollControlled:
                                                                 true,

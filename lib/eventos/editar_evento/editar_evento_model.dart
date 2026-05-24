@@ -81,9 +81,6 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
   EventsRecord? events;
   // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
   SaveRecord? save;
-  // State field(s) for DropDown widget.
-  String? dropDownValue1;
-  FormFieldController<String>? dropDownValueController1;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -95,11 +92,11 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
   // State field(s) for Checkbox widget.
   bool? checkboxValue;
   // State field(s) for DropDown widget.
+  String? dropDownValue1;
+  FormFieldController<String>? dropDownValueController1;
+  // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
-  // State field(s) for DropDown widget.
-  String? dropDownValue3;
-  FormFieldController<String>? dropDownValueController3;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<DocumentsRecord>? docRecurrentes3;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.

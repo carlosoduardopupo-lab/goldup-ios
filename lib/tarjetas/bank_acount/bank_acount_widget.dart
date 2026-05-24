@@ -305,11 +305,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                     Text(
                       valueOrDefault<String>(
                         formatNumber(
-                          (widget!.bankAcountDocument?.isChequingAccount ==
-                                      true) ||
-                                  (widget!.bankAcountDocument
-                                          ?.isSavingAccount ==
-                                      true)
+                          widget!.bankAcountDocument?.isSavingAccount == true
                               ? widget!.bankAcountDocument?.currentBalance
                               : widget!.bankAcountDocument?.availableBalance,
                           formatType: FormatType.decimal,

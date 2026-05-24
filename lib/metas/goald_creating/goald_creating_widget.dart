@@ -1423,7 +1423,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                                       .fontStyle,
                                 ),
                             hintText: FFLocalizations.of(context).getText(
-                              '1c71oi4g' /* Select... */,
+                              '1c71oi4g' /* Seleccionar... */,
                             ),
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,
@@ -1551,7 +1551,7 @@ class _GoaldCreatingWidgetState extends State<GoaldCreatingWidget> {
                                       .fontStyle,
                                 ),
                             hintText: FFLocalizations.of(context).getText(
-                              '28ekisda' /* Select... */,
+                              '28ekisda' /* Seleccionar... */,
                             ),
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,

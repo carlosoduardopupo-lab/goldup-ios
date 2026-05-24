@@ -533,8 +533,12 @@ class _GastoWidgetState extends State<GastoWidget> {
                               '_model.textController2',
                               Duration(milliseconds: 2000),
                               () async {
-                                _model.amount = double.tryParse(
-                                    _model.textController2.text);
+                                _model.amount =
+                                    _model.textController2.text != null &&
+                                            _model.textController2.text != ''
+                                        ? double.tryParse(
+                                            _model.textController2.text)
+                                        : 0.0;
                                 safeSetState(() {});
                               },
                             ),
@@ -1043,7 +1047,7 @@ class _GastoWidgetState extends State<GastoWidget> {
                     onPressed: ((_model.type == null || _model.type == '') ||
                             (_model.description == null ||
                                 _model.description == '') ||
-                            (_model.amount! <= 0.0))
+                            (_model.amount! < 1.0))
                         ? null
                         : () async {
                             if (_model.formKey.currentState == null ||

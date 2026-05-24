@@ -86,7 +86,7 @@ class _TerminosWidgetState extends State<TerminosWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
               child: Text(
                 FFLocalizations.of(context).getText(
-                  '5ivxvsyj' /* Última actualización: Febrero ... */,
+                  '5ivxvsyj' /* Última actualización: Mayo 202... */,
                 ),
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.roboto(

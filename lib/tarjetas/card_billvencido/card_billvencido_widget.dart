@@ -49,7 +49,7 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80.0,
+      height: 85.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         boxShadow: [

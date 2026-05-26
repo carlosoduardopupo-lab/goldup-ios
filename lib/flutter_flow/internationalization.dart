@@ -146,13 +146,13 @@ bool _isSupportedLocale(Locale locale) {
 final kTranslationsMap = <Map<String, Map<String, String>>>[
   // Home
   {
-    '54ke7j8j': {
-      'es': 'Gold Up ',
-      'en': 'Gold Up',
-    },
     'xyo19ic5': {
       'es': '',
       'en': '',
+    },
+    '54ke7j8j': {
+      'es': 'Gold Up ',
+      'en': 'Gold Up',
     },
     'c82j86hl': {
       'es': 'Disponible para gastar',

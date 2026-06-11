@@ -51,7 +51,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Container(
-        height: 80.0,
+        height: 85.29,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
           boxShadow: [
@@ -120,73 +120,88 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                   ),
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Align(
-                          alignment: AlignmentDirectional(0.0, 0.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: AlignmentDirectional(-1.0, -1.0),
-                                child: Container(
-                                  width: 186.0,
-                                  decoration: BoxDecoration(),
-                                  child: Text(
-                                    valueOrDefault<String>(
-                                      widget!.docDocument?.type,
-                                      'type',
-                                    ),
-                                    maxLines: 2,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.roboto(
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment: AlignmentDirectional(-1.0, -1.0),
+                                  child: Container(
+                                    width: 186.0,
+                                    decoration: BoxDecoration(),
+                                    child: Text(
+                                      valueOrDefault<String>(
+                                        widget!.docDocument?.type,
+                                        'type',
+                                      ),
+                                      maxLines: 2,
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.roboto(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .accent1,
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
                                             fontStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .accent1,
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              if (widget!.docDocument?.accountName != null &&
-                                  widget!.docDocument?.accountName != '')
-                                RichText(
-                                  textScaler: MediaQuery.of(context).textScaler,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: valueOrDefault<String>(
-                                          widget!.docDocument?.accountName,
-                                          'accountName',
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              font: GoogleFonts.roboto(
+                                if (widget!.docDocument?.accountName != null &&
+                                    widget!.docDocument?.accountName != '')
+                                  RichText(
+                                    textScaler:
+                                        MediaQuery.of(context).textScaler,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: valueOrDefault<String>(
+                                            widget!.docDocument?.accountName,
+                                            'accountName',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.roboto(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -196,7 +211,12 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                                         .bodyMedium
                                                         .fontStyle,
                                               ),
-                                              letterSpacing: 0.0,
+                                        )
+                                      ],
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.roboto(
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -206,12 +226,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                      )
-                                    ],
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.roboto(
+                                            letterSpacing: 0.0,
                                             fontWeight:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMedium
@@ -221,133 +236,172 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                                     .bodyMedium
                                                     .fontStyle,
                                           ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                ),
-                              if (widget!.docDocument?.institutionName !=
-                                      null &&
-                                  widget!.docDocument?.institutionName != '')
-                                Align(
-                                  alignment: AlignmentDirectional(1.0, 0.0),
-                                  child: Text(
-                                    valueOrDefault<String>(
-                                      widget!.docDocument?.institutionName,
-                                      'InstitutionName',
                                     ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.roboto(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
                                   ),
-                                ),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            if (widget!.docDocument?.isEvent == false)
-                              Align(
-                                alignment: AlignmentDirectional(0.0, -1.0),
-                                child: Text(
-                                  valueOrDefault<String>(
-                                    formatNumber(
-                                      widget!.docDocument?.amount,
-                                      formatType: FormatType.decimal,
-                                      decimalType: DecimalType.automatic,
-                                      currency: '\$',
-                                    ),
-                                    '0',
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.roboto(
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        fontSize: 25.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
+                                if (widget!.docDocument?.institutionName !=
+                                        null &&
+                                    widget!.docDocument?.institutionName != '')
+                                  Align(
+                                    alignment: AlignmentDirectional(1.0, 0.0),
+                                    child: Text(
+                                      valueOrDefault<String>(
+                                        widget!.docDocument?.institutionName,
+                                        'InstitutionName',
                                       ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    child: Container(
-                      width: 320.0,
-                      decoration: BoxDecoration(),
-                      child: Visibility(
-                        visible: widget!.docDocument?.description != null &&
-                            widget!.docDocument?.description != '',
-                        child: Text(
-                          valueOrDefault<String>(
-                            widget!.docDocument?.description,
-                            'description',
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.normal,
-                                      fontStyle: FlutterFlowTheme.of(context)
+                                      style: FlutterFlowTheme.of(context)
                                           .bodyMedium
-                                          .fontStyle,
+                                          .override(
+                                            font: GoogleFonts.roboto(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                     ),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 14.0,
-                                    letterSpacing: 0.0,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 4.0, 0.0, 0.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                if (widget!.docDocument?.isEvent == false)
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, -1.0),
+                                    child: Text(
+                                      valueOrDefault<String>(
+                                        formatNumber(
+                                          widget!.docDocument?.amount,
+                                          formatType: FormatType.decimal,
+                                          decimalType: DecimalType.automatic,
+                                          currency: '\$',
+                                        ),
+                                        '0',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.roboto(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 25.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Container(
+                        width: 320.0,
+                        decoration: BoxDecoration(),
+                        child: Visibility(
+                          visible: widget!.docDocument?.description != null &&
+                              widget!.docDocument?.description != '',
+                          child: Text(
+                            valueOrDefault<String>(
+                              widget!.docDocument?.description,
+                              'description',
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.roboto(
                                     fontWeight: FontWeight.normal,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontStyle,
                                   ),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  fontSize: 14.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              if ((widget!.docDocument?.source == 'plaid') &&
+                  (widget!.docDocument?.isRecurrent == true))
+                Align(
+                  alignment: AlignmentDirectional(1.0, -1.0),
+                  child: Container(
+                    width: 100.0,
+                    height: 18.3,
+                    decoration: BoxDecoration(
+                      color: Color(0xC0373948),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Text(
+                        FFLocalizations.of(context).getText(
+                          '8mzduo3s' /* Recurrente */,
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.roboto(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).alternate,
+                              letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

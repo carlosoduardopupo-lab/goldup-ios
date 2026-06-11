@@ -104,7 +104,7 @@ class _InfoOtrosGastosWidgetState extends State<InfoOtrosGastosWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
               child: FFButtonWidget(
                 onPressed: () async {
                   Navigator.pop(context);

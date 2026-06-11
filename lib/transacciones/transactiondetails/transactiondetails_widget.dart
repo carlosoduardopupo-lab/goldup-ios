@@ -137,59 +137,28 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                     child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          color: FlutterFlowTheme.of(context).alternate,
-                          width: 2.0,
+                      width: 425.1,
+                      decoration: BoxDecoration(),
+                      child: Text(
+                        valueOrDefault<String>(
+                          widget!.docDocument?.description,
+                          'descripcion',
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(0.0),
-                            child: Image.network(
-                              widget!.docDocument?.merchantLogo != null &&
-                                      widget!.docDocument?.merchantLogo != ''
-                                  ? ''
-                                  : 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/calendar-ten2s9/assets/l25s4fxgsn2w/Neoclassical_bank_with_green_dollar_sign.png',
-                              width: 24.0,
-                              height: 24.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Container(
-                            width: 380.0,
-                            decoration: BoxDecoration(),
-                            child: Text(
-                              valueOrDefault<String>(
-                                widget!.docDocument?.description,
-                                'descripcion',
+                        maxLines: 4,
+                        style: FlutterFlowTheme.of(context).bodyLarge.override(
+                              font: GoogleFonts.roboto(
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .fontStyle,
                               ),
-                              maxLines: 4,
-                              style: FlutterFlowTheme.of(context)
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .fontStyle,
-                                    ),
-                                    fontSize: 18.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyLarge
-                                        .fontStyle,
-                                  ),
+                                  .fontStyle,
                             ),
-                          ),
-                        ].divide(SizedBox(width: 10.0)),
                       ),
                     ),
                   ),
@@ -274,6 +243,17 @@ class _TransactiondetailsWidgetState extends State<TransactiondetailsWidget> {
                                         (widget!.docDocument?.isGoal ==
                                             false)) {
                                       return Color(0xFF910303);
+                                    } else if ((widget!
+                                                .docDocument?.isOtherExpenses ==
+                                            false) &&
+                                        (widget!.docDocument?.isExpenses ==
+                                            false) &&
+                                        (widget!.docDocument?.isSave == true) &&
+                                        (widget!.docDocument?.isIncome ==
+                                            false) &&
+                                        (widget!.docDocument?.isGoal ==
+                                            false)) {
+                                      return Color(0xFF849405);
                                     } else {
                                       return Color(0xFF0505FD);
                                     }

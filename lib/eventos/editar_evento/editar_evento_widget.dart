@@ -46,36 +46,6 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.wait([
-        Future(() async {
-          _model.income = await queryIncomeRecordOnce(
-            singleRecord: true,
-          ).then((s) => s.firstOrNull);
-          _model.incom = _model.income!.type.toList().cast<String>();
-          safeSetState(() {});
-        }),
-        Future(() async {
-          _model.expenses = await queryExpensesRecordOnce(
-            singleRecord: true,
-          ).then((s) => s.firstOrNull);
-          _model.expense = _model.expenses!.type.toList().cast<String>();
-          safeSetState(() {});
-        }),
-        Future(() async {
-          _model.events = await queryEventsRecordOnce(
-            singleRecord: true,
-          ).then((s) => s.firstOrNull);
-          _model.evento = _model.events!.type.toList().cast<String>();
-          safeSetState(() {});
-        }),
-        Future(() async {
-          _model.save = await querySaveRecordOnce(
-            singleRecord: true,
-          ).then((s) => s.firstOrNull);
-          _model.saves = _model.save!.type.toList().cast<String>();
-          safeSetState(() {});
-        }),
-      ]);
       _model.type = widget!.docDocument?.type;
       _model.description = widget!.docDocument?.description;
       _model.amount = widget!.docDocument?.amount;
@@ -97,6 +67,10 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
       '0',
     ));
     _model.textFieldFocusNode2 ??= FocusNode();
+
+    _model.textController3 ??=
+        TextEditingController(text: widget!.docDocument?.note);
+    _model.textFieldFocusNode3 ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -316,151 +290,18 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                       ),
                     ],
                   ),
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(-1.0, 0.0),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                        child: Text(
-                          FFLocalizations.of(context).getText(
-                            'paumplas' /* Descripción (opcional) */,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-                      child: Container(
-                        width: double.infinity,
-                        height: 137.4,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          ),
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context).alternate,
-                          ),
-                        ),
-                        child: Container(
-                          width: 200.0,
-                          child: TextFormField(
-                            controller: _model.textController1,
-                            focusNode: _model.textFieldFocusNode1,
-                            onChanged: (_) => EasyDebounce.debounce(
-                              '_model.textController1',
-                              Duration(milliseconds: 2000),
-                              () async {
-                                _model.description =
-                                    _model.textController1.text;
-                                safeSetState(() {});
-                              },
-                            ),
-                            autofocus: false,
-                            enabled: true,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .labelMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontStyle,
-                                    ),
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontStyle,
-                                  ),
-                              hintText: FFLocalizations.of(context).getText(
-                                '2pb67126' /* Puedes dejar una breve descrip... */,
-                              ),
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .labelMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .fontStyle,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).error,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: FlutterFlowTheme.of(context).error,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
+                if (widget!.docDocument?.source == 'manual')
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(-1.0, 0.0),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              20.0, 0.0, 0.0, 0.0),
+                          child: Text(
+                            FFLocalizations.of(context).getText(
+                              'paumplas' /* Descripción (opcional) */,
                             ),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -481,17 +322,152 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            cursorColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            enableInteractiveSelection: true,
-                            validator: _model.textController1Validator
-                                .asValidator(context),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            20.0, 0.0, 20.0, 0.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: 137.4,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                            ),
+                            border: Border.all(
+                              color: FlutterFlowTheme.of(context).alternate,
+                            ),
+                          ),
+                          child: Container(
+                            width: 200.0,
+                            child: TextFormField(
+                              controller: _model.textController1,
+                              focusNode: _model.textFieldFocusNode1,
+                              onChanged: (_) => EasyDebounce.debounce(
+                                '_model.textController1',
+                                Duration(milliseconds: 2000),
+                                () async {
+                                  _model.description =
+                                      _model.textController1.text;
+                                  safeSetState(() {});
+                                },
+                              ),
+                              autofocus: false,
+                              enabled: true,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                labelStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                hintText: FFLocalizations.of(context).getText(
+                                  '2pb67126' /* Puedes dejar una breve descrip... */,
+                                ),
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).error,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).error,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                filled: true,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                              cursorColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                              enableInteractiveSelection: true,
+                              validator: _model.textController1Validator
+                                  .asValidator(context),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 if ((widget!.docDocument?.isEvent == false) &&
                     (widget!.docDocument?.source == 'manual'))
                   Column(
@@ -675,89 +651,232 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                       ),
                     ],
                   ),
-                if (widget!.docDocument?.isRecurrent == true)
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Align(
+                      alignment: AlignmentDirectional(-1.0, 0.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                        child: Text(
+                          FFLocalizations.of(context).getText(
+                            'olnkikmv' /* Nota */,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                      child: Container(
+                        width: double.infinity,
+                        height: 137.4,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                            bottomLeft: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                          ),
+                          border: Border.all(
+                            color: FlutterFlowTheme.of(context).alternate,
+                          ),
+                        ),
+                        child: Container(
+                          width: 200.0,
+                          child: TextFormField(
+                            controller: _model.textController3,
+                            focusNode: _model.textFieldFocusNode3,
+                            onChanged: (_) => EasyDebounce.debounce(
+                              '_model.textController3',
+                              Duration(milliseconds: 2000),
+                              () async {
+                                _model.note = _model.textController3.text;
+                                safeSetState(() {});
+                              },
+                            ),
+                            autofocus: false,
+                            enabled: true,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                              hintText: FFLocalizations.of(context).getText(
+                                'oktgpaar' /* Puedes dejar una breve descrip... */,
+                              ),
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0x00000000),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.roboto(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                            cursorColor:
+                                FlutterFlowTheme.of(context).primaryText,
+                            enableInteractiveSelection: true,
+                            validator: _model.textController3Validator
+                                .asValidator(context),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (widget!.docDocument?.source == 'plaid')
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        AuthUserStreamWidget(
-                          builder: (context) => Theme(
-                            data: ThemeData(
-                              checkboxTheme: CheckboxThemeData(
-                                visualDensity: VisualDensity.compact,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
+                        Theme(
+                          data: ThemeData(
+                            checkboxTheme: CheckboxThemeData(
+                              visualDensity: VisualDensity.compact,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
                               ),
-                              unselectedWidgetColor:
-                                  FlutterFlowTheme.of(context).alternate,
                             ),
-                            child: Checkbox(
-                              value: _model.checkboxValue ??=
-                                  widget!.docDocument!.isRecurrent,
-                              onChanged: ((valueOrDefault<bool>(
-                                              currentUserDocument?.isPremium,
-                                              false) ==
-                                          false) ||
-                                      (valueOrDefault<bool>(
-                                              currentUserDocument?.isBasic,
-                                              false) ==
-                                          true) ||
-                                      (valueOrDefault<bool>(
-                                              currentUserDocument
-                                                  ?.isBasicWhitAnunces,
-                                              false) ==
-                                          true))
-                                  ? null
-                                  : (newValue) async {
-                                      safeSetState(() =>
-                                          _model.checkboxValue = newValue!);
-                                      if (newValue!) {
-                                        _model.isRecurrent = true;
-                                        _model.editarSoloEsteEvento = false;
-                                        safeSetState(() {});
-                                      } else {
-                                        _model.isRecurrent = false;
-                                        _model.frequency = 'frequency';
-                                        _model.editarSoloEsteEvento = true;
-                                        safeSetState(() {});
-                                      }
-                                    },
-                              side: (FlutterFlowTheme.of(context).alternate !=
-                                      null)
-                                  ? BorderSide(
-                                      width: 2,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate!,
-                                    )
-                                  : null,
-                              activeColor: Color(0xFF01654D),
-                              checkColor: ((valueOrDefault<bool>(
-                                              currentUserDocument?.isPremium,
-                                              false) ==
-                                          false) ||
-                                      (valueOrDefault<bool>(
-                                              currentUserDocument?.isBasic,
-                                              false) ==
-                                          true) ||
-                                      (valueOrDefault<bool>(
-                                              currentUserDocument
-                                                  ?.isBasicWhitAnunces,
-                                              false) ==
-                                          true))
-                                  ? null
-                                  : FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                            ),
+                            unselectedWidgetColor:
+                                FlutterFlowTheme.of(context).alternate,
+                          ),
+                          child: Checkbox(
+                            value: _model.checkboxValue1 ??=
+                                widget!.docDocument!.isRecurrent,
+                            onChanged: (newValue) async {
+                              safeSetState(
+                                  () => _model.checkboxValue1 = newValue!);
+                              if (newValue!) {
+                                _model.isRecurrent = true;
+                                safeSetState(() {});
+                              } else {
+                                _model.isRecurrent = false;
+                                safeSetState(() {});
+                                _model.frequency = 'frequency';
+                                safeSetState(() {});
+                              }
+                            },
+                            side: (FlutterFlowTheme.of(context).alternate !=
+                                    null)
+                                ? BorderSide(
+                                    width: 2,
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate!,
+                                  )
+                                : null,
+                            activeColor: Color(0xFF01654D),
+                            checkColor: FlutterFlowTheme.of(context).alternate,
                           ),
                         ),
                         Text(
                           FFLocalizations.of(context).getText(
-                            'uc28cxro' /* Editar también todas las recur... */,
+                            'gjcwjsz6' /* Evento recurrente */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
@@ -781,8 +900,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                       ],
                     ),
                   ),
-                if ((widget!.docDocument?.isRecurrent == true) &&
-                    (widget!.docDocument?.source == 'manual'))
+                if (_model.isRecurrent == true)
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -929,16 +1047,9 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                       ),
                     ],
                   ),
-                if (((valueOrDefault<bool>(
-                                currentUserDocument?.isPremium, false) ==
-                            true) &&
-                        (valueOrDefault<bool>(
-                                currentUserDocument?.isBasic, false) ==
-                            false) &&
-                        (valueOrDefault<bool>(
-                                currentUserDocument?.isBasicWhitAnunces,
-                                false) ==
-                            false)) &&
+                if ((valueOrDefault<bool>(
+                            currentUserDocument?.isPremium, false) ==
+                        true) &&
                     (valueOrDefault(
                             currentUserDocument?.notificationAjustValue, 0) ==
                         2))
@@ -1130,8 +1241,115 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                       ),
                     ),
                   ),
+                if (_model.isRecurrent == true)
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        AuthUserStreamWidget(
+                          builder: (context) => Theme(
+                            data: ThemeData(
+                              checkboxTheme: CheckboxThemeData(
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                              ),
+                              unselectedWidgetColor:
+                                  FlutterFlowTheme.of(context).alternate,
+                            ),
+                            child: Checkbox(
+                              value: _model.checkboxValue2 ??=
+                                  widget!.docDocument!.isRecurrent,
+                              onChanged: ((valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          false) ||
+                                      (valueOrDefault<bool>(
+                                              currentUserDocument?.isBasic,
+                                              false) ==
+                                          true) ||
+                                      (valueOrDefault<bool>(
+                                              currentUserDocument
+                                                  ?.isBasicWhitAnunces,
+                                              false) ==
+                                          true))
+                                  ? null
+                                  : (newValue) async {
+                                      safeSetState(() =>
+                                          _model.checkboxValue2 = newValue!);
+                                      if (newValue!) {
+                                        _model.isRecurrent = true;
+                                        _model.editarSoloEsteEvento = false;
+                                        safeSetState(() {});
+                                      } else {
+                                        _model.isRecurrent = false;
+                                        _model.frequency = 'frequency';
+                                        _model.editarSoloEsteEvento = true;
+                                        safeSetState(() {});
+                                      }
+                                    },
+                              side: (FlutterFlowTheme.of(context).alternate !=
+                                      null)
+                                  ? BorderSide(
+                                      width: 2,
+                                      color: FlutterFlowTheme.of(context)
+                                          .alternate!,
+                                    )
+                                  : null,
+                              activeColor: Color(0xFF01654D),
+                              checkColor: ((valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          false) ||
+                                      (valueOrDefault<bool>(
+                                              currentUserDocument?.isBasic,
+                                              false) ==
+                                          true) ||
+                                      (valueOrDefault<bool>(
+                                              currentUserDocument
+                                                  ?.isBasicWhitAnunces,
+                                              false) ==
+                                          true))
+                                  ? null
+                                  : FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          FFLocalizations.of(context).getText(
+                            'uc28cxro' /* Editar también todas las recur... */,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                   child: FFButtonWidget(
                     onPressed: ((widget!.docDocument?.isEvent == false) &&
                                 (_model.amount! <= 0.0)
@@ -1147,42 +1365,11 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                     currentUserDocument?.isPremium, false) ==
                                 true) {
                               if (_model.editarSoloEsteEvento == true) {
-                                if (widget!.docDocument?.isExpenses == true) {
-                                  await widget!.docDocument!.reference.update({
-                                    ...createDocumentsRecordData(
-                                      type: _model.type,
-                                      description: _model.description,
-                                      amount: _model.amount,
-                                      isRecurrent: _model.isRecurrent,
-                                      notificationAt: _model.notificationAt,
-                                      isOtherExpenses: true,
-                                    ),
-                                    ...mapToFirestore(
-                                      {
-                                        'frequency': FieldValue.delete(),
-                                        'recurrenceId': FieldValue.delete(),
-                                        'frequencyCode': FieldValue.delete(),
-                                      },
-                                    ),
-                                  });
-                                } else {
-                                  await widget!.docDocument!.reference.update({
-                                    ...createDocumentsRecordData(
-                                      type: _model.type,
-                                      description: _model.description,
-                                      amount: _model.amount,
-                                      isRecurrent: _model.isRecurrent,
-                                      notificationAt: _model.notificationAt,
-                                    ),
-                                    ...mapToFirestore(
-                                      {
-                                        'frequency': FieldValue.delete(),
-                                        'recurrenceId': FieldValue.delete(),
-                                        'frequencyCode': FieldValue.delete(),
-                                      },
-                                    ),
-                                  });
-                                }
+                                await widget!.docDocument!.reference
+                                    .update(createDocumentsRecordData(
+                                  note: _model.note,
+                                  notificationAt: _model.notificationAt,
+                                ));
                               } else {
                                 if (widget!.docDocument?.frequency ==
                                     _model.frequency) {
@@ -1214,10 +1401,8 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
 
                                     await currentLoop1Item
                                         .update(createDocumentsRecordData(
-                                      type: _model.type,
-                                      description: _model.description,
-                                      amount: _model.amount,
                                       notificationAt: _model.notificationAt,
+                                      note: _model.note,
                                     ));
                                   }
                                 } else {
@@ -1251,101 +1436,188 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
 
                                   var documentsRecordReference1 =
                                       DocumentsRecord.collection.doc();
-                                  await documentsRecordReference1
-                                      .set(createDocumentsRecordData(
-                                    type: _model.type,
-                                    description: _model.description,
-                                    amount: _model.amount,
-                                    isRecurrent: _model.isRecurrent,
-                                    frequency: _model.frequency,
-                                    userRef: currentUserReference,
-                                    frequencyCode: () {
-                                      if (_model.frequency == 'Diario') {
-                                        return 1;
-                                      } else if (_model.frequency ==
-                                          'Semanal') {
-                                        return 7;
-                                      } else if (_model.frequency ==
-                                          'Quincenal') {
-                                        return 14;
-                                      } else if (_model.frequency ==
-                                          'Mensual') {
-                                        return 1001;
-                                      } else if (_model.frequency ==
-                                          'Trimestral') {
-                                        return 1003;
-                                      } else if (_model.frequency == 'Anual') {
-                                        return 1012;
-                                      } else {
-                                        return 0;
-                                      }
-                                    }(),
-                                    isIncome: widget!.docDocument?.isIncome,
-                                    date: widget!.docDocument?.date,
-                                    notificationAt: _model.notificationAt,
-                                    isSave: widget!.docDocument?.isSave,
-                                    isExpenses: widget!.docDocument?.isExpenses,
-                                    isEvent: widget!.docDocument?.isEvent,
-                                    isNotificationScheduledSent: false,
-                                    isNotificationTodaySent: false,
-                                    isInternalTransfer: false,
-                                    createdAt: getCurrentTimestamp,
-                                  ));
+                                  await documentsRecordReference1.set({
+                                    ...createDocumentsRecordData(
+                                      type: _model.type,
+                                      description: _model.description,
+                                      amount: _model.amount,
+                                      isRecurrent: _model.isRecurrent,
+                                      frequency: _model.frequency,
+                                      userRef: currentUserReference,
+                                      frequencyCode: () {
+                                        if ((_model.frequency == 'Diario') ||
+                                            (_model.frequency == 'Daily')) {
+                                          return 1;
+                                        } else if ((_model.frequency ==
+                                                'Semanal') ||
+                                            (_model.frequency == 'Weekly')) {
+                                          return 7;
+                                        } else if ((_model.frequency ==
+                                                'Quincenal') ||
+                                            (_model.frequency == 'Biweekly')) {
+                                          return 14;
+                                        } else if ((_model.frequency ==
+                                                'Mensual') ||
+                                            (_model.frequency == 'Monthly')) {
+                                          return 1001;
+                                        } else if ((_model.frequency ==
+                                                'Trimestral') ||
+                                            (_model.frequency == 'Quarterly')) {
+                                          return 1003;
+                                        } else if ((_model.frequency ==
+                                                'Anual') ||
+                                            (_model.frequency == 'Annual')) {
+                                          return 1012;
+                                        } else {
+                                          return 0;
+                                        }
+                                      }(),
+                                      isIncome: widget!.docDocument?.isIncome,
+                                      date: widget!.docDocument?.date,
+                                      notificationAt: _model.notificationAt,
+                                      isSave: widget!.docDocument?.isSave,
+                                      isExpenses:
+                                          widget!.docDocument?.isExpenses,
+                                      isEvent: widget!.docDocument?.isEvent,
+                                      isNotificationScheduledSent: false,
+                                      isNotificationTodaySent: false,
+                                      isInternalTransfer: false,
+                                      createdAt: getCurrentTimestamp,
+                                      note: _model.note,
+                                      isOtherExpenses:
+                                          widget!.docDocument?.isOtherExpenses,
+                                      source: 'plaid',
+                                      plaidAccountId:
+                                          widget!.docDocument?.plaidAccountId,
+                                      isoCurrencyCode:
+                                          widget!.docDocument?.isoCurrencyCode,
+                                      personalFinanceCategoryPrimary: widget!
+                                          .docDocument
+                                          ?.personalFinanceCategoryPrimary,
+                                      personalFinanceCategoryDetailed: widget!
+                                          .docDocument
+                                          ?.personalFinanceCategoryDetailed,
+                                      subtype: widget!.docDocument?.subtype,
+                                      merchantName:
+                                          widget!.docDocument?.merchantName,
+                                      merchantId:
+                                          widget!.docDocument?.merchantId,
+                                      merchantWebsite:
+                                          widget!.docDocument?.merchantWebsite,
+                                      merchantLogo:
+                                          widget!.docDocument?.merchantLogo,
+                                      accountName:
+                                          widget!.docDocument?.accountName,
+                                      institutionName:
+                                          widget!.docDocument?.institutionName,
+                                      isConfirmed: true,
+                                      occurrenceKey:
+                                          functions.dateToOccurrenceKey(
+                                              widget!.docDocument!.date),
+                                    ),
+                                    ...mapToFirestore(
+                                      {
+                                        'updatedAt':
+                                            FieldValue.serverTimestamp(),
+                                      },
+                                    ),
+                                  });
                                   _model.action1 =
-                                      DocumentsRecord.getDocumentFromData(
-                                          createDocumentsRecordData(
-                                            type: _model.type,
-                                            description: _model.description,
-                                            amount: _model.amount,
-                                            isRecurrent: _model.isRecurrent,
-                                            frequency: _model.frequency,
-                                            userRef: currentUserReference,
-                                            frequencyCode: () {
-                                              if (_model.frequency ==
-                                                  'Diario') {
-                                                return 1;
-                                              } else if (_model.frequency ==
-                                                  'Semanal') {
-                                                return 7;
-                                              } else if (_model.frequency ==
-                                                  'Quincenal') {
-                                                return 14;
-                                              } else if (_model.frequency ==
-                                                  'Mensual') {
-                                                return 1001;
-                                              } else if (_model.frequency ==
-                                                  'Trimestral') {
-                                                return 1003;
-                                              } else if (_model.frequency ==
-                                                  'Anual') {
-                                                return 1012;
-                                              } else {
-                                                return 0;
-                                              }
-                                            }(),
-                                            isIncome:
-                                                widget!.docDocument?.isIncome,
-                                            date: widget!.docDocument?.date,
-                                            notificationAt:
-                                                _model.notificationAt,
-                                            isSave: widget!.docDocument?.isSave,
-                                            isExpenses:
-                                                widget!.docDocument?.isExpenses,
-                                            isEvent:
-                                                widget!.docDocument?.isEvent,
-                                            isNotificationScheduledSent: false,
-                                            isNotificationTodaySent: false,
-                                            isInternalTransfer: false,
-                                            createdAt: getCurrentTimestamp,
-                                          ),
-                                          documentsRecordReference1);
+                                      DocumentsRecord.getDocumentFromData({
+                                    ...createDocumentsRecordData(
+                                      type: _model.type,
+                                      description: _model.description,
+                                      amount: _model.amount,
+                                      isRecurrent: _model.isRecurrent,
+                                      frequency: _model.frequency,
+                                      userRef: currentUserReference,
+                                      frequencyCode: () {
+                                        if ((_model.frequency == 'Diario') ||
+                                            (_model.frequency == 'Daily')) {
+                                          return 1;
+                                        } else if ((_model.frequency ==
+                                                'Semanal') ||
+                                            (_model.frequency == 'Weekly')) {
+                                          return 7;
+                                        } else if ((_model.frequency ==
+                                                'Quincenal') ||
+                                            (_model.frequency == 'Biweekly')) {
+                                          return 14;
+                                        } else if ((_model.frequency ==
+                                                'Mensual') ||
+                                            (_model.frequency == 'Monthly')) {
+                                          return 1001;
+                                        } else if ((_model.frequency ==
+                                                'Trimestral') ||
+                                            (_model.frequency == 'Quarterly')) {
+                                          return 1003;
+                                        } else if ((_model.frequency ==
+                                                'Anual') ||
+                                            (_model.frequency == 'Annual')) {
+                                          return 1012;
+                                        } else {
+                                          return 0;
+                                        }
+                                      }(),
+                                      isIncome: widget!.docDocument?.isIncome,
+                                      date: widget!.docDocument?.date,
+                                      notificationAt: _model.notificationAt,
+                                      isSave: widget!.docDocument?.isSave,
+                                      isExpenses:
+                                          widget!.docDocument?.isExpenses,
+                                      isEvent: widget!.docDocument?.isEvent,
+                                      isNotificationScheduledSent: false,
+                                      isNotificationTodaySent: false,
+                                      isInternalTransfer: false,
+                                      createdAt: getCurrentTimestamp,
+                                      note: _model.note,
+                                      isOtherExpenses:
+                                          widget!.docDocument?.isOtherExpenses,
+                                      source: 'plaid',
+                                      plaidAccountId:
+                                          widget!.docDocument?.plaidAccountId,
+                                      isoCurrencyCode:
+                                          widget!.docDocument?.isoCurrencyCode,
+                                      personalFinanceCategoryPrimary: widget!
+                                          .docDocument
+                                          ?.personalFinanceCategoryPrimary,
+                                      personalFinanceCategoryDetailed: widget!
+                                          .docDocument
+                                          ?.personalFinanceCategoryDetailed,
+                                      subtype: widget!.docDocument?.subtype,
+                                      merchantName:
+                                          widget!.docDocument?.merchantName,
+                                      merchantId:
+                                          widget!.docDocument?.merchantId,
+                                      merchantWebsite:
+                                          widget!.docDocument?.merchantWebsite,
+                                      merchantLogo:
+                                          widget!.docDocument?.merchantLogo,
+                                      accountName:
+                                          widget!.docDocument?.accountName,
+                                      institutionName:
+                                          widget!.docDocument?.institutionName,
+                                      isConfirmed: true,
+                                      occurrenceKey:
+                                          functions.dateToOccurrenceKey(
+                                              widget!.docDocument!.date),
+                                    ),
+                                    ...mapToFirestore(
+                                      {
+                                        'updatedAt': DateTime.now(),
+                                      },
+                                    ),
+                                  }, documentsRecordReference1);
 
                                   await _model.action1!.reference
                                       .update(createDocumentsRecordData(
                                     recurrenceId: _model.action1?.reference.id,
-                                    occurrenceKey:
-                                        functions.dateToOccurrenceKey(
-                                            _model.action1!.date),
+                                    isPending: _model.action1!.occurrenceKey <=
+                                            functions.dateToOccurrenceKey(functions
+                                                .normalizeToCalendarDatedateTime(
+                                                    getCurrentTimestamp))
+                                        ? false
+                                        : true,
                                   ));
                                   if (_model.action1?.isRecurrent == true) {
                                     for (int loop3Index = 0;
@@ -1366,71 +1638,150 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
 
                                       var documentsRecordReference2 =
                                           DocumentsRecord.collection.doc();
-                                      await documentsRecordReference2
-                                          .set(createDocumentsRecordData(
-                                        type: _model.action1?.type,
-                                        isIncome: _model.action1?.isIncome,
-                                        description:
-                                            _model.action1?.description,
-                                        date: currentLoop3Item,
-                                        amount: _model.action1?.amount,
-                                        isRecurrent:
-                                            _model.action1?.isRecurrent,
-                                        frequency: _model.action1?.frequency,
-                                        userRef: currentUserReference,
-                                        frequencyCode:
-                                            _model.action1?.frequencyCode,
-                                        recurrenceId:
-                                            _model.action1?.reference.id,
-                                        occurrenceKey:
-                                            functions.dateToOccurrenceKey(
-                                                currentLoop3Item),
-                                        notificationAt:
-                                            _model.action1?.notificationAt,
-                                        isSave: _model.action1?.isSave,
-                                        isExpenses: _model.action1?.isExpenses,
-                                        isEvent: _model.action1?.isEvent,
-                                        isNotificationScheduledSent: false,
-                                        isNotificationTodaySent: false,
-                                        isInternalTransfer: false,
-                                        createdAt: getCurrentTimestamp,
-                                      ));
+                                      await documentsRecordReference2.set({
+                                        ...createDocumentsRecordData(
+                                          type: _model.action1?.type,
+                                          isIncome: _model.action1?.isIncome,
+                                          description:
+                                              _model.action1?.description,
+                                          date: currentLoop3Item,
+                                          amount: _model.action1?.amount,
+                                          isRecurrent:
+                                              _model.action1?.isRecurrent,
+                                          frequency: _model.action1?.frequency,
+                                          userRef: currentUserReference,
+                                          frequencyCode:
+                                              _model.action1?.frequencyCode,
+                                          recurrenceId:
+                                              _model.action1?.reference.id,
+                                          occurrenceKey:
+                                              functions.dateToOccurrenceKey(
+                                                  currentLoop3Item),
+                                          notificationAt:
+                                              _model.action1?.notificationAt,
+                                          isSave: _model.action1?.isSave,
+                                          isExpenses:
+                                              _model.action1?.isExpenses,
+                                          isEvent: _model.action1?.isEvent,
+                                          isNotificationScheduledSent: false,
+                                          isNotificationTodaySent: false,
+                                          isInternalTransfer: false,
+                                          createdAt: getCurrentTimestamp,
+                                          note: _model.note,
+                                          isOtherExpenses:
+                                              _model.action1?.isOtherExpenses,
+                                          source: 'plaid',
+                                          isoCurrencyCode: widget!
+                                              .docDocument?.isoCurrencyCode,
+                                          personalFinanceCategoryPrimary: widget!
+                                              .docDocument
+                                              ?.personalFinanceCategoryPrimary,
+                                          personalFinanceCategoryDetailed: widget!
+                                              .docDocument
+                                              ?.personalFinanceCategoryDetailed,
+                                          subtype: widget!.docDocument?.subtype,
+                                          isPending: functions
+                                                      .dateToOccurrenceKey(
+                                                          currentLoop3Item) <=
+                                                  functions.dateToOccurrenceKey(
+                                                      functions
+                                                          .normalizeToCalendarDatedateTime(
+                                                              getCurrentTimestamp))
+                                              ? false
+                                              : true,
+                                          merchantName:
+                                              widget!.docDocument?.merchantName,
+                                          merchantId:
+                                              widget!.docDocument?.merchantId,
+                                          merchantWebsite: widget!
+                                              .docDocument?.merchantWebsite,
+                                          merchantLogo:
+                                              widget!.docDocument?.merchantLogo,
+                                          accountName:
+                                              widget!.docDocument?.accountName,
+                                          institutionName: widget!
+                                              .docDocument?.institutionName,
+                                          isConfirmed: true,
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'updatedAt':
+                                                FieldValue.serverTimestamp(),
+                                          },
+                                        ),
+                                      });
                                       _model.recurrente =
-                                          DocumentsRecord.getDocumentFromData(
-                                              createDocumentsRecordData(
-                                                type: _model.action1?.type,
-                                                isIncome:
-                                                    _model.action1?.isIncome,
-                                                description:
-                                                    _model.action1?.description,
-                                                date: currentLoop3Item,
-                                                amount: _model.action1?.amount,
-                                                isRecurrent:
-                                                    _model.action1?.isRecurrent,
-                                                frequency:
-                                                    _model.action1?.frequency,
-                                                userRef: currentUserReference,
-                                                frequencyCode: _model
-                                                    .action1?.frequencyCode,
-                                                recurrenceId: _model
-                                                    .action1?.reference.id,
-                                                occurrenceKey: functions
-                                                    .dateToOccurrenceKey(
-                                                        currentLoop3Item),
-                                                notificationAt: _model
-                                                    .action1?.notificationAt,
-                                                isSave: _model.action1?.isSave,
-                                                isExpenses:
-                                                    _model.action1?.isExpenses,
-                                                isEvent:
-                                                    _model.action1?.isEvent,
-                                                isNotificationScheduledSent:
-                                                    false,
-                                                isNotificationTodaySent: false,
-                                                isInternalTransfer: false,
-                                                createdAt: getCurrentTimestamp,
-                                              ),
-                                              documentsRecordReference2);
+                                          DocumentsRecord.getDocumentFromData({
+                                        ...createDocumentsRecordData(
+                                          type: _model.action1?.type,
+                                          isIncome: _model.action1?.isIncome,
+                                          description:
+                                              _model.action1?.description,
+                                          date: currentLoop3Item,
+                                          amount: _model.action1?.amount,
+                                          isRecurrent:
+                                              _model.action1?.isRecurrent,
+                                          frequency: _model.action1?.frequency,
+                                          userRef: currentUserReference,
+                                          frequencyCode:
+                                              _model.action1?.frequencyCode,
+                                          recurrenceId:
+                                              _model.action1?.reference.id,
+                                          occurrenceKey:
+                                              functions.dateToOccurrenceKey(
+                                                  currentLoop3Item),
+                                          notificationAt:
+                                              _model.action1?.notificationAt,
+                                          isSave: _model.action1?.isSave,
+                                          isExpenses:
+                                              _model.action1?.isExpenses,
+                                          isEvent: _model.action1?.isEvent,
+                                          isNotificationScheduledSent: false,
+                                          isNotificationTodaySent: false,
+                                          isInternalTransfer: false,
+                                          createdAt: getCurrentTimestamp,
+                                          note: _model.note,
+                                          isOtherExpenses:
+                                              _model.action1?.isOtherExpenses,
+                                          source: 'plaid',
+                                          isoCurrencyCode: widget!
+                                              .docDocument?.isoCurrencyCode,
+                                          personalFinanceCategoryPrimary: widget!
+                                              .docDocument
+                                              ?.personalFinanceCategoryPrimary,
+                                          personalFinanceCategoryDetailed: widget!
+                                              .docDocument
+                                              ?.personalFinanceCategoryDetailed,
+                                          subtype: widget!.docDocument?.subtype,
+                                          isPending: functions
+                                                      .dateToOccurrenceKey(
+                                                          currentLoop3Item) <=
+                                                  functions.dateToOccurrenceKey(
+                                                      functions
+                                                          .normalizeToCalendarDatedateTime(
+                                                              getCurrentTimestamp))
+                                              ? false
+                                              : true,
+                                          merchantName:
+                                              widget!.docDocument?.merchantName,
+                                          merchantId:
+                                              widget!.docDocument?.merchantId,
+                                          merchantWebsite: widget!
+                                              .docDocument?.merchantWebsite,
+                                          merchantLogo:
+                                              widget!.docDocument?.merchantLogo,
+                                          accountName:
+                                              widget!.docDocument?.accountName,
+                                          institutionName: widget!
+                                              .docDocument?.institutionName,
+                                          isConfirmed: true,
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'updatedAt': DateTime.now(),
+                                          },
+                                        ),
+                                      }, documentsRecordReference2);
                                     }
                                   }
                                 }

@@ -148,42 +148,85 @@ class _BankAccountsWidgetState extends State<BankAccountsWidget> {
                     itemBuilder: (context, listViewIndex) {
                       final listViewBankAccountsRecord =
                           listViewBankAccountsRecordList[listViewIndex];
-                      return InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          Navigator.pop(context);
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return Padding(
-                                padding: MediaQuery.viewInsetsOf(context),
-                                child: EliminarCuentaDeBancoWidget(
-                                  accountRef:
-                                      listViewBankAccountsRecord.reference,
-                                ),
-                              );
-                            },
-                          ).then((value) => safeSetState(() {}));
-                        },
-                        child: wrapWithModel(
-                          model: _model.bankAcountModels.getModel(
-                            listViewBankAccountsRecord.reference.id,
-                            listViewIndex,
-                          ),
-                          updateCallback: () => safeSetState(() {}),
-                          child: BankAcountWidget(
-                            key: Key(
-                              'Keyd10_${listViewBankAccountsRecord.reference.id}',
-                            ),
-                            bankAcountDocument: listViewBankAccountsRecord,
-                          ),
+                      return StreamBuilder<List<PlaidItemsRecord>>(
+                        stream: queryPlaidItemsRecord(
+                          queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                              .where(
+                                'userRef',
+                                isEqualTo: currentUserReference,
+                              )
+                              .where(
+                                'itemId',
+                                isEqualTo: listViewBankAccountsRecord.itemId,
+                              ),
+                          singleRecord: true,
                         ),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 40.0,
+                                height: 40.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          List<PlaidItemsRecord>
+                              bankAcountPlaidItemsRecordList = snapshot.data!;
+                          // Return an empty Container when the item does not exist.
+                          if (snapshot.data!.isEmpty) {
+                            return Container();
+                          }
+                          final bankAcountPlaidItemsRecord =
+                              bankAcountPlaidItemsRecordList.isNotEmpty
+                                  ? bankAcountPlaidItemsRecordList.first
+                                  : null;
+
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              Navigator.pop(context);
+                              await showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                enableDrag: false,
+                                context: context,
+                                builder: (context) {
+                                  return Padding(
+                                    padding: MediaQuery.viewInsetsOf(context),
+                                    child: EliminarCuentaDeBancoWidget(
+                                      accountRef:
+                                          listViewBankAccountsRecord.reference,
+                                    ),
+                                  );
+                                },
+                              ).then((value) => safeSetState(() {}));
+                            },
+                            child: wrapWithModel(
+                              model: _model.bankAcountModels.getModel(
+                                listViewBankAccountsRecord.reference.id,
+                                listViewIndex,
+                              ),
+                              updateCallback: () => safeSetState(() {}),
+                              child: BankAcountWidget(
+                                key: Key(
+                                  'Keyd10_${listViewBankAccountsRecord.reference.id}',
+                                ),
+                                bankAcountDocument: listViewBankAccountsRecord,
+                                needsAttention:
+                                    bankAcountPlaidItemsRecord!.needsAttention,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   );

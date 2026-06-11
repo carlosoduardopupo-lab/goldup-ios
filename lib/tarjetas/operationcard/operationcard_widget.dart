@@ -70,24 +70,15 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        'https://picsum.photos/seed/597/600',
-                        width: 24.0,
-                        height: 24.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
                     Container(
-                      width: 210.0,
+                      width: 224.0,
                       decoration: BoxDecoration(),
                       child: Text(
                         valueOrDefault<String>(
                           widget!.document?.description,
                           'description',
                         ),
-                        maxLines: 1,
+                        maxLines: 2,
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               font: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w600,
@@ -147,6 +138,12 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                               (widget!.document?.isGoal == false) &&
                               (widget!.document?.isIncome == false)) {
                             return Color(0xFFB80404);
+                          } else if ((widget!.document?.isExpenses == false) &&
+                              (widget!.document?.isOtherExpenses == false) &&
+                              (widget!.document?.isSave == true) &&
+                              (widget!.document?.isGoal == false) &&
+                              (widget!.document?.isIncome == false)) {
+                            return Color(0xFF849405);
                           } else {
                             return Color(0xFF0505FD);
                           }

@@ -70,17 +70,11 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
   void updateSavesAtIndex(int index, Function(String) updateFn) =>
       saves[index] = updateFn(saves[index]);
 
+  String? note;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();
-  // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
-  IncomeRecord? income;
-  // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
-  ExpensesRecord? expenses;
-  // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
-  EventsRecord? events;
-  // Stores action output result for [Firestore Query - Query a collection] action in EditarEvento widget.
-  SaveRecord? save;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -89,14 +83,20 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
   String? Function(BuildContext, String?)? textController2Validator;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode3;
+  TextEditingController? textController3;
+  String? Function(BuildContext, String?)? textController3Validator;
   // State field(s) for Checkbox widget.
-  bool? checkboxValue;
+  bool? checkboxValue1;
   // State field(s) for DropDown widget.
   String? dropDownValue1;
   FormFieldController<String>? dropDownValueController1;
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue2;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<DocumentsRecord>? docRecurrentes3;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
@@ -118,5 +118,8 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
 
     textFieldFocusNode2?.dispose();
     textController2?.dispose();
+
+    textFieldFocusNode3?.dispose();
+    textController3?.dispose();
   }
 }

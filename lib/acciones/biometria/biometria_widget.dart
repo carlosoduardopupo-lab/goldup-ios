@@ -310,7 +310,7 @@ class _BiometriaWidgetState extends State<BiometriaWidget> {
                 if (FFAppState().isBiometricEnabled == true)
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         FFAppState().isBiometricEnabled = false;

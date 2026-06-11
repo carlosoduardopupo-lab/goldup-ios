@@ -203,7 +203,7 @@ class _VerificatucorreoWidgetState extends State<VerificatucorreoWidget> {
             Align(
               alignment: AlignmentDirectional(0.0, 0.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 40.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     await authManager.refreshUser();

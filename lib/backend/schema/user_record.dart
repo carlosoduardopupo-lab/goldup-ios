@@ -141,6 +141,11 @@ class UserRecord extends FirestoreRecord {
   String get timeZone => _timeZone ?? '';
   bool hasTimeZone() => _timeZone != null;
 
+  // "isTransactionsVerificated" field.
+  bool? _isTransactionsVerificated;
+  bool get isTransactionsVerificated => _isTransactionsVerificated ?? false;
+  bool hasIsTransactionsVerificated() => _isTransactionsVerificated != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -168,6 +173,8 @@ class UserRecord extends FirestoreRecord {
     _isIncomeCreated = snapshotData['isIncomeCreated'] as bool?;
     _isCreditScoreSet = snapshotData['isCreditScoreSet'] as bool?;
     _timeZone = snapshotData['timeZone'] as String?;
+    _isTransactionsVerificated =
+        snapshotData['isTransactionsVerificated'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -229,6 +236,7 @@ Map<String, dynamic> createUserRecordData({
   bool? isIncomeCreated,
   bool? isCreditScoreSet,
   String? timeZone,
+  bool? isTransactionsVerificated,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -257,6 +265,7 @@ Map<String, dynamic> createUserRecordData({
       'isIncomeCreated': isIncomeCreated,
       'isCreditScoreSet': isCreditScoreSet,
       'timeZone': timeZone,
+      'isTransactionsVerificated': isTransactionsVerificated,
     }.withoutNulls,
   );
 
@@ -292,7 +301,8 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e1?.isAccountsVinculated == e2?.isAccountsVinculated &&
         e1?.isIncomeCreated == e2?.isIncomeCreated &&
         e1?.isCreditScoreSet == e2?.isCreditScoreSet &&
-        e1?.timeZone == e2?.timeZone;
+        e1?.timeZone == e2?.timeZone &&
+        e1?.isTransactionsVerificated == e2?.isTransactionsVerificated;
   }
 
   @override
@@ -321,7 +331,8 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.isAccountsVinculated,
         e?.isIncomeCreated,
         e?.isCreditScoreSet,
-        e?.timeZone
+        e?.timeZone,
+        e?.isTransactionsVerificated
       ]);
 
   @override

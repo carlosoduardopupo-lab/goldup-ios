@@ -937,6 +937,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                 FFLocalizations.of(
                                                                         context)
                                                                     .languageCode,
+                                                            isTransactionsVerificated:
+                                                                true,
                                                           ));
                                                           FFAppState()
                                                                   .isCalendarSet =

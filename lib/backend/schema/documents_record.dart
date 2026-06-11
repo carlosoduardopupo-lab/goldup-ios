@@ -210,11 +210,6 @@ class DocumentsRecord extends FirestoreRecord {
   String get accountName => _accountName ?? '';
   bool hasAccountName() => _accountName != null;
 
-  // "InstitutionName" field.
-  String? _institutionName;
-  String get institutionName => _institutionName ?? '';
-  bool hasInstitutionName() => _institutionName != null;
-
   // "date" field.
   String? _date;
   String get date => _date ?? '';
@@ -229,6 +224,31 @@ class DocumentsRecord extends FirestoreRecord {
   int? _occurrenceKey;
   int get occurrenceKey => _occurrenceKey ?? 0;
   bool hasOccurrenceKey() => _occurrenceKey != null;
+
+  // "institutionName" field.
+  String? _institutionName;
+  String get institutionName => _institutionName ?? '';
+  bool hasInstitutionName() => _institutionName != null;
+
+  // "isRemoved" field.
+  bool? _isRemoved;
+  bool get isRemoved => _isRemoved ?? false;
+  bool hasIsRemoved() => _isRemoved != null;
+
+  // "updatedAt" field.
+  DateTime? _updatedAt;
+  DateTime? get updatedAt => _updatedAt;
+  bool hasUpdatedAt() => _updatedAt != null;
+
+  // "isConfirmed" field.
+  bool? _isConfirmed;
+  bool get isConfirmed => _isConfirmed ?? false;
+  bool hasIsConfirmed() => _isConfirmed != null;
+
+  // "note" field.
+  String? _note;
+  String get note => _note ?? '';
+  bool hasNote() => _note != null;
 
   void _initializeFields() {
     _type = snapshotData['type'] as String?;
@@ -272,10 +292,14 @@ class DocumentsRecord extends FirestoreRecord {
     _merchantLogo = snapshotData['merchantLogo'] as String?;
     _goaldName = snapshotData['goaldName'] as String?;
     _accountName = snapshotData['accountName'] as String?;
-    _institutionName = snapshotData['InstitutionName'] as String?;
     _date = snapshotData['date'] as String?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
     _occurrenceKey = castToType<int>(snapshotData['occurrenceKey']);
+    _institutionName = snapshotData['institutionName'] as String?;
+    _isRemoved = snapshotData['isRemoved'] as bool?;
+    _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _isConfirmed = snapshotData['isConfirmed'] as bool?;
+    _note = snapshotData['note'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -351,10 +375,14 @@ Map<String, dynamic> createDocumentsRecordData({
   String? merchantLogo,
   String? goaldName,
   String? accountName,
-  String? institutionName,
   String? date,
   DateTime? createdAt,
   int? occurrenceKey,
+  String? institutionName,
+  bool? isRemoved,
+  DateTime? updatedAt,
+  bool? isConfirmed,
+  String? note,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -396,10 +424,14 @@ Map<String, dynamic> createDocumentsRecordData({
       'merchantLogo': merchantLogo,
       'goaldName': goaldName,
       'accountName': accountName,
-      'InstitutionName': institutionName,
       'date': date,
       'createdAt': createdAt,
       'occurrenceKey': occurrenceKey,
+      'institutionName': institutionName,
+      'isRemoved': isRemoved,
+      'updatedAt': updatedAt,
+      'isConfirmed': isConfirmed,
+      'note': note,
     }.withoutNulls,
   );
 
@@ -451,10 +483,14 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e1?.merchantLogo == e2?.merchantLogo &&
         e1?.goaldName == e2?.goaldName &&
         e1?.accountName == e2?.accountName &&
-        e1?.institutionName == e2?.institutionName &&
         e1?.date == e2?.date &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.occurrenceKey == e2?.occurrenceKey;
+        e1?.occurrenceKey == e2?.occurrenceKey &&
+        e1?.institutionName == e2?.institutionName &&
+        e1?.isRemoved == e2?.isRemoved &&
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.isConfirmed == e2?.isConfirmed &&
+        e1?.note == e2?.note;
   }
 
   @override
@@ -497,10 +533,14 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.merchantLogo,
         e?.goaldName,
         e?.accountName,
-        e?.institutionName,
         e?.date,
         e?.createdAt,
-        e?.occurrenceKey
+        e?.occurrenceKey,
+        e?.institutionName,
+        e?.isRemoved,
+        e?.updatedAt,
+        e?.isConfirmed,
+        e?.note
       ]);
 
   @override

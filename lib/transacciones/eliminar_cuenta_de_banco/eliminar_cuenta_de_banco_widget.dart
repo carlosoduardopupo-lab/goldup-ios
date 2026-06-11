@@ -213,7 +213,8 @@ class _EliminarCuentaDeBancoWidgetState
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                   child: FFButtonWidget(
                     onPressed: () async {
                       _model.bankAccounts =
@@ -238,6 +239,22 @@ class _EliminarCuentaDeBancoWidgetState
                         await currentLoop1Item.reference.delete();
                       }
                       await widget!.accountRef!.delete();
+                      FFAppState().sumExpenses = 0.0;
+                      FFAppState().sumIncomes = 0.0;
+                      FFAppState().sumSave = 0.0;
+                      FFAppState().anualIncome = 0.0;
+                      FFAppState().anualExpenses = 0.0;
+                      FFAppState().anualCashFlow = 0.0;
+                      FFAppState().mensualCashFlow = 0.0;
+                      FFAppState().anualSaves = 0.0;
+                      FFAppState().sumIncomPending = 0.0;
+                      FFAppState().sumExpePending = 0.0;
+                      FFAppState().sumChekAccount = 0.0;
+                      FFAppState().sumSaveAccount = 0.0;
+                      FFAppState().sumSavePending = 0.0;
+                      FFAppState().sumCreditAccount = 0.0;
+                      FFAppState().cashFlowProyected = 0.0;
+                      safeSetState(() {});
                       Navigator.pop(context);
 
                       safeSetState(() {});

@@ -124,7 +124,7 @@ DateTime getLastMonthDateTime(DateTime inputDate) {
   return DateTime(year, month);
 }
 
-double sumincomes(List<double> docs) {
+double sum(List<double> docs) {
   double total = 0.0;
 
   for (final v in docs) {
@@ -725,4 +725,18 @@ String? buildProfileCode(
   }
 
   return '${cleanCountry}_${cleanLanguage}';
+}
+
+List<int>? last30DaysOccurrenceKey(DateTime inputDate) {
+  final now = inputDate;
+  final sixMonthsAgo = now.subtract(const Duration(days: 31));
+
+  // inicio del rango → YYYYMMDD
+  final int startKey =
+      sixMonthsAgo.year * 10000 + sixMonthsAgo.month * 100 + sixMonthsAgo.day;
+
+  // fin del rango → YYYYMMDD
+  final int endKey = now.year * 10000 + now.month * 100 + now.day;
+
+  return [startKey, endKey];
 }

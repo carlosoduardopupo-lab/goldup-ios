@@ -86,6 +86,11 @@ class PlaidItemsRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "needsAttention" field.
+  bool? _needsAttention;
+  bool get needsAttention => _needsAttention ?? false;
+  bool hasNeedsAttention() => _needsAttention != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
@@ -101,6 +106,7 @@ class PlaidItemsRecord extends FirestoreRecord {
     _lastSyncRequestId = snapshotData['lastSyncRequestId'] as String?;
     _lastSyncedAt = snapshotData['lastSyncedAt'] as DateTime?;
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
+    _needsAttention = snapshotData['needsAttention'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -152,6 +158,7 @@ Map<String, dynamic> createPlaidItemsRecordData({
   String? lastSyncRequestId,
   DateTime? lastSyncedAt,
   DateTime? updatedAt,
+  bool? needsAttention,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -169,6 +176,7 @@ Map<String, dynamic> createPlaidItemsRecordData({
       'lastSyncRequestId': lastSyncRequestId,
       'lastSyncedAt': lastSyncedAt,
       'updatedAt': updatedAt,
+      'needsAttention': needsAttention,
     }.withoutNulls,
   );
 
@@ -193,7 +201,8 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e1?.lastWebhookAt == e2?.lastWebhookAt &&
         e1?.lastSyncRequestId == e2?.lastSyncRequestId &&
         e1?.lastSyncedAt == e2?.lastSyncedAt &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.needsAttention == e2?.needsAttention;
   }
 
   @override
@@ -211,7 +220,8 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e?.lastWebhookAt,
         e?.lastSyncRequestId,
         e?.lastSyncedAt,
-        e?.updatedAt
+        e?.updatedAt,
+        e?.needsAttention
       ]);
 
   @override

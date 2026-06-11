@@ -104,7 +104,7 @@ class _TerminosWidgetState extends State<TerminosWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
               child: FFButtonWidget(
                 onPressed: () async {
                   Navigator.pop(context);

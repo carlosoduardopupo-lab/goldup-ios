@@ -37,6 +37,16 @@ class FFAppState extends ChangeNotifier {
           _isNotificationRequested;
     });
     _safeInit(() {
+      _sumIncomPending =
+          prefs.getDouble('ff_sumIncomPending') ?? _sumIncomPending;
+    });
+    _safeInit(() {
+      _sumExpePending = prefs.getDouble('ff_sumExpePending') ?? _sumExpePending;
+    });
+    _safeInit(() {
+      _sumSavePending = prefs.getDouble('ff_sumSavePending') ?? _sumSavePending;
+    });
+    _safeInit(() {
       _isBiometricEnabled =
           prefs.getBool('ff_isBiometricEnabled') ?? _isBiometricEnabled;
     });
@@ -63,6 +73,30 @@ class FFAppState extends ChangeNotifier {
           ? DateTime.fromMillisecondsSinceEpoch(
               prefs.getInt('ff_selectedDate')!)
           : _selectedDate;
+    });
+    _safeInit(() {
+      _sumChekAccount = prefs.getDouble('ff_sumChekAccount') ?? _sumChekAccount;
+    });
+    _safeInit(() {
+      _sumSaveAccount = prefs.getDouble('ff_sumSaveAccount') ?? _sumSaveAccount;
+    });
+    _safeInit(() {
+      _sumCreditAccount =
+          prefs.getDouble('ff_sumCreditAccount') ?? _sumCreditAccount;
+    });
+    _safeInit(() {
+      _cashFlowProyected =
+          prefs.getDouble('ff_cashFlowProyected') ?? _cashFlowProyected;
+    });
+    _safeInit(() {
+      _sumPendings = prefs.getDouble('ff_sumPendings') ?? _sumPendings;
+    });
+    _safeInit(() {
+      _sumBankBalan = prefs.getDouble('ff_sumBankBalan') ?? _sumBankBalan;
+    });
+    _safeInit(() {
+      _sumInternalPendings =
+          prefs.getDouble('ff_sumInternalPendings') ?? _sumInternalPendings;
     });
   }
 
@@ -138,6 +172,27 @@ class FFAppState extends ChangeNotifier {
     _anualSaves = value;
   }
 
+  double _sumIncomPending = 0.0;
+  double get sumIncomPending => _sumIncomPending;
+  set sumIncomPending(double value) {
+    _sumIncomPending = value;
+    prefs.setDouble('ff_sumIncomPending', value);
+  }
+
+  double _sumExpePending = 0.0;
+  double get sumExpePending => _sumExpePending;
+  set sumExpePending(double value) {
+    _sumExpePending = value;
+    prefs.setDouble('ff_sumExpePending', value);
+  }
+
+  double _sumSavePending = 0.0;
+  double get sumSavePending => _sumSavePending;
+  set sumSavePending(double value) {
+    _sumSavePending = value;
+    prefs.setDouble('ff_sumSavePending', value);
+  }
+
   bool _isBiometricEnabled = false;
   bool get isBiometricEnabled => _isBiometricEnabled;
   set isBiometricEnabled(bool value) {
@@ -200,6 +255,55 @@ class FFAppState extends ChangeNotifier {
     value != null
         ? prefs.setInt('ff_selectedDate', value.millisecondsSinceEpoch)
         : prefs.remove('ff_selectedDate');
+  }
+
+  double _sumChekAccount = 0.0;
+  double get sumChekAccount => _sumChekAccount;
+  set sumChekAccount(double value) {
+    _sumChekAccount = value;
+    prefs.setDouble('ff_sumChekAccount', value);
+  }
+
+  double _sumSaveAccount = 0.0;
+  double get sumSaveAccount => _sumSaveAccount;
+  set sumSaveAccount(double value) {
+    _sumSaveAccount = value;
+    prefs.setDouble('ff_sumSaveAccount', value);
+  }
+
+  double _sumCreditAccount = 0.0;
+  double get sumCreditAccount => _sumCreditAccount;
+  set sumCreditAccount(double value) {
+    _sumCreditAccount = value;
+    prefs.setDouble('ff_sumCreditAccount', value);
+  }
+
+  double _cashFlowProyected = 0.0;
+  double get cashFlowProyected => _cashFlowProyected;
+  set cashFlowProyected(double value) {
+    _cashFlowProyected = value;
+    prefs.setDouble('ff_cashFlowProyected', value);
+  }
+
+  double _sumPendings = 0.0;
+  double get sumPendings => _sumPendings;
+  set sumPendings(double value) {
+    _sumPendings = value;
+    prefs.setDouble('ff_sumPendings', value);
+  }
+
+  double _sumBankBalan = 0.0;
+  double get sumBankBalan => _sumBankBalan;
+  set sumBankBalan(double value) {
+    _sumBankBalan = value;
+    prefs.setDouble('ff_sumBankBalan', value);
+  }
+
+  double _sumInternalPendings = 0.0;
+  double get sumInternalPendings => _sumInternalPendings;
+  set sumInternalPendings(double value) {
+    _sumInternalPendings = value;
+    prefs.setDouble('ff_sumInternalPendings', value);
   }
 }
 

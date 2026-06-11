@@ -16,3 +16,5 @@ const exchangePublicTokenV2 = require("./exchange_public_token_v2.js");
 exports.exchangePublicTokenV2 = exchangePublicTokenV2.exchangePublicTokenV2;
 const startPlaidLinkWebV2 = require("./start_plaid_link_web_v2.js");
 exports.startPlaidLinkWebV2 = startPlaidLinkWebV2.startPlaidLinkWebV2;
+const startPlaidUpdateModeV2 = require("./start_plaid_update_mode_v2.js");
+exports.startPlaidUpdateModeV2 = startPlaidUpdateModeV2.startPlaidUpdateModeV2;

@@ -136,6 +136,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: WelcomeWidget.routeName,
           path: WelcomeWidget.routePath,
           builder: (context, params) => WelcomeWidget(),
+        ),
+        FFRoute(
+          name: RecurrentesWidget.routeName,
+          path: RecurrentesWidget.routePath,
+          builder: (context, params) => RecurrentesWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

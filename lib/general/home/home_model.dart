@@ -1,4 +1,6 @@
 import '/acciones/ajustes/ajustes_widget.dart';
+import '/acciones/conectarcuentas/conectarcuentas_widget.dart';
+import '/acciones/reconectarcuentas/reconectarcuentas_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -67,6 +69,28 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   String? timeZone;
   // Stores action output result for [Backend Call - API (GetUserLocationByIP)] action in Home widget.
   ApiCallResponse? apiResult;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? incomesRec;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<BankAccountsRecord>? chekingAccoun;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? expenseRecu;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<BankAccountsRecord>? savesAccoun;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? savesRecu;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<BankAccountsRecord>? creditAccou;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? internalPending;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? incomes;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? expense;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  List<DocumentsRecord>? saves;
+  // Stores action output result for [Firestore Query - Query a collection] action in Home widget.
+  DocumentsRecord? isset;
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
@@ -75,7 +99,25 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
       tabBarController != null ? tabBarController!.previousIndex : 0;
 
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  DocumentsRecord? isset;
+  List<DocumentsRecord>? incomesPending1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<BankAccountsRecord>? chekingAccoun1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? expensePending1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<BankAccountsRecord>? savesAccoun1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? savesPending1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<BankAccountsRecord>? creditAccou1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? internalPending1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? incomes1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? expense1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? saves1;
   // Model for cardBill component.
   late CardBillModel cardBillModel1;
   // Models for TarjetadeAdds dynamic component.
@@ -91,17 +133,25 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   // Models for cardBillvencido dynamic component.
   late FlutterFlowDynamicModels<CardBillvencidoModel> cardBillvencidoModels;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? incomes;
+  List<DocumentsRecord>? incomesPending2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? expense;
+  List<BankAccountsRecord>? chekingAccoun2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? saves;
+  List<DocumentsRecord>? expensePending2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? anualncomes;
+  List<BankAccountsRecord>? savesAccoun2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? anualExpense;
+  List<DocumentsRecord>? savesPending2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<DocumentsRecord>? anualSaves;
+  List<BankAccountsRecord>? creditAccou2;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? internalPending2;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? incomes2;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? expense2;
+  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
+  List<DocumentsRecord>? saves2;
   // Models for BankAcount dynamic component.
   late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels1;
   // Models for BankAcount dynamic component.
@@ -112,6 +162,10 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   StartPlaidLinkWebV2CloudFunctionCallResponse? plaidStartResult;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   PlaidLinkSessionsRecord? weburl;
+  // Stores action output result for [Cloud Function - startPlaidLinkWebV2] action in Button widget.
+  StartPlaidLinkWebV2CloudFunctionCallResponse? plaidStartResult1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  PlaidLinkSessionsRecord? weburl1;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<BankAccountsRecord>? accounts;
   // Models for metascard dynamic component.

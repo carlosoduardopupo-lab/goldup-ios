@@ -127,6 +127,7 @@ final parametersBuilderMap =
         },
       ),
   'welcome': ParameterData.none(),
+  'recurrentes': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

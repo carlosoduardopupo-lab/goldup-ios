@@ -513,17 +513,6 @@ class _CalendarCompWidgetState extends State<CalendarCompWidget> {
                                                 BorderRadius.circular(24.0),
                                           ),
                                         ),
-                                      if (calendarItem.hasInternalTransfer ==
-                                          true)
-                                        Container(
-                                          width: 6.0,
-                                          height: 6.0,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFF56D18),
-                                            borderRadius:
-                                                BorderRadius.circular(24.0),
-                                          ),
-                                        ),
                                     ].divide(SizedBox(width: 3.0)),
                                   ),
                                 ),

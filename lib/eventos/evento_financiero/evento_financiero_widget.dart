@@ -846,7 +846,8 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                     ),
                   ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                   child: FFButtonWidget(
                     onPressed: ((_model.type == null || _model.type == '') ||
                             (_model.description == null ||
@@ -870,17 +871,23 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                               frequency: _model.frequency,
                               userRef: currentUserReference,
                               frequencyCode: () {
-                                if (_model.frequency == 'Diario') {
+                                if ((_model.frequency == 'Diario') ||
+                                    (_model.frequency == 'Daily')) {
                                   return 1;
-                                } else if (_model.frequency == 'Semanal') {
+                                } else if ((_model.frequency == 'Semanal') ||
+                                    (_model.frequency == 'Weekly')) {
                                   return 7;
-                                } else if (_model.frequency == 'Quincenal') {
+                                } else if ((_model.frequency == 'Quincenal') ||
+                                    (_model.frequency == 'Biweekly')) {
                                   return 14;
-                                } else if (_model.frequency == 'Mensual') {
+                                } else if ((_model.frequency == 'Mensual') ||
+                                    (_model.frequency == 'Monthly')) {
                                   return 1001;
-                                } else if (_model.frequency == 'Trimestral') {
+                                } else if ((_model.frequency == 'Trimestral') ||
+                                    (_model.frequency == 'Quarterly')) {
                                   return 1003;
-                                } else if (_model.frequency == 'Anual') {
+                                } else if ((_model.frequency == 'Anual') ||
+                                    (_model.frequency == 'Annual')) {
                                   return 1012;
                                 } else {
                                   return 0;
@@ -913,22 +920,28 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                       frequency: _model.frequency,
                                       userRef: currentUserReference,
                                       frequencyCode: () {
-                                        if (_model.frequency == 'Diario') {
+                                        if ((_model.frequency == 'Diario') ||
+                                            (_model.frequency == 'Daily')) {
                                           return 1;
-                                        } else if (_model.frequency ==
-                                            'Semanal') {
+                                        } else if ((_model.frequency ==
+                                                'Semanal') ||
+                                            (_model.frequency == 'Weekly')) {
                                           return 7;
-                                        } else if (_model.frequency ==
-                                            'Quincenal') {
+                                        } else if ((_model.frequency ==
+                                                'Quincenal') ||
+                                            (_model.frequency == 'Biweekly')) {
                                           return 14;
-                                        } else if (_model.frequency ==
-                                            'Mensual') {
+                                        } else if ((_model.frequency ==
+                                                'Mensual') ||
+                                            (_model.frequency == 'Monthly')) {
                                           return 1001;
-                                        } else if (_model.frequency ==
-                                            'Trimestral') {
+                                        } else if ((_model.frequency ==
+                                                'Trimestral') ||
+                                            (_model.frequency == 'Quarterly')) {
                                           return 1003;
-                                        } else if (_model.frequency ==
-                                            'Anual') {
+                                        } else if ((_model.frequency ==
+                                                'Anual') ||
+                                            (_model.frequency == 'Annual')) {
                                           return 1012;
                                         } else {
                                           return 0;

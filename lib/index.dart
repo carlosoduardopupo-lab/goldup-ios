@@ -5,3 +5,5 @@ export '/ajustes/sett/sett_widget.dart' show SettWidget;
 export '/ajustes/planes/planes_widget.dart' show PlanesWidget;
 export '/transacciones/operations/operations_widget.dart' show OperationsWidget;
 export '/general/welcome/welcome_widget.dart' show WelcomeWidget;
+export '/transacciones/recurrentes/recurrentes_widget.dart'
+    show RecurrentesWidget;

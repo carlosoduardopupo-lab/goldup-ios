@@ -76,3 +76,14 @@ class StartPlaidLinkWebV2CloudFunctionCallResponse {
   bool? succeeded;
   dynamic jsonBody;
 }
+
+class StartPlaidUpdateModeV2CloudFunctionCallResponse {
+  StartPlaidUpdateModeV2CloudFunctionCallResponse({
+    this.errorCode,
+    this.succeeded,
+    this.jsonBody,
+  });
+  String? errorCode;
+  bool? succeeded;
+  dynamic jsonBody;
+}

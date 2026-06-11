@@ -59,8 +59,8 @@ class _TarjetadenoticiasWidgetState extends State<TarjetadenoticiasWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160.8,
-      height: 208.03,
+      width: 157.03,
+      height: 208.0,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,

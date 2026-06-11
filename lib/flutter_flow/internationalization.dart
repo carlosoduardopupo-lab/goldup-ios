@@ -154,23 +154,41 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Gold Up ',
       'en': 'Gold Up',
     },
-    'c82j86hl': {
-      'es': 'Disponible para gastar',
+    'siv6xnr4': {
+      'es': '¿Cuánto dinero tengo entre mis cuentas?',
       'en': 'Available to spend',
+    },
+    'hoexlt4h': {
+      'es': 'Hoy ',
+      'en': '',
     },
     'dnaqtwz2': {
       'es': '****',
       'en': '****',
     },
-    'tyk6wo24': {
-      'es': 'Ingresos − (Gastos + Ahorros) · ',
-      'en': 'Income − (Expenses + Savings) ·',
+    'lp91i1bu': {
+      'es': '****',
+      'en': '****',
     },
-    'rnw4n4qy': {
-      'es':
-          'Este es el capital sin categorizar restante  este mes.     Fórmula: Ingresos - (Gastos + Ahorros)',
-      'en':
-          'This is the remaining uncategorized capital this month. Formula: Income - (Expenses + Savings)',
+    'dt9pfua8': {
+      'es': 'al concluir el mes. ',
+      'en': '',
+    },
+    'iejrmfhq': {
+      'es': '¿Cuánto puedo gastar luego de mis ingresos, gastos y ahorros?',
+      'en': 'Available to spend',
+    },
+    '13l0x7v7': {
+      'es': '****',
+      'en': '****',
+    },
+    'z7kxi1ou': {
+      'es': 'durante el mes, sin tocar mis ahorros.',
+      'en': '',
+    },
+    'slngdmeg': {
+      'es': 'Disponible = Ingresos − (Gastos + Ahorros)',
+      'en': '',
     },
     'h0g2nfj1': {
       'es': 'Cuentas Corriente',
@@ -321,39 +339,47 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Current Month:',
     },
     'ufdykbvu': {
-      'es': 'Ingreso Total Mensual (estimado)',
+      'es': 'Balance Total Entre Cuentas',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    'joxvxg3e': {
+      'es': 'Monto Total de Transacciones Pendientes',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    'z4vqmbl0': {
+      'es': 'Ingreso Total Mensual Proyectado',
       'en': 'Total Monthly Income (estimated)',
     },
     'vso6qbm7': {
-      'es': 'Gasto Total Mensual (estimado)',
+      'es': 'Gasto Total Mensual Proyectado',
       'en': 'Total Monthly Expenses (estimated)',
     },
     'pu03qkui': {
-      'es': 'Flujo de Efectivo Mensual (estimado)',
+      'es': 'Flujo de Efectivo Mensual Proyectado',
       'en': 'Monthly Cash Flow (estimated)',
     },
     'pd64did4': {
-      'es': 'Ahorros Totales (estimado)',
+      'es': 'Ahorros Totales Proyectado',
       'en': 'Total Savings (estimated)',
     },
     'qgu1xblp': {
-      'es': 'Disponible Para Gastar (estimado)',
+      'es': 'Disponible Para Gastar Proyectado',
       'en': 'Available to Spend (estimated)',
     },
     'axn33hnv': {
-      'es': 'Ingreso Total Anual (estimado)',
+      'es': 'Ingreso Total Anual Proyectado',
       'en': 'Total Annual Income (estimated)',
     },
     'dxk4bljk': {
-      'es': 'Gasto Total Anual (estimado)',
+      'es': 'Gasto Total Anual Proyectado',
       'en': 'Total Annual Expenses (estimated)',
     },
     'wq0lfkq3': {
-      'es': 'Flujo de Efectivo Total Anual (estimado)',
+      'es': 'Flujo de Efectivo Total Anual Proyectado',
       'en': 'Total Annual Cash Flow (estimated)',
     },
     '6o0abik0': {
-      'es': 'Ahorro Total Anual (estimado)',
+      'es': 'Ahorro Total Anual Proyectado',
       'en': 'Total Annual Savings (estimated)',
     },
     'epbluwwz': {
@@ -450,13 +476,13 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Total Ahorrado:',
       'en': 'Total Saved:',
     },
-    'cc7ff5vb': {
-      'es': 'Total Utilizado:',
-      'en': 'Total Used:',
-    },
-    'lj8kxbik': {
+    'x7mn2xlv': {
       'es': 'Total Disponible:',
-      'en': 'Total Available:',
+      'en': '',
+    },
+    '4kwa4224': {
+      'es': 'Total Utilizado:',
+      'en': '',
     },
     'n0hd9vvq': {
       'es': 'Añadir Cuentas ',
@@ -840,17 +866,13 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Transacciones',
       'en': 'Transactions',
     },
-    '285a16rq': {
+    'ax56jvo5': {
       'es': '....',
       'en': '....',
     },
     '7o7nng08': {
       'es': 'Periodo ',
       'en': 'Period',
-    },
-    'cytqamsy': {
-      'es': 'Saldo Disponible',
-      'en': 'Available Balance',
     },
     'ohs96x74': {
       'es': 'Pendientes',
@@ -870,6 +892,98 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'tmi8jj9t': {
       'es': 'Home',
       'en': 'Home',
+    },
+  },
+  // recurrentes
+  {
+    'pht9htaz': {
+      'es': 'Posibles transacciones recurrentes',
+      'en': '',
+    },
+    '1gqo5yd2': {
+      'es':
+          'Para un correcto funcionamiento de la aplicación, necesitamos tu ayuda para clasificar las transacciones que se repiten con el tiempo y la frecuencia con que lo hacen.\nSi alguna de las transacciones mostradas no es recurrente, toca \"Omitir\".',
+      'en': '',
+    },
+    '63s7hts2': {
+      'es': 'Gold Up ha detectado ',
+      'en': '',
+    },
+    'bqkf8ne0': {
+      'es': ' posibles transacciones recurrentes de los últimos 31 días .',
+      'en': '',
+    },
+    'fofxn4xs': {
+      'es': '\"¡Todo al día! No hay transacciones pendientes por revisar.\"',
+      'en': '',
+    },
+    'vmlpih64': {
+      'es': 'Aceptar',
+      'en': 'Accept',
+    },
+    '0m7a2wn1': {
+      'es': 'Categoría',
+      'en': 'Category',
+    },
+    'wi4cp3vv': {
+      'es': 'Información del Comercio',
+      'en': 'Merchant Information',
+    },
+    'v5qdvix3': {
+      'es': 'Nombre: ',
+      'en': '',
+    },
+    'w49hu4ov': {
+      'es': 'Gasto recurrente',
+      'en': 'Recurring expense',
+    },
+    '8jqbfb7k': {
+      'es': 'Frecuencia',
+      'en': 'Frequency',
+    },
+    'lry1f470': {
+      'es': 'Seleccionar...',
+      'en': 'Select...',
+    },
+    '3aluwnx8': {
+      'es': 'Search...',
+      'en': 'Search...',
+    },
+    'e5tp9d56': {
+      'es': 'Diario',
+      'en': 'Daily',
+    },
+    '6oz1a3rg': {
+      'es': 'Semanal',
+      'en': 'Weekly',
+    },
+    '4ct1vl0j': {
+      'es': 'Quincenal',
+      'en': 'Biweekly',
+    },
+    '42331a6g': {
+      'es': 'Mensual',
+      'en': 'Monthly',
+    },
+    'pzbcpge4': {
+      'es': 'Trimestral',
+      'en': 'Quarterly',
+    },
+    '82gd3upk': {
+      'es': 'Anual',
+      'en': 'Annual',
+    },
+    '8dl1c91w': {
+      'es': 'Aceptar',
+      'en': 'Accept',
+    },
+    'bi29tn6n': {
+      'es': 'Omitir',
+      'en': 'Accept',
+    },
+    '382zhc0r': {
+      'es': 'Home',
+      'en': '',
     },
   },
   // AccionCrear
@@ -1059,6 +1173,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'ixic4owu': {
       'es': 'Ahorros',
       'en': 'Saving',
+    },
+    '8mzduo3s': {
+      'es': 'Recurrente',
+      'en': '',
     },
   },
   // Gasto
@@ -1550,9 +1668,17 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Cantidad del efectivo...',
       'en': 'Amount of cash...',
     },
-    'uc28cxro': {
-      'es': 'Editar también todas las recurrencias',
-      'en': 'Also edit all recurring events',
+    'olnkikmv': {
+      'es': 'Nota',
+      'en': 'Description',
+    },
+    'oktgpaar': {
+      'es': 'Puedes dejar una breve descripción...',
+      'en': 'You can leave a brief description...',
+    },
+    'gjcwjsz6': {
+      'es': 'Evento recurrente',
+      'en': 'Recurring event',
     },
     'mm40ygy0': {
       'es': 'Frecuencia',
@@ -1621,6 +1747,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'g89o8tzx': {
       'es': '96',
       'en': '96',
+    },
+    'uc28cxro': {
+      'es': 'Editar también todas las recurrencias',
+      'en': 'Also edit all recurring events',
     },
     'u7rmh6bb': {
       'es': 'Editar',
@@ -2503,6 +2633,45 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'fr2wnasf': {
       'es': '....',
       'en': '....',
+    },
+  },
+  // Conectarcuentas
+  {
+    'tyzs7e6m': {
+      'es': 'Atención',
+      'en': 'Email Sent',
+    },
+    '9h5cpk6d': {
+      'es':
+          'Al vincular tus cuentas, Gold Up importará tus transacciones reales automáticamente.\nTus registros manuales de ingresos, gastos y ahorros serán eliminados y reemplazados por los datos reales de tu banco.',
+      'en':
+          'We have sent an email to your email account to reset your password.',
+    },
+    'j05oi7la': {
+      'es':
+          'Entiendo que mis registros manuales serán reemplazados por mis transacciones bancarias reales.',
+      'en': '',
+    },
+    'zwx6gr47': {
+      'es': 'Aceptar',
+      'en': 'Accept',
+    },
+  },
+  // reconectarcuentas
+  {
+    'qxjb5xwh': {
+      'es': 'Reconexión requerida',
+      'en': 'Do you want to delete this account?',
+    },
+    'hdsrff2t': {
+      'es':
+          'Tu cuenta requiere que vuelvas a iniciar sesión. Esto sucede cuando tu banco expira la sesión por seguridad.\nPara un correcto funcionamiento de Gold Up es necesario que se vuelva a revinculuar para poder tener acceso a los balances y transacciones.\n',
+      'en':
+          'If you delete this account, the list of events associated with it will also be deleted.',
+    },
+    'xs4d84sq': {
+      'es': 'Reconectar Cuenta',
+      'en': 'Delete Account',
     },
   },
   // Miscellaneous

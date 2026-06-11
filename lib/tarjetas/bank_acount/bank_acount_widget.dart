@@ -3,8 +3,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import '/flutter_flow/custom_functions.dart' as functions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'bank_acount_model.dart';
@@ -14,9 +15,11 @@ class BankAcountWidget extends StatefulWidget {
   const BankAcountWidget({
     super.key,
     required this.bankAcountDocument,
+    required this.needsAttention,
   });
 
   final BankAccountsRecord? bankAcountDocument;
+  final bool? needsAttention;
 
   @override
   State<BankAcountWidget> createState() => _BankAcountWidgetState();
@@ -74,141 +77,162 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Align(
-            alignment: AlignmentDirectional(0.0, 0.0),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+          Stack(
+            children: [
+              if (widget!.needsAttention == true)
+                Align(
+                  alignment: AlignmentDirectional(1.0, 1.0),
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 34.0, 10.0, 0.0),
+                    child: FaIcon(
+                      FontAwesomeIcons.exclamationTriangle,
+                      color: Color(0xFFF4A403),
+                      size: 26.0,
+                    ),
+                  ),
+                ),
+              Align(
+                alignment: AlignmentDirectional(0.0, 0.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(0.0),
-                        child: Image.network(
-                          functions.base64ToImageUrl(
-                              widget!.bankAcountDocument?.bankLogo),
-                          width: 45.0,
-                          height: 45.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(1.0, 0.0),
-                        child: StreamBuilder<List<PlaidInstitutionsRecord>>(
-                          stream: queryPlaidInstitutionsRecord(
-                            queryBuilder: (plaidInstitutionsRecord) =>
-                                plaidInstitutionsRecord.where(
-                              'institutionId',
-                              isEqualTo:
-                                  widget!.bankAcountDocument?.institutionId,
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            child: custom_widgets.Base64Image(
+                              width: 50.0,
+                              height: 50.0,
+                              base64String:
+                                  widget!.bankAcountDocument?.bankLogo,
                             ),
-                            singleRecord: true,
                           ),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      FlutterFlowTheme.of(context).primary,
-                                    ),
-                                  ),
+                          Align(
+                            alignment: AlignmentDirectional(1.0, 0.0),
+                            child: StreamBuilder<List<PlaidInstitutionsRecord>>(
+                              stream: queryPlaidInstitutionsRecord(
+                                queryBuilder: (plaidInstitutionsRecord) =>
+                                    plaidInstitutionsRecord.where(
+                                  'institutionId',
+                                  isEqualTo:
+                                      widget!.bankAcountDocument?.institutionId,
                                 ),
-                              );
-                            }
-                            List<PlaidInstitutionsRecord>
-                                textPlaidInstitutionsRecordList =
-                                snapshot.data!;
-                            // Return an empty Container when the item does not exist.
-                            if (snapshot.data!.isEmpty) {
-                              return Container();
-                            }
-                            final textPlaidInstitutionsRecord =
-                                textPlaidInstitutionsRecordList.isNotEmpty
-                                    ? textPlaidInstitutionsRecordList.first
-                                    : null;
-
-                            return Text(
-                              valueOrDefault<String>(
-                                widget!.bankAcountDocument?.institutionName,
-                                'Bank name',
+                                singleRecord: true,
                               ),
-                              maxLines: 2,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 40.0,
+                                      height: 40.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
                                     ),
-                                    color: colorFromCssString(
-                                      textPlaidInstitutionsRecord!.primaryColor,
-                                      defaultColor: Colors.black,
-                                    ),
-                                    fontSize: 18.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
+                                  );
+                                }
+                                List<PlaidInstitutionsRecord>
+                                    textPlaidInstitutionsRecordList =
+                                    snapshot.data!;
+                                // Return an empty Container when the item does not exist.
+                                if (snapshot.data!.isEmpty) {
+                                  return Container();
+                                }
+                                final textPlaidInstitutionsRecord =
+                                    textPlaidInstitutionsRecordList.isNotEmpty
+                                        ? textPlaidInstitutionsRecordList.first
+                                        : null;
+
+                                return Text(
+                                  valueOrDefault<String>(
+                                    widget!.bankAcountDocument?.institutionName,
+                                    'Bank name',
                                   ),
-                            );
-                          },
+                                  maxLines: 2,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: colorFromCssString(
+                                          textPlaidInstitutionsRecord!
+                                              .primaryColor,
+                                          defaultColor: Colors.black,
+                                        ),
+                                        fontSize: 18.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional(1.0, 0.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  valueOrDefault<String>(
+                                    widget!.bankAcountDocument?.name,
+                                    'name',
+                                  ),
+                                  maxLines: 2,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: Color(0xFF282626),
+                                        fontSize: 15.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Align(
-                          alignment: AlignmentDirectional(1.0, 0.0),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                10.0, 0.0, 0.0, 0.0),
-                            child: Text(
-                              valueOrDefault<String>(
-                                widget!.bankAcountDocument?.name,
-                                'name',
-                              ),
-                              maxLines: 2,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Color(0xFF282626),
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
@@ -305,9 +329,13 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                     Text(
                       valueOrDefault<String>(
                         formatNumber(
-                          widget!.bankAcountDocument?.isSavingAccount == true
-                              ? widget!.bankAcountDocument?.currentBalance
-                              : widget!.bankAcountDocument?.availableBalance,
+                          (widget!.bankAcountDocument?.isSavingAccount ==
+                                      true) ||
+                                  (widget!.bankAcountDocument
+                                          ?.isChequingAccount ==
+                                      true)
+                              ? widget!.bankAcountDocument?.availableBalance
+                              : widget!.bankAcountDocument?.currentBalance,
                           formatType: FormatType.decimal,
                           decimalType: DecimalType.automatic,
                           currency: '\$',

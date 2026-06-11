@@ -1,4 +1,6 @@
 import '/acciones/ajustes/ajustes_widget.dart';
+import '/acciones/conectarcuentas/conectarcuentas_widget.dart';
+import '/acciones/reconectarcuentas/reconectarcuentas_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -65,154 +67,449 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await authManager.refreshUser();
-      _model.itemId = await actions.listenPlaidDeepLink();
-      if (_model.itemId != '') {
-        safeSetState(() {
-          _model.tabBarController!.animateTo(
-            3,
-            duration: Duration(milliseconds: 300),
-            curve: Curves.ease,
-          );
-        });
-      }
-      if (currentUserEmailVerified == true) {
-        if (FFAppState().isBiometricEnabled == true) {
-          FFAppState().isBlokedHome = true;
-          safeSetState(() {});
-          final _localAuth = LocalAuthentication();
-          bool _isBiometricSupported = await _localAuth.isDeviceSupported();
-
-          if (_isBiometricSupported) {
-            try {
-              _model.biometricResult = await _localAuth.authenticate(
-                  localizedReason: FFLocalizations.of(context).getText(
-                'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
-              ));
-            } on PlatformException {
-              _model.biometricResult = false;
+      if (valueOrDefault<bool>(
+              currentUserDocument?.isTransactionsVerificated, false) ==
+          true) {
+        await Future.wait([
+          Future(() async {
+            _model.itemId = await actions.listenPlaidDeepLink();
+            if (_model.itemId != '') {
+              safeSetState(() {
+                _model.tabBarController!.animateTo(
+                  3,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                );
+              });
             }
-            safeSetState(() {});
-          }
-
-          if (_model.biometricResult == true) {
-            FFAppState().isBlokedHome = false;
-            safeSetState(() {});
-            await Future.wait([
-              Future(() async {
-                _model.selectedDate = functions
-                    .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+            if (currentUserEmailVerified == true) {
+              if (FFAppState().isBiometricEnabled == true) {
+                FFAppState().isBlokedHome = true;
                 safeSetState(() {});
-                FFAppState().selectedDate = getCurrentTimestamp;
-                safeSetState(() {});
-                setDarkModeSetting(context, ThemeMode.light);
-              }),
-              Future(() async {
-                _model.timeZone1 = await actions.getDeviceTimeZone();
+                final _localAuth = LocalAuthentication();
+                bool _isBiometricSupported =
+                    await _localAuth.isDeviceSupported();
 
-                await currentUserReference!.update(createUserRecordData(
-                  timeZone: _model.timeZone1,
-                ));
-                _model.apiResultthj = await GetUserLocationByIPCall.call();
-
-                if ((_model.apiResultthj?.succeeded ?? true)) {
-                  await currentUserReference!.update({
-                    ...createUserRecordData(
-                      country: getJsonField(
-                        (_model.apiResultthj?.jsonBody ?? ''),
-                        r'''$.country_code2''',
-                      ).toString(),
-                      state: getJsonField(
-                        (_model.apiResultthj?.jsonBody ?? ''),
-                        r'''$.state_prov''',
-                      ).toString(),
-                      city: getJsonField(
-                        (_model.apiResultthj?.jsonBody ?? ''),
-                        r'''$.city''',
-                      ).toString(),
-                      zipCode: getJsonField(
-                        (_model.apiResultthj?.jsonBody ?? ''),
-                        r'''$.zipcode''',
-                      ).toString(),
-                    ),
-                    ...mapToFirestore(
-                      {
-                        'locationUpdatedAt': FieldValue.serverTimestamp(),
-                      },
-                    ),
-                  });
+                if (_isBiometricSupported) {
+                  try {
+                    _model.biometricResult = await _localAuth.authenticate(
+                        localizedReason: FFLocalizations.of(context).getText(
+                      'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
+                    ));
+                  } on PlatformException {
+                    _model.biometricResult = false;
+                  }
+                  safeSetState(() {});
                 }
-                await actions.saveFcmTokenToFirestore();
-              }),
-            ]);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Error de autenticación.',
-                  style: GoogleFonts.roboto(
-                    color: Color(0xFFECF3F9),
-                  ),
-                ),
-                duration: Duration(milliseconds: 4000),
-                backgroundColor: FlutterFlowTheme.of(context).secondary,
-              ),
-            );
-          }
-        } else {
-          await Future.wait([
-            Future(() async {
-              _model.selectedDate = functions
-                  .normalizeToCalendarDatedateTime(getCurrentTimestamp);
-              safeSetState(() {});
-              FFAppState().selectedDate = getCurrentTimestamp;
-              safeSetState(() {});
-              setDarkModeSetting(context, ThemeMode.light);
-            }),
-            Future(() async {
-              _model.timeZone = await actions.getDeviceTimeZone();
 
-              await currentUserReference!.update(createUserRecordData(
-                timeZone: _model.timeZone,
-              ));
-              _model.apiResult = await GetUserLocationByIPCall.call();
+                if (_model.biometricResult == true) {
+                  FFAppState().isBlokedHome = false;
+                  safeSetState(() {});
+                  await Future.wait([
+                    Future(() async {
+                      _model.selectedDate = functions
+                          .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+                      safeSetState(() {});
+                      FFAppState().selectedDate = getCurrentTimestamp;
+                      safeSetState(() {});
+                      setDarkModeSetting(context, ThemeMode.light);
+                    }),
+                    Future(() async {
+                      _model.timeZone1 = await actions.getDeviceTimeZone();
 
-              if ((_model.apiResult?.succeeded ?? true)) {
-                await currentUserReference!.update({
-                  ...createUserRecordData(
-                    country: getJsonField(
-                      (_model.apiResult?.jsonBody ?? ''),
-                      r'''$.country_code2''',
-                    ).toString(),
-                    state: getJsonField(
-                      (_model.apiResult?.jsonBody ?? ''),
-                      r'''$.state_prov''',
-                    ).toString(),
-                    city: getJsonField(
-                      (_model.apiResult?.jsonBody ?? ''),
-                      r'''$.city''',
-                    ).toString(),
-                    zipCode: getJsonField(
-                      (_model.apiResult?.jsonBody ?? ''),
-                      r'''$.zipcode''',
-                    ).toString(),
-                    timeZone: getJsonField(
-                      (_model.apiResult?.jsonBody ?? ''),
-                      r'''$.time_zone.name''',
-                    ).toString(),
-                  ),
-                  ...mapToFirestore(
-                    {
-                      'locationUpdatedAt': FieldValue.serverTimestamp(),
-                    },
-                  ),
-                });
+                      await currentUserReference!.update(createUserRecordData(
+                        timeZone: _model.timeZone1,
+                      ));
+                      _model.apiResultthj =
+                          await GetUserLocationByIPCall.call();
+
+                      if ((_model.apiResultthj?.succeeded ?? true)) {
+                        await currentUserReference!.update({
+                          ...createUserRecordData(
+                            country: getJsonField(
+                              (_model.apiResultthj?.jsonBody ?? ''),
+                              r'''$.country_code2''',
+                            ).toString(),
+                            state: getJsonField(
+                              (_model.apiResultthj?.jsonBody ?? ''),
+                              r'''$.state_prov''',
+                            ).toString(),
+                            city: getJsonField(
+                              (_model.apiResultthj?.jsonBody ?? ''),
+                              r'''$.city''',
+                            ).toString(),
+                            zipCode: getJsonField(
+                              (_model.apiResultthj?.jsonBody ?? ''),
+                              r'''$.zipcode''',
+                            ).toString(),
+                          ),
+                          ...mapToFirestore(
+                            {
+                              'locationUpdatedAt': FieldValue.serverTimestamp(),
+                            },
+                          ),
+                        });
+                      }
+                      await actions.saveFcmTokenToFirestore();
+                    }),
+                  ]);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Error de autenticación.',
+                        style: GoogleFonts.roboto(
+                          color: Color(0xFFECF3F9),
+                        ),
+                      ),
+                      duration: Duration(milliseconds: 4000),
+                      backgroundColor: FlutterFlowTheme.of(context).secondary,
+                    ),
+                  );
+                }
+              } else {
+                await Future.wait([
+                  Future(() async {
+                    _model.selectedDate = functions
+                        .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+                    safeSetState(() {});
+                    FFAppState().selectedDate = getCurrentTimestamp;
+                    safeSetState(() {});
+                    setDarkModeSetting(context, ThemeMode.light);
+                  }),
+                  Future(() async {
+                    _model.timeZone = await actions.getDeviceTimeZone();
+
+                    await currentUserReference!.update(createUserRecordData(
+                      timeZone: _model.timeZone,
+                    ));
+                    _model.apiResult = await GetUserLocationByIPCall.call();
+
+                    if ((_model.apiResult?.succeeded ?? true)) {
+                      await currentUserReference!.update({
+                        ...createUserRecordData(
+                          country: getJsonField(
+                            (_model.apiResult?.jsonBody ?? ''),
+                            r'''$.country_code2''',
+                          ).toString(),
+                          state: getJsonField(
+                            (_model.apiResult?.jsonBody ?? ''),
+                            r'''$.state_prov''',
+                          ).toString(),
+                          city: getJsonField(
+                            (_model.apiResult?.jsonBody ?? ''),
+                            r'''$.city''',
+                          ).toString(),
+                          zipCode: getJsonField(
+                            (_model.apiResult?.jsonBody ?? ''),
+                            r'''$.zipcode''',
+                          ).toString(),
+                          timeZone: getJsonField(
+                            (_model.apiResult?.jsonBody ?? ''),
+                            r'''$.time_zone.name''',
+                          ).toString(),
+                        ),
+                        ...mapToFirestore(
+                          {
+                            'locationUpdatedAt': FieldValue.serverTimestamp(),
+                          },
+                        ),
+                      });
+                    }
+                    await actions.saveFcmTokenToFirestore();
+                  }),
+                ]);
               }
-              await actions.saveFcmTokenToFirestore();
-            }),
-          ]);
-        }
+            } else {
+              context.pushNamed(Auth2Widget.routeName);
+            }
+          }),
+          Future(() async {
+            if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
+                true) {
+              await Future.wait([
+                Future(() async {
+                  _model.incomesRec = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isIncome',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        )
+                        .where(
+                          'isPending',
+                          isEqualTo: true,
+                        ),
+                  );
+                  _model.chekingAccoun = await queryBankAccountsRecordOnce(
+                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isChequingAccount',
+                          isEqualTo: true,
+                        ),
+                  );
+                }),
+                Future(() async {
+                  _model.expenseRecu = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isExpenses',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        )
+                        .where(
+                          'isPending',
+                          isEqualTo: true,
+                        ),
+                  );
+                  _model.savesAccoun = await queryBankAccountsRecordOnce(
+                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isSavingAccount',
+                          isEqualTo: true,
+                        ),
+                  );
+                }),
+                Future(() async {
+                  _model.savesRecu = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isSave',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        )
+                        .where(
+                          'isPending',
+                          isEqualTo: true,
+                        ),
+                  );
+                  _model.creditAccou = await queryBankAccountsRecordOnce(
+                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isCreditAccount',
+                          isEqualTo: true,
+                        ),
+                  );
+                }),
+                Future(() async {
+                  _model.internalPending = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isInternalTransfer',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        )
+                        .where(
+                          'isPending',
+                          isEqualTo: true,
+                        ),
+                  );
+                }),
+              ]);
+              FFAppState().sumIncomPending = functions.sum(
+                  _model.incomesRec!.map((e) => e.amount).toList().toList());
+              FFAppState().sumExpePending = functions.sum(
+                  _model.expenseRecu!.map((e) => e.amount).toList().toList());
+              FFAppState().sumSavePending = functions.sum(
+                  _model.savesRecu!.map((e) => e.amount).toList().toList());
+              FFAppState().sumChekAccount = functions.sum(_model.chekingAccoun!
+                  .map((e) => e.availableBalance)
+                  .toList()
+                  .toList());
+              FFAppState().sumSaveAccount = functions.sum(_model.savesAccoun!
+                  .map((e) => e.availableBalance)
+                  .toList()
+                  .toList());
+              FFAppState().sumCreditAccount = functions.sum(_model.creditAccou!
+                  .map((e) => e.currentBalance)
+                  .toList()
+                  .toList());
+              FFAppState().sumInternalPendings = functions.sum(_model
+                  .internalPending!
+                  .map((e) => e.amount)
+                  .toList()
+                  .toList());
+              safeSetState(() {});
+              FFAppState().sumPendings =
+                  (FFAppState().sumIncomPending - FFAppState().sumExpePending);
+              FFAppState().sumBankBalan = (FFAppState().sumChekAccount +
+                  FFAppState().sumSaveAccount -
+                  FFAppState().sumCreditAccount);
+              safeSetState(() {});
+              FFAppState().cashFlowProyected =
+                  (FFAppState().sumPendings + FFAppState().sumBankBalan) +
+                      (FFAppState().sumInternalPendings / 2);
+              safeSetState(() {});
+            } else {
+              await Future.wait([
+                Future(() async {
+                  _model.incomes = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isIncome',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        ),
+                  );
+                }),
+                Future(() async {
+                  _model.expense = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isExpenses',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        ),
+                  );
+                }),
+                Future(() async {
+                  _model.saves = await queryDocumentsRecordOnce(
+                    queryBuilder: (documentsRecord) => documentsRecord
+                        .where(
+                          'userRef',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'isSave',
+                          isEqualTo: true,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isGreaterThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .firstOrNull,
+                        )
+                        .where(
+                          'occurrenceKey',
+                          isLessThanOrEqualTo: functions
+                              .monthBoundaries(getCurrentTimestamp)
+                              .lastOrNull,
+                        ),
+                  );
+                }),
+              ]);
+              FFAppState().sumExpenses = functions
+                  .sum(_model.expense!.map((e) => e.amount).toList().toList());
+              FFAppState().sumIncomes = functions
+                  .sum(_model.incomes!.map((e) => e.amount).toList().toList());
+              FFAppState().sumSave = functions
+                  .sum(_model.saves!.map((e) => e.amount).toList().toList());
+              safeSetState(() {});
+            }
+
+            _model.isset = await queryDocumentsRecordOnce(
+              queryBuilder: (documentsRecord) => documentsRecord.where(
+                'userRef',
+                isEqualTo: currentUserReference,
+              ),
+              singleRecord: true,
+            ).then((s) => s.firstOrNull);
+          }),
+        ]);
       } else {
-        context.pushNamed(Auth2Widget.routeName);
+        context.pushNamed(RecurrentesWidget.routeName);
       }
     });
 
@@ -282,11 +579,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.isDocumentCreated,
-                                                  false) ==
-                                              true)
+                                          if ((valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isDocumentCreated,
+                                                      false) ==
+                                                  true) ||
+                                              (valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isAccountsVinculated,
+                                                      false) ==
+                                                  true))
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 1.0, 0.0),
@@ -304,7 +606,14 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                           child: Container(
                                                             width:
                                                                 double.infinity,
-                                                            height: 210.05,
+                                                            height: valueOrDefault<
+                                                                            bool>(
+                                                                        currentUserDocument
+                                                                            ?.isPremium,
+                                                                        false) ==
+                                                                    true
+                                                                ? 315.0
+                                                                : 220.0,
                                                             decoration:
                                                                 BoxDecoration(
                                                               image:
@@ -364,7 +673,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     child:
                                                                         Container(
                                                                       height:
-                                                                          57.9,
+                                                                          55.0,
                                                                       decoration:
                                                                           BoxDecoration(),
                                                                       child:
@@ -448,7 +757,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
-                                                                            2.0,
+                                                                            5.0,
                                                                             0.0,
                                                                             0.0),
                                                                     child: Row(
@@ -459,36 +768,33 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           MainAxisAlignment
                                                                               .spaceBetween,
                                                                       children: [
-                                                                        Align(
-                                                                          alignment: AlignmentDirectional(
-                                                                              -1.0,
-                                                                              0.0),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                10.0,
-                                                                                0.0),
+                                                                        if (valueOrDefault<bool>(currentUserDocument?.isPremium,
+                                                                                false) ==
+                                                                            true)
+                                                                          Align(
+                                                                            alignment:
+                                                                                AlignmentDirectional(-1.0, 0.0),
                                                                             child:
-                                                                                Text(
-                                                                              FFLocalizations.of(context).getText(
-                                                                                'c82j86hl' /* Disponible para gastar */,
-                                                                              ),
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.roboto(
+                                                                                Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                                                                              child: Text(
+                                                                                FFLocalizations.of(context).getText(
+                                                                                  'siv6xnr4' /* ¿Cuánto dinero tengo entre mis... */,
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      font: GoogleFonts.roboto(
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                      fontSize: 16.0,
+                                                                                      letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
                                                                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                     ),
-                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                    fontSize: 18.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
+                                                                              ),
                                                                             ),
                                                                           ),
-                                                                        ),
                                                                         Row(
                                                                           mainAxisSize:
                                                                               MainAxisSize.max,
@@ -497,11 +803,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == true))
                                                                               FlutterFlowIconButton(
                                                                                 borderRadius: 8.0,
-                                                                                buttonSize: 40.0,
+                                                                                buttonSize: 32.0,
                                                                                 icon: FaIcon(
                                                                                   FontAwesomeIcons.eye,
                                                                                   color: FlutterFlowTheme.of(context).alternate,
-                                                                                  size: 20.0,
+                                                                                  size: 18.0,
                                                                                 ),
                                                                                 onPressed: () async {
                                                                                   FFAppState().seeAmounts = true;
@@ -512,11 +818,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == false))
                                                                               FlutterFlowIconButton(
                                                                                 borderRadius: 8.0,
-                                                                                buttonSize: 40.0,
+                                                                                buttonSize: 32.0,
                                                                                 icon: FaIcon(
                                                                                   FontAwesomeIcons.eyeSlash,
                                                                                   color: FlutterFlowTheme.of(context).alternate,
-                                                                                  size: 20.0,
+                                                                                  size: 18.0,
                                                                                 ),
                                                                                 onPressed: () async {
                                                                                   FFAppState().seeAmounts = false;
@@ -528,165 +834,479 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                       ],
                                                                     ),
                                                                   ),
-                                                                  InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    focusColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    hoverColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    highlightColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap:
-                                                                        () async {
-                                                                      safeSetState(
-                                                                          () {
-                                                                        _model
-                                                                            .tabBarController!
-                                                                            .animateTo(
-                                                                          2,
-                                                                          duration:
-                                                                              Duration(milliseconds: 300),
-                                                                          curve:
-                                                                              Curves.ease,
-                                                                        );
-                                                                      });
-                                                                    },
-                                                                    child: Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        if (FFAppState().seeAmounts ==
-                                                                            true)
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(0.0, 0.0),
+                                                                  Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      if (valueOrDefault<bool>(
+                                                                              currentUserDocument?.isPremium,
+                                                                              false) ==
+                                                                          true)
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              10.0),
+                                                                          child:
+                                                                              InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              safeSetState(() {
+                                                                                _model.tabBarController!.animateTo(
+                                                                                  2,
+                                                                                  duration: Duration(milliseconds: 300),
+                                                                                  curve: Curves.ease,
+                                                                                );
+                                                                              });
+                                                                            },
                                                                             child:
-                                                                                Text(
-                                                                              valueOrDefault<String>(
-                                                                                formatNumber(
-                                                                                  functions.calcNetCashflow(FFAppState().sumIncomes, FFAppState().sumExpenses, FFAppState().sumSave),
-                                                                                  formatType: FormatType.decimal,
-                                                                                  decimalType: DecimalType.automatic,
-                                                                                  currency: '\$',
+                                                                                Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                RichText(
+                                                                                  textScaler: MediaQuery.of(context).textScaler,
+                                                                                  text: TextSpan(
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: FFLocalizations.of(context).getText(
+                                                                                          'hoexlt4h' /* Hoy  */,
+                                                                                        ),
+                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                              font: GoogleFonts.roboto(
+                                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                              ),
+                                                                                              color: FlutterFlowTheme.of(context).alternate,
+                                                                                              fontSize: 12.0,
+                                                                                              letterSpacing: 0.0,
+                                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                      ),
+                                                                                      TextSpan(
+                                                                                        text: dateTimeFormat(
+                                                                                          "MMMMEEEEd",
+                                                                                          getCurrentTimestamp,
+                                                                                          locale: FFLocalizations.of(context).languageCode,
+                                                                                        ),
+                                                                                        style: TextStyle(),
+                                                                                      )
+                                                                                    ],
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          font: GoogleFonts.roboto(
+                                                                                            fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                          color: FlutterFlowTheme.of(context).alternate,
+                                                                                          fontSize: 12.0,
+                                                                                          letterSpacing: 0.0,
+                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          decoration: TextDecoration.underline,
+                                                                                        ),
+                                                                                  ),
                                                                                 ),
-                                                                                '0',
-                                                                              ),
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.roboto(
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                if (FFAppState().seeAmounts == true)
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                    child: Text(
+                                                                                      valueOrDefault<String>(
+                                                                                        formatNumber(
+                                                                                          (FFAppState().sumChekAccount + FFAppState().sumSaveAccount - FFAppState().sumCreditAccount),
+                                                                                          formatType: FormatType.decimal,
+                                                                                          decimalType: DecimalType.automatic,
+                                                                                          currency: '\$',
+                                                                                        ),
+                                                                                        '0',
+                                                                                      ),
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.roboto(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: Color(0xFFFBD770),
+                                                                                            fontSize: 25.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
                                                                                     ),
-                                                                                    color: Color(0xFFFBD770),
-                                                                                    fontSize: 35.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                   ),
+                                                                                if (FFAppState().seeAmounts == false)
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(0.0, 1.0),
+                                                                                    child: Text(
+                                                                                      FFLocalizations.of(context).getText(
+                                                                                        'dnaqtwz2' /* **** */,
+                                                                                      ),
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.roboto(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: Color(0xFFFBD770),
+                                                                                            fontSize: 25.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ),
+                                                                              ].divide(SizedBox(width: 5.0)),
                                                                             ),
                                                                           ),
-                                                                        if (FFAppState().seeAmounts ==
-                                                                            false)
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(0.0, 1.0),
-                                                                            child:
-                                                                                Text(
-                                                                              FFLocalizations.of(context).getText(
-                                                                                'dnaqtwz2' /* **** */,
-                                                                              ),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.roboto(
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                    ),
-                                                                                    color: Color(0xFFFBD770),
-                                                                                    fontSize: 35.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
-                                                                            ),
-                                                                          ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                  Align(
-                                                                    alignment:
-                                                                        AlignmentDirectional(
+                                                                        ),
+                                                                      Align(
+                                                                        alignment: AlignmentDirectional(
                                                                             -1.0,
                                                                             0.0),
-                                                                    child:
-                                                                        RichText(
-                                                                      textScaler:
-                                                                          MediaQuery.of(context)
-                                                                              .textScaler,
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text:
-                                                                                FFLocalizations.of(context).getText(
-                                                                              'tyk6wo24' /* Ingresos − (Gastos + Ahorros) ... */,
-                                                                            ),
-                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                  font: GoogleFonts.roboto(
-                                                                                    fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              888.0,
+                                                                          decoration:
+                                                                              BoxDecoration(),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                10.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Text(
+                                                                              valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? '¿Cuánto  tendré al finalizar el mes?' : 'Disponible para gastar:',
+                                                                              maxLines: 3,
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    font: GoogleFonts.roboto(
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 16.0 : 22.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FontWeight.normal,
                                                                                     fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                   ),
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
-                                                                                  fontSize: 12.0,
-                                                                                  letterSpacing: 0.0,
-                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                ),
-                                                                          ),
-                                                                          TextSpan(
-                                                                            text:
-                                                                                '${dateTimeFormat(
-                                                                              "MMMM",
-                                                                              dateTimeFromSecondsSinceEpoch(valueOrDefault<int>(
-                                                                                getCurrentTimestamp.secondsSinceEpoch,
-                                                                                0,
-                                                                              )),
-                                                                              locale: FFLocalizations.of(context).languageCode,
-                                                                            )} ${dateTimeFormat(
-                                                                              "y",
-                                                                              getCurrentTimestamp,
-                                                                              locale: FFLocalizations.of(context).languageCode,
-                                                                            )}',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: FlutterFlowTheme.of(context).alternate,
-                                                                              fontSize: 12.0,
                                                                             ),
-                                                                          )
-                                                                        ],
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              font: GoogleFonts.roboto(
-                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      if (valueOrDefault<bool>(
+                                                                              currentUserDocument?.isPremium,
+                                                                              false) ==
+                                                                          true)
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              0.0,
+                                                                              10.0),
+                                                                          child:
+                                                                              InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              safeSetState(() {
+                                                                                _model.tabBarController!.animateTo(
+                                                                                  2,
+                                                                                  duration: Duration(milliseconds: 300),
+                                                                                  curve: Curves.ease,
+                                                                                );
+                                                                              });
+                                                                            },
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
+                                                                                Text(
+                                                                                  '${dateTimeFormat(
+                                                                                    "MMMM",
+                                                                                    dateTimeFromSecondsSinceEpoch(valueOrDefault<int>(
+                                                                                      getCurrentTimestamp.secondsSinceEpoch,
+                                                                                      0,
+                                                                                    )),
+                                                                                    locale: FFLocalizations.of(context).languageCode,
+                                                                                  )} ${dateTimeFormat(
+                                                                                    "y",
+                                                                                    getCurrentTimestamp,
+                                                                                    locale: FFLocalizations.of(context).languageCode,
+                                                                                  )}',
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        font: GoogleFonts.roboto(
+                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                        color: FlutterFlowTheme.of(context).alternate,
+                                                                                        fontSize: 12.0,
+                                                                                        letterSpacing: 0.0,
+                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                ),
+                                                                                if (FFAppState().seeAmounts == true)
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                    child: Text(
+                                                                                      valueOrDefault<String>(
+                                                                                        formatNumber(
+                                                                                          FFAppState().cashFlowProyected,
+                                                                                          formatType: FormatType.decimal,
+                                                                                          decimalType: DecimalType.automatic,
+                                                                                          currency: '\$',
+                                                                                        ),
+                                                                                        '0',
+                                                                                      ),
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.roboto(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: Color(0xFFFBD770),
+                                                                                            fontSize: 25.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ),
+                                                                                if (FFAppState().seeAmounts == false)
+                                                                                  Align(
+                                                                                    alignment: AlignmentDirectional(0.0, 1.0),
+                                                                                    child: Text(
+                                                                                      FFLocalizations.of(context).getText(
+                                                                                        'lp91i1bu' /* **** */,
+                                                                                      ),
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.roboto(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: Color(0xFFFBD770),
+                                                                                            fontSize: 25.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ),
+                                                                                Text(
+                                                                                  FFLocalizations.of(context).getText(
+                                                                                    'dt9pfua8' /* al concluir el mes.  */,
+                                                                                  ),
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        font: GoogleFonts.roboto(
+                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                        color: FlutterFlowTheme.of(context).alternate,
+                                                                                        fontSize: 12.0,
+                                                                                        letterSpacing: 0.0,
+                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                ),
+                                                                              ].divide(SizedBox(width: 5.0)),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      Align(
+                                                                        alignment: AlignmentDirectional(
+                                                                            -1.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              888.0,
+                                                                          decoration:
+                                                                              BoxDecoration(),
+                                                                          child:
+                                                                              Visibility(
+                                                                            visible:
+                                                                                valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                                                                              child: Text(
+                                                                                FFLocalizations.of(context).getText(
+                                                                                  'iejrmfhq' /* ¿Cuánto puedo gastar luego de ... */,
+                                                                                ),
+                                                                                maxLines: 3,
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      font: GoogleFonts.roboto(
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                      fontSize: 16.0,
+                                                                                      letterSpacing: 0.0,
+                                                                                      fontWeight: FontWeight.normal,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
                                                                               ),
-                                                                              color: FlutterFlowTheme.of(context).alternate,
-                                                                              fontSize: 11.0,
-                                                                              letterSpacing: 0.0,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      InkWell(
+                                                                        splashColor:
+                                                                            Colors.transparent,
+                                                                        focusColor:
+                                                                            Colors.transparent,
+                                                                        hoverColor:
+                                                                            Colors.transparent,
+                                                                        highlightColor:
+                                                                            Colors.transparent,
+                                                                        onTap:
+                                                                            () async {
+                                                                          safeSetState(
+                                                                              () {
+                                                                            _model.tabBarController!.animateTo(
+                                                                              2,
+                                                                              duration: Duration(milliseconds: 300),
+                                                                              curve: Curves.ease,
+                                                                            );
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          children:
+                                                                              [
+                                                                            if (FFAppState().seeAmounts ==
+                                                                                true)
+                                                                              Align(
+                                                                                alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                child: Text(
+                                                                                  valueOrDefault<String>(
+                                                                                    formatNumber(
+                                                                                      valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true
+                                                                                          ? (FFAppState().cashFlowProyected - FFAppState().sumSaveAccount - FFAppState().sumSavePending)
+                                                                                          : valueOrDefault<double>(
+                                                                                              functions.calcNetCashflow(FFAppState().sumIncomes, FFAppState().sumExpenses, FFAppState().sumSave),
+                                                                                              0.0,
+                                                                                            ),
+                                                                                      formatType: FormatType.decimal,
+                                                                                      decimalType: DecimalType.automatic,
+                                                                                      currency: '\$',
+                                                                                    ),
+                                                                                    '0',
+                                                                                  ),
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        font: GoogleFonts.roboto(
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                        color: Color(0xFFFBD770),
+                                                                                        fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 25.0 : 35.0,
+                                                                                        letterSpacing: 0.0,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                            if (FFAppState().seeAmounts ==
+                                                                                false)
+                                                                              Align(
+                                                                                alignment: AlignmentDirectional(0.0, 1.0),
+                                                                                child: Text(
+                                                                                  FFLocalizations.of(context).getText(
+                                                                                    '13l0x7v7' /* **** */,
+                                                                                  ),
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        font: GoogleFonts.roboto(
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                        color: Color(0xFFFBD770),
+                                                                                        fontSize: 25.0,
+                                                                                        letterSpacing: 0.0,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                            if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
+                                                                                true)
+                                                                              Text(
+                                                                                FFLocalizations.of(context).getText(
+                                                                                  'z7kxi1ou' /* durante el mes, sin tocar mis ... */,
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      font: GoogleFonts.roboto(
+                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      color: FlutterFlowTheme.of(context).alternate,
+                                                                                      fontSize: 12.0,
+                                                                                      letterSpacing: 0.0,
+                                                                                      fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                              ),
+                                                                          ].divide(SizedBox(width: 5.0)),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  if (valueOrDefault<
+                                                                              bool>(
+                                                                          currentUserDocument
+                                                                              ?.isPremium,
+                                                                          false) ==
+                                                                      false)
+                                                                    Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        'slngdmeg' /* Disponible = Ingresos − (Gasto... */,
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.roboto(
                                                                               fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                                                                               fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                             ),
-                                                                      ),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).alternate,
+                                                                            fontSize:
+                                                                                12.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                     ),
-                                                                  ),
                                                                 ]
                                                                     .divide(SizedBox(
                                                                         height:
@@ -703,17 +1323,24 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                           ),
                                                         ),
                                                         Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      183.0,
-                                                                      0.0,
-                                                                      0.0),
+                                                          padding: EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  valueOrDefault<
+                                                                      double>(
+                                                                    valueOrDefault<bool>(currentUserDocument?.isPremium,
+                                                                                false) ==
+                                                                            true
+                                                                        ? 300.0
+                                                                        : 190.0,
+                                                                    0.0,
+                                                                  ),
+                                                                  0.0,
+                                                                  0.0),
                                                           child: Container(
                                                             width:
                                                                 double.infinity,
-                                                            height: 84.0,
+                                                            height: 85.0,
                                                             decoration:
                                                                 BoxDecoration(
                                                               borderRadius:
@@ -938,7 +1565,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                                 valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true
                                                                                                     ? valueOrDefault<String>(
                                                                                                         formatNumber(
-                                                                                                          functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                                          functions.sum(textBankAccountsRecordList.map((e) => e.availableBalance).toList()),
                                                                                                           formatType: FormatType.decimal,
                                                                                                           decimalType: DecimalType.automatic,
                                                                                                           currency: '\$',
@@ -1162,7 +1789,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                               valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true
                                                                                                   ? valueOrDefault<String>(
                                                                                                       formatNumber(
-                                                                                                        functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                                        functions.sum(textBankAccountsRecordList.map((e) => e.availableBalance).toList()),
                                                                                                         formatType: FormatType.decimal,
                                                                                                         decimalType: DecimalType.automatic,
                                                                                                         currency: '\$',
@@ -1400,7 +2027,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                               valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true
                                                                                                   ? valueOrDefault<String>(
                                                                                                       formatNumber(
-                                                                                                        functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                                        functions.sum(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
                                                                                                         formatType: FormatType.decimal,
                                                                                                         decimalType: DecimalType.automatic,
                                                                                                         currency: '\$',
@@ -1674,11 +2301,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                           ),
                                                         ),
                                                       ),
-                                                    if (valueOrDefault<bool>(
-                                                            currentUserDocument
-                                                                ?.isExpensesCreated,
-                                                            false) ==
-                                                        true)
+                                                    if ((valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isExpensesCreated,
+                                                                false) ==
+                                                            true) ||
+                                                        (valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isAccountsVinculated,
+                                                                false) ==
+                                                            true))
                                                       InkWell(
                                                         splashColor:
                                                             Colors.transparent,
@@ -1889,11 +2521,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                           ),
                                                         ),
                                                       ),
-                                                    if (valueOrDefault<bool>(
-                                                            currentUserDocument
-                                                                ?.isExpensesCreated,
-                                                            false) ==
-                                                        true)
+                                                    if ((valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isExpensesCreated,
+                                                                false) ==
+                                                            true) ||
+                                                        (valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isAccountsVinculated,
+                                                                false) ==
+                                                            true))
                                                       InkWell(
                                                         splashColor:
                                                             Colors.transparent,
@@ -2697,11 +3334,31 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 ),
                                               ),
                                             ),
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.isDocumentCreated,
-                                                  false) ==
-                                              true)
+                                          if (((valueOrDefault<bool>(
+                                                          currentUserDocument
+                                                              ?.isDocumentCreated,
+                                                          false) ==
+                                                      true) ||
+                                                  (valueOrDefault<bool>(
+                                                          currentUserDocument
+                                                              ?.isAccountsVinculated,
+                                                          false) ==
+                                                      true)) &&
+                                              ((valueOrDefault(
+                                                          currentUserDocument
+                                                              ?.country,
+                                                          '') ==
+                                                      'US') ||
+                                                  (valueOrDefault(
+                                                          currentUserDocument
+                                                              ?.country,
+                                                          '') ==
+                                                      'MX') ||
+                                                  (valueOrDefault(
+                                                          currentUserDocument
+                                                              ?.country,
+                                                          '') ==
+                                                      'ES')))
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
@@ -2937,11 +3594,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 ),
                                               ),
                                             ),
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.isDocumentCreated,
-                                                  false) ==
-                                              false)
+                                          if ((valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isDocumentCreated,
+                                                      false) ==
+                                                  false) ||
+                                              (valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isAccountsVinculated,
+                                                      false) ==
+                                                  false))
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
@@ -4753,6 +5415,333 @@ All... */
                                                     ].divide(
                                                         SizedBox(width: 10.0)),
                                                   ),
+                                                  if (valueOrDefault<bool>(
+                                                          currentUserDocument
+                                                              ?.isPremium,
+                                                          false) ==
+                                                      true)
+                                                    AuthUserStreamWidget(
+                                                      builder: (context) =>
+                                                          Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                          ),
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          20.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            0.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        'ufdykbvu' /* Balance Total Entre Cuentas */,
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.roboto(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ].divide(SizedBox(
+                                                                    width:
+                                                                        6.0)),
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0.0, 0.0),
+                                                              child: Text(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  formatNumber(
+                                                                    FFAppState()
+                                                                        .sumBankBalan,
+                                                                    formatType:
+                                                                        FormatType
+                                                                            .decimal,
+                                                                    decimalType:
+                                                                        DecimalType
+                                                                            .automatic,
+                                                                    currency:
+                                                                        '\$',
+                                                                  ),
+                                                                  '0',
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .roboto(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FFAppState().sumBankBalan >
+                                                                              0.0
+                                                                          ? Color(
+                                                                              0xFF109D06)
+                                                                          : Color(
+                                                                              0xFFE00606),
+                                                                      fontSize:
+                                                                          22.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          20.0,
+                                                                          0.0,
+                                                                          20.0,
+                                                                          0.0),
+                                                              child: Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: 2.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ].divide(SizedBox(
+                                                              height: 5.0)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (valueOrDefault<bool>(
+                                                          currentUserDocument
+                                                              ?.isPremium,
+                                                          false) ==
+                                                      true)
+                                                    AuthUserStreamWidget(
+                                                      builder: (context) =>
+                                                          Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    10.0),
+                                                          ),
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          20.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            0.0,
+                                                                            0.0),
+                                                                    child: Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        'joxvxg3e' /* Monto Total de Transacciones P... */,
+                                                                      ),
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.roboto(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ].divide(SizedBox(
+                                                                    width:
+                                                                        6.0)),
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0.0, 0.0),
+                                                              child: Text(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  formatNumber(
+                                                                    FFAppState()
+                                                                            .sumInternalPendings /
+                                                                        2,
+                                                                    formatType:
+                                                                        FormatType
+                                                                            .decimal,
+                                                                    decimalType:
+                                                                        DecimalType
+                                                                            .automatic,
+                                                                    currency:
+                                                                        '\$',
+                                                                  ),
+                                                                  '0',
+                                                                ),
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .roboto(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FFAppState().sumInternalPendings >
+                                                                              0.0
+                                                                          ? Color(
+                                                                              0xFF109D06)
+                                                                          : Color(
+                                                                              0xFFE00606),
+                                                                      fontSize:
+                                                                          22.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          20.0,
+                                                                          0.0,
+                                                                          20.0,
+                                                                          0.0),
+                                                              child: Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: 2.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ].divide(SizedBox(
+                                                              height: 5.0)),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       borderRadius:
@@ -4803,7 +5792,7 @@ All... */
                                                                   FFLocalizations.of(
                                                                           context)
                                                                       .getText(
-                                                                    'ufdykbvu' /* Ingreso Total Mensual (estimad... */,
+                                                                    'z4vqmbl0' /* Ingreso Total Mensual Proyecta... */,
                                                                   ),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
@@ -4837,28 +5826,72 @@ All... */
                                                           alignment:
                                                               AlignmentDirectional(
                                                                   0.0, 0.0),
-                                                          child: Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              formatNumber(
-                                                                FFAppState()
-                                                                    .sumIncomes,
-                                                                formatType:
-                                                                    FormatType
-                                                                        .decimal,
-                                                                decimalType:
-                                                                    DecimalType
-                                                                        .automatic,
-                                                                currency: '\$',
+                                                          child:
+                                                              AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                formatNumber(
+                                                                  valueOrDefault<bool>(
+                                                                              currentUserDocument
+                                                                                  ?.isPremium,
+                                                                              false) ==
+                                                                          true
+                                                                      ? FFAppState()
+                                                                          .sumIncomPending
+                                                                      : valueOrDefault<
+                                                                          double>(
+                                                                          FFAppState()
+                                                                              .sumIncomes,
+                                                                          0.0,
+                                                                        ),
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .decimal,
+                                                                  decimalType:
+                                                                      DecimalType
+                                                                          .automatic,
+                                                                  currency:
+                                                                      '\$',
+                                                                ),
+                                                                '0',
                                                               ),
-                                                              '0',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .roboto(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: () {
+                                                                      if (FFAppState()
+                                                                              .sumIncomes >
+                                                                          0.0) {
+                                                                        return Color(
+                                                                            0xFF109D06);
+                                                                      } else if (FFAppState()
+                                                                              .sumIncomPending >
+                                                                          0.0) {
+                                                                        return Color(
+                                                                            0xFF109D06);
+                                                                      } else {
+                                                                        return Color(
+                                                                            0x00000000);
+                                                                      }
+                                                                    }(),
+                                                                    fontSize:
+                                                                        22.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -4867,25 +5900,7 @@ All... */
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: FFAppState()
-                                                                              .sumIncomes >
-                                                                          0.0
-                                                                      ? Color(
-                                                                          0xFF109D06)
-                                                                      : Color(
-                                                                          0x00000000),
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
+                                                            ),
                                                           ),
                                                         ),
                                                         Padding(
@@ -4962,7 +5977,7 @@ All... */
                                                                   FFLocalizations.of(
                                                                           context)
                                                                       .getText(
-                                                                    'vso6qbm7' /* Gasto Total Mensual (estimado) */,
+                                                                    'vso6qbm7' /* Gasto Total Mensual Proyectado */,
                                                                   ),
                                                                   textAlign:
                                                                       TextAlign
@@ -5000,28 +6015,54 @@ All... */
                                                           alignment:
                                                               AlignmentDirectional(
                                                                   0.0, 0.0),
-                                                          child: Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              formatNumber(
-                                                                FFAppState()
-                                                                    .sumExpenses,
-                                                                formatType:
-                                                                    FormatType
-                                                                        .decimal,
-                                                                decimalType:
-                                                                    DecimalType
-                                                                        .automatic,
-                                                                currency: '\$',
+                                                          child:
+                                                              AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                formatNumber(
+                                                                  valueOrDefault<bool>(
+                                                                              currentUserDocument
+                                                                                  ?.isPremium,
+                                                                              false) ==
+                                                                          true
+                                                                      ? FFAppState()
+                                                                          .sumExpePending
+                                                                      : FFAppState()
+                                                                          .sumExpenses,
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .decimal,
+                                                                  decimalType:
+                                                                      DecimalType
+                                                                          .automatic,
+                                                                  currency:
+                                                                      '\$',
+                                                                ),
+                                                                '0',
                                                               ),
-                                                              '0',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .roboto(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: Color(
+                                                                        0xFFF5080D),
+                                                                    fontSize:
+                                                                        22.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -5030,25 +6071,7 @@ All... */
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: FFAppState()
-                                                                              .sumExpenses >
-                                                                          0.0
-                                                                      ? Color(
-                                                                          0xFFF5080D)
-                                                                      : Color(
-                                                                          0x00000000),
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
+                                                            ),
                                                           ),
                                                         ),
                                                         Padding(
@@ -5168,7 +6191,7 @@ All... */
                                                                   FFLocalizations.of(
                                                                           context)
                                                                       .getText(
-                                                                    'pu03qkui' /* Flujo de Efectivo Mensual (est... */,
+                                                                    'pu03qkui' /* Flujo de Efectivo Mensual Proy... */,
                                                                   ),
                                                                   textAlign:
                                                                       TextAlign
@@ -5206,32 +6229,64 @@ All... */
                                                           alignment:
                                                               AlignmentDirectional(
                                                                   0.0, 0.0),
-                                                          child: Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              formatNumber(
-                                                                functions.calcNetCashflow(
-                                                                    FFAppState()
-                                                                        .sumIncomes,
-                                                                    FFAppState()
-                                                                        .sumExpenses,
-                                                                    0.0),
-                                                                formatType:
-                                                                    FormatType
-                                                                        .decimal,
-                                                                decimalType:
-                                                                    DecimalType
-                                                                        .automatic,
-                                                                currency: '\$',
+                                                          child:
+                                                              AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                formatNumber(
+                                                                  valueOrDefault<bool>(
+                                                                              currentUserDocument
+                                                                                  ?.isPremium,
+                                                                              false) ==
+                                                                          true
+                                                                      ? FFAppState()
+                                                                          .cashFlowProyected
+                                                                      : valueOrDefault<
+                                                                          double>(
+                                                                          functions.calcNetCashflow(
+                                                                              FFAppState().sumIncomes,
+                                                                              FFAppState().sumExpenses,
+                                                                              0.0),
+                                                                          0.0,
+                                                                        ),
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .decimal,
+                                                                  decimalType:
+                                                                      DecimalType
+                                                                          .automatic,
+                                                                  currency:
+                                                                      '\$',
+                                                                ),
+                                                                '0',
                                                               ),
-                                                              '0',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .roboto(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FFAppState().cashFlowProyected >
+                                                                            0.0
+                                                                        ? Color(
+                                                                            0xFF109D06)
+                                                                        : Color(
+                                                                            0xFFE00606),
+                                                                    fontSize:
+                                                                        28.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -5240,30 +6295,7 @@ All... */
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: functions
-                                                                      .cashFlowColor(
-                                                                          valueOrDefault<
-                                                                              double>(
-                                                                    functions.calcNetCashflow(
-                                                                        FFAppState()
-                                                                            .sumIncomes,
-                                                                        FFAppState()
-                                                                            .sumExpenses,
-                                                                        0.0),
-                                                                    0.0,
-                                                                  )),
-                                                                  fontSize:
-                                                                      28.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -5336,7 +6368,7 @@ All... */
                                                                   FFLocalizations.of(
                                                                           context)
                                                                       .getText(
-                                                                    'pd64did4' /* Ahorros Totales (estimado) */,
+                                                                    'pd64did4' /* Ahorros Totales Proyectado */,
                                                                   ),
                                                                   textAlign:
                                                                       TextAlign
@@ -5370,29 +6402,57 @@ All... */
                                                                 width: 6.0)),
                                                           ),
                                                         ),
-                                                        Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            formatNumber(
-                                                              FFAppState()
-                                                                  .sumSave,
-                                                              formatType:
-                                                                  FormatType
-                                                                      .decimal,
-                                                              decimalType:
-                                                                  DecimalType
-                                                                      .automatic,
-                                                              currency: '\$',
+                                                        AuthUserStreamWidget(
+                                                          builder: (context) =>
+                                                              Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              formatNumber(
+                                                                valueOrDefault<bool>(
+                                                                            currentUserDocument
+                                                                                ?.isPremium,
+                                                                            false) ==
+                                                                        true
+                                                                    ? FFAppState()
+                                                                        .sumSavePending
+                                                                    : FFAppState()
+                                                                        .sumSave,
+                                                                formatType:
+                                                                    FormatType
+                                                                        .decimal,
+                                                                decimalType:
+                                                                    DecimalType
+                                                                        .automatic,
+                                                                currency: '\$',
+                                                              ),
+                                                              '0',
                                                             ),
-                                                            '0',
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .roboto(
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .roboto(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FFAppState()
+                                                                              .sumSave >
+                                                                          0.0
+                                                                      ? Color(
+                                                                          0xFFCDC404)
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                  fontSize:
+                                                                      22.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -5401,25 +6461,7 @@ All... */
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                                color: FFAppState()
-                                                                            .sumSave >
-                                                                        0.0
-                                                                    ? Color(
-                                                                        0xFFCDC404)
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                fontSize: 22.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                              ),
+                                                          ),
                                                         ),
                                                         Padding(
                                                           padding:
@@ -5533,7 +6575,7 @@ All... */
                                                                 FFLocalizations.of(
                                                                         context)
                                                                     .getText(
-                                                                  'qgu1xblp' /* Disponible Para Gastar (estima... */,
+                                                                  'qgu1xblp' /* Disponible Para Gastar Proyect... */,
                                                                 ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
@@ -5566,33 +6608,84 @@ All... */
                                                           alignment:
                                                               AlignmentDirectional(
                                                                   0.0, 0.0),
-                                                          child: Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              formatNumber(
-                                                                functions.calcNetCashflow(
-                                                                    FFAppState()
-                                                                        .sumIncomes,
-                                                                    FFAppState()
-                                                                        .sumExpenses,
-                                                                    FFAppState()
-                                                                        .sumSave),
-                                                                formatType:
-                                                                    FormatType
-                                                                        .decimal,
-                                                                decimalType:
-                                                                    DecimalType
-                                                                        .automatic,
-                                                                currency: '\$',
+                                                          child:
+                                                              AuthUserStreamWidget(
+                                                            builder:
+                                                                (context) =>
+                                                                    Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                formatNumber(
+                                                                  valueOrDefault<bool>(
+                                                                              currentUserDocument
+                                                                                  ?.isPremium,
+                                                                              false) ==
+                                                                          true
+                                                                      ? (FFAppState().cashFlowProyected -
+                                                                          FFAppState()
+                                                                              .sumSaveAccount -
+                                                                          FFAppState()
+                                                                              .sumSavePending)
+                                                                      : valueOrDefault<
+                                                                          double>(
+                                                                          functions.calcNetCashflow(
+                                                                              FFAppState().sumIncomes,
+                                                                              FFAppState().sumExpenses,
+                                                                              FFAppState().sumSave),
+                                                                          0.0,
+                                                                        ),
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .decimal,
+                                                                  decimalType:
+                                                                      DecimalType
+                                                                          .automatic,
+                                                                  currency:
+                                                                      '\$',
+                                                                ),
+                                                                '0',
                                                               ),
-                                                              '0',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .roboto(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: () {
+                                                                      if (valueOrDefault<
+                                                                              double>(
+                                                                            functions.calcNetCashflow(
+                                                                                FFAppState().sumIncomes,
+                                                                                FFAppState().sumExpenses,
+                                                                                FFAppState().sumSave),
+                                                                            0.0,
+                                                                          ) >
+                                                                          0.0) {
+                                                                        return Color(
+                                                                            0xFF109D06);
+                                                                      } else if ((FFAppState().cashFlowProyected -
+                                                                              FFAppState().sumSaveAccount -
+                                                                              FFAppState().sumSavePending) >
+                                                                          0.0) {
+                                                                        return Color(
+                                                                            0xFF109D06);
+                                                                      } else {
+                                                                        return Color(
+                                                                            0xFFEF0202);
+                                                                      }
+                                                                    }(),
+                                                                    fontSize:
+                                                                        28.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -5601,31 +6694,7 @@ All... */
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: valueOrDefault<
-                                                                              double>(
-                                                                            functions.calcNetCashflow(
-                                                                                FFAppState().sumIncomes,
-                                                                                FFAppState().sumExpenses,
-                                                                                FFAppState().sumSave),
-                                                                            0.0,
-                                                                          ) >
-                                                                          0.0
-                                                                      ? Color(
-                                                                          0xFFFDBD04)
-                                                                      : Color(
-                                                                          0xFFEF0202),
-                                                                  fontSize:
-                                                                      28.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
+                                                            ),
                                                           ),
                                                         ),
                                                       ].divide(SizedBox(
@@ -5733,7 +6802,7 @@ All... */
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'axn33hnv' /* Ingreso Total Anual (estimado) */,
+                                                                        'axn33hnv' /* Ingreso Total Anual Proyectado */,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
@@ -5878,7 +6947,7 @@ All... */
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        'dxk4bljk' /* Gasto Total Anual (estimado) */,
+                                                                        'dxk4bljk' /* Gasto Total Anual Proyectado */,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
@@ -6172,7 +7241,7 @@ All... */
                                                                       FFLocalizations.of(
                                                                               context)
                                                                           .getText(
-                                                                        '6o0abik0' /* Ahorro Total Anual (estimado) */,
+                                                                        '6o0abik0' /* Ahorro Total Anual Proyectado */,
                                                                       ),
                                                                       textAlign:
                                                                           TextAlign
@@ -6468,6 +7537,7 @@ All... */
                                     ),
                                   ),
                                   Container(
+                                    height: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Color(0x1F71F9F1),
                                     ),
@@ -7715,246 +8785,12 @@ All... */
                                                         ),
                                                       ],
                                                     ),
-                                                    if (FFAppState()
-                                                            .isSaveSelect ==
-                                                        true)
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'guxo3dh0' /* Total Ahorrado: */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .roboto(
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                              ),
-                                                              StreamBuilder<
-                                                                  List<
-                                                                      BankAccountsRecord>>(
-                                                                stream:
-                                                                    queryBankAccountsRecord(
-                                                                  queryBuilder: (bankAccountsRecord) =>
-                                                                      bankAccountsRecord
-                                                                          .where(
-                                                                            'userRef',
-                                                                            isEqualTo:
-                                                                                currentUserReference,
-                                                                          )
-                                                                          .where(
-                                                                            'isSavingAccount',
-                                                                            isEqualTo:
-                                                                                true,
-                                                                          ),
-                                                                ),
-                                                                builder: (context,
-                                                                    snapshot) {
-                                                                  // Customize what your widget looks like when it's loading.
-                                                                  if (!snapshot
-                                                                      .hasData) {
-                                                                    return Center(
-                                                                      child:
-                                                                          SizedBox(
-                                                                        width:
-                                                                            40.0,
-                                                                        height:
-                                                                            40.0,
-                                                                        child:
-                                                                            CircularProgressIndicator(
-                                                                          valueColor:
-                                                                              AlwaysStoppedAnimation<Color>(
-                                                                            FlutterFlowTheme.of(context).primary,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  }
-                                                                  List<BankAccountsRecord>
-                                                                      textBankAccountsRecordList =
-                                                                      snapshot
-                                                                          .data!;
-
-                                                                  return Text(
-                                                                    valueOrDefault<
-                                                                        String>(
-                                                                      formatNumber(
-                                                                        functions.sumincomes(textBankAccountsRecordList
-                                                                            .map((e) =>
-                                                                                e.currentBalance)
-                                                                            .toList()),
-                                                                        formatType:
-                                                                            FormatType.decimal,
-                                                                        decimalType:
-                                                                            DecimalType.automatic,
-                                                                        currency:
-                                                                            '\$',
-                                                                      ),
-                                                                      '0',
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          fontSize:
-                                                                              18.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: StreamBuilder<
-                                                                List<
-                                                                    BankAccountsRecord>>(
-                                                              stream:
-                                                                  queryBankAccountsRecord(
-                                                                queryBuilder:
-                                                                    (bankAccountsRecord) =>
-                                                                        bankAccountsRecord
-                                                                            .where(
-                                                                              'userRef',
-                                                                              isEqualTo: currentUserReference,
-                                                                            )
-                                                                            .where(
-                                                                              'isSavingAccount',
-                                                                              isEqualTo: true,
-                                                                            ),
-                                                              ),
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                // Customize what your widget looks like when it's loading.
-                                                                if (!snapshot
-                                                                    .hasData) {
-                                                                  return Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width:
-                                                                          40.0,
-                                                                      height:
-                                                                          40.0,
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                List<BankAccountsRecord>
-                                                                    listSaveBankAccountsRecordList =
-                                                                    snapshot
-                                                                        .data!;
-
-                                                                return Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: List.generate(
-                                                                      listSaveBankAccountsRecordList
-                                                                          .length,
-                                                                      (listSaveIndex) {
-                                                                    final listSaveBankAccountsRecord =
-                                                                        listSaveBankAccountsRecordList[
-                                                                            listSaveIndex];
-                                                                    return wrapWithModel(
-                                                                      model: _model
-                                                                          .bankAcountModels1
-                                                                          .getModel(
-                                                                        listSaveBankAccountsRecord
-                                                                            .reference
-                                                                            .id,
-                                                                        listSaveIndex,
-                                                                      ),
-                                                                      updateCallback:
-                                                                          () =>
-                                                                              safeSetState(() {}),
-                                                                      child:
-                                                                          BankAcountWidget(
-                                                                        key:
-                                                                            Key(
-                                                                          'Keyoo8_${listSaveBankAccountsRecord.reference.id}',
-                                                                        ),
-                                                                        bankAcountDocument:
-                                                                            listSaveBankAccountsRecord,
-                                                                      ),
-                                                                    );
-                                                                  }).divide(SizedBox(
-                                                                      height:
-                                                                          10.0)),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ].divide(SizedBox(
-                                                            height: 10.0)),
-                                                      ),
-                                                    if (FFAppState()
-                                                            .isCreditSelect ==
-                                                        true)
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Column(
+                                                    Builder(
+                                                      builder: (context) {
+                                                        if (FFAppState()
+                                                                .isSaveSelect ==
+                                                            true) {
+                                                          return Column(
                                                             mainAxisSize:
                                                                 MainAxisSize
                                                                     .max,
@@ -7971,7 +8807,7 @@ All... */
                                                                     FFLocalizations.of(
                                                                             context)
                                                                         .getText(
-                                                                      'cc7ff5vb' /* Total Utilizado: */,
+                                                                      'guxo3dh0' /* Total Ahorrado: */,
                                                                     ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
@@ -7995,6 +8831,632 @@ All... */
                                                                         ),
                                                                   ),
                                                                   StreamBuilder<
+                                                                      List<
+                                                                          BankAccountsRecord>>(
+                                                                    stream:
+                                                                        queryBankAccountsRecord(
+                                                                      queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                          .where(
+                                                                            'userRef',
+                                                                            isEqualTo:
+                                                                                currentUserReference,
+                                                                          )
+                                                                          .where(
+                                                                            'isSavingAccount',
+                                                                            isEqualTo:
+                                                                                true,
+                                                                          ),
+                                                                    ),
+                                                                    builder:
+                                                                        (context,
+                                                                            snapshot) {
+                                                                      // Customize what your widget looks like when it's loading.
+                                                                      if (!snapshot
+                                                                          .hasData) {
+                                                                        return Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                40.0,
+                                                                            height:
+                                                                                40.0,
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }
+                                                                      List<BankAccountsRecord>
+                                                                          textBankAccountsRecordList =
+                                                                          snapshot
+                                                                              .data!;
+
+                                                                      return Text(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          formatNumber(
+                                                                            functions.sum(textBankAccountsRecordList.map((e) => e.availableBalance).toList()),
+                                                                            formatType:
+                                                                                FormatType.decimal,
+                                                                            decimalType:
+                                                                                DecimalType.automatic,
+                                                                            currency:
+                                                                                '\$',
+                                                                          ),
+                                                                          '0',
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              font: GoogleFonts.roboto(
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              fontSize: 18.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            10.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: StreamBuilder<
+                                                                    List<
+                                                                        BankAccountsRecord>>(
+                                                                  stream:
+                                                                      queryBankAccountsRecord(
+                                                                    queryBuilder: (bankAccountsRecord) =>
+                                                                        bankAccountsRecord
+                                                                            .where(
+                                                                              'userRef',
+                                                                              isEqualTo: currentUserReference,
+                                                                            )
+                                                                            .where(
+                                                                              'isSavingAccount',
+                                                                              isEqualTo: true,
+                                                                            ),
+                                                                  ),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    // Customize what your widget looks like when it's loading.
+                                                                    if (!snapshot
+                                                                        .hasData) {
+                                                                      return Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              40.0,
+                                                                          height:
+                                                                              40.0,
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            valueColor:
+                                                                                AlwaysStoppedAnimation<Color>(
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                    List<BankAccountsRecord>
+                                                                        listSaveBankAccountsRecordList =
+                                                                        snapshot
+                                                                            .data!;
+
+                                                                    return Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      children: List.generate(
+                                                                          listSaveBankAccountsRecordList
+                                                                              .length,
+                                                                          (listSaveIndex) {
+                                                                        final listSaveBankAccountsRecord =
+                                                                            listSaveBankAccountsRecordList[listSaveIndex];
+                                                                        return StreamBuilder<
+                                                                            List<PlaidItemsRecord>>(
+                                                                          stream:
+                                                                              queryPlaidItemsRecord(
+                                                                            queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                                                                                .where(
+                                                                                  'userRef',
+                                                                                  isEqualTo: currentUserReference,
+                                                                                )
+                                                                                .where(
+                                                                                  'itemId',
+                                                                                  isEqualTo: listSaveBankAccountsRecord.itemId,
+                                                                                ),
+                                                                            singleRecord:
+                                                                                true,
+                                                                          ),
+                                                                          builder:
+                                                                              (context, snapshot) {
+                                                                            // Customize what your widget looks like when it's loading.
+                                                                            if (!snapshot.hasData) {
+                                                                              return Center(
+                                                                                child: SizedBox(
+                                                                                  width: 40.0,
+                                                                                  height: 40.0,
+                                                                                  child: CircularProgressIndicator(
+                                                                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                      FlutterFlowTheme.of(context).primary,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                            List<PlaidItemsRecord>
+                                                                                bankAcountPlaidItemsRecordList =
+                                                                                snapshot.data!;
+                                                                            // Return an empty Container when the item does not exist.
+                                                                            if (snapshot.data!.isEmpty) {
+                                                                              return Container();
+                                                                            }
+                                                                            final bankAcountPlaidItemsRecord = bankAcountPlaidItemsRecordList.isNotEmpty
+                                                                                ? bankAcountPlaidItemsRecordList.first
+                                                                                : null;
+
+                                                                            return InkWell(
+                                                                              splashColor: Colors.transparent,
+                                                                              focusColor: Colors.transparent,
+                                                                              hoverColor: Colors.transparent,
+                                                                              highlightColor: Colors.transparent,
+                                                                              onTap: () async {
+                                                                                if (bankAcountPlaidItemsRecord?.needsAttention == true) {
+                                                                                  await showModalBottomSheet(
+                                                                                    isScrollControlled: true,
+                                                                                    backgroundColor: Colors.transparent,
+                                                                                    enableDrag: false,
+                                                                                    context: context,
+                                                                                    builder: (context) {
+                                                                                      return Padding(
+                                                                                        padding: MediaQuery.viewInsetsOf(context),
+                                                                                        child: ReconectarcuentasWidget(),
+                                                                                      );
+                                                                                    },
+                                                                                  ).then((value) => safeSetState(() {}));
+                                                                                } else {
+                                                                                  context.pushNamed(
+                                                                                    OperationsWidget.routeName,
+                                                                                    queryParameters: {
+                                                                                      'plaidAccountId': serializeParam(
+                                                                                        listSaveBankAccountsRecord.plaidAccountId,
+                                                                                        ParamType.String,
+                                                                                      ),
+                                                                                      'acountDocument': serializeParam(
+                                                                                        listSaveBankAccountsRecord,
+                                                                                        ParamType.Document,
+                                                                                      ),
+                                                                                    }.withoutNulls,
+                                                                                    extra: <String, dynamic>{
+                                                                                      'acountDocument': listSaveBankAccountsRecord,
+                                                                                    },
+                                                                                  );
+                                                                                }
+                                                                              },
+                                                                              child: wrapWithModel(
+                                                                                model: _model.bankAcountModels1.getModel(
+                                                                                  listSaveBankAccountsRecord.reference.id,
+                                                                                  listSaveIndex,
+                                                                                ),
+                                                                                updateCallback: () => safeSetState(() {}),
+                                                                                child: BankAcountWidget(
+                                                                                  key: Key(
+                                                                                    'Keyoo8_${listSaveBankAccountsRecord.reference.id}',
+                                                                                  ),
+                                                                                  bankAcountDocument: listSaveBankAccountsRecord,
+                                                                                  needsAttention: bankAcountPlaidItemsRecord!.needsAttention,
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      }).divide(SizedBox(
+                                                                          height:
+                                                                              10.0)),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                height: 10.0)),
+                                                          );
+                                                        } else if (FFAppState()
+                                                                .isChekSelect ==
+                                                            true) {
+                                                          return Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        FFLocalizations.of(context)
+                                                                            .getText(
+                                                                          'x7mn2xlv' /* Total Disponible: */,
+                                                                        ),
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              font: GoogleFonts.roboto(
+                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                      ),
+                                                                      StreamBuilder<
+                                                                          List<
+                                                                              BankAccountsRecord>>(
+                                                                        stream:
+                                                                            queryBankAccountsRecord(
+                                                                          queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                              .where(
+                                                                                'userRef',
+                                                                                isEqualTo: currentUserReference,
+                                                                              )
+                                                                              .where(
+                                                                                'isChequingAccount',
+                                                                                isEqualTo: true,
+                                                                              ),
+                                                                        ),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          // Customize what your widget looks like when it's loading.
+                                                                          if (!snapshot
+                                                                              .hasData) {
+                                                                            return Center(
+                                                                              child: SizedBox(
+                                                                                width: 40.0,
+                                                                                height: 40.0,
+                                                                                child: CircularProgressIndicator(
+                                                                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                    FlutterFlowTheme.of(context).primary,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          }
+                                                                          List<BankAccountsRecord>
+                                                                              textBankAccountsRecordList =
+                                                                              snapshot.data!;
+
+                                                                          return Text(
+                                                                            valueOrDefault<String>(
+                                                                              formatNumber(
+                                                                                functions.sum(textBankAccountsRecordList.map((e) => e.availableBalance).toList()),
+                                                                                formatType: FormatType.decimal,
+                                                                                decimalType: DecimalType.automatic,
+                                                                                currency: '\$',
+                                                                              ),
+                                                                              '0',
+                                                                            ),
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.roboto(
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  color: FlutterFlowTheme.of(context).primary,
+                                                                                  fontSize: 18.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            10.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: StreamBuilder<
+                                                                    List<
+                                                                        BankAccountsRecord>>(
+                                                                  stream:
+                                                                      queryBankAccountsRecord(
+                                                                    queryBuilder: (bankAccountsRecord) =>
+                                                                        bankAccountsRecord
+                                                                            .where(
+                                                                              'userRef',
+                                                                              isEqualTo: currentUserReference,
+                                                                            )
+                                                                            .where(
+                                                                              'isChequingAccount',
+                                                                              isEqualTo: true,
+                                                                            ),
+                                                                  ),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    // Customize what your widget looks like when it's loading.
+                                                                    if (!snapshot
+                                                                        .hasData) {
+                                                                      return Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              40.0,
+                                                                          height:
+                                                                              40.0,
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            valueColor:
+                                                                                AlwaysStoppedAnimation<Color>(
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                    List<BankAccountsRecord>
+                                                                        listCheqBankAccountsRecordList =
+                                                                        snapshot
+                                                                            .data!;
+
+                                                                    return Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      children: List.generate(
+                                                                          listCheqBankAccountsRecordList
+                                                                              .length,
+                                                                          (listCheqIndex) {
+                                                                        final listCheqBankAccountsRecord =
+                                                                            listCheqBankAccountsRecordList[listCheqIndex];
+                                                                        return StreamBuilder<
+                                                                            List<PlaidItemsRecord>>(
+                                                                          stream:
+                                                                              queryPlaidItemsRecord(
+                                                                            queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                                                                                .where(
+                                                                                  'userRef',
+                                                                                  isEqualTo: currentUserReference,
+                                                                                )
+                                                                                .where(
+                                                                                  'itemId',
+                                                                                  isEqualTo: listCheqBankAccountsRecord.itemId,
+                                                                                ),
+                                                                            singleRecord:
+                                                                                true,
+                                                                          ),
+                                                                          builder:
+                                                                              (context, snapshot) {
+                                                                            // Customize what your widget looks like when it's loading.
+                                                                            if (!snapshot.hasData) {
+                                                                              return Center(
+                                                                                child: SizedBox(
+                                                                                  width: 40.0,
+                                                                                  height: 40.0,
+                                                                                  child: CircularProgressIndicator(
+                                                                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                      FlutterFlowTheme.of(context).primary,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                            List<PlaidItemsRecord>
+                                                                                bankAcountPlaidItemsRecordList =
+                                                                                snapshot.data!;
+                                                                            // Return an empty Container when the item does not exist.
+                                                                            if (snapshot.data!.isEmpty) {
+                                                                              return Container();
+                                                                            }
+                                                                            final bankAcountPlaidItemsRecord = bankAcountPlaidItemsRecordList.isNotEmpty
+                                                                                ? bankAcountPlaidItemsRecordList.first
+                                                                                : null;
+
+                                                                            return InkWell(
+                                                                              splashColor: Colors.transparent,
+                                                                              focusColor: Colors.transparent,
+                                                                              hoverColor: Colors.transparent,
+                                                                              highlightColor: Colors.transparent,
+                                                                              onTap: () async {
+                                                                                if (bankAcountPlaidItemsRecord?.needsAttention == true) {
+                                                                                  await showModalBottomSheet(
+                                                                                    isScrollControlled: true,
+                                                                                    backgroundColor: Colors.transparent,
+                                                                                    enableDrag: false,
+                                                                                    context: context,
+                                                                                    builder: (context) {
+                                                                                      return Padding(
+                                                                                        padding: MediaQuery.viewInsetsOf(context),
+                                                                                        child: ReconectarcuentasWidget(),
+                                                                                      );
+                                                                                    },
+                                                                                  ).then((value) => safeSetState(() {}));
+                                                                                } else {
+                                                                                  context.pushNamed(
+                                                                                    OperationsWidget.routeName,
+                                                                                    queryParameters: {
+                                                                                      'plaidAccountId': serializeParam(
+                                                                                        listCheqBankAccountsRecord.plaidAccountId,
+                                                                                        ParamType.String,
+                                                                                      ),
+                                                                                      'acountDocument': serializeParam(
+                                                                                        listCheqBankAccountsRecord,
+                                                                                        ParamType.Document,
+                                                                                      ),
+                                                                                    }.withoutNulls,
+                                                                                    extra: <String, dynamic>{
+                                                                                      'acountDocument': listCheqBankAccountsRecord,
+                                                                                    },
+                                                                                  );
+                                                                                }
+                                                                              },
+                                                                              child: wrapWithModel(
+                                                                                model: _model.bankAcountModels2.getModel(
+                                                                                  listCheqBankAccountsRecord.reference.id,
+                                                                                  listCheqIndex,
+                                                                                ),
+                                                                                updateCallback: () => safeSetState(() {}),
+                                                                                child: BankAcountWidget(
+                                                                                  key: Key(
+                                                                                    'Keyfug_${listCheqBankAccountsRecord.reference.id}',
+                                                                                  ),
+                                                                                  bankAcountDocument: listCheqBankAccountsRecord,
+                                                                                  needsAttention: bankAcountPlaidItemsRecord!.needsAttention,
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      }).divide(SizedBox(
+                                                                          height:
+                                                                              10.0)),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ].divide(SizedBox(
+                                                                height: 10.0)),
+                                                          );
+                                                        } else {
+                                                          return Visibility(
+                                                            visible: FFAppState()
+                                                                    .isCreditSelect ==
+                                                                true,
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Text(
+                                                                          FFLocalizations.of(context)
+                                                                              .getText(
+                                                                            '4kwa4224' /* Total Utilizado: */,
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                font: GoogleFonts.roboto(
+                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                                letterSpacing: 0.0,
+                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                        ),
+                                                                        StreamBuilder<
+                                                                            List<BankAccountsRecord>>(
+                                                                          stream:
+                                                                              queryBankAccountsRecord(
+                                                                            queryBuilder: (bankAccountsRecord) => bankAccountsRecord
+                                                                                .where(
+                                                                                  'userRef',
+                                                                                  isEqualTo: currentUserReference,
+                                                                                )
+                                                                                .where(
+                                                                                  'isCreditAccount',
+                                                                                  isEqualTo: true,
+                                                                                ),
+                                                                          ),
+                                                                          builder:
+                                                                              (context, snapshot) {
+                                                                            // Customize what your widget looks like when it's loading.
+                                                                            if (!snapshot.hasData) {
+                                                                              return Center(
+                                                                                child: SizedBox(
+                                                                                  width: 40.0,
+                                                                                  height: 40.0,
+                                                                                  child: CircularProgressIndicator(
+                                                                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                      FlutterFlowTheme.of(context).primary,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            }
+                                                                            List<BankAccountsRecord>
+                                                                                textBankAccountsRecordList =
+                                                                                snapshot.data!;
+
+                                                                            return Text(
+                                                                              valueOrDefault<String>(
+                                                                                formatNumber(
+                                                                                  functions.sum(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
+                                                                                  formatType: FormatType.decimal,
+                                                                                  decimalType: DecimalType.automatic,
+                                                                                  currency: '\$',
+                                                                                ),
+                                                                                '0',
+                                                                              ),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    font: GoogleFonts.roboto(
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    fontSize: 18.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  child: StreamBuilder<
                                                                       List<
                                                                           BankAccountsRecord>>(
                                                                     stream:
@@ -8034,385 +9496,135 @@ All... */
                                                                         );
                                                                       }
                                                                       List<BankAccountsRecord>
-                                                                          textBankAccountsRecordList =
+                                                                          listcreditBankAccountsRecordList =
                                                                           snapshot
                                                                               .data!;
 
-                                                                      return Text(
-                                                                        valueOrDefault<
-                                                                            String>(
-                                                                          formatNumber(
-                                                                            functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
-                                                                            formatType:
-                                                                                FormatType.decimal,
-                                                                            decimalType:
-                                                                                DecimalType.automatic,
-                                                                            currency:
-                                                                                '\$',
-                                                                          ),
-                                                                          '0',
-                                                                        ),
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              font: GoogleFonts.roboto(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                              fontSize: 18.0,
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                      return Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        children: List.generate(
+                                                                            listcreditBankAccountsRecordList.length,
+                                                                            (listcreditIndex) {
+                                                                          final listcreditBankAccountsRecord =
+                                                                              listcreditBankAccountsRecordList[listcreditIndex];
+                                                                          return StreamBuilder<
+                                                                              List<PlaidItemsRecord>>(
+                                                                            stream:
+                                                                                queryPlaidItemsRecord(
+                                                                              queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                                                                                  .where(
+                                                                                    'userRef',
+                                                                                    isEqualTo: currentUserReference,
+                                                                                  )
+                                                                                  .where(
+                                                                                    'itemId',
+                                                                                    isEqualTo: listcreditBankAccountsRecord.itemId,
+                                                                                  ),
+                                                                              singleRecord: true,
                                                                             ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: StreamBuilder<
-                                                                List<
-                                                                    BankAccountsRecord>>(
-                                                              stream:
-                                                                  queryBankAccountsRecord(
-                                                                queryBuilder:
-                                                                    (bankAccountsRecord) =>
-                                                                        bankAccountsRecord
-                                                                            .where(
-                                                                              'userRef',
-                                                                              isEqualTo: currentUserReference,
-                                                                            )
-                                                                            .where(
-                                                                              'isCreditAccount',
-                                                                              isEqualTo: true,
-                                                                            ),
-                                                              ),
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                // Customize what your widget looks like when it's loading.
-                                                                if (!snapshot
-                                                                    .hasData) {
-                                                                  return Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width:
-                                                                          40.0,
-                                                                      height:
-                                                                          40.0,
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                List<BankAccountsRecord>
-                                                                    listcreditBankAccountsRecordList =
-                                                                    snapshot
-                                                                        .data!;
+                                                                            builder:
+                                                                                (context, snapshot) {
+                                                                              // Customize what your widget looks like when it's loading.
+                                                                              if (!snapshot.hasData) {
+                                                                                return Center(
+                                                                                  child: SizedBox(
+                                                                                    width: 40.0,
+                                                                                    height: 40.0,
+                                                                                    child: CircularProgressIndicator(
+                                                                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                        FlutterFlowTheme.of(context).primary,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              }
+                                                                              List<PlaidItemsRecord> bankAcountPlaidItemsRecordList = snapshot.data!;
+                                                                              // Return an empty Container when the item does not exist.
+                                                                              if (snapshot.data!.isEmpty) {
+                                                                                return Container();
+                                                                              }
+                                                                              final bankAcountPlaidItemsRecord = bankAcountPlaidItemsRecordList.isNotEmpty ? bankAcountPlaidItemsRecordList.first : null;
 
-                                                                return Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: List.generate(
-                                                                      listcreditBankAccountsRecordList
-                                                                          .length,
-                                                                      (listcreditIndex) {
-                                                                    final listcreditBankAccountsRecord =
-                                                                        listcreditBankAccountsRecordList[
-                                                                            listcreditIndex];
-                                                                    return wrapWithModel(
-                                                                      model: _model
-                                                                          .bankAcountModels2
-                                                                          .getModel(
-                                                                        listcreditBankAccountsRecord
-                                                                            .reference
-                                                                            .id,
-                                                                        listcreditIndex,
-                                                                      ),
-                                                                      updateCallback:
-                                                                          () =>
-                                                                              safeSetState(() {}),
-                                                                      child:
-                                                                          BankAcountWidget(
-                                                                        key:
-                                                                            Key(
-                                                                          'Keyqx6_${listcreditBankAccountsRecord.reference.id}',
-                                                                        ),
-                                                                        bankAcountDocument:
-                                                                            listcreditBankAccountsRecord,
-                                                                      ),
-                                                                    );
-                                                                  }).divide(SizedBox(
-                                                                      height:
-                                                                          10.0)),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ].divide(SizedBox(
-                                                            height: 10.0)),
-                                                      ),
-                                                    if (FFAppState()
-                                                            .isChekSelect ==
-                                                        true)
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'lj8kxbik' /* Total Disponible: */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  StreamBuilder<
-                                                                      List<
-                                                                          BankAccountsRecord>>(
-                                                                    stream:
-                                                                        queryBankAccountsRecord(
-                                                                      queryBuilder: (bankAccountsRecord) => bankAccountsRecord
-                                                                          .where(
-                                                                            'userRef',
-                                                                            isEqualTo:
-                                                                                currentUserReference,
-                                                                          )
-                                                                          .where(
-                                                                            'isChequingAccount',
-                                                                            isEqualTo:
-                                                                                true,
-                                                                          ),
-                                                                    ),
-                                                                    builder:
-                                                                        (context,
-                                                                            snapshot) {
-                                                                      // Customize what your widget looks like when it's loading.
-                                                                      if (!snapshot
-                                                                          .hasData) {
-                                                                        return Center(
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                40.0,
+                                                                              return InkWell(
+                                                                                splashColor: Colors.transparent,
+                                                                                focusColor: Colors.transparent,
+                                                                                hoverColor: Colors.transparent,
+                                                                                highlightColor: Colors.transparent,
+                                                                                onTap: () async {
+                                                                                  if (bankAcountPlaidItemsRecord?.needsAttention == true) {
+                                                                                    await showModalBottomSheet(
+                                                                                      isScrollControlled: true,
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                      enableDrag: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return Padding(
+                                                                                          padding: MediaQuery.viewInsetsOf(context),
+                                                                                          child: ReconectarcuentasWidget(),
+                                                                                        );
+                                                                                      },
+                                                                                    ).then((value) => safeSetState(() {}));
+                                                                                  } else {
+                                                                                    context.pushNamed(
+                                                                                      OperationsWidget.routeName,
+                                                                                      queryParameters: {
+                                                                                        'plaidAccountId': serializeParam(
+                                                                                          listcreditBankAccountsRecord.plaidAccountId,
+                                                                                          ParamType.String,
+                                                                                        ),
+                                                                                        'acountDocument': serializeParam(
+                                                                                          listcreditBankAccountsRecord,
+                                                                                          ParamType.Document,
+                                                                                        ),
+                                                                                      }.withoutNulls,
+                                                                                      extra: <String, dynamic>{
+                                                                                        'acountDocument': listcreditBankAccountsRecord,
+                                                                                      },
+                                                                                    );
+                                                                                  }
+                                                                                },
+                                                                                child: wrapWithModel(
+                                                                                  model: _model.bankAcountModels3.getModel(
+                                                                                    listcreditBankAccountsRecord.reference.id,
+                                                                                    listcreditIndex,
+                                                                                  ),
+                                                                                  updateCallback: () => safeSetState(() {}),
+                                                                                  child: BankAcountWidget(
+                                                                                    key: Key(
+                                                                                      'Keyqye_${listcreditBankAccountsRecord.reference.id}',
+                                                                                    ),
+                                                                                    bankAcountDocument: listcreditBankAccountsRecord,
+                                                                                    needsAttention: bankAcountPlaidItemsRecord!.needsAttention,
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        }).divide(SizedBox(
                                                                             height:
-                                                                                40.0,
-                                                                            child:
-                                                                                CircularProgressIndicator(
-                                                                              valueColor: AlwaysStoppedAnimation<Color>(
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      }
-                                                                      List<BankAccountsRecord>
-                                                                          textBankAccountsRecordList =
-                                                                          snapshot
-                                                                              .data!;
-
-                                                                      return Text(
-                                                                        valueOrDefault<
-                                                                            String>(
-                                                                          formatNumber(
-                                                                            functions.sumincomes(textBankAccountsRecordList.map((e) => e.currentBalance).toList()),
-                                                                            formatType:
-                                                                                FormatType.decimal,
-                                                                            decimalType:
-                                                                                DecimalType.automatic,
-                                                                            currency:
-                                                                                '\$',
-                                                                          ),
-                                                                          '0',
-                                                                        ),
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              font: GoogleFonts.roboto(
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                              color: FlutterFlowTheme.of(context).primary,
-                                                                              fontSize: 18.0,
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.w500,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
+                                                                                10.0)),
                                                                       );
                                                                     },
                                                                   ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: StreamBuilder<
-                                                                List<
-                                                                    BankAccountsRecord>>(
-                                                              stream:
-                                                                  queryBankAccountsRecord(
-                                                                queryBuilder:
-                                                                    (bankAccountsRecord) =>
-                                                                        bankAccountsRecord
-                                                                            .where(
-                                                                              'userRef',
-                                                                              isEqualTo: currentUserReference,
-                                                                            )
-                                                                            .where(
-                                                                              'isChequingAccount',
-                                                                              isEqualTo: true,
-                                                                            ),
-                                                              ),
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                // Customize what your widget looks like when it's loading.
-                                                                if (!snapshot
-                                                                    .hasData) {
-                                                                  return Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width:
-                                                                          40.0,
-                                                                      height:
-                                                                          40.0,
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                List<BankAccountsRecord>
-                                                                    listCheqBankAccountsRecordList =
-                                                                    snapshot
-                                                                        .data!;
-
-                                                                return Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  children: List.generate(
-                                                                      listCheqBankAccountsRecordList
-                                                                          .length,
-                                                                      (listCheqIndex) {
-                                                                    final listCheqBankAccountsRecord =
-                                                                        listCheqBankAccountsRecordList[
-                                                                            listCheqIndex];
-                                                                    return wrapWithModel(
-                                                                      model: _model
-                                                                          .bankAcountModels3
-                                                                          .getModel(
-                                                                        listCheqBankAccountsRecord
-                                                                            .reference
-                                                                            .id,
-                                                                        listCheqIndex,
-                                                                      ),
-                                                                      updateCallback:
-                                                                          () =>
-                                                                              safeSetState(() {}),
-                                                                      child:
-                                                                          BankAcountWidget(
-                                                                        key:
-                                                                            Key(
-                                                                          'Key75e_${listCheqBankAccountsRecord.reference.id}',
-                                                                        ),
-                                                                        bankAcountDocument:
-                                                                            listCheqBankAccountsRecord,
-                                                                      ),
-                                                                    );
-                                                                  }).divide(SizedBox(
-                                                                      height:
-                                                                          10.0)),
-                                                                );
-                                                              },
+                                                                ),
+                                                              ].divide(SizedBox(
+                                                                  height:
+                                                                      10.0)),
                                                             ),
-                                                          ),
-                                                        ].divide(SizedBox(
-                                                            height: 10.0)),
-                                                      ),
+                                                          );
+                                                        }
+                                                      },
+                                                    ),
                                                   ].divide(
                                                       SizedBox(height: 20.0)),
                                                 ),
                                               ),
-                                            if ((valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPremium,
-                                                        false) ==
-                                                    true) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isBasic,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isBasicWhitAnunces,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPilotoTest,
-                                                        false) ==
-                                                    false))
+                                            if (valueOrDefault<bool>(
+                                                    currentUserDocument
+                                                        ?.isPremium,
+                                                    false) ==
+                                                true)
                                               Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
@@ -8428,52 +9640,165 @@ All... */
                                                             false)
                                                         ? null
                                                         : () async {
-                                                            try {
-                                                              final result =
-                                                                  await FirebaseFunctions
+                                                            if (valueOrDefault<
+                                                                        bool>(
+                                                                    currentUserDocument
+                                                                        ?.isAccountsVinculated,
+                                                                    false) ==
+                                                                true) {
+                                                              try {
+                                                                final result =
+                                                                    await FirebaseFunctions
+                                                                        .instance
+                                                                        .httpsCallable(
+                                                                            'startPlaidLinkWebV2')
+                                                                        .call(
+                                                                            {});
+                                                                _model.plaidStartResult =
+                                                                    StartPlaidLinkWebV2CloudFunctionCallResponse(
+                                                                  succeeded:
+                                                                      true,
+                                                                );
+                                                              } on FirebaseFunctionsException catch (error) {
+                                                                _model.plaidStartResult =
+                                                                    StartPlaidLinkWebV2CloudFunctionCallResponse(
+                                                                  errorCode:
+                                                                      error
+                                                                          .code,
+                                                                  succeeded:
+                                                                      false,
+                                                                );
+                                                              }
+
+                                                              if (_model
+                                                                  .plaidStartResult!
+                                                                  .succeeded!) {
+                                                                _model.weburl =
+                                                                    await queryPlaidLinkSessionsRecordOnce(
+                                                                  queryBuilder:
+                                                                      (plaidLinkSessionsRecord) =>
+                                                                          plaidLinkSessionsRecord
+                                                                              .where(
+                                                                    'userRef',
+                                                                    isEqualTo:
+                                                                        currentUserReference,
+                                                                  ),
+                                                                  singleRecord:
+                                                                      true,
+                                                                ).then((s) => s
+                                                                        .firstOrNull);
+                                                                _model.url =
+                                                                    _model
+                                                                        .weburl
+                                                                        ?.webUrl;
+                                                                safeSetState(
+                                                                    () {});
+                                                                await launchURL(
+                                                                    _model
+                                                                        .weburl!
+                                                                        .webUrl);
+
+                                                                await currentUserReference!
+                                                                    .update(
+                                                                        createUserRecordData(
+                                                                  isAccountsVinculated:
+                                                                      true,
+                                                                ));
+                                                                await _model
+                                                                    .weburl!
+                                                                    .reference
+                                                                    .delete();
+                                                              }
+                                                            } else {
+                                                              if (valueOrDefault<
+                                                                          bool>(
+                                                                      currentUserDocument
+                                                                          ?.isDocumentCreated,
+                                                                      false) ==
+                                                                  true) {
+                                                                await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  enableDrag:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          ConectarcuentasWidget(),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    safeSetState(
+                                                                        () {}));
+                                                              } else {
+                                                                try {
+                                                                  final result = await FirebaseFunctions
                                                                       .instance
                                                                       .httpsCallable(
                                                                           'startPlaidLinkWebV2')
                                                                       .call({});
-                                                              _model.plaidStartResult =
-                                                                  StartPlaidLinkWebV2CloudFunctionCallResponse(
-                                                                succeeded: true,
-                                                              );
-                                                            } on FirebaseFunctionsException catch (error) {
-                                                              _model.plaidStartResult =
-                                                                  StartPlaidLinkWebV2CloudFunctionCallResponse(
-                                                                errorCode:
-                                                                    error.code,
-                                                                succeeded:
-                                                                    false,
-                                                              );
-                                                            }
+                                                                  _model.plaidStartResult1 =
+                                                                      StartPlaidLinkWebV2CloudFunctionCallResponse(
+                                                                    succeeded:
+                                                                        true,
+                                                                  );
+                                                                } on FirebaseFunctionsException catch (error) {
+                                                                  _model.plaidStartResult1 =
+                                                                      StartPlaidLinkWebV2CloudFunctionCallResponse(
+                                                                    errorCode:
+                                                                        error
+                                                                            .code,
+                                                                    succeeded:
+                                                                        false,
+                                                                  );
+                                                                }
 
-                                                            if (_model
-                                                                .plaidStartResult!
-                                                                .succeeded!) {
-                                                              _model.weburl =
-                                                                  await queryPlaidLinkSessionsRecordOnce(
-                                                                queryBuilder:
-                                                                    (plaidLinkSessionsRecord) =>
-                                                                        plaidLinkSessionsRecord
-                                                                            .where(
-                                                                  'userRef',
-                                                                  isEqualTo:
-                                                                      currentUserReference,
-                                                                ),
-                                                                singleRecord:
-                                                                    true,
-                                                              ).then((s) => s
-                                                                      .firstOrNull);
-                                                              _model.url =
-                                                                  _model.weburl
+                                                                if (_model
+                                                                    .plaidStartResult1!
+                                                                    .succeeded!) {
+                                                                  _model.weburl1 =
+                                                                      await queryPlaidLinkSessionsRecordOnce(
+                                                                    queryBuilder:
+                                                                        (plaidLinkSessionsRecord) =>
+                                                                            plaidLinkSessionsRecord.where(
+                                                                      'userRef',
+                                                                      isEqualTo:
+                                                                          currentUserReference,
+                                                                    ),
+                                                                    singleRecord:
+                                                                        true,
+                                                                  ).then((s) =>
+                                                                          s.firstOrNull);
+                                                                  _model.url = _model
+                                                                      .weburl1
                                                                       ?.webUrl;
-                                                              safeSetState(
-                                                                  () {});
-                                                              await launchURL(
-                                                                  _model.weburl!
+                                                                  safeSetState(
+                                                                      () {});
+                                                                  await launchURL(_model
+                                                                      .weburl1!
                                                                       .webUrl);
+
+                                                                  await currentUserReference!
+                                                                      .update(
+                                                                          createUserRecordData(
+                                                                    isAccountsVinculated:
+                                                                        true,
+                                                                  ));
+                                                                  await _model
+                                                                      .weburl1!
+                                                                      .reference
+                                                                      .delete();
+                                                                }
+                                                              }
                                                             }
 
                                                             safeSetState(() {});
@@ -10102,15 +11427,359 @@ Ej: carro, ... */
                                 onTap: (i) async {
                                   [
                                     () async {
-                                      _model.isset =
-                                          await queryDocumentsRecordOnce(
-                                        queryBuilder: (documentsRecord) =>
-                                            documentsRecord.where(
-                                          'userRef',
-                                          isEqualTo: currentUserReference,
-                                        ),
-                                        singleRecord: true,
-                                      ).then((s) => s.firstOrNull);
+                                      if (valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          true) {
+                                        await Future.wait([
+                                          Future(() async {
+                                            _model.incomesPending1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isIncome',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.chekingAccoun1 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isChequingAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.expensePending1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isExpenses',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.savesAccoun1 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isSavingAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.savesPending1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isSave',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.creditAccou1 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isCreditAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.internalPending1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isInternalTransfer',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                          }),
+                                        ]);
+                                        FFAppState().sumIncomPending = functions
+                                            .sum(_model.incomesPending1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumExpePending = functions
+                                            .sum(_model.expensePending1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumSavePending =
+                                            functions.sum(_model.savesPending1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumChekAccount =
+                                            functions.sum(_model.chekingAccoun1!
+                                                .map((e) => e.availableBalance)
+                                                .toList());
+                                        FFAppState().sumSaveAccount =
+                                            functions.sum(_model.savesAccoun1!
+                                                .map((e) => e.availableBalance)
+                                                .toList());
+                                        FFAppState().sumCreditAccount =
+                                            functions.sum(_model.creditAccou1!
+                                                .map((e) => e.currentBalance)
+                                                .toList());
+                                        FFAppState().sumInternalPendings =
+                                            functions.sum(_model
+                                                .internalPending!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        safeSetState(() {});
+                                        FFAppState().sumPendings =
+                                            (FFAppState().sumIncomPending -
+                                                FFAppState().sumExpePending);
+                                        FFAppState().sumBankBalan =
+                                            (FFAppState().sumChekAccount +
+                                                FFAppState().sumSaveAccount -
+                                                FFAppState().sumCreditAccount);
+                                        safeSetState(() {});
+                                        FFAppState().cashFlowProyected =
+                                            (FFAppState().sumPendings +
+                                                    FFAppState().sumBankBalan) +
+                                                (FFAppState()
+                                                        .sumInternalPendings /
+                                                    2);
+                                        safeSetState(() {});
+                                      } else {
+                                        await Future.wait([
+                                          Future(() async {
+                                            _model.incomes1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isIncome',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.expense1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isExpenses',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.saves1 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isSave',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                        ]);
+                                        FFAppState().sumExpenses =
+                                            functions.sum(_model.expense1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumIncomes = functions.sum(
+                                            _model.incomes1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumSave = functions.sum(
+                                            _model.saves1!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        safeSetState(() {});
+                                      }
 
                                       safeSetState(() {});
                                     },
@@ -10124,204 +11793,359 @@ Ej: carro, ... */
                                       safeSetState(() {});
                                     },
                                     () async {
-                                      await Future.wait([
-                                        Future(() async {
-                                          _model.incomes =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isIncome',
-                                                      isEqualTo: true,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isGreaterThanOrEqualTo:
-                                                          functions
-                                                              .monthBoundaries(
-                                                                  getCurrentTimestamp)
-                                                              .firstOrNull,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isLessThanOrEqualTo: functions
-                                                          .monthBoundaries(
-                                                              getCurrentTimestamp)
-                                                          .lastOrNull,
-                                                    ),
-                                          );
-                                        }),
-                                        Future(() async {
-                                          _model.expense =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isExpenses',
-                                                      isEqualTo: true,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isGreaterThanOrEqualTo:
-                                                          functions
-                                                              .monthBoundaries(
-                                                                  getCurrentTimestamp)
-                                                              .firstOrNull,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isLessThanOrEqualTo: functions
-                                                          .monthBoundaries(
-                                                              getCurrentTimestamp)
-                                                          .lastOrNull,
-                                                    ),
-                                          );
-                                        }),
-                                        Future(() async {
-                                          _model.saves =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isSave',
-                                                      isEqualTo: true,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isGreaterThanOrEqualTo:
-                                                          functions
-                                                              .monthBoundaries(
-                                                                  getCurrentTimestamp)
-                                                              .firstOrNull,
-                                                    )
-                                                    .where(
-                                                      'occurrenceKey',
-                                                      isLessThanOrEqualTo: functions
-                                                          .monthBoundaries(
-                                                              getCurrentTimestamp)
-                                                          .lastOrNull,
-                                                    ),
-                                          );
-                                        }),
-                                      ]);
-                                      FFAppState().sumIncomes =
-                                          functions.sumincomes(_model.incomes!
-                                              .map((e) => e.amount)
-                                              .toList());
-                                      FFAppState().sumExpenses =
-                                          functions.sumexpenses(_model.expense!
-                                              .map((e) => e.amount)
-                                              .toList());
-                                      FFAppState().sumSave =
-                                          functions.sumincomes(_model.saves!
-                                              .map((e) => e.amount)
-                                              .toList());
-                                      safeSetState(() {});
-                                      await Future.wait([
-                                        Future(() async {
-                                          _model.anualncomes =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isIncome',
-                                                      isEqualTo: true,
-                                                    ),
-                                          );
-                                        }),
-                                        Future(() async {
-                                          _model.anualExpense =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isExpenses',
-                                                      isEqualTo: true,
-                                                    ),
-                                          );
-                                        }),
-                                        Future(() async {
-                                          _model.anualSaves =
-                                              await queryDocumentsRecordOnce(
-                                            queryBuilder: (documentsRecord) =>
-                                                documentsRecord
-                                                    .where(
-                                                      'userRef',
-                                                      isEqualTo:
-                                                          currentUserReference,
-                                                    )
-                                                    .where(
-                                                      'isSave',
-                                                      isEqualTo: true,
-                                                    ),
-                                          );
-                                        }),
-                                      ]);
-                                      FFAppState().anualIncome =
-                                          functions.sumAmountsInYear(
-                                              _model.anualncomes
-                                                  ?.map((e) => e.amount)
-                                                  .toList()
-                                                  ?.toList(),
-                                              _model.anualncomes
-                                                  ?.map((e) => e.occurrenceKey)
-                                                  .toList()
-                                                  ?.toList(),
-                                              getCurrentTimestamp);
-                                      FFAppState().anualExpenses =
-                                          functions.sumAmountsInYear(
-                                              _model.anualExpense
-                                                  ?.map((e) => e.amount)
-                                                  .toList()
-                                                  ?.toList(),
-                                              _model.anualExpense
-                                                  ?.map((e) => e.occurrenceKey)
-                                                  .toList()
-                                                  ?.toList(),
-                                              getCurrentTimestamp);
-                                      FFAppState().anualSaves =
-                                          functions.sumAmountsInYear(
-                                              _model.anualSaves
-                                                  ?.map((e) => e.amount)
-                                                  .toList()
-                                                  ?.toList(),
-                                              _model.anualSaves
-                                                  ?.map((e) => e.occurrenceKey)
-                                                  .toList()
-                                                  ?.toList(),
-                                              getCurrentTimestamp);
-                                      safeSetState(() {});
-                                      FFAppState().anualCashFlow =
-                                          functions.calcNetCashflow(
-                                              FFAppState().anualIncome,
-                                              FFAppState().anualExpenses,
-                                              0.0)!;
-                                      safeSetState(() {});
+                                      if (valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          true) {
+                                        await Future.wait([
+                                          Future(() async {
+                                            _model.incomesPending2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isIncome',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.chekingAccoun2 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isChequingAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.expensePending2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isExpenses',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.savesAccoun2 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isSavingAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.savesPending2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isSave',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                            _model.creditAccou2 =
+                                                await queryBankAccountsRecordOnce(
+                                              queryBuilder:
+                                                  (bankAccountsRecord) =>
+                                                      bankAccountsRecord
+                                                          .where(
+                                                            'userRef',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          )
+                                                          .where(
+                                                            'isCreditAccount',
+                                                            isEqualTo: true,
+                                                          ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.internalPending2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isInternalTransfer',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      )
+                                                      .where(
+                                                        'isPending',
+                                                        isEqualTo: true,
+                                                      ),
+                                            );
+                                          }),
+                                        ]);
+                                        FFAppState().sumIncomPending = functions
+                                            .sum(_model.incomesPending2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumExpePending = functions
+                                            .sum(_model.expensePending2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumSavePending =
+                                            functions.sum(_model.savesPending2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumChekAccount =
+                                            functions.sum(_model.chekingAccoun2!
+                                                .map((e) => e.availableBalance)
+                                                .toList());
+                                        FFAppState().sumSaveAccount =
+                                            functions.sum(_model.savesAccoun2!
+                                                .map((e) => e.availableBalance)
+                                                .toList());
+                                        FFAppState().sumCreditAccount =
+                                            functions.sum(_model.creditAccou2!
+                                                .map((e) => e.currentBalance)
+                                                .toList());
+                                        FFAppState().sumInternalPendings =
+                                            functions.sum(_model
+                                                .internalPending!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        safeSetState(() {});
+                                        FFAppState().sumPendings =
+                                            (FFAppState().sumIncomPending -
+                                                FFAppState().sumExpePending);
+                                        FFAppState().sumBankBalan =
+                                            (FFAppState().sumChekAccount +
+                                                FFAppState().sumSaveAccount -
+                                                FFAppState().sumCreditAccount);
+                                        safeSetState(() {});
+                                        FFAppState().cashFlowProyected =
+                                            (FFAppState().sumPendings +
+                                                    FFAppState().sumBankBalan) +
+                                                (FFAppState()
+                                                        .sumInternalPendings /
+                                                    2);
+                                        safeSetState(() {});
+                                      } else {
+                                        await Future.wait([
+                                          Future(() async {
+                                            _model.incomes2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isIncome',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.expense2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isExpenses',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                          Future(() async {
+                                            _model.saves2 =
+                                                await queryDocumentsRecordOnce(
+                                              queryBuilder: (documentsRecord) =>
+                                                  documentsRecord
+                                                      .where(
+                                                        'userRef',
+                                                        isEqualTo:
+                                                            currentUserReference,
+                                                      )
+                                                      .where(
+                                                        'isSave',
+                                                        isEqualTo: true,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isGreaterThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .firstOrNull,
+                                                      )
+                                                      .where(
+                                                        'occurrenceKey',
+                                                        isLessThanOrEqualTo:
+                                                            functions
+                                                                .monthBoundaries(
+                                                                    getCurrentTimestamp)
+                                                                .lastOrNull,
+                                                      ),
+                                            );
+                                          }),
+                                        ]);
+                                        FFAppState().sumExpenses =
+                                            functions.sum(_model.expense2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumIncomes = functions.sum(
+                                            _model.incomes2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        FFAppState().sumSave = functions.sum(
+                                            _model.saves2!
+                                                .map((e) => e.amount)
+                                                .toList());
+                                        safeSetState(() {});
+                                      }
 
                                       safeSetState(() {});
                                     },

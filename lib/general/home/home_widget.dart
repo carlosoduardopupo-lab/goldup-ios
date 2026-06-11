@@ -509,7 +509,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
           }),
         ]);
       } else {
-        context.pushNamed(RecurrentesWidget.routeName);
+        if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
+            true) {
+          context.pushNamed(RecurrentesWidget.routeName);
+        }
       }
     });
 

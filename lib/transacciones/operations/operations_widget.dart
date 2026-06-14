@@ -162,6 +162,14 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                                         ?.bankLogo),
                                               ).image,
                                             ),
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(100.0),
+                                              topRight: Radius.circular(100.0),
+                                              bottomLeft:
+                                                  Radius.circular(100.0),
+                                              bottomRight:
+                                                  Radius.circular(100.0),
+                                            ),
                                           ),
                                           child: Container(
                                             width: 60.0,
@@ -699,7 +707,12 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                   .where(
                                     'source',
                                     isEqualTo: _model.plaid,
-                                  ),
+                                  )
+                                  .where(
+                                    'isRealTransaction',
+                                    isEqualTo: true,
+                                  )
+                                  .orderBy('occurrenceKey'),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
@@ -859,7 +872,8 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                   .where(
                                     'source',
                                     isEqualTo: _model.plaid,
-                                  ),
+                                  )
+                                  .orderBy('occurrenceKey', descending: true),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.

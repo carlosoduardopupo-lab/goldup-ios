@@ -898,7 +898,12 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                               isSave: false,
                               isExpenses: false,
                               isEvent: true,
-                              source: 'manual',
+                              source: valueOrDefault<bool>(
+                                          currentUserDocument?.isPremium,
+                                          false) ==
+                                      true
+                                  ? 'plaid'
+                                  : 'manual',
                               isGoal: false,
                               isNotificationScheduledSent: false,
                               isNotificationTodaySent: false,
@@ -952,7 +957,13 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                       isSave: false,
                                       isExpenses: false,
                                       isEvent: true,
-                                      source: 'manual',
+                                      source: valueOrDefault<bool>(
+                                                  currentUserDocument
+                                                      ?.isPremium,
+                                                  false) ==
+                                              true
+                                          ? 'plaid'
+                                          : 'manual',
                                       isGoal: false,
                                       isNotificationScheduledSent: false,
                                       isNotificationTodaySent: false,
@@ -1010,7 +1021,12 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                   isSave: false,
                                   isExpenses: false,
                                   isEvent: true,
-                                  source: 'manual',
+                                  source: valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          true
+                                      ? 'plaid'
+                                      : 'manual',
                                   isGoal: false,
                                   isNotificationScheduledSent: false,
                                   isNotificationTodaySent: false,
@@ -1039,7 +1055,13 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                           isSave: false,
                                           isExpenses: false,
                                           isEvent: true,
-                                          source: 'manual',
+                                          source: valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isPremium,
+                                                      false) ==
+                                                  true
+                                              ? 'plaid'
+                                              : 'manual',
                                           isGoal: false,
                                           isNotificationScheduledSent: false,
                                           isNotificationTodaySent: false,

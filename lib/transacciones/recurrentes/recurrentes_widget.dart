@@ -856,7 +856,7 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                                                                       20.0,
                                                                       0.0,
                                                                       16.0,
-                                                                      0.0),
+                                                                      9.0),
                                                           child: Column(
                                                             mainAxisSize:
                                                                 MainAxisSize
@@ -1070,7 +1070,8 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                                                           ),
                                                         ),
                                                       ),
-                                                  ],
+                                                  ].addToEnd(
+                                                      SizedBox(height: 10.0)),
                                                 ),
                                               ),
                                             ],
@@ -1134,7 +1135,7 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                                               Text(
                                                 FFLocalizations.of(context)
                                                     .getText(
-                                                  'w49hu4ov' /* Gasto recurrente */,
+                                                  'w49hu4ov' /* Transacción recurrente */,
                                                 ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
@@ -1906,19 +1907,14 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                                                     ],
                                                   ),
                                                   child: FFButtonWidget(
-                                                    onPressed:
-                                                        (_model.checkboxValue ==
-                                                                true)
-                                                            ? null
-                                                            : () async {
-                                                                await listViewDocumentsRecord!
-                                                                    .reference
-                                                                    .update(
-                                                                        createDocumentsRecordData(
-                                                                  isConfirmed:
-                                                                      true,
-                                                                ));
-                                                              },
+                                                    onPressed: () async {
+                                                      await listViewDocumentsRecord!
+                                                          .reference
+                                                          .update(
+                                                              createDocumentsRecordData(
+                                                        isConfirmed: true,
+                                                      ));
+                                                    },
                                                     text: FFLocalizations.of(
                                                             context)
                                                         .getText(
@@ -1978,10 +1974,6 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               8.0),
-                                                      disabledColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryBackground,
                                                       hoverBorderSide:
                                                           BorderSide(
                                                         color:
@@ -2014,7 +2006,7 @@ class _RecurrentesWidgetState extends State<RecurrentesWidget> {
                 ]
                     .divide(SizedBox(height: 10.0))
                     .addToStart(SizedBox(height: 40.0))
-                    .addToEnd(SizedBox(height: 20.0)),
+                    .addToEnd(SizedBox(height: 40.0)),
               ),
             ),
           ),

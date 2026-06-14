@@ -51,7 +51,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Container(
-        height: 85.29,
+        height: 90.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
           boxShadow: [
@@ -375,7 +375,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                       ),
                     ),
                     child: Align(
-                      alignment: AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: Text(
                         FFLocalizations.of(context).getText(
                           '8mzduo3s' /* Recurrente */,

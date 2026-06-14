@@ -250,6 +250,11 @@ class DocumentsRecord extends FirestoreRecord {
   String get note => _note ?? '';
   bool hasNote() => _note != null;
 
+  // "isRealTransaction" field.
+  bool? _isRealTransaction;
+  bool get isRealTransaction => _isRealTransaction ?? false;
+  bool hasIsRealTransaction() => _isRealTransaction != null;
+
   void _initializeFields() {
     _type = snapshotData['type'] as String?;
     _isIncome = snapshotData['isIncome'] as bool?;
@@ -300,6 +305,7 @@ class DocumentsRecord extends FirestoreRecord {
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
     _isConfirmed = snapshotData['isConfirmed'] as bool?;
     _note = snapshotData['note'] as String?;
+    _isRealTransaction = snapshotData['isRealTransaction'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -383,6 +389,7 @@ Map<String, dynamic> createDocumentsRecordData({
   DateTime? updatedAt,
   bool? isConfirmed,
   String? note,
+  bool? isRealTransaction,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -432,6 +439,7 @@ Map<String, dynamic> createDocumentsRecordData({
       'updatedAt': updatedAt,
       'isConfirmed': isConfirmed,
       'note': note,
+      'isRealTransaction': isRealTransaction,
     }.withoutNulls,
   );
 
@@ -490,7 +498,8 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e1?.isRemoved == e2?.isRemoved &&
         e1?.updatedAt == e2?.updatedAt &&
         e1?.isConfirmed == e2?.isConfirmed &&
-        e1?.note == e2?.note;
+        e1?.note == e2?.note &&
+        e1?.isRealTransaction == e2?.isRealTransaction;
   }
 
   @override
@@ -540,7 +549,8 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.isRemoved,
         e?.updatedAt,
         e?.isConfirmed,
-        e?.note
+        e?.note,
+        e?.isRealTransaction
       ]);
 
   @override

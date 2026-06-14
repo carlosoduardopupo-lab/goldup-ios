@@ -934,7 +934,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     'w49hu4ov': {
-      'es': 'Gasto recurrente',
+      'es': 'Transacción recurrente',
       'en': 'Recurring expense',
     },
     '8jqbfb7k': {
@@ -1472,10 +1472,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'mbp5inri': {
       'es': 'Editar Evento',
       'en': 'Edit Event',
-    },
-    'xt65smba': {
-      'es': 'Eliminar Evento',
-      'en': 'Delete Event',
     },
   },
   // eliminar

@@ -939,6 +939,18 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                     .languageCode,
                                                             isTransactionsVerificated:
                                                                 true,
+                                                            isDocumentCreated:
+                                                                false,
+                                                            isExpensesCreated:
+                                                                false,
+                                                            isGoalCreated:
+                                                                false,
+                                                            isAccountsVinculated:
+                                                                false,
+                                                            isIncomeCreated:
+                                                                false,
+                                                            isCreditScoreSet:
+                                                                false,
                                                           ));
                                                           FFAppState()
                                                                   .isCalendarSet =

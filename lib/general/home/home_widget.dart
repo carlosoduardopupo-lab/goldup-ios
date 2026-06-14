@@ -615,7 +615,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             ?.isPremium,
                                                                         false) ==
                                                                     true
-                                                                ? 315.0
+                                                                ? 340.0
                                                                 : 220.0,
                                                             decoration:
                                                                 BoxDecoration(
@@ -712,19 +712,59 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                            InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                context.pushNamed(SettWidget.routeName);
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.menu,
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                size: 35.0,
-                                                                              ),
+                                                                            Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                                              children: [
+                                                                                if ((FFAppState().seeAmounts == false) && (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == true))
+                                                                                  Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                                                                                    child: FlutterFlowIconButton(
+                                                                                      borderRadius: 8.0,
+                                                                                      buttonSize: 32.0,
+                                                                                      icon: FaIcon(
+                                                                                        FontAwesomeIcons.eye,
+                                                                                        color: FlutterFlowTheme.of(context).alternate,
+                                                                                        size: 18.0,
+                                                                                      ),
+                                                                                      onPressed: () async {
+                                                                                        FFAppState().seeAmounts = true;
+                                                                                        safeSetState(() {});
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                if ((FFAppState().seeAmounts == true) && (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == false))
+                                                                                  Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                                                                                    child: FlutterFlowIconButton(
+                                                                                      borderRadius: 8.0,
+                                                                                      buttonSize: 32.0,
+                                                                                      icon: FaIcon(
+                                                                                        FontAwesomeIcons.eyeSlash,
+                                                                                        color: FlutterFlowTheme.of(context).alternate,
+                                                                                        size: 18.0,
+                                                                                      ),
+                                                                                      onPressed: () async {
+                                                                                        FFAppState().seeAmounts = false;
+                                                                                        safeSetState(() {});
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                InkWell(
+                                                                                  splashColor: Colors.transparent,
+                                                                                  focusColor: Colors.transparent,
+                                                                                  hoverColor: Colors.transparent,
+                                                                                  highlightColor: Colors.transparent,
+                                                                                  onTap: () async {
+                                                                                    context.pushNamed(SettWidget.routeName);
+                                                                                  },
+                                                                                  child: Icon(
+                                                                                    Icons.menu,
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    size: 35.0,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ],
                                                                         ),
@@ -778,62 +818,23 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             alignment:
                                                                                 AlignmentDirectional(-1.0, 0.0),
                                                                             child:
-                                                                                Padding(
-                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
-                                                                              child: Text(
-                                                                                FFLocalizations.of(context).getText(
-                                                                                  'siv6xnr4' /* ¿Cuánto dinero tengo entre mis... */,
-                                                                                ),
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      font: GoogleFonts.roboto(
-                                                                                        fontWeight: FontWeight.normal,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                      ),
-                                                                                      color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                      fontSize: 16.0,
-                                                                                      letterSpacing: 0.0,
+                                                                                Text(
+                                                                              FFLocalizations.of(context).getText(
+                                                                                'siv6xnr4' /* ¿Cuánto dinero tengo entre mis... */,
+                                                                              ),
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    font: GoogleFonts.roboto(
                                                                                       fontWeight: FontWeight.normal,
                                                                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                     ),
-                                                                              ),
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    fontSize: 17.0,
+                                                                                    letterSpacing: 0.0,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
                                                                             ),
                                                                           ),
-                                                                        Row(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          children: [
-                                                                            if ((FFAppState().seeAmounts == false) &&
-                                                                                (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == true))
-                                                                              FlutterFlowIconButton(
-                                                                                borderRadius: 8.0,
-                                                                                buttonSize: 32.0,
-                                                                                icon: FaIcon(
-                                                                                  FontAwesomeIcons.eye,
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
-                                                                                  size: 18.0,
-                                                                                ),
-                                                                                onPressed: () async {
-                                                                                  FFAppState().seeAmounts = true;
-                                                                                  safeSetState(() {});
-                                                                                },
-                                                                              ),
-                                                                            if ((FFAppState().seeAmounts == true) &&
-                                                                                (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == false))
-                                                                              FlutterFlowIconButton(
-                                                                                borderRadius: 8.0,
-                                                                                buttonSize: 32.0,
-                                                                                icon: FaIcon(
-                                                                                  FontAwesomeIcons.eyeSlash,
-                                                                                  color: FlutterFlowTheme.of(context).alternate,
-                                                                                  size: 18.0,
-                                                                                ),
-                                                                                onPressed: () async {
-                                                                                  FFAppState().seeAmounts = false;
-                                                                                  safeSetState(() {});
-                                                                                },
-                                                                              ),
-                                                                          ],
-                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ),
@@ -851,7 +852,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                               0.0,
                                                                               0.0,
                                                                               0.0,
-                                                                              10.0),
+                                                                              15.0),
                                                                           child:
                                                                               InkWell(
                                                                             splashColor:
@@ -998,7 +999,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                     ),
                                                                                     color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                    fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 16.0 : 22.0,
+                                                                                    fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 17.0 : 22.0,
                                                                                     letterSpacing: 0.0,
                                                                                     fontWeight: FontWeight.normal,
                                                                                     fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -1016,7 +1017,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                               0.0,
                                                                               0.0,
                                                                               0.0,
-                                                                              10.0),
+                                                                              15.0),
                                                                           child:
                                                                               InkWell(
                                                                             splashColor:
@@ -1162,7 +1163,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                         fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                       color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                      fontSize: 16.0,
+                                                                                      fontSize: 17.0,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
                                                                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -1334,7 +1335,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     valueOrDefault<bool>(currentUserDocument?.isPremium,
                                                                                 false) ==
                                                                             true
-                                                                        ? 300.0
+                                                                        ? 315.0
                                                                         : 190.0,
                                                                     0.0,
                                                                   ),
@@ -3601,7 +3602,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                       currentUserDocument
                                                           ?.isDocumentCreated,
                                                       false) ==
-                                                  false) ||
+                                                  false) &&
                                               (valueOrDefault<bool>(
                                                       currentUserDocument
                                                           ?.isAccountsVinculated,

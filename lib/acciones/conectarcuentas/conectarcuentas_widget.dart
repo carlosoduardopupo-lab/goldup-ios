@@ -71,17 +71,6 @@ class _ConectarcuentasWidgetState extends State<ConectarcuentasWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-              child: Container(
-                width: 50.0,
-                height: 4.0,
-                decoration: BoxDecoration(
-                  color: Color(0xFFF1F4F8),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-            Padding(
               padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -143,6 +132,7 @@ class _ConectarcuentasWidgetState extends State<ConectarcuentasWidget> {
               padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Theme(
                     data: ThemeData(
@@ -172,13 +162,13 @@ class _ConectarcuentasWidgetState extends State<ConectarcuentasWidget> {
                     ),
                   ),
                   Container(
-                    width: 401.12,
+                    width: 315.95,
                     decoration: BoxDecoration(),
                     child: Text(
                       FFLocalizations.of(context).getText(
                         'j05oi7la' /* Entiendo que mis registros man... */,
                       ),
-                      maxLines: 3,
+                      maxLines: 4,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.roboto(
                               fontWeight: FlutterFlowTheme.of(context)
@@ -211,7 +201,7 @@ class _ConectarcuentasWidgetState extends State<ConectarcuentasWidget> {
                   padding:
                       EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                   child: FFButtonWidget(
-                    onPressed: (_model.chek == true ? true : false)
+                    onPressed: (_model.chek == true ? false : true)
                         ? null
                         : () async {
                             try {

@@ -97,8 +97,38 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isPending",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "plaidAccountId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "source",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "DESCENDING"
         }
       ]
     },

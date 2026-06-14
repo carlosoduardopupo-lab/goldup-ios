@@ -148,7 +148,7 @@ class _OperationcardWidgetState extends State<OperationcardWidget> {
                             return Color(0xFF0505FD);
                           }
                         }(),
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w500,
                         fontStyle:

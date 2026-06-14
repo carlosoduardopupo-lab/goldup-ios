@@ -303,25 +303,71 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      if (_model.check == true) {
-                        _model.docume = await queryDocumentsRecordOnce(
-                          queryBuilder: (documentsRecord) =>
-                              documentsRecord.where(
-                            'recurrenceId',
-                            isEqualTo: widget!.recurrenceID,
-                          ),
-                        );
-                        for (int loop1Index = 0;
-                            loop1Index < _model.docume!.length;
-                            loop1Index++) {
-                          final currentLoop1Item = _model.docume![loop1Index];
-                          await currentLoop1Item.reference.delete();
+                      if (valueOrDefault<bool>(
+                              currentUserDocument?.isPremium, false) ==
+                          true) {
+                        if (_model.check == true) {
+                          _model.document = await queryDocumentsRecordOnce(
+                            queryBuilder: (documentsRecord) => documentsRecord
+                                .where(
+                                  'recurrenceId',
+                                  isEqualTo: widget!.recurrenceID,
+                                )
+                                .where(
+                                  'isRealTransaction',
+                                  isEqualTo: false,
+                                ),
+                          );
+                          for (int loop1Index = 0;
+                              loop1Index < _model.document!.length;
+                              loop1Index++) {
+                            final currentLoop1Item =
+                                _model.document![loop1Index];
+                            await currentLoop1Item.reference.delete();
+                          }
+                        } else {
+                          _model.doc = await DocumentsRecord.getDocumentOnce(
+                              widget!.docRef!);
+                          if (_model.doc?.isRealTransaction == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'No se puede eliminar este documento. La transacción es real.',
+                                  style: TextStyle(
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                  ),
+                                ),
+                                duration: Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                          } else {
+                            await widget!.docRef!.delete();
+                          }
                         }
                       } else {
-                        await widget!.docRef!.delete();
-                      }
+                        if (_model.check == true) {
+                          _model.docume = await queryDocumentsRecordOnce(
+                            queryBuilder: (documentsRecord) =>
+                                documentsRecord.where(
+                              'recurrenceId',
+                              isEqualTo: widget!.recurrenceID,
+                            ),
+                          );
+                          for (int loop2Index = 0;
+                              loop2Index < _model.docume!.length;
+                              loop2Index++) {
+                            final currentLoop2Item = _model.docume![loop2Index];
+                            await currentLoop2Item.reference.delete();
+                          }
+                        } else {
+                          await widget!.docRef!.delete();
+                        }
 
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
 
                       safeSetState(() {});
                     },

@@ -1496,7 +1496,13 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                       note: _model.note,
                                       isOtherExpenses:
                                           widget!.docDocument?.isOtherExpenses,
-                                      source: 'plaid',
+                                      source: valueOrDefault<bool>(
+                                                  currentUserDocument
+                                                      ?.isPremium,
+                                                  false) ==
+                                              true
+                                          ? 'plaid'
+                                          : 'manual',
                                       plaidAccountId:
                                           widget!.docDocument?.plaidAccountId,
                                       isoCurrencyCode:
@@ -1583,7 +1589,13 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                       note: _model.note,
                                       isOtherExpenses:
                                           widget!.docDocument?.isOtherExpenses,
-                                      source: 'plaid',
+                                      source: valueOrDefault<bool>(
+                                                  currentUserDocument
+                                                      ?.isPremium,
+                                                  false) ==
+                                              true
+                                          ? 'plaid'
+                                          : 'manual',
                                       plaidAccountId:
                                           widget!.docDocument?.plaidAccountId,
                                       isoCurrencyCode:
@@ -1680,7 +1692,13 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                           note: _model.note,
                                           isOtherExpenses:
                                               _model.action1?.isOtherExpenses,
-                                          source: 'plaid',
+                                          source: valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isPremium,
+                                                      false) ==
+                                                  true
+                                              ? 'plaid'
+                                              : 'manual',
                                           isoCurrencyCode: widget!
                                               .docDocument?.isoCurrencyCode,
                                           personalFinanceCategoryPrimary: widget!
@@ -1753,7 +1771,13 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                           note: _model.note,
                                           isOtherExpenses:
                                               _model.action1?.isOtherExpenses,
-                                          source: 'plaid',
+                                          source: valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isPremium,
+                                                      false) ==
+                                                  true
+                                              ? 'plaid'
+                                              : 'manual',
                                           isoCurrencyCode: widget!
                                               .docDocument?.isoCurrencyCode,
                                           personalFinanceCategoryPrimary: widget!

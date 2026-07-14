@@ -19,11 +19,13 @@ class EliminarWidget extends StatefulWidget {
     required this.recurrenceID,
     required this.docRef,
     required this.isRecurrent,
+    this.docum,
   });
 
   final String? recurrenceID;
   final DocumentReference? docRef;
   final bool? isRecurrent;
+  final DocumentsRecord? docum;
 
   @override
   State<EliminarWidget> createState() => _EliminarWidgetState();
@@ -350,11 +352,15 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                       } else {
                         if (_model.check == true) {
                           _model.docume = await queryDocumentsRecordOnce(
-                            queryBuilder: (documentsRecord) =>
-                                documentsRecord.where(
-                              'recurrenceId',
-                              isEqualTo: widget!.recurrenceID,
-                            ),
+                            queryBuilder: (documentsRecord) => documentsRecord
+                                .where(
+                                  'recurrenceId',
+                                  isEqualTo: widget!.docum?.recurrenceId,
+                                )
+                                .where(
+                                  'userRef',
+                                  isEqualTo: currentUserReference,
+                                ),
                           );
                           for (int loop2Index = 0;
                               loop2Index < _model.docume!.length;
@@ -365,9 +371,9 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                         } else {
                           await widget!.docRef!.delete();
                         }
-
-                        Navigator.pop(context);
                       }
+
+                      Navigator.pop(context);
 
                       safeSetState(() {});
                     },

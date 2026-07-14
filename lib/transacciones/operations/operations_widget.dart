@@ -594,7 +594,13 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                             Text(
                               valueOrDefault<String>(
                                 formatNumber(
-                                  widget!.acountDocument?.currentBalance,
+                                  (widget!.acountDocument?.isChequingAccount ==
+                                              true) ||
+                                          (widget!.acountDocument
+                                                  ?.isSavingAccount ==
+                                              true)
+                                      ? widget!.acountDocument?.availableBalance
+                                      : widget!.acountDocument?.currentBalance,
                                   formatType: FormatType.decimal,
                                   decimalType: DecimalType.automatic,
                                   currency: '\$',

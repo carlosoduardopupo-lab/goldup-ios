@@ -16,9 +16,11 @@ class EliminarOtroGastoWidget extends StatefulWidget {
   const EliminarOtroGastoWidget({
     super.key,
     required this.docRef,
+    required this.doc,
   });
 
   final DocumentReference? docRef;
+  final DocumentsRecord? doc;
 
   @override
   State<EliminarOtroGastoWidget> createState() =>

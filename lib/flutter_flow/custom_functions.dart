@@ -678,22 +678,26 @@ List<DateTime> buildGoalPeriodDatesExcludeStart(
   return out;
 }
 
-DateTime stringToDateTime(String? date) {
+DateTime? stringToDateTime(String? date) {
   if (date == null || date.isEmpty) {
-    throw Exception('Date is null or empty');
+    return null;
   }
 
   final parts = date.split('-');
 
   if (parts.length != 3) {
-    throw Exception('Invalid date format: $date');
+    return null;
   }
 
-  return DateTime(
-    int.parse(parts[0]),
-    int.parse(parts[1]),
-    int.parse(parts[2]),
-  );
+  try {
+    return DateTime(
+      int.parse(parts[0]),
+      int.parse(parts[1]),
+      int.parse(parts[2]),
+    );
+  } catch (e) {
+    return null;
+  }
 }
 
 String base64ToImageUrl(String? base64String) {
@@ -739,4 +743,22 @@ List<int>? last30DaysOccurrenceKey(DateTime inputDate) {
   final int endKey = now.year * 10000 + now.month * 100 + now.day;
 
   return [startKey, endKey];
+}
+
+List<String>? joinBankAccountTexts(
+  List<BankAccountsRecord> documentos,
+  String? separador,
+) {
+  final sep = separador ?? ' ';
+
+  return documentos.map((doc) {
+    final banco = (doc.institutionName ?? '').trim();
+    final mask = (doc.mask ?? '').trim();
+
+    if (banco.isEmpty && mask.isEmpty) return '';
+    if (banco.isEmpty) return mask;
+    if (mask.isEmpty) return banco;
+
+    return '$banco$sep$mask';
+  }).toList();
 }

@@ -925,14 +925,9 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                           await currentUserReference!
                                                               .update(
                                                                   createUserRecordData(
-                                                            isPremium: false,
                                                             notificationAt: 72,
                                                             notificationAjustValue:
                                                                 1,
-                                                            isBasic: true,
-                                                            isBasicWhitAnunces:
-                                                                false,
-                                                            isPilotoTest: true,
                                                             language:
                                                                 FFLocalizations.of(
                                                                         context)

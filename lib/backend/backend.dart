@@ -21,6 +21,7 @@ import 'schema/news_hidden_by_user_record.dart';
 import 'schema/frases_record.dart';
 import 'schema/plaid_institutions_record.dart';
 import 'schema/plaid_link_sessions_record.dart';
+import 'schema/chats_i_a_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -45,6 +46,7 @@ export 'schema/news_hidden_by_user_record.dart';
 export 'schema/frases_record.dart';
 export 'schema/plaid_institutions_record.dart';
 export 'schema/plaid_link_sessions_record.dart';
+export 'schema/chats_i_a_record.dart';
 
 /// Functions to query UserRecords (as a Stream and as a Future).
 Future<int> queryUserRecordCount({
@@ -633,6 +635,43 @@ Future<List<PlaidLinkSessionsRecord>> queryPlaidLinkSessionsRecordOnce({
     queryCollectionOnce(
       PlaidLinkSessionsRecord.collection,
       PlaidLinkSessionsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query ChatsIARecords (as a Stream and as a Future).
+Future<int> queryChatsIARecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      ChatsIARecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<ChatsIARecord>> queryChatsIARecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      ChatsIARecord.collection,
+      ChatsIARecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<ChatsIARecord>> queryChatsIARecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      ChatsIARecord.collection,
+      ChatsIARecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

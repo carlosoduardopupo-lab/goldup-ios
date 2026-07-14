@@ -1096,6 +1096,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                   padding: MediaQuery.viewInsetsOf(context),
                                   child: EliminarOtroGastoWidget(
                                     docRef: widget!.docDocument!.reference,
+                                    doc: widget!.docDocument!,
                                   ),
                                 );
                               },
@@ -1116,6 +1117,7 @@ class _AjustesWidgetState extends State<AjustesWidget> {
                                     docRef: widget!.docDocument!.reference,
                                     isRecurrent:
                                         widget!.docDocument!.isRecurrent,
+                                    docum: widget!.docDocument,
                                   ),
                                 );
                               },

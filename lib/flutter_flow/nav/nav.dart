@@ -141,6 +141,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: RecurrentesWidget.routeName,
           path: RecurrentesWidget.routePath,
           builder: (context, params) => RecurrentesWidget(),
+        ),
+        FFRoute(
+          name: ChatIAWidget.routeName,
+          path: ChatIAWidget.routePath,
+          builder: (context, params) => ChatIAWidget(),
+        ),
+        FFRoute(
+          name: SuscriptionsWidget.routeName,
+          path: SuscriptionsWidget.routePath,
+          builder: (context, params) => SuscriptionsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

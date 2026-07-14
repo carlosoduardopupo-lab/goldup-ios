@@ -1,10 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_drop_down.dart';
+import '/components/recurren_card_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/permissions_util.dart';
@@ -25,17 +24,16 @@ class RecurrentesModel extends FlutterFlowModel<RecurrentesWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for Checkbox widget.
-  bool? checkboxValue;
-  // State field(s) for DropDown widget.
-  String? dropDownValue;
-  FormFieldController<String>? dropDownValueController;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  DocumentsRecord? recurrente2;
+  // Models for recurrenCard dynamic component.
+  late FlutterFlowDynamicModels<RecurrenCardModel> recurrenCardModels;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    recurrenCardModels = FlutterFlowDynamicModels(() => RecurrenCardModel());
+  }
 
   @override
-  void dispose() {}
+  void dispose() {
+    recurrenCardModels.dispose();
+  }
 }

@@ -29,6 +29,8 @@ class EventoFinancieroModel extends FlutterFlowModel<EventoFinancieroWidget> {
 
   int? notificationAt = 72;
 
+  String? creditCardName;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();
@@ -39,14 +41,17 @@ class EventoFinancieroModel extends FlutterFlowModel<EventoFinancieroWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
-  // State field(s) for Checkbox widget.
-  bool? checkboxValue;
   // State field(s) for DropDown widget.
   String? dropDownValue2;
   FormFieldController<String>? dropDownValueController2;
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue;
   // State field(s) for DropDown widget.
   String? dropDownValue3;
   FormFieldController<String>? dropDownValueController3;
+  // State field(s) for DropDown widget.
+  String? dropDownValue4;
+  FormFieldController<String>? dropDownValueController4;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
   DocumentsRecord? action1;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.

@@ -51,7 +51,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
     return Align(
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Container(
-        height: 90.0,
+        height: 93.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
           boxShadow: [

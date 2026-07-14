@@ -154,37 +154,9 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Gold Up ',
       'en': 'Gold Up',
     },
-    'siv6xnr4': {
-      'es': '¿Cuánto dinero tengo entre mis cuentas?',
+    'c82j86hl': {
+      'es': 'Disponible para gastar:',
       'en': 'Available to spend',
-    },
-    'hoexlt4h': {
-      'es': 'Hoy ',
-      'en': '',
-    },
-    'dnaqtwz2': {
-      'es': '****',
-      'en': '****',
-    },
-    'lp91i1bu': {
-      'es': '****',
-      'en': '****',
-    },
-    'dt9pfua8': {
-      'es': 'al concluir el mes. ',
-      'en': '',
-    },
-    'iejrmfhq': {
-      'es': '¿Cuánto puedo gastar luego de mis ingresos, gastos y ahorros?',
-      'en': 'Available to spend',
-    },
-    '13l0x7v7': {
-      'es': '****',
-      'en': '****',
-    },
-    'z7kxi1ou': {
-      'es': 'durante el mes, sin tocar mis ahorros.',
-      'en': '',
     },
     'slngdmeg': {
       'es': 'Disponible = Ingresos − (Gastos + Ahorros)',
@@ -230,7 +202,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': '',
       'en': '',
     },
-    'u4ze750e': {
+    '3uavtxm0': {
       'es': 'Próximo Gasto Importante Programado',
       'en': 'Next Scheduled Major Expense',
     },
@@ -314,8 +286,16 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Pendientes',
       'en': 'Pending',
     },
-    'njfnwiyl': {
+    'h60n2v3o': {
       'es': 'a pagar ',
+      'en': 'to pay',
+    },
+    'uohywtg2': {
+      'es': 'Inicializadas',
+      'en': 'Pending',
+    },
+    'njfnwiyl': {
+      'es': 'procesando ',
       'en': 'to pay',
     },
     'lyakqr5h': {
@@ -323,7 +303,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Overdue',
     },
     'n8n8c2g2': {
-      'es': 'saldado',
+      'es': 'posteado',
       'en': 'paid',
     },
     'r0m4qusb': {
@@ -400,66 +380,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Cuentas ',
       'en': 'Accounts',
     },
-    'zzu7d454': {
-      'es':
-          'La integración de cuentas bancarias externas no está disponible para su uso en esta versión. Actualice su versión a Premium para disfrutar de todas las herramientas de esta aplicación y obtener un control total de sus finanzas.',
-      'en':
-          'External bank account integration is not available in this version. Upgrade to Premium to access all the tools in this app and gain complete control of your finances.',
-    },
-    'ipii2uoo': {
-      'es': '🟢 Base (Gratis con anuncios)',
-      'en': '🟢 Base (Free with ads)',
-    },
-    'c77uhlci': {
-      'es':
-          'Empieza a tomar control de tu dinero\n\n📅 Añadir eventos financieros manualmente (ingresos, gastos, ahorros)\n\n🗓️ Gestión completa desde el calendario\n\n✏️ Edición y eliminación limitada (afecta todas las recurrencias)\n\n📊 Hoja de balance del mes actual\n\n📈 Pronóstico básico de flujo de ingresos\n\n🧾 Visualización de facturas pendientes y pagadas\n\n🔔 Notificaciones predeterminadas (72h y mismo día)\n\n📢 Incluye anuncios',
-      'en':
-          'Start taking control of your money\n\n📅 Add financial events manually (income, expenses, savings)\n\n🗓️ Complete management from the calendar\n\n✏️ Limited editing and deletion (affects all recurring events)\n\n📊 Current month balance sheet\n\n📈 Basic income flow forecast\n\n🧾 View outstanding and paid invoices\n\n🔔 Default notifications (72 hours and same day)\n\n📢 Includes ads',
-    },
-    'zvzbms8y': {
-      'es': 'Actualizar a Base con Anuncios',
-      'en': 'Upgrade to Base with Ads',
-    },
-    '7sobga8t': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'tboo4q1u': {
-      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
-      'en': '🔵 Base (No ads) x \$1.99 per month',
-    },
-    'vlo6fyf1': {
-      'es':
-          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
-      'en':
-          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
-    },
-    'e1ubl1vf': {
-      'es': 'Actualizar a Base sin Anuncios',
-      'en': 'Upgrade to Ad-Free Base',
-    },
-    '5kk2lozp': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    '8f9b3uga': {
-      'es': '🟣 Premium (Todas las funciones) x \$9.99 al mes',
-      'en': '🟣 Premium (All features) x \$9.99 per month',
-    },
-    '34h5td7z': {
-      'es':
-          'Sistema completo para construir riqueza\n\n✅ Todo lo incluido en la versión Base mas:\n\n🔗 Vinculación con cuentas bancarias externas\n\n💳 Visualización de balance total (bancos + tarjetas)\n\n📅 Edición y eliminación de eventos independientes\n\n🔔 Notificaciones personalizadas (24h, 48h, 72h, 96h)\n\n📈 Flujo de efectivo anual\n\n💰 Pronóstico anual de ingresos, gastos y ahorros\n\n🎯 Creación y monitoreo de metas financieras\n\n🧠 Control financiero avanzado y automatizado',
-      'en':
-          'Complete Wealth Building System\n\n✅ Everything included in the Base version plus:\n\n🔗 Linking with external bank accounts\n\n💳 Total balance view (banks + cards)\n\n📅 Editing and deleting individual transactions\n\n🔔 Custom notifications (24h, 48h, 72h, 96h)\n\n📈 Annual cash flow\n\n💰 Annual forecast of income, expenses, and savings\n\n🎯 Creation and monitoring of financial goals\n\n🧠 Advanced and automated financial control',
-    },
-    'lnmha9od': {
-      'es': 'Actualizar a Premium',
-      'en': 'Upgrade to Premium',
-    },
-    'i2g712db': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
     'dxt9kb3c': {
       'es': 'Cheques',
       'en': 'Checks',
@@ -488,13 +408,8 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Añadir Cuentas ',
       'en': 'Add Accounts',
     },
-    'bq7eyc8f': {
-      'es': 'Funciones en desarrollo\n\n',
-      'en': 'Functions in development',
-    },
     'k0vslz1b': {
-      'es':
-          'Estás utilizando la versión piloto básica de Gold Up.\nLa sección de ',
+      'es': 'Estás utilizando la versión  básica de Gold Up.\n\nLa sección de ',
       'en': 'You are using the beta version of Gold Up.',
     },
     't4slncj6': {
@@ -502,10 +417,18 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Bank Accounts',
     },
     'arq1y8hp': {
-      'es':
-          'aún no está disponible  en esta fase.\n\nEstas funcionalidades se encuentran actualmente en desarrollo y serán habilitadas en próximas actualizaciones.\n\nGracias por formar parte de esta etapa temprana de prueba y ayudarnos a mejorar la aplicación.\n\n',
+      'es': 'está disponible en la versión ',
       'en':
           'This feature is not yet available at this stage.\n\nThese features are currently under development and will be enabled in future updates.\n\nThank you for participating in this early testing phase and helping us improve the app.',
+    },
+    '765kgzuj': {
+      'es': 'Premium\n\n',
+      'en': '',
+    },
+    '2ean90tj': {
+      'es':
+          'Considera actualizar tu plan actual a Premium para obtener los beneficios de esta erramienta.\n\n',
+      'en': '',
     },
     '5l42ihgf': {
       'es': '¿Qué funciones trae esta herramienta?\n\n',
@@ -518,102 +441,45 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
           '1️⃣ 🔗 All your accounts in one place\nStop jumping between apps and see all your money in one place\n\n2️⃣ 🧾 All your transactions unified\nTransactions from all banks in a single view\n\n3️⃣ 📊 Accurate income and expense tracking\nExact numbers, not estimates\n\n4️⃣ 💸 Total control of your cash flow\nClearly understand where your money is going\n\n5️⃣ 📅 Precise monthly planning\nOrganize your month based on real data\n\n6️⃣ 📉 Reduced unnecessary expenses\nAutomatically detect money leaks\n\n7️⃣ 🎯 Increased savings capacity\nMake smarter decisions with your money\n\n8️⃣ 🤖 Foundation for financial intelligence\nAutomate, predict, and optimize your finances',
     },
     'guhd99at': {
-      'es': '* Funciones Premiums',
+      'es': '* Funciones Premium',
       'en': '* Premium Features',
+    },
+    'dk91l396': {
+      'es': 'Actualizar Plan',
+      'en': 'Add Accounts',
     },
     '845nyomz': {
       'es': '',
       'en': '',
     },
     'zwz9eivi': {
-      'es': 'Metas Financieras',
+      'es': 'Gestión automática ',
       'en': 'Financial Goals',
-    },
-    'w40fj3to': {
-      'es':
-          'La creación y el monitoreo de metas financieras no está disponible para su uso en esta versión. Actualice su versión a Premium para disfrutar de todas las herramientas de esta aplicación y obtener un control total de sus finanzas.',
-      'en':
-          'Creating and monitoring financial goals is not available in this version. Upgrade to Premium to access all the tools in this app and gain complete control of your finances.',
-    },
-    '6e82svw1': {
-      'es': '🟢 Base (Gratis con anuncios)',
-      'en': '🟢 Base (Free with ads)',
-    },
-    '7o2luogx': {
-      'es':
-          'Empieza a tomar control de tu dinero\n\n📅 Añadir eventos financieros manualmente (ingresos, gastos, ahorros)\n\n🗓️ Gestión completa desde el calendario\n\n✏️ Edición y eliminación limitada (afecta todas las recurrencias)\n\n📊 Hoja de balance del mes actual\n\n📈 Pronóstico básico de flujo de ingresos\n\n🧾 Visualización de facturas pendientes y pagadas\n\n🔔 Notificaciones predeterminadas (72h y mismo día)\n\n📢 Incluye anuncios',
-      'en':
-          'Start taking control of your money\n\n📅 Add financial events manually (income, expenses, savings)\n\n🗓️ Complete management from the calendar\n\n✏️ Limited editing and deletion (affects all recurring events)\n\n📊 Current month balance sheet\n\n📈 Basic income flow forecast\n\n🧾 View outstanding and paid invoices\n\n🔔 Default notifications (72 hours and same day)\n\n📢 Includes ads',
-    },
-    'zcvbkuxs': {
-      'es': 'Actualizar a Base con Anuncios',
-      'en': 'Upgrade to Base with Ads',
-    },
-    '66v0je5c': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'mwi23mxs': {
-      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
-      'en': '🔵 Base (No ads) x \$1.99 per month',
-    },
-    '8i8mqf61': {
-      'es':
-          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
-      'en':
-          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
-    },
-    'tiu5cq25': {
-      'es': 'Actualizar a Base sin Anuncios',
-      'en': 'Upgrade to Ad-Free Base',
-    },
-    'einhbqz6': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'qyrwtvgv': {
-      'es': '🟣 Premium (Todas las funciones) x \$9.99 al mes',
-      'en': '🟣 Premium (All features) x \$9.99 per month',
-    },
-    '882w7a9g': {
-      'es':
-          'Sistema completo para construir riqueza\n\n✅ Todo lo incluido en la versión Base mas:\n\n🔗 Vinculación con cuentas bancarias externas\n\n💳 Visualización de balance total (bancos + tarjetas)\n\n📅 Edición y eliminación de eventos independientes\n\n🔔 Notificaciones personalizadas (24h, 48h, 72h, 96h)\n\n📈 Flujo de efectivo anual\n\n💰 Pronóstico anual de ingresos, gastos y ahorros\n\n🎯 Creación y monitoreo de metas financieras\n\n🧠 Control financiero avanzado y automatizado',
-      'en':
-          'Complete Wealth Building System\n\n✅ Everything included in the Base version plus:\n\n🔗 Linking with external bank accounts\n\n💳 Total balance view (banks + cards)\n\n📅 Editing and deleting individual transactions\n\n🔔 Custom notifications (24h, 48h, 72h, 96h)\n\n📈 Annual cash flow\n\n💰 Annual forecast of income, expenses, and savings\n\n🎯 Creation and monitoring of financial goals\n\n🧠 Advanced and automated financial control',
-    },
-    'ez4qjo7z': {
-      'es': 'Actualizar a Premium',
-      'en': 'Upgrade to Premium',
-    },
-    'gc89j3u6': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
     },
     't0dm9swd': {
       'es': 'Añadir Nueva Meta Financiera',
       'en': 'Add New Financial Goal',
     },
-    'wffpi2ou': {
+    'ge0r1rw8': {
       'es': 'Función en desarrollo\n\n',
-      'en': 'Function in development',
-    },
-    '1l7i063l': {
-      'es':
-          'Estás utilizando la versión piloto básica de Gold Up.\nLa sección de ',
-      'en': 'You are using the basic pilot version of Gold Up.',
+      'en': '',
     },
     'g15ea4ig': {
-      'es': 'Metas Financieras ',
+      'es': 'La Gestión automática ',
       'en': 'Financial Goals',
     },
     'vtu887va': {
-      'es':
-          'aún no está disponible  en esta fase.\n\nEsta funcionalidades se encuentran actualmente en desarrollo y serán habilitadas en próximas actualizaciones.\n\nGracias por formar parte de esta etapa temprana de prueba y ayudarnos a mejorar la aplicación.\n\n',
+      'es': 'estará disponible  en la versión Premium\n\n',
       'en':
           'This feature is not yet available at this stage.\n\nThese features are currently under development and will be enabled in future updates.\n\nThank you for participating in this early testing phase and helping us improve the app.',
     },
+    'p9i0qvcg': {
+      'es':
+          'Considera actualizar tu plan actual a Premium para obtener los beneficios de esta erramienta.\n\n',
+      'en': '',
+    },
     'ra2f2yu2': {
-      'es': '¿Qué aporta esta funcionalidad?\n\n',
+      'es': '¿Qué aporta esta erramienta?\n\n',
       'en': 'What does this feature offer?',
     },
     'b4ts9m8c': {
@@ -633,7 +499,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
           '1️⃣ Create a goal\nE.g., car, house, emergency fund\n\n2️⃣ Define the amount and timeframe\nE.g., \$5,000 in 10 months\n\n3️⃣ The system calculates the contribution\nHow much you should save per period\n\n4️⃣ Register or automate contributions\nManually or from your income\n\n5️⃣ View your progress in real time\nBar, percentage, remaining balance\n\n6️⃣ Adjust if needed\nFaster or more flexible',
     },
     'eivdta2n': {
-      'es': '* Funciones Premiums',
+      'es': '* Funciones Premium',
       'en': '* Premium Features',
     },
     'ai592cl4': {
@@ -648,7 +514,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': '•',
       'en': '•',
     },
-    'mtkcdjcv': {
+    '87jgyqnv': {
       'es': 'Por tu seguridad, verifica tu identidad para continuar.',
       'en': 'For your security, please verify your identity to continue.',
     },
@@ -921,67 +787,83 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Aceptar',
       'en': 'Accept',
     },
-    '0m7a2wn1': {
-      'es': 'Categoría',
-      'en': 'Category',
-    },
-    'wi4cp3vv': {
-      'es': 'Información del Comercio',
-      'en': 'Merchant Information',
-    },
-    'v5qdvix3': {
-      'es': 'Nombre: ',
+    '382zhc0r': {
+      'es': 'Home',
       'en': '',
     },
-    'w49hu4ov': {
-      'es': 'Transacción recurrente',
-      'en': 'Recurring expense',
+  },
+  // ChatIA
+  {
+    'ezy9rc4o': {
+      'es': 'Gold Advisor',
+      'en': '',
     },
-    '8jqbfb7k': {
-      'es': 'Frecuencia',
-      'en': 'Frequency',
+    '222cdcvl': {
+      'es': 'Escribe un mensaje...',
+      'en': '',
     },
-    'lry1f470': {
-      'es': 'Seleccionar...',
-      'en': 'Select...',
+  },
+  // suscriptions
+  {
+    'o6bfzkfv': {
+      'es': 'Planes ',
+      'en': 'Transactions',
     },
-    '3aluwnx8': {
-      'es': 'Search...',
-      'en': 'Search...',
+    'lb0qxh6t': {
+      'es': '🟣 Premium (Todas las funciones) x \$19.90 al mes',
+      'en': '🟣 Premium (All features) x \$9.99 per month',
     },
-    'e5tp9d56': {
-      'es': 'Diario',
-      'en': 'Daily',
+    'gz9ihfaa': {
+      'es':
+          'Sistema completo para construir riqueza\n\n✅ Todo lo incluido en la versión Base mas:\n\n🔗 Vinculación con cuentas bancarias externas\n\n💳 Visualización de balance total (bancos + tarjetas)\n\n📅 Edición y eliminación de eventos independientes\n\n🔔 Notificaciones personalizadas (24h, 48h, 72h, 96h)\n\n📈 Flujo de efectivo anual\n\n💰 Pronóstico anual de ingresos, gastos y ahorros\n\n🎯 Creación y monitoreo de metas financieras\n\n🧠 Control financiero avanzado y automatizado',
+      'en':
+          'Complete Wealth Building System\n\n✅ Everything included in the Base version plus:\n\n🔗 Linking with external bank accounts\n\n💳 Total balance view (banks + cards)\n\n📅 Editing and deleting individual transactions\n\n🔔 Custom notifications (24h, 48h, 72h, 96h)\n\n📈 Annual cash flow\n\n💰 Annual forecast of income, expenses, and savings\n\n🎯 Creation and monitoring of financial goals\n\n🧠 Advanced and automated financial control',
     },
-    '6oz1a3rg': {
-      'es': 'Semanal',
-      'en': 'Weekly',
+    'nqg6j1gh': {
+      'es': 'Actualizar a Premium',
+      'en': 'Upgrade to Premium',
     },
-    '4ct1vl0j': {
-      'es': 'Quincenal',
-      'en': 'Biweekly',
+    'rwyd7ws5': {
+      'es': 'Plan Actual',
+      'en': 'Current Plan',
     },
-    '42331a6g': {
-      'es': 'Mensual',
-      'en': 'Monthly',
+    '5lelg3oa': {
+      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
+      'en': '🔵 Base (No ads) x \$1.99 per month',
     },
-    'pzbcpge4': {
-      'es': 'Trimestral',
-      'en': 'Quarterly',
+    'ks4te4ru': {
+      'es':
+          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
+      'en':
+          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
     },
-    '82gd3upk': {
-      'es': 'Anual',
-      'en': 'Annual',
+    'glnrerc7': {
+      'es': 'Actualizar a Base sin Anuncios',
+      'en': 'Upgrade to Ad-Free Base',
     },
-    '8dl1c91w': {
-      'es': 'Aceptar',
-      'en': 'Accept',
+    'lk8muxde': {
+      'es': 'Plan Actual',
+      'en': 'Current Plan',
     },
-    'bi29tn6n': {
-      'es': 'Omitir',
-      'en': 'Accept',
+    'osngkhyj': {
+      'es': '🟢 Base (Gratis con anuncios)',
+      'en': '🟢 Base (Free with ads)',
     },
-    '382zhc0r': {
+    'acbcy96n': {
+      'es':
+          'Empieza a tomar control de tu dinero\n\n📅 Añadir eventos financieros manualmente (ingresos, gastos, ahorros)\n\n🗓️ Gestión completa desde el calendario\n\n✏️ Edición y eliminación limitada (afecta todas las recurrencias)\n\n📊 Hoja de balance del mes actual\n\n📈 Pronóstico básico de flujo de ingresos\n\n🧾 Visualización de facturas pendientes y pagadas\n\n🔔 Notificaciones predeterminadas (72h y mismo día)\n\n📢 Incluye anuncios',
+      'en':
+          'Start taking control of your money\n\n📅 Add financial events manually (income, expenses, savings)\n\n🗓️ Complete management from the calendar\n\n✏️ Limited editing and deletion (affects all recurring events)\n\n📊 Current month balance sheet\n\n📈 Basic income flow forecast\n\n🧾 View outstanding and paid invoices\n\n🔔 Default notifications (72 hours and same day)\n\n📢 Includes ads',
+    },
+    'ukek8aid': {
+      'es': 'Actualizar a Base con Anuncios',
+      'en': 'Upgrade to Base with Ads',
+    },
+    'z6v4f02x': {
+      'es': 'Plan Actual',
+      'en': 'Current Plan',
+    },
+    'g5ykxqvp': {
       'es': 'Home',
       'en': '',
     },
@@ -1316,119 +1198,143 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   },
   // EventoFinanciero
   {
-    'y6tc0i65': {
+    '93b8tnns': {
       'es': 'Evento Financiero',
       'en': 'Financial Event',
     },
-    'ekrspbsx': {
+    '0xxqjhk9': {
       'es': 'Tipo',
       'en': 'Type',
     },
-    '5s26bm7s': {
+    'a7r0pfy8': {
       'es': 'Seleccionar...',
       'en': 'Select...',
     },
-    'e5ouairp': {
+    'bb07auqf': {
       'es': 'Search...',
       'en': 'Search...',
     },
-    'fjn4emrs': {
+    '10z3vkmu': {
       'es': 'Cierre de ciclo (estado de cuenta) de  tarjeta de crédito',
       'en': 'Credit card cycle closing (statement)',
     },
-    'w8ds775y': {
+    'h4ljv574': {
       'es': 'Fecha limite de pago de tarjeta de crédito',
       'en': 'Credit Card Statement Closing Date',
     },
-    '1wvjypr7': {
+    'bxury6wy': {
       'es': 'Otro',
       'en': 'Other',
     },
-    'ie1gjvn1': {
+    '9facd9y2': {
       'es': 'Descripción ',
       'en': 'Description',
     },
-    'c8rfxqzp': {
+    'd8p6cbb7': {
       'es': 'Nombre del banco y cuatro últimos dígitos de la targeta..',
       'en': 'Name of the bank and last four digits of the card.',
     },
-    'alqrlo4d': {
+    'mfji1o8n': {
+      'es': 'tarjeta',
+      'en': 'Description',
+    },
+    'yab7m1ud': {
+      'es': 'Select...',
+      'en': '',
+    },
+    'kqvyqks0': {
+      'es': 'Search...',
+      'en': '',
+    },
+    '6kq0dmw3': {
+      'es': 'Option 1',
+      'en': '',
+    },
+    'n21h2vfa': {
+      'es': 'Option 2',
+      'en': '',
+    },
+    'tg4adnvv': {
+      'es': 'Option 3',
+      'en': '',
+    },
+    '0wki6db1': {
       'es': 'Evento recurrente',
       'en': 'Recurring event',
     },
-    'alg1ltuz': {
+    'frjhwr9z': {
       'es': 'Frecuencia',
       'en': 'Frequency',
     },
-    'zr4by6bw': {
+    '15z3nurd': {
       'es': 'Seleccionar...',
       'en': 'Select...',
     },
-    'bjn6w02x': {
+    'u7guiigi': {
       'es': 'Search...',
       'en': 'Search...',
     },
-    'utewsfzs': {
+    'te2wgo3p': {
       'es': 'Diario',
       'en': 'Daily',
     },
-    'y17xqvb6': {
+    'uvn0bjp4': {
       'es': 'Semanal',
       'en': 'Weekly',
     },
-    'qliqd8zo': {
+    'kdk9djpz': {
       'es': 'Quincenal',
       'en': 'Biweekly',
     },
-    'zn36t7uw': {
+    'z5noo9we': {
       'es': 'Mensual',
       'en': 'Monthly',
     },
-    '16o9kigl': {
+    '915h7dzd': {
       'es': 'Trimestral',
       'en': 'Quarterly',
     },
-    'h43t1ni5': {
+    'r5rhan46': {
       'es': 'Anual',
       'en': 'Annual',
     },
-    'v49qdiqx': {
+    '9urakpya': {
       'es': 'Ajustes de Notificación',
       'en': 'Notification Settings',
     },
-    'daxv087m': {
+    'ikhpmb78': {
       'es': '( Horas de antelación para recibir la notificación )',
       'en': '(Hours in advance to receive the notification)',
     },
-    'eh9begc8': {
+    'o86d6um1': {
       'es': '72',
       'en': '72',
     },
-    'cyr55hqe': {
+    '5bravz37': {
       'es': '',
       'en': '',
     },
-    'i5k6ghve': {
+    'n9xj5pkb': {
       'es': 'Buscar...',
       'en': 'Search...',
     },
-    'g85j171q': {
+    '149njvbe': {
       'es': '24',
       'en': '24',
     },
-    '7uxmqv24': {
+    '4xlwol1r': {
       'es': '48',
       'en': '48',
     },
-    'q63ajx2e': {
+    '0gb1aq95': {
       'es': '72',
       'en': '72',
     },
-    'nwoqfxi4': {
+    '6mvf0k4v': {
       'es': '96',
       'en': '96',
     },
-    'k61bc7u6': {
+    'ak2vobvh': {
       'es': 'Añadir',
       'en': 'Add',
     },
@@ -1673,7 +1579,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'You can leave a brief description...',
     },
     'gjcwjsz6': {
-      'es': 'Evento recurrente',
+      'es': 'Este evento es recurrente',
       'en': 'Recurring event',
     },
     'mm40ygy0': {
@@ -2668,6 +2574,69 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'xs4d84sq': {
       'es': 'Reconectar Cuenta',
       'en': 'Delete Account',
+    },
+  },
+  // recurrenCard
+  {
+    '1j3nv1o3': {
+      'es': 'Categoría',
+      'en': '',
+    },
+    'reo27cbf': {
+      'es': 'Información del Comercio',
+      'en': '',
+    },
+    'yl3jqy7x': {
+      'es': 'Nombre: ',
+      'en': '',
+    },
+    'uvdiedcm': {
+      'es': 'Transacción recurrente',
+      'en': '',
+    },
+    'p9y37r8x': {
+      'es': 'Frecuencia',
+      'en': '',
+    },
+    'oleeax14': {
+      'es': 'Seleccionar...',
+      'en': '',
+    },
+    'v13rr28o': {
+      'es': 'Search...',
+      'en': '',
+    },
+    '11l6rvlq': {
+      'es': 'Diario',
+      'en': '',
+    },
+    '711w7vsx': {
+      'es': 'Semanal',
+      'en': '',
+    },
+    'uteetwvo': {
+      'es': 'Quincenal',
+      'en': '',
+    },
+    '731m8ckp': {
+      'es': 'Mensual',
+      'en': '',
+    },
+    'wylngybm': {
+      'es': 'Trimestral',
+      'en': '',
+    },
+    'fzb1qn35': {
+      'es': 'Anual',
+      'en': '',
+    },
+    '75svz42g': {
+      'es': 'Aceptar',
+      'en': '',
+    },
+    'indiwler': {
+      'es': 'Omitir',
+      'en': '',
     },
   },
   // Miscellaneous

@@ -10,35 +10,46 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ChartPointStruct extends FFFirebaseStruct {
   ChartPointStruct({
-    double? day,
-    double? value,
+    String? date,
+    double? amount,
+    int? occurrenceKey,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _day = day,
-        _value = value,
+  })  : _date = date,
+        _amount = amount,
+        _occurrenceKey = occurrenceKey,
         super(firestoreUtilData);
 
-  // "day" field.
-  double? _day;
-  double get day => _day ?? 0.0;
-  set day(double? val) => _day = val;
+  // "date" field.
+  String? _date;
+  String get date => _date ?? '';
+  set date(String? val) => _date = val;
 
-  void incrementDay(double amount) => day = day + amount;
+  bool hasDate() => _date != null;
 
-  bool hasDay() => _day != null;
+  // "amount" field.
+  double? _amount;
+  double get amount => _amount ?? 0.0;
+  set amount(double? val) => _amount = val;
 
-  // "value" field.
-  double? _value;
-  double get value => _value ?? 0.0;
-  set value(double? val) => _value = val;
+  void incrementAmount(double amount) => amount = amount + amount;
 
-  void incrementValue(double amount) => value = value + amount;
+  bool hasAmount() => _amount != null;
 
-  bool hasValue() => _value != null;
+  // "occurrenceKey" field.
+  int? _occurrenceKey;
+  int get occurrenceKey => _occurrenceKey ?? 0;
+  set occurrenceKey(int? val) => _occurrenceKey = val;
+
+  void incrementOccurrenceKey(int amount) =>
+      occurrenceKey = occurrenceKey + amount;
+
+  bool hasOccurrenceKey() => _occurrenceKey != null;
 
   static ChartPointStruct fromMap(Map<String, dynamic> data) =>
       ChartPointStruct(
-        day: castToType<double>(data['day']),
-        value: castToType<double>(data['value']),
+        date: data['date'] as String?,
+        amount: castToType<double>(data['amount']),
+        occurrenceKey: castToType<int>(data['occurrenceKey']),
       );
 
   static ChartPointStruct? maybeFromMap(dynamic data) => data is Map
@@ -46,32 +57,42 @@ class ChartPointStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'day': _day,
-        'value': _value,
+        'date': _date,
+        'amount': _amount,
+        'occurrenceKey': _occurrenceKey,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'day': serializeParam(
-          _day,
+        'date': serializeParam(
+          _date,
+          ParamType.String,
+        ),
+        'amount': serializeParam(
+          _amount,
           ParamType.double,
         ),
-        'value': serializeParam(
-          _value,
-          ParamType.double,
+        'occurrenceKey': serializeParam(
+          _occurrenceKey,
+          ParamType.int,
         ),
       }.withoutNulls;
 
   static ChartPointStruct fromSerializableMap(Map<String, dynamic> data) =>
       ChartPointStruct(
-        day: deserializeParam(
-          data['day'],
+        date: deserializeParam(
+          data['date'],
+          ParamType.String,
+          false,
+        ),
+        amount: deserializeParam(
+          data['amount'],
           ParamType.double,
           false,
         ),
-        value: deserializeParam(
-          data['value'],
-          ParamType.double,
+        occurrenceKey: deserializeParam(
+          data['occurrenceKey'],
+          ParamType.int,
           false,
         ),
       );
@@ -82,25 +103,28 @@ class ChartPointStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is ChartPointStruct &&
-        day == other.day &&
-        value == other.value;
+        date == other.date &&
+        amount == other.amount &&
+        occurrenceKey == other.occurrenceKey;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([day, value]);
+  int get hashCode => const ListEquality().hash([date, amount, occurrenceKey]);
 }
 
 ChartPointStruct createChartPointStruct({
-  double? day,
-  double? value,
+  String? date,
+  double? amount,
+  int? occurrenceKey,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     ChartPointStruct(
-      day: day,
-      value: value,
+      date: date,
+      amount: amount,
+      occurrenceKey: occurrenceKey,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

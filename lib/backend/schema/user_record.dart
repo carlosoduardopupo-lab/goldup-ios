@@ -146,6 +146,61 @@ class UserRecord extends FirestoreRecord {
   bool get isTransactionsVerificated => _isTransactionsVerificated ?? false;
   bool hasIsTransactionsVerificated() => _isTransactionsVerificated != null;
 
+  // "lastTransactionsVerifiedAt" field.
+  DateTime? _lastTransactionsVerifiedAt;
+  DateTime? get lastTransactionsVerifiedAt => _lastTransactionsVerifiedAt;
+  bool hasLastTransactionsVerifiedAt() => _lastTransactionsVerifiedAt != null;
+
+  // "totalBalance" field.
+  double? _totalBalance;
+  double get totalBalance => _totalBalance ?? 0.0;
+  bool hasTotalBalance() => _totalBalance != null;
+
+  // "projectedFlow" field.
+  double? _projectedFlow;
+  double get projectedFlow => _projectedFlow ?? 0.0;
+  bool hasProjectedFlow() => _projectedFlow != null;
+
+  // "availableToSpend" field.
+  double? _availableToSpend;
+  double get availableToSpend => _availableToSpend ?? 0.0;
+  bool hasAvailableToSpend() => _availableToSpend != null;
+
+  // "projectedIncome" field.
+  double? _projectedIncome;
+  double get projectedIncome => _projectedIncome ?? 0.0;
+  bool hasProjectedIncome() => _projectedIncome != null;
+
+  // "projectedExpenses" field.
+  double? _projectedExpenses;
+  double get projectedExpenses => _projectedExpenses ?? 0.0;
+  bool hasProjectedExpenses() => _projectedExpenses != null;
+
+  // "projectedSavings" field.
+  double? _projectedSavings;
+  double get projectedSavings => _projectedSavings ?? 0.0;
+  bool hasProjectedSavings() => _projectedSavings != null;
+
+  // "internalAdjustment" field.
+  double? _internalAdjustment;
+  double get internalAdjustment => _internalAdjustment ?? 0.0;
+  bool hasInternalAdjustment() => _internalAdjustment != null;
+
+  // "dailyBrief" field.
+  String? _dailyBrief;
+  String get dailyBrief => _dailyBrief ?? '';
+  bool hasDailyBrief() => _dailyBrief != null;
+
+  // "cleanProjection" field.
+  List<ChartPointStruct>? _cleanProjection;
+  List<ChartPointStruct> get cleanProjection => _cleanProjection ?? const [];
+  bool hasCleanProjection() => _cleanProjection != null;
+
+  // "isPlanSelected" field.
+  bool? _isPlanSelected;
+  bool get isPlanSelected => _isPlanSelected ?? false;
+  bool hasIsPlanSelected() => _isPlanSelected != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -175,6 +230,22 @@ class UserRecord extends FirestoreRecord {
     _timeZone = snapshotData['timeZone'] as String?;
     _isTransactionsVerificated =
         snapshotData['isTransactionsVerificated'] as bool?;
+    _lastTransactionsVerifiedAt =
+        snapshotData['lastTransactionsVerifiedAt'] as DateTime?;
+    _totalBalance = castToType<double>(snapshotData['totalBalance']);
+    _projectedFlow = castToType<double>(snapshotData['projectedFlow']);
+    _availableToSpend = castToType<double>(snapshotData['availableToSpend']);
+    _projectedIncome = castToType<double>(snapshotData['projectedIncome']);
+    _projectedExpenses = castToType<double>(snapshotData['projectedExpenses']);
+    _projectedSavings = castToType<double>(snapshotData['projectedSavings']);
+    _internalAdjustment =
+        castToType<double>(snapshotData['internalAdjustment']);
+    _dailyBrief = snapshotData['dailyBrief'] as String?;
+    _cleanProjection = getStructList(
+      snapshotData['cleanProjection'],
+      ChartPointStruct.fromMap,
+    );
+    _isPlanSelected = snapshotData['isPlanSelected'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -237,6 +308,16 @@ Map<String, dynamic> createUserRecordData({
   bool? isCreditScoreSet,
   String? timeZone,
   bool? isTransactionsVerificated,
+  DateTime? lastTransactionsVerifiedAt,
+  double? totalBalance,
+  double? projectedFlow,
+  double? availableToSpend,
+  double? projectedIncome,
+  double? projectedExpenses,
+  double? projectedSavings,
+  double? internalAdjustment,
+  String? dailyBrief,
+  bool? isPlanSelected,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -266,6 +347,16 @@ Map<String, dynamic> createUserRecordData({
       'isCreditScoreSet': isCreditScoreSet,
       'timeZone': timeZone,
       'isTransactionsVerificated': isTransactionsVerificated,
+      'lastTransactionsVerifiedAt': lastTransactionsVerifiedAt,
+      'totalBalance': totalBalance,
+      'projectedFlow': projectedFlow,
+      'availableToSpend': availableToSpend,
+      'projectedIncome': projectedIncome,
+      'projectedExpenses': projectedExpenses,
+      'projectedSavings': projectedSavings,
+      'internalAdjustment': internalAdjustment,
+      'dailyBrief': dailyBrief,
+      'isPlanSelected': isPlanSelected,
     }.withoutNulls,
   );
 
@@ -277,6 +368,7 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
 
   @override
   bool equals(UserRecord? e1, UserRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.email == e2?.email &&
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
@@ -302,7 +394,18 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e1?.isIncomeCreated == e2?.isIncomeCreated &&
         e1?.isCreditScoreSet == e2?.isCreditScoreSet &&
         e1?.timeZone == e2?.timeZone &&
-        e1?.isTransactionsVerificated == e2?.isTransactionsVerificated;
+        e1?.isTransactionsVerificated == e2?.isTransactionsVerificated &&
+        e1?.lastTransactionsVerifiedAt == e2?.lastTransactionsVerifiedAt &&
+        e1?.totalBalance == e2?.totalBalance &&
+        e1?.projectedFlow == e2?.projectedFlow &&
+        e1?.availableToSpend == e2?.availableToSpend &&
+        e1?.projectedIncome == e2?.projectedIncome &&
+        e1?.projectedExpenses == e2?.projectedExpenses &&
+        e1?.projectedSavings == e2?.projectedSavings &&
+        e1?.internalAdjustment == e2?.internalAdjustment &&
+        e1?.dailyBrief == e2?.dailyBrief &&
+        listEquality.equals(e1?.cleanProjection, e2?.cleanProjection) &&
+        e1?.isPlanSelected == e2?.isPlanSelected;
   }
 
   @override
@@ -332,7 +435,18 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.isIncomeCreated,
         e?.isCreditScoreSet,
         e?.timeZone,
-        e?.isTransactionsVerificated
+        e?.isTransactionsVerificated,
+        e?.lastTransactionsVerifiedAt,
+        e?.totalBalance,
+        e?.projectedFlow,
+        e?.availableToSpend,
+        e?.projectedIncome,
+        e?.projectedExpenses,
+        e?.projectedSavings,
+        e?.internalAdjustment,
+        e?.dailyBrief,
+        e?.cleanProjection,
+        e?.isPlanSelected
       ]);
 
   @override

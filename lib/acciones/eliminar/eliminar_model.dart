@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 class EliminarModel extends FlutterFlowModel<EliminarWidget> {
   ///  Local state fields for this component.
 
-  bool check = false;
+  bool check = true;
 
   ///  State fields for stateful widgets in this component.
 

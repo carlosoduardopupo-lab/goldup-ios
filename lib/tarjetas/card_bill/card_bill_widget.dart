@@ -130,32 +130,46 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                       child: Container(
                         decoration: BoxDecoration(),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 10.0, 0.0),
-                          child: Text(
-                            dateTimeFormat(
-                              "MMMMEEEEd",
-                              functions
-                                  .stringToDateTime(widget!.docDocument?.date),
-                              locale: FFLocalizations.of(context).languageCode,
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.w500,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 10.0, 0.0),
+                              child: Text(
+                                dateTimeFormat(
+                                  "MMMMEEEEd",
+                                  functions.stringToDateTime(
+                                      widget!.docDocument?.date),
+                                  locale:
+                                      FFLocalizations.of(context).languageCode,
                                 ),
-                          ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
+                            ),
+                            if (widget!.docDocument?.isRealTransaction == true
+                                ? true
+                                : false)
+                              Icon(
+                                Icons.stars_sharp,
+                                color: Color(0xFF04611A),
+                                size: 20.0,
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -188,7 +202,7 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                 Align(
                   alignment: AlignmentDirectional(0.0, 1.0),
                   child: Container(
-                    width: 321.42,
+                    width: 321.4,
                     decoration: BoxDecoration(),
                     child: Visibility(
                       visible: widget!.docDocument?.description != null &&

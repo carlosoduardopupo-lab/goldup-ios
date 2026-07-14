@@ -347,6 +347,7 @@ Conservar movimient... */
                                   padding: MediaQuery.viewInsetsOf(context),
                                   child: EliminarOtroGastoWidget(
                                     docRef: widget!.docDocument!.reference,
+                                    doc: widget!.docDocument!,
                                   ),
                                 );
                               },

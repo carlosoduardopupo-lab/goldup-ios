@@ -106,16 +106,6 @@ class DocumentsRecord extends FirestoreRecord {
   String get isoCurrencyCode => _isoCurrencyCode ?? '';
   bool hasIsoCurrencyCode() => _isoCurrencyCode != null;
 
-  // "authorizedDate" field.
-  DateTime? _authorizedDate;
-  DateTime? get authorizedDate => _authorizedDate;
-  bool hasAuthorizedDate() => _authorizedDate != null;
-
-  // "postedDate" field.
-  DateTime? _postedDate;
-  DateTime? get postedDate => _postedDate;
-  bool hasPostedDate() => _postedDate != null;
-
   // "personalFinanceCategoryPrimary" field.
   String? _personalFinanceCategoryPrimary;
   String get personalFinanceCategoryPrimary =>
@@ -255,6 +245,16 @@ class DocumentsRecord extends FirestoreRecord {
   bool get isRealTransaction => _isRealTransaction ?? false;
   bool hasIsRealTransaction() => _isRealTransaction != null;
 
+  // "authorizedDate" field.
+  String? _authorizedDate;
+  String get authorizedDate => _authorizedDate ?? '';
+  bool hasAuthorizedDate() => _authorizedDate != null;
+
+  // "creditCardName" field.
+  String? _creditCardName;
+  String get creditCardName => _creditCardName ?? '';
+  bool hasCreditCardName() => _creditCardName != null;
+
   void _initializeFields() {
     _type = snapshotData['type'] as String?;
     _isIncome = snapshotData['isIncome'] as bool?;
@@ -274,8 +274,6 @@ class DocumentsRecord extends FirestoreRecord {
     _plaidTransactionId = snapshotData['plaidTransactionId'] as String?;
     _plaidAccountId = snapshotData['plaidAccountId'] as String?;
     _isoCurrencyCode = snapshotData['isoCurrencyCode'] as String?;
-    _authorizedDate = snapshotData['authorizedDate'] as DateTime?;
-    _postedDate = snapshotData['postedDate'] as DateTime?;
     _personalFinanceCategoryPrimary =
         snapshotData['personalFinanceCategoryPrimary'] as String?;
     _personalFinanceCategoryDetailed =
@@ -306,6 +304,8 @@ class DocumentsRecord extends FirestoreRecord {
     _isConfirmed = snapshotData['isConfirmed'] as bool?;
     _note = snapshotData['note'] as String?;
     _isRealTransaction = snapshotData['isRealTransaction'] as bool?;
+    _authorizedDate = snapshotData['authorizedDate'] as String?;
+    _creditCardName = snapshotData['creditCardName'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -361,8 +361,6 @@ Map<String, dynamic> createDocumentsRecordData({
   String? plaidTransactionId,
   String? plaidAccountId,
   String? isoCurrencyCode,
-  DateTime? authorizedDate,
-  DateTime? postedDate,
   String? personalFinanceCategoryPrimary,
   String? personalFinanceCategoryDetailed,
   DateTime? lastPlaidSyncAt,
@@ -390,6 +388,8 @@ Map<String, dynamic> createDocumentsRecordData({
   bool? isConfirmed,
   String? note,
   bool? isRealTransaction,
+  String? authorizedDate,
+  String? creditCardName,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -411,8 +411,6 @@ Map<String, dynamic> createDocumentsRecordData({
       'plaidTransactionId': plaidTransactionId,
       'plaidAccountId': plaidAccountId,
       'isoCurrencyCode': isoCurrencyCode,
-      'authorizedDate': authorizedDate,
-      'postedDate': postedDate,
       'personalFinanceCategoryPrimary': personalFinanceCategoryPrimary,
       'personalFinanceCategoryDetailed': personalFinanceCategoryDetailed,
       'lastPlaidSyncAt': lastPlaidSyncAt,
@@ -440,6 +438,8 @@ Map<String, dynamic> createDocumentsRecordData({
       'isConfirmed': isConfirmed,
       'note': note,
       'isRealTransaction': isRealTransaction,
+      'authorizedDate': authorizedDate,
+      'creditCardName': creditCardName,
     }.withoutNulls,
   );
 
@@ -469,8 +469,6 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e1?.plaidTransactionId == e2?.plaidTransactionId &&
         e1?.plaidAccountId == e2?.plaidAccountId &&
         e1?.isoCurrencyCode == e2?.isoCurrencyCode &&
-        e1?.authorizedDate == e2?.authorizedDate &&
-        e1?.postedDate == e2?.postedDate &&
         e1?.personalFinanceCategoryPrimary ==
             e2?.personalFinanceCategoryPrimary &&
         e1?.personalFinanceCategoryDetailed ==
@@ -499,7 +497,9 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e1?.updatedAt == e2?.updatedAt &&
         e1?.isConfirmed == e2?.isConfirmed &&
         e1?.note == e2?.note &&
-        e1?.isRealTransaction == e2?.isRealTransaction;
+        e1?.isRealTransaction == e2?.isRealTransaction &&
+        e1?.authorizedDate == e2?.authorizedDate &&
+        e1?.creditCardName == e2?.creditCardName;
   }
 
   @override
@@ -522,8 +522,6 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.plaidTransactionId,
         e?.plaidAccountId,
         e?.isoCurrencyCode,
-        e?.authorizedDate,
-        e?.postedDate,
         e?.personalFinanceCategoryPrimary,
         e?.personalFinanceCategoryDetailed,
         e?.lastPlaidSyncAt,
@@ -550,7 +548,9 @@ class DocumentsRecordDocumentEquality implements Equality<DocumentsRecord> {
         e?.updatedAt,
         e?.isConfirmed,
         e?.note,
-        e?.isRealTransaction
+        e?.isRealTransaction,
+        e?.authorizedDate,
+        e?.creditCardName
       ]);
 
   @override

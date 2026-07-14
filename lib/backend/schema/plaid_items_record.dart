@@ -91,6 +91,16 @@ class PlaidItemsRecord extends FirestoreRecord {
   bool get needsAttention => _needsAttention ?? false;
   bool hasNeedsAttention() => _needsAttention != null;
 
+  // "needsBalanceRefresh" field.
+  bool? _needsBalanceRefresh;
+  bool get needsBalanceRefresh => _needsBalanceRefresh ?? false;
+  bool hasNeedsBalanceRefresh() => _needsBalanceRefresh != null;
+
+  // "needsSync" field.
+  bool? _needsSync;
+  bool get needsSync => _needsSync ?? false;
+  bool hasNeedsSync() => _needsSync != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
@@ -107,6 +117,8 @@ class PlaidItemsRecord extends FirestoreRecord {
     _lastSyncedAt = snapshotData['lastSyncedAt'] as DateTime?;
     _updatedAt = snapshotData['updatedAt'] as DateTime?;
     _needsAttention = snapshotData['needsAttention'] as bool?;
+    _needsBalanceRefresh = snapshotData['needsBalanceRefresh'] as bool?;
+    _needsSync = snapshotData['needsSync'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -159,6 +171,8 @@ Map<String, dynamic> createPlaidItemsRecordData({
   DateTime? lastSyncedAt,
   DateTime? updatedAt,
   bool? needsAttention,
+  bool? needsBalanceRefresh,
+  bool? needsSync,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -177,6 +191,8 @@ Map<String, dynamic> createPlaidItemsRecordData({
       'lastSyncedAt': lastSyncedAt,
       'updatedAt': updatedAt,
       'needsAttention': needsAttention,
+      'needsBalanceRefresh': needsBalanceRefresh,
+      'needsSync': needsSync,
     }.withoutNulls,
   );
 
@@ -202,7 +218,9 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e1?.lastSyncRequestId == e2?.lastSyncRequestId &&
         e1?.lastSyncedAt == e2?.lastSyncedAt &&
         e1?.updatedAt == e2?.updatedAt &&
-        e1?.needsAttention == e2?.needsAttention;
+        e1?.needsAttention == e2?.needsAttention &&
+        e1?.needsBalanceRefresh == e2?.needsBalanceRefresh &&
+        e1?.needsSync == e2?.needsSync;
   }
 
   @override
@@ -221,7 +239,9 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e?.lastSyncRequestId,
         e?.lastSyncedAt,
         e?.updatedAt,
-        e?.needsAttention
+        e?.needsAttention,
+        e?.needsBalanceRefresh,
+        e?.needsSync
       ]);
 
   @override

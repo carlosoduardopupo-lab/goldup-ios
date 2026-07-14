@@ -12,7 +12,6 @@ import '/components/news_views_widget.dart';
 import '/components/tarjetade_adds_widget.dart';
 import '/components/tarjetadenoticias_widget.dart';
 import '/eventos/accion_crear/accion_crear_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -25,6 +24,7 @@ import '/tarjetas/card_bill/card_bill_widget.dart';
 import '/tarjetas/card_bill_copy/card_bill_copy_widget.dart';
 import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
 import '/tarjetas/metascard/metascard_widget.dart';
+import 'dart:async';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -36,7 +36,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -67,452 +66,298 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await authManager.refreshUser();
-      if (valueOrDefault<bool>(
-              currentUserDocument?.isTransactionsVerificated, false) ==
-          true) {
-        await Future.wait([
-          Future(() async {
-            _model.itemId = await actions.listenPlaidDeepLink();
-            if (_model.itemId != '') {
-              safeSetState(() {
-                _model.tabBarController!.animateTo(
-                  3,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.ease,
-                );
-              });
+      if (currentUserEmailVerified == true) {
+        if (valueOrDefault<bool>(currentUserDocument?.isPlanSelected, false) ==
+            true) {
+          _model.itemId = await actions.listenPlaidDeepLink();
+          if (_model.itemId != '') {
+            safeSetState(() {
+              _model.tabBarController!.animateTo(
+                3,
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+              );
+            });
+          }
+          if (FFAppState().isBiometricEnabled == true) {
+            FFAppState().isBlokedHome = true;
+            safeSetState(() {});
+            final _localAuth = LocalAuthentication();
+            bool _isBiometricSupported = await _localAuth.isDeviceSupported();
+
+            if (_isBiometricSupported) {
+              try {
+                _model.biometricResult = await _localAuth.authenticate(
+                    localizedReason: FFLocalizations.of(context).getText(
+                  '87jgyqnv' /* Por tu seguridad, verifica tu ... */,
+                ));
+              } on PlatformException {
+                _model.biometricResult = false;
+              }
+              safeSetState(() {});
             }
-            if (currentUserEmailVerified == true) {
-              if (FFAppState().isBiometricEnabled == true) {
-                FFAppState().isBlokedHome = true;
-                safeSetState(() {});
-                final _localAuth = LocalAuthentication();
-                bool _isBiometricSupported =
-                    await _localAuth.isDeviceSupported();
 
-                if (_isBiometricSupported) {
-                  try {
-                    _model.biometricResult = await _localAuth.authenticate(
-                        localizedReason: FFLocalizations.of(context).getText(
-                      'mtkcdjcv' /* Por tu seguridad, verifica tu ... */,
-                    ));
-                  } on PlatformException {
-                    _model.biometricResult = false;
-                  }
-                  safeSetState(() {});
-                }
-
-                if (_model.biometricResult == true) {
-                  FFAppState().isBlokedHome = false;
-                  safeSetState(() {});
-                  await Future.wait([
-                    Future(() async {
-                      _model.selectedDate = functions
-                          .normalizeToCalendarDatedateTime(getCurrentTimestamp);
-                      safeSetState(() {});
-                      FFAppState().selectedDate = getCurrentTimestamp;
-                      safeSetState(() {});
-                      setDarkModeSetting(context, ThemeMode.light);
-                    }),
-                    Future(() async {
-                      _model.timeZone1 = await actions.getDeviceTimeZone();
-
-                      await currentUserReference!.update(createUserRecordData(
-                        timeZone: _model.timeZone1,
-                      ));
-                      _model.apiResultthj =
-                          await GetUserLocationByIPCall.call();
-
-                      if ((_model.apiResultthj?.succeeded ?? true)) {
-                        await currentUserReference!.update({
-                          ...createUserRecordData(
-                            country: getJsonField(
-                              (_model.apiResultthj?.jsonBody ?? ''),
-                              r'''$.country_code2''',
-                            ).toString(),
-                            state: getJsonField(
-                              (_model.apiResultthj?.jsonBody ?? ''),
-                              r'''$.state_prov''',
-                            ).toString(),
-                            city: getJsonField(
-                              (_model.apiResultthj?.jsonBody ?? ''),
-                              r'''$.city''',
-                            ).toString(),
-                            zipCode: getJsonField(
-                              (_model.apiResultthj?.jsonBody ?? ''),
-                              r'''$.zipcode''',
-                            ).toString(),
-                          ),
-                          ...mapToFirestore(
-                            {
-                              'locationUpdatedAt': FieldValue.serverTimestamp(),
-                            },
-                          ),
-                        });
-                      }
-                      await actions.saveFcmTokenToFirestore();
-                    }),
-                  ]);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Error de autenticación.',
-                        style: GoogleFonts.roboto(
-                          color: Color(0xFFECF3F9),
-                        ),
-                      ),
-                      duration: Duration(milliseconds: 4000),
-                      backgroundColor: FlutterFlowTheme.of(context).secondary,
+            if (_model.biometricResult == true) {
+              FFAppState().isBlokedHome = false;
+              safeSetState(() {});
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Error de autenticación.',
+                    style: GoogleFonts.roboto(
+                      color: Color(0xFFECF3F9),
                     ),
+                  ),
+                  duration: Duration(milliseconds: 4000),
+                  backgroundColor: FlutterFlowTheme.of(context).secondary,
+                ),
+              );
+            }
+          }
+          await Future.wait([
+            Future(() async {
+              _model.selectedDate = functions
+                  .normalizeToCalendarDatedateTime(getCurrentTimestamp);
+              safeSetState(() {});
+              FFAppState().selectedDate = getCurrentTimestamp;
+              safeSetState(() {});
+              setDarkModeSetting(context, ThemeMode.light);
+            }),
+            Future(() async {
+              _model.timeZone1 = await actions.getDeviceTimeZone();
+
+              await currentUserReference!.update(createUserRecordData(
+                timeZone: _model.timeZone1,
+              ));
+              _model.apiResultthj = await GetUserLocationByIPCall.call();
+
+              if ((_model.apiResultthj?.succeeded ?? true)) {
+                await currentUserReference!.update({
+                  ...createUserRecordData(
+                    country: getJsonField(
+                      (_model.apiResultthj?.jsonBody ?? ''),
+                      r'''$.country_code2''',
+                    ).toString(),
+                    state: getJsonField(
+                      (_model.apiResultthj?.jsonBody ?? ''),
+                      r'''$.state_prov''',
+                    ).toString(),
+                    city: getJsonField(
+                      (_model.apiResultthj?.jsonBody ?? ''),
+                      r'''$.city''',
+                    ).toString(),
+                    zipCode: getJsonField(
+                      (_model.apiResultthj?.jsonBody ?? ''),
+                      r'''$.zipcode''',
+                    ).toString(),
+                  ),
+                  ...mapToFirestore(
+                    {
+                      'locationUpdatedAt': FieldValue.serverTimestamp(),
+                    },
+                  ),
+                });
+              }
+              await actions.saveFcmTokenToFirestore();
+            }),
+          ]);
+          if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
+              true) {
+            if (valueOrDefault<bool>(
+                    currentUserDocument?.isAccountsVinculated, false) ==
+                true) {
+              if (valueOrDefault<bool>(
+                      currentUserDocument?.isTransactionsVerificated, false) ==
+                  true) {
+                await Future.wait([
+                  Future(() async {
+                    _model.itemsNeedingRefresh =
+                        await queryPlaidItemsRecordOnce(
+                      queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                          .where(
+                            'userRef',
+                            isEqualTo: currentUserReference,
+                          )
+                          .where(
+                            'needsBalanceRefresh',
+                            isEqualTo: true,
+                          ),
+                    );
+                    for (int loop1Index = 0;
+                        loop1Index < _model.itemsNeedingRefresh!.length;
+                        loop1Index++) {
+                      final currentLoop1Item =
+                          _model.itemsNeedingRefresh![loop1Index];
+                      try {
+                        final result = await FirebaseFunctions.instance
+                            .httpsCallable('getAccountBalancesV2')
+                            .call({
+                          "itemId": currentLoop1Item.itemId,
+                        });
+                        _model.cloudFunction6tx =
+                            GetAccountBalancesV2CloudFunctionCallResponse(
+                          succeeded: true,
+                        );
+                      } on FirebaseFunctionsException catch (error) {
+                        _model.cloudFunction6tx =
+                            GetAccountBalancesV2CloudFunctionCallResponse(
+                          errorCode: error.code,
+                          succeeded: false,
+                        );
+                      }
+                    }
+                  }),
+                  Future(() async {
+                    _model.itemsNeedingSync = await queryPlaidItemsRecordOnce(
+                      queryBuilder: (plaidItemsRecord) => plaidItemsRecord
+                          .where(
+                            'userRef',
+                            isEqualTo: currentUserReference,
+                          )
+                          .where(
+                            'needsBalanceRefresh',
+                            isEqualTo: true,
+                          ),
+                    );
+                    for (int loop2Index = 0;
+                        loop2Index < _model.itemsNeedingSync!.length;
+                        loop2Index++) {
+                      final currentLoop2Item =
+                          _model.itemsNeedingSync![loop2Index];
+                      try {
+                        final result = await FirebaseFunctions.instance
+                            .httpsCallable('syncTransactionsV2')
+                            .call({
+                          "itemId": currentLoop2Item.itemId,
+                        });
+                        _model.cloudFunction4x1 =
+                            SyncTransactionsV2CloudFunctionCallResponse(
+                          succeeded: true,
+                        );
+                      } on FirebaseFunctionsException catch (error) {
+                        _model.cloudFunction4x1 =
+                            SyncTransactionsV2CloudFunctionCallResponse(
+                          errorCode: error.code,
+                          succeeded: false,
+                        );
+                      }
+                    }
+                  }),
+                ]);
+                try {
+                  final result =
+                      await FirebaseFunctions.instanceFor(region: 'us-central1')
+                          .httpsCallable('goldAdvisorDailyBriefV2')
+                          .call({
+                    "forceRefresh": false,
+                  });
+                  _model.welcom =
+                      GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                    succeeded: true,
+                  );
+                } on FirebaseFunctionsException catch (error) {
+                  _model.welcom =
+                      GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                    errorCode: error.code,
+                    succeeded: false,
                   );
                 }
               } else {
-                await Future.wait([
-                  Future(() async {
-                    _model.selectedDate = functions
-                        .normalizeToCalendarDatedateTime(getCurrentTimestamp);
-                    safeSetState(() {});
-                    FFAppState().selectedDate = getCurrentTimestamp;
-                    safeSetState(() {});
-                    setDarkModeSetting(context, ThemeMode.light);
-                  }),
-                  Future(() async {
-                    _model.timeZone = await actions.getDeviceTimeZone();
-
-                    await currentUserReference!.update(createUserRecordData(
-                      timeZone: _model.timeZone,
-                    ));
-                    _model.apiResult = await GetUserLocationByIPCall.call();
-
-                    if ((_model.apiResult?.succeeded ?? true)) {
-                      await currentUserReference!.update({
-                        ...createUserRecordData(
-                          country: getJsonField(
-                            (_model.apiResult?.jsonBody ?? ''),
-                            r'''$.country_code2''',
-                          ).toString(),
-                          state: getJsonField(
-                            (_model.apiResult?.jsonBody ?? ''),
-                            r'''$.state_prov''',
-                          ).toString(),
-                          city: getJsonField(
-                            (_model.apiResult?.jsonBody ?? ''),
-                            r'''$.city''',
-                          ).toString(),
-                          zipCode: getJsonField(
-                            (_model.apiResult?.jsonBody ?? ''),
-                            r'''$.zipcode''',
-                          ).toString(),
-                          timeZone: getJsonField(
-                            (_model.apiResult?.jsonBody ?? ''),
-                            r'''$.time_zone.name''',
-                          ).toString(),
-                        ),
-                        ...mapToFirestore(
-                          {
-                            'locationUpdatedAt': FieldValue.serverTimestamp(),
-                          },
-                        ),
-                      });
-                    }
-                    await actions.saveFcmTokenToFirestore();
-                  }),
-                ]);
+                context.pushNamed(RecurrentesWidget.routeName);
               }
-            } else {
-              context.pushNamed(Auth2Widget.routeName);
             }
-          }),
-          Future(() async {
-            if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-                true) {
-              await Future.wait([
-                Future(() async {
-                  _model.incomesRec = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isIncome',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        )
-                        .where(
-                          'isPending',
-                          isEqualTo: true,
-                        ),
-                  );
-                  _model.chekingAccoun = await queryBankAccountsRecordOnce(
-                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isChequingAccount',
-                          isEqualTo: true,
-                        ),
-                  );
-                }),
-                Future(() async {
-                  _model.expenseRecu = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isExpenses',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        )
-                        .where(
-                          'isPending',
-                          isEqualTo: true,
-                        ),
-                  );
-                  _model.savesAccoun = await queryBankAccountsRecordOnce(
-                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isSavingAccount',
-                          isEqualTo: true,
-                        ),
-                  );
-                }),
-                Future(() async {
-                  _model.savesRecu = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isSave',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        )
-                        .where(
-                          'isPending',
-                          isEqualTo: true,
-                        ),
-                  );
-                  _model.creditAccou = await queryBankAccountsRecordOnce(
-                    queryBuilder: (bankAccountsRecord) => bankAccountsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isCreditAccount',
-                          isEqualTo: true,
-                        ),
-                  );
-                }),
-                Future(() async {
-                  _model.internalPending = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isInternalTransfer',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        )
-                        .where(
-                          'isPending',
-                          isEqualTo: true,
-                        ),
-                  );
-                }),
-              ]);
-              FFAppState().sumIncomPending = functions.sum(
-                  _model.incomesRec!.map((e) => e.amount).toList().toList());
-              FFAppState().sumExpePending = functions.sum(
-                  _model.expenseRecu!.map((e) => e.amount).toList().toList());
-              FFAppState().sumSavePending = functions.sum(
-                  _model.savesRecu!.map((e) => e.amount).toList().toList());
-              FFAppState().sumChekAccount = functions.sum(_model.chekingAccoun!
-                  .map((e) => e.availableBalance)
-                  .toList()
-                  .toList());
-              FFAppState().sumSaveAccount = functions.sum(_model.savesAccoun!
-                  .map((e) => e.availableBalance)
-                  .toList()
-                  .toList());
-              FFAppState().sumCreditAccount = functions.sum(_model.creditAccou!
-                  .map((e) => e.currentBalance)
-                  .toList()
-                  .toList());
-              FFAppState().sumInternalPendings = functions.sum(_model
-                  .internalPending!
-                  .map((e) => e.amount)
-                  .toList()
-                  .toList());
-              safeSetState(() {});
-              FFAppState().sumPendings =
-                  (FFAppState().sumIncomPending - FFAppState().sumExpePending);
-              FFAppState().sumBankBalan = (FFAppState().sumChekAccount +
-                  FFAppState().sumSaveAccount -
-                  FFAppState().sumCreditAccount);
-              safeSetState(() {});
-              FFAppState().cashFlowProyected =
-                  (FFAppState().sumPendings + FFAppState().sumBankBalan) +
-                      (FFAppState().sumInternalPendings / 2);
-              safeSetState(() {});
-            } else {
-              await Future.wait([
-                Future(() async {
-                  _model.incomes = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isIncome',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        ),
-                  );
-                }),
-                Future(() async {
-                  _model.expense = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isExpenses',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        ),
-                  );
-                }),
-                Future(() async {
-                  _model.saves = await queryDocumentsRecordOnce(
-                    queryBuilder: (documentsRecord) => documentsRecord
-                        .where(
-                          'userRef',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'isSave',
-                          isEqualTo: true,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isGreaterThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .firstOrNull,
-                        )
-                        .where(
-                          'occurrenceKey',
-                          isLessThanOrEqualTo: functions
-                              .monthBoundaries(getCurrentTimestamp)
-                              .lastOrNull,
-                        ),
-                  );
-                }),
-              ]);
-              FFAppState().sumExpenses = functions
-                  .sum(_model.expense!.map((e) => e.amount).toList().toList());
-              FFAppState().sumIncomes = functions
-                  .sum(_model.incomes!.map((e) => e.amount).toList().toList());
-              FFAppState().sumSave = functions
-                  .sum(_model.saves!.map((e) => e.amount).toList().toList());
-              safeSetState(() {});
-            }
-
-            _model.isset = await queryDocumentsRecordOnce(
-              queryBuilder: (documentsRecord) => documentsRecord.where(
-                'userRef',
-                isEqualTo: currentUserReference,
-              ),
-              singleRecord: true,
-            ).then((s) => s.firstOrNull);
-          }),
-        ]);
-      } else {
-        if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-            true) {
-          context.pushNamed(RecurrentesWidget.routeName);
+          } else {
+            await Future.wait([
+              Future(() async {
+                _model.incomes = await queryDocumentsRecordOnce(
+                  queryBuilder: (documentsRecord) => documentsRecord
+                      .where(
+                        'userRef',
+                        isEqualTo: currentUserReference,
+                      )
+                      .where(
+                        'isIncome',
+                        isEqualTo: true,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isGreaterThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .firstOrNull,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isLessThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .lastOrNull,
+                      ),
+                );
+              }),
+              Future(() async {
+                _model.expense = await queryDocumentsRecordOnce(
+                  queryBuilder: (documentsRecord) => documentsRecord
+                      .where(
+                        'userRef',
+                        isEqualTo: currentUserReference,
+                      )
+                      .where(
+                        'isExpenses',
+                        isEqualTo: true,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isGreaterThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .firstOrNull,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isLessThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .lastOrNull,
+                      ),
+                );
+              }),
+              Future(() async {
+                _model.saves = await queryDocumentsRecordOnce(
+                  queryBuilder: (documentsRecord) => documentsRecord
+                      .where(
+                        'userRef',
+                        isEqualTo: currentUserReference,
+                      )
+                      .where(
+                        'isSave',
+                        isEqualTo: true,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isGreaterThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .firstOrNull,
+                      )
+                      .where(
+                        'occurrenceKey',
+                        isLessThanOrEqualTo: functions
+                            .monthBoundaries(getCurrentTimestamp)
+                            .lastOrNull,
+                      ),
+                );
+              }),
+            ]);
+            FFAppState().sumExpenses = functions
+                .sum(_model.expense!.map((e) => e.amount).toList().toList());
+            FFAppState().sumIncomes = functions
+                .sum(_model.incomes!.map((e) => e.amount).toList().toList());
+            FFAppState().sumSave = functions
+                .sum(_model.saves!.map((e) => e.amount).toList().toList());
+            safeSetState(() {});
+          }
+        } else {
+          context.pushNamed(SuscriptionsWidget.routeName);
         }
+      } else {
+        context.pushNamed(Auth2Widget.routeName);
       }
     });
 
@@ -615,7 +460,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             ?.isPremium,
                                                                         false) ==
                                                                     true
-                                                                ? 340.0
+                                                                ? 400.0
                                                                 : 220.0,
                                                             decoration:
                                                                 BoxDecoration(
@@ -716,40 +561,6 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                               mainAxisSize: MainAxisSize.max,
                                                                               mainAxisAlignment: MainAxisAlignment.end,
                                                                               children: [
-                                                                                if ((FFAppState().seeAmounts == false) && (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == true))
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
-                                                                                    child: FlutterFlowIconButton(
-                                                                                      borderRadius: 8.0,
-                                                                                      buttonSize: 32.0,
-                                                                                      icon: FaIcon(
-                                                                                        FontAwesomeIcons.eye,
-                                                                                        color: FlutterFlowTheme.of(context).alternate,
-                                                                                        size: 18.0,
-                                                                                      ),
-                                                                                      onPressed: () async {
-                                                                                        FFAppState().seeAmounts = true;
-                                                                                        safeSetState(() {});
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                if ((FFAppState().seeAmounts == true) && (valueOrDefault<bool>(currentUserDocument?.isDocumentCreated, false) == false))
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
-                                                                                    child: FlutterFlowIconButton(
-                                                                                      borderRadius: 8.0,
-                                                                                      buttonSize: 32.0,
-                                                                                      icon: FaIcon(
-                                                                                        FontAwesomeIcons.eyeSlash,
-                                                                                        color: FlutterFlowTheme.of(context).alternate,
-                                                                                        size: 18.0,
-                                                                                      ),
-                                                                                      onPressed: () async {
-                                                                                        FFAppState().seeAmounts = false;
-                                                                                        safeSetState(() {});
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
                                                                                 InkWell(
                                                                                   splashColor: Colors.transparent,
                                                                                   focusColor: Colors.transparent,
@@ -796,365 +607,34 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    child: Row(
+                                                                  if (valueOrDefault<
+                                                                              bool>(
+                                                                          currentUserDocument
+                                                                              ?.isPremium,
+                                                                          false) ==
+                                                                      false)
+                                                                    Column(
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        if (valueOrDefault<bool>(currentUserDocument?.isPremium,
-                                                                                false) ==
-                                                                            true)
-                                                                          Align(
-                                                                            alignment:
-                                                                                AlignmentDirectional(-1.0, 0.0),
-                                                                            child:
-                                                                                Text(
-                                                                              FFLocalizations.of(context).getText(
-                                                                                'siv6xnr4' /* ¿Cuánto dinero tengo entre mis... */,
-                                                                              ),
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.roboto(
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                    ),
-                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                    fontSize: 17.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
-                                                                            ),
-                                                                          ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      if (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isPremium,
-                                                                              false) ==
-                                                                          true)
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              15.0),
+                                                                      children:
+                                                                          [
+                                                                        Align(
+                                                                          alignment: AlignmentDirectional(
+                                                                              -1.0,
+                                                                              0.0),
                                                                           child:
-                                                                              InkWell(
-                                                                            splashColor:
-                                                                                Colors.transparent,
-                                                                            focusColor:
-                                                                                Colors.transparent,
-                                                                            hoverColor:
-                                                                                Colors.transparent,
-                                                                            highlightColor:
-                                                                                Colors.transparent,
-                                                                            onTap:
-                                                                                () async {
-                                                                              safeSetState(() {
-                                                                                _model.tabBarController!.animateTo(
-                                                                                  2,
-                                                                                  duration: Duration(milliseconds: 300),
-                                                                                  curve: Curves.ease,
-                                                                                );
-                                                                              });
-                                                                            },
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              children: [
-                                                                                RichText(
-                                                                                  textScaler: MediaQuery.of(context).textScaler,
-                                                                                  text: TextSpan(
-                                                                                    children: [
-                                                                                      TextSpan(
-                                                                                        text: FFLocalizations.of(context).getText(
-                                                                                          'hoexlt4h' /* Hoy  */,
-                                                                                        ),
-                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                              font: GoogleFonts.roboto(
-                                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                              ),
-                                                                                              color: FlutterFlowTheme.of(context).alternate,
-                                                                                              fontSize: 12.0,
-                                                                                              letterSpacing: 0.0,
-                                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                      ),
-                                                                                      TextSpan(
-                                                                                        text: dateTimeFormat(
-                                                                                          "MMMMEEEEd",
-                                                                                          getCurrentTimestamp,
-                                                                                          locale: FFLocalizations.of(context).languageCode,
-                                                                                        ),
-                                                                                        style: TextStyle(),
-                                                                                      )
-                                                                                    ],
-                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                          font: GoogleFonts.roboto(
-                                                                                            fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          ),
-                                                                                          color: FlutterFlowTheme.of(context).alternate,
-                                                                                          fontSize: 12.0,
-                                                                                          letterSpacing: 0.0,
-                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          decoration: TextDecoration.underline,
-                                                                                        ),
-                                                                                  ),
-                                                                                ),
-                                                                                if (FFAppState().seeAmounts == true)
-                                                                                  Align(
-                                                                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                    child: Text(
-                                                                                      valueOrDefault<String>(
-                                                                                        formatNumber(
-                                                                                          (FFAppState().sumChekAccount + FFAppState().sumSaveAccount - FFAppState().sumCreditAccount),
-                                                                                          formatType: FormatType.decimal,
-                                                                                          decimalType: DecimalType.automatic,
-                                                                                          currency: '\$',
-                                                                                        ),
-                                                                                        '0',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.bold,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                            color: Color(0xFFFBD770),
-                                                                                            fontSize: 25.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                if (FFAppState().seeAmounts == false)
-                                                                                  Align(
-                                                                                    alignment: AlignmentDirectional(0.0, 1.0),
-                                                                                    child: Text(
-                                                                                      FFLocalizations.of(context).getText(
-                                                                                        'dnaqtwz2' /* **** */,
-                                                                                      ),
-                                                                                      textAlign: TextAlign.center,
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.bold,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                            color: Color(0xFFFBD770),
-                                                                                            fontSize: 25.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                              ].divide(SizedBox(width: 5.0)),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            -1.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              888.0,
-                                                                          decoration:
-                                                                              BoxDecoration(),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                10.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                Text(
-                                                                              valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? '¿Cuánto  tendré al finalizar el mes?' : 'Disponible para gastar:',
-                                                                              maxLines: 3,
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.roboto(
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                    ),
-                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                    fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 17.0 : 22.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      if (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isPremium,
-                                                                              false) ==
-                                                                          true)
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              15.0),
-                                                                          child:
-                                                                              InkWell(
-                                                                            splashColor:
-                                                                                Colors.transparent,
-                                                                            focusColor:
-                                                                                Colors.transparent,
-                                                                            hoverColor:
-                                                                                Colors.transparent,
-                                                                            highlightColor:
-                                                                                Colors.transparent,
-                                                                            onTap:
-                                                                                () async {
-                                                                              safeSetState(() {
-                                                                                _model.tabBarController!.animateTo(
-                                                                                  2,
-                                                                                  duration: Duration(milliseconds: 300),
-                                                                                  curve: Curves.ease,
-                                                                                );
-                                                                              });
-                                                                            },
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisSize: MainAxisSize.max,
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  '${dateTimeFormat(
-                                                                                    "MMMM",
-                                                                                    dateTimeFromSecondsSinceEpoch(valueOrDefault<int>(
-                                                                                      getCurrentTimestamp.secondsSinceEpoch,
-                                                                                      0,
-                                                                                    )),
-                                                                                    locale: FFLocalizations.of(context).languageCode,
-                                                                                  )} ${dateTimeFormat(
-                                                                                    "y",
-                                                                                    getCurrentTimestamp,
-                                                                                    locale: FFLocalizations.of(context).languageCode,
-                                                                                  )}',
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        font: GoogleFonts.roboto(
-                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                        ),
-                                                                                        color: FlutterFlowTheme.of(context).alternate,
-                                                                                        fontSize: 12.0,
-                                                                                        letterSpacing: 0.0,
-                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                      ),
-                                                                                ),
-                                                                                if (FFAppState().seeAmounts == true)
-                                                                                  Align(
-                                                                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                    child: Text(
-                                                                                      valueOrDefault<String>(
-                                                                                        formatNumber(
-                                                                                          FFAppState().cashFlowProyected,
-                                                                                          formatType: FormatType.decimal,
-                                                                                          decimalType: DecimalType.automatic,
-                                                                                          currency: '\$',
-                                                                                        ),
-                                                                                        '0',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.bold,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                            color: Color(0xFFFBD770),
-                                                                                            fontSize: 25.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                if (FFAppState().seeAmounts == false)
-                                                                                  Align(
-                                                                                    alignment: AlignmentDirectional(0.0, 1.0),
-                                                                                    child: Text(
-                                                                                      FFLocalizations.of(context).getText(
-                                                                                        'lp91i1bu' /* **** */,
-                                                                                      ),
-                                                                                      textAlign: TextAlign.center,
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            font: GoogleFonts.roboto(
-                                                                                              fontWeight: FontWeight.bold,
-                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                            ),
-                                                                                            color: Color(0xFFFBD770),
-                                                                                            fontSize: 25.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.bold,
-                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                Text(
-                                                                                  FFLocalizations.of(context).getText(
-                                                                                    'dt9pfua8' /* al concluir el mes.  */,
-                                                                                  ),
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        font: GoogleFonts.roboto(
-                                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                        ),
-                                                                                        color: FlutterFlowTheme.of(context).alternate,
-                                                                                        fontSize: 12.0,
-                                                                                        letterSpacing: 0.0,
-                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                      ),
-                                                                                ),
-                                                                              ].divide(SizedBox(width: 5.0)),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      Align(
-                                                                        alignment: AlignmentDirectional(
-                                                                            -1.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              888.0,
-                                                                          decoration:
-                                                                              BoxDecoration(),
-                                                                          child:
-                                                                              Visibility(
-                                                                            visible:
-                                                                                valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true,
+                                                                              Container(
+                                                                            width:
+                                                                                888.0,
+                                                                            decoration:
+                                                                                BoxDecoration(),
                                                                             child:
                                                                                 Padding(
                                                                               padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                                                                               child: Text(
                                                                                 FFLocalizations.of(context).getText(
-                                                                                  'iejrmfhq' /* ¿Cuánto puedo gastar luego de ... */,
+                                                                                  'c82j86hl' /* Disponible para gastar: */,
                                                                                 ),
                                                                                 maxLines: 3,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1163,7 +643,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                         fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                       color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                      fontSize: 17.0,
+                                                                                      fontSize: valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true ? 17.0 : 22.0,
                                                                                       letterSpacing: 0.0,
                                                                                       fontWeight: FontWeight.normal,
                                                                                       fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
@@ -1172,52 +652,17 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ),
-                                                                      InkWell(
-                                                                        splashColor:
-                                                                            Colors.transparent,
-                                                                        focusColor:
-                                                                            Colors.transparent,
-                                                                        hoverColor:
-                                                                            Colors.transparent,
-                                                                        highlightColor:
-                                                                            Colors.transparent,
-                                                                        onTap:
-                                                                            () async {
-                                                                          safeSetState(
-                                                                              () {
-                                                                            _model.tabBarController!.animateTo(
-                                                                              2,
-                                                                              duration: Duration(milliseconds: 300),
-                                                                              curve: Curves.ease,
-                                                                            );
-                                                                          });
-                                                                        },
-                                                                        child:
-                                                                            Row(
+                                                                        Row(
                                                                           mainAxisSize:
                                                                               MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.start,
-                                                                          children:
-                                                                              [
+                                                                          children: [
                                                                             if (FFAppState().seeAmounts ==
                                                                                 true)
                                                                               Align(
                                                                                 alignment: AlignmentDirectional(0.0, 0.0),
                                                                                 child: Text(
                                                                                   valueOrDefault<String>(
-                                                                                    formatNumber(
-                                                                                      valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true
-                                                                                          ? (FFAppState().cashFlowProyected - FFAppState().sumSaveAccount - FFAppState().sumSavePending)
-                                                                                          : valueOrDefault<double>(
-                                                                                              functions.calcNetCashflow(FFAppState().sumIncomes, FFAppState().sumExpenses, FFAppState().sumSave),
-                                                                                              0.0,
-                                                                                            ),
-                                                                                      formatType: FormatType.decimal,
-                                                                                      decimalType: DecimalType.automatic,
-                                                                                      currency: '\$',
-                                                                                    ),
+                                                                                    functions.calcNetCashflow(FFAppState().sumIncomes, FFAppState().sumExpenses, FFAppState().sumSave)?.toString(),
                                                                                     '0',
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1233,63 +678,57 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                       ),
                                                                                 ),
                                                                               ),
-                                                                            if (FFAppState().seeAmounts ==
-                                                                                false)
-                                                                              Align(
-                                                                                alignment: AlignmentDirectional(0.0, 1.0),
-                                                                                child: Text(
-                                                                                  FFLocalizations.of(context).getText(
-                                                                                    '13l0x7v7' /* **** */,
-                                                                                  ),
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                        font: GoogleFonts.roboto(
-                                                                                          fontWeight: FontWeight.bold,
-                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                        ),
-                                                                                        color: Color(0xFFFBD770),
-                                                                                        fontSize: 25.0,
-                                                                                        letterSpacing: 0.0,
-                                                                                        fontWeight: FontWeight.bold,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                      ),
-                                                                                ),
-                                                                              ),
-                                                                            if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-                                                                                true)
-                                                                              Text(
-                                                                                FFLocalizations.of(context).getText(
-                                                                                  'z7kxi1ou' /* durante el mes, sin tocar mis ... */,
-                                                                                ),
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      font: GoogleFonts.roboto(
-                                                                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                      ),
-                                                                                      color: FlutterFlowTheme.of(context).alternate,
-                                                                                      fontSize: 12.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                    ),
-                                                                              ),
-                                                                          ].divide(SizedBox(width: 5.0)),
+                                                                          ],
                                                                         ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  if (valueOrDefault<
-                                                                              bool>(
+                                                                        Text(
+                                                                          FFLocalizations.of(context)
+                                                                              .getText(
+                                                                            'slngdmeg' /* Disponible = Ingresos − (Gasto... */,
+                                                                          ),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                font: GoogleFonts.roboto(
+                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                                fontSize: 12.0,
+                                                                                letterSpacing: 0.0,
+                                                                                fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                        ),
+                                                                      ].addToEnd(
+                                                                              SizedBox(height: 12.0)),
+                                                                    ),
+                                                                  InkWell(
+                                                                    splashColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    focusColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    hoverColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    onTap:
+                                                                        () async {
+                                                                      context.pushNamed(
+                                                                          ChatIAWidget
+                                                                              .routeName);
+                                                                    },
+                                                                    child: Text(
+                                                                      valueOrDefault(
                                                                           currentUserDocument
-                                                                              ?.isPremium,
-                                                                          false) ==
-                                                                      false)
-                                                                    Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        'slngdmeg' /* Disponible = Ingresos − (Gasto... */,
-                                                                      ),
+                                                                              ?.dailyBrief,
+                                                                          ''),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .justify,
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium
@@ -1302,7 +741,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                             color:
                                                                                 FlutterFlowTheme.of(context).alternate,
                                                                             fontSize:
-                                                                                12.0,
+                                                                                13.0,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
@@ -1311,6 +750,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                                 FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                           ),
                                                                     ),
+                                                                  ),
                                                                 ]
                                                                     .divide(SizedBox(
                                                                         height:
@@ -1335,7 +775,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     valueOrDefault<bool>(currentUserDocument?.isPremium,
                                                                                 false) ==
                                                                             true
-                                                                        ? 315.0
+                                                                        ? 375.0
                                                                         : 190.0,
                                                                     0.0,
                                                                   ),
@@ -2369,6 +1809,72 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           10.0),
                                                             ),
                                                           ),
+                                                        ),
+                                                      ),
+                                                    if ((valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isExpensesCreated,
+                                                                false) ==
+                                                            true) ||
+                                                        (valueOrDefault<bool>(
+                                                                currentUserDocument
+                                                                    ?.isAccountsVinculated,
+                                                                false) ==
+                                                            true))
+                                                      InkWell(
+                                                        splashColor:
+                                                            Colors.transparent,
+                                                        focusColor:
+                                                            Colors.transparent,
+                                                        hoverColor:
+                                                            Colors.transparent,
+                                                        highlightColor:
+                                                            Colors.transparent,
+                                                        onTap: () async {
+                                                          safeSetState(() {
+                                                            _model
+                                                                .tabBarController!
+                                                                .animateTo(
+                                                              1,
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                              curve:
+                                                                  Curves.ease,
+                                                            );
+                                                          });
+
+                                                          FFAppState()
+                                                                  .isCalendarSet =
+                                                              true;
+                                                          FFAppState()
+                                                                  .isBillListSet =
+                                                              false;
+                                                          safeSetState(() {});
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      10.0),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          ),
                                                           child: Padding(
                                                             padding:
                                                                 EdgeInsetsDirectional
@@ -2394,7 +1900,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                     FFLocalizations.of(
                                                                             context)
                                                                         .getText(
-                                                                      'u4ze750e' /* Próximo Gasto Importante Progr... */,
+                                                                      '3uavtxm0' /* Próximo Gasto Importante Progr... */,
                                                                     ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
@@ -4630,6 +4136,11 @@ All... */
                                                                             .monthBoundaries(getCurrentTimestamp)
                                                                             .lastOrNull,
                                                                       )
+                                                                      .where(
+                                                                        'isRealTransaction',
+                                                                        isEqualTo:
+                                                                            false,
+                                                                      )
                                                                       .orderBy(
                                                                           'occurrenceKey'),
                                                         ),
@@ -4711,7 +4222,7 @@ All... */
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'njfnwiyl' /* a pagar  */,
+                                                          'h60n2v3o' /* a pagar  */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -4742,150 +4253,496 @@ All... */
                                                     ].divide(
                                                         SizedBox(width: 4.0)),
                                                   ),
-                                                  StreamBuilder<
-                                                      List<DocumentsRecord>>(
-                                                    stream:
-                                                        queryDocumentsRecord(
-                                                      queryBuilder:
-                                                          (documentsRecord) =>
-                                                              documentsRecord
-                                                                  .where(
-                                                                    'userRef',
-                                                                    isEqualTo:
-                                                                        currentUserReference,
-                                                                  )
-                                                                  .where(
-                                                                    'isExpenses',
-                                                                    isEqualTo:
-                                                                        true,
-                                                                  )
-                                                                  .where(
-                                                                    'isPending',
-                                                                    isEqualTo:
-                                                                        true,
-                                                                  )
-                                                                  .where(
-                                                                    'occurrenceKey',
-                                                                    isGreaterThanOrEqualTo: functions
-                                                                        .monthBoundaries(
-                                                                            getCurrentTimestamp)
-                                                                        .firstOrNull,
-                                                                  )
-                                                                  .where(
-                                                                    'occurrenceKey',
-                                                                    isLessThanOrEqualTo: functions
-                                                                        .monthBoundaries(
-                                                                            getCurrentTimestamp)
-                                                                        .lastOrNull,
-                                                                  )
-                                                                  .orderBy(
-                                                                      'occurrenceKey'),
-                                                    ),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      // Customize what your widget looks like when it's loading.
-                                                      if (!snapshot.hasData) {
-                                                        return Center(
-                                                          child: SizedBox(
-                                                            width: 40.0,
-                                                            height: 40.0,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              valueColor:
-                                                                  AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      List<DocumentsRecord>
-                                                          columnDocumentsRecordList =
-                                                          snapshot.data!;
-
-                                                      return Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: List.generate(
-                                                                columnDocumentsRecordList
-                                                                    .length,
-                                                                (columnIndex) {
-                                                          final columnDocumentsRecord =
-                                                              columnDocumentsRecordList[
-                                                                  columnIndex];
-                                                          return InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onTap: () async {
-                                                              await showModalBottomSheet(
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                enableDrag:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return Padding(
-                                                                    padding: MediaQuery
-                                                                        .viewInsetsOf(
-                                                                            context),
-                                                                    child:
-                                                                        AjustesWidget(
-                                                                      docDocument:
-                                                                          columnDocumentsRecord,
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ).then((value) =>
-                                                                  safeSetState(
-                                                                      () {}));
-                                                            },
-                                                            child:
-                                                                wrapWithModel(
-                                                              model: _model
-                                                                  .cardBillModels2
-                                                                  .getModel(
-                                                                columnDocumentsRecord
-                                                                    .reference
-                                                                    .id,
-                                                                columnIndex,
-                                                              ),
-                                                              updateCallback: () =>
-                                                                  safeSetState(
-                                                                      () {}),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 15.0),
+                                                    child: StreamBuilder<
+                                                        List<DocumentsRecord>>(
+                                                      stream:
+                                                          queryDocumentsRecord(
+                                                        queryBuilder:
+                                                            (documentsRecord) =>
+                                                                documentsRecord
+                                                                    .where(
+                                                                      'userRef',
+                                                                      isEqualTo:
+                                                                          currentUserReference,
+                                                                    )
+                                                                    .where(
+                                                                      'isExpenses',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'isPending',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'occurrenceKey',
+                                                                      isGreaterThanOrEqualTo: functions
+                                                                          .monthBoundaries(
+                                                                              getCurrentTimestamp)
+                                                                          .firstOrNull,
+                                                                    )
+                                                                    .where(
+                                                                      'occurrenceKey',
+                                                                      isLessThanOrEqualTo: functions
+                                                                          .monthBoundaries(
+                                                                              getCurrentTimestamp)
+                                                                          .lastOrNull,
+                                                                    )
+                                                                    .where(
+                                                                      'isRealTransaction',
+                                                                      isEqualTo:
+                                                                          false,
+                                                                    )
+                                                                    .orderBy(
+                                                                        'occurrenceKey'),
+                                                      ),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        // Customize what your widget looks like when it's loading.
+                                                        if (!snapshot.hasData) {
+                                                          return Center(
+                                                            child: SizedBox(
+                                                              width: 40.0,
+                                                              height: 40.0,
                                                               child:
-                                                                  CardBillWidget(
-                                                                key: Key(
-                                                                  'Key2zj_${columnDocumentsRecord.reference.id}',
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
                                                                 ),
-                                                                docDocument:
-                                                                    columnDocumentsRecord,
                                                               ),
                                                             ),
                                                           );
-                                                        })
-                                                            .divide(SizedBox(
-                                                                height: 10.0))
-                                                            .addToStart(
-                                                                SizedBox(
-                                                                    height:
-                                                                        20.0)),
-                                                      );
-                                                    },
+                                                        }
+                                                        List<DocumentsRecord>
+                                                            columnDocumentsRecordList =
+                                                            snapshot.data!;
+
+                                                        return Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: List.generate(
+                                                              columnDocumentsRecordList
+                                                                  .length,
+                                                              (columnIndex) {
+                                                            final columnDocumentsRecord =
+                                                                columnDocumentsRecordList[
+                                                                    columnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  enableDrag:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          AjustesWidget(
+                                                                        docDocument:
+                                                                            columnDocumentsRecord,
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    safeSetState(
+                                                                        () {}));
+                                                              },
+                                                              child:
+                                                                  wrapWithModel(
+                                                                model: _model
+                                                                    .cardBillModels2
+                                                                    .getModel(
+                                                                  columnDocumentsRecord
+                                                                      .reference
+                                                                      .id,
+                                                                  columnIndex,
+                                                                ),
+                                                                updateCallback: () =>
+                                                                    safeSetState(
+                                                                        () {}),
+                                                                child:
+                                                                    CardBillWidget(
+                                                                  key: Key(
+                                                                    'Key2zj_${columnDocumentsRecord.reference.id}',
+                                                                  ),
+                                                                  docDocument:
+                                                                      columnDocumentsRecord,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }).divide(SizedBox(
+                                                              height: 10.0)),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'uohywtg2' /* Inicializadas */,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .roboto(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      StreamBuilder<
+                                                          List<
+                                                              DocumentsRecord>>(
+                                                        stream:
+                                                            queryDocumentsRecord(
+                                                          queryBuilder:
+                                                              (documentsRecord) =>
+                                                                  documentsRecord
+                                                                      .where(
+                                                                        'userRef',
+                                                                        isEqualTo:
+                                                                            currentUserReference,
+                                                                      )
+                                                                      .where(
+                                                                        'isExpenses',
+                                                                        isEqualTo:
+                                                                            true,
+                                                                      )
+                                                                      .where(
+                                                                        'isPending',
+                                                                        isEqualTo:
+                                                                            true,
+                                                                      )
+                                                                      .where(
+                                                                        'occurrenceKey',
+                                                                        isGreaterThanOrEqualTo: functions
+                                                                            .monthBoundaries(getCurrentTimestamp)
+                                                                            .firstOrNull,
+                                                                      )
+                                                                      .where(
+                                                                        'occurrenceKey',
+                                                                        isLessThanOrEqualTo: functions
+                                                                            .monthBoundaries(getCurrentTimestamp)
+                                                                            .lastOrNull,
+                                                                      )
+                                                                      .where(
+                                                                        'isRealTransaction',
+                                                                        isEqualTo:
+                                                                            true,
+                                                                      )
+                                                                      .orderBy(
+                                                                          'occurrenceKey'),
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 40.0,
+                                                                height: 40.0,
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  valueColor:
+                                                                      AlwaysStoppedAnimation<
+                                                                          Color>(
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          List<DocumentsRecord>
+                                                              textDocumentsRecordList =
+                                                              snapshot.data!;
+
+                                                          return Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              formatNumber(
+                                                                functions.sumexpenses(
+                                                                    textDocumentsRecordList
+                                                                        .map((e) =>
+                                                                            e.amount)
+                                                                        .toList()),
+                                                                formatType:
+                                                                    FormatType
+                                                                        .decimal,
+                                                                decimalType:
+                                                                    DecimalType
+                                                                        .automatic,
+                                                                currency: '\$',
+                                                              ),
+                                                              '0',
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .roboto(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  fontSize:
+                                                                      22.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          );
+                                                        },
+                                                      ),
+                                                      Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'njfnwiyl' /* procesando  */,
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .roboto(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                    ].divide(
+                                                        SizedBox(width: 4.0)),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 15.0),
+                                                    child: StreamBuilder<
+                                                        List<DocumentsRecord>>(
+                                                      stream:
+                                                          queryDocumentsRecord(
+                                                        queryBuilder:
+                                                            (documentsRecord) =>
+                                                                documentsRecord
+                                                                    .where(
+                                                                      'userRef',
+                                                                      isEqualTo:
+                                                                          currentUserReference,
+                                                                    )
+                                                                    .where(
+                                                                      'isExpenses',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'isPending',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .where(
+                                                                      'occurrenceKey',
+                                                                      isGreaterThanOrEqualTo: functions
+                                                                          .monthBoundaries(
+                                                                              getCurrentTimestamp)
+                                                                          .firstOrNull,
+                                                                    )
+                                                                    .where(
+                                                                      'occurrenceKey',
+                                                                      isLessThanOrEqualTo: functions
+                                                                          .monthBoundaries(
+                                                                              getCurrentTimestamp)
+                                                                          .lastOrNull,
+                                                                    )
+                                                                    .where(
+                                                                      'isRealTransaction',
+                                                                      isEqualTo:
+                                                                          true,
+                                                                    )
+                                                                    .orderBy(
+                                                                        'occurrenceKey'),
+                                                      ),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        // Customize what your widget looks like when it's loading.
+                                                        if (!snapshot.hasData) {
+                                                          return Center(
+                                                            child: SizedBox(
+                                                              width: 40.0,
+                                                              height: 40.0,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                        List<DocumentsRecord>
+                                                            columnDocumentsRecordList =
+                                                            snapshot.data!;
+
+                                                        return Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: List.generate(
+                                                              columnDocumentsRecordList
+                                                                  .length,
+                                                              (columnIndex) {
+                                                            final columnDocumentsRecord =
+                                                                columnDocumentsRecordList[
+                                                                    columnIndex];
+                                                            return InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  enableDrag:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          AjustesWidget(
+                                                                        docDocument:
+                                                                            columnDocumentsRecord,
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    safeSetState(
+                                                                        () {}));
+                                                              },
+                                                              child:
+                                                                  wrapWithModel(
+                                                                model: _model
+                                                                    .cardBillModels3
+                                                                    .getModel(
+                                                                  columnDocumentsRecord
+                                                                      .reference
+                                                                      .id,
+                                                                  columnIndex,
+                                                                ),
+                                                                updateCallback: () =>
+                                                                    safeSetState(
+                                                                        () {}),
+                                                                child:
+                                                                    CardBillWidget(
+                                                                  key: Key(
+                                                                    'Keyl8t_${columnDocumentsRecord.reference.id}',
+                                                                  ),
+                                                                  docDocument:
+                                                                      columnDocumentsRecord,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }).divide(SizedBox(
+                                                              height: 10.0)),
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                   Text(
                                                     FFLocalizations.of(context)
@@ -5040,7 +4897,7 @@ All... */
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'n8n8c2g2' /* saldado */,
+                                                          'n8n8c2g2' /* posteado */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -5139,9 +4996,9 @@ All... */
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: List.generate(
-                                                                columnDocumentsRecordList
-                                                                    .length,
-                                                                (columnIndex) {
+                                                            columnDocumentsRecordList
+                                                                .length,
+                                                            (columnIndex) {
                                                           final columnDocumentsRecord =
                                                               columnDocumentsRecordList[
                                                                   columnIndex];
@@ -5206,13 +5063,8 @@ All... */
                                                               ),
                                                             ),
                                                           );
-                                                        })
-                                                            .divide(SizedBox(
-                                                                height: 10.0))
-                                                            .addToStart(
-                                                                SizedBox(
-                                                                    height:
-                                                                        20.0)),
+                                                        }).divide(SizedBox(
+                                                            height: 10.0)),
                                                       );
                                                     },
                                                   ),
@@ -5512,8 +5364,10 @@ All... */
                                                                 valueOrDefault<
                                                                     String>(
                                                                   formatNumber(
-                                                                    FFAppState()
-                                                                        .sumBankBalan,
+                                                                    valueOrDefault(
+                                                                        currentUserDocument
+                                                                            ?.totalBalance,
+                                                                        0.0),
                                                                     formatType:
                                                                         FormatType
                                                                             .decimal,
@@ -5675,9 +5529,10 @@ All... */
                                                                 valueOrDefault<
                                                                     String>(
                                                                   formatNumber(
-                                                                    FFAppState()
-                                                                            .sumInternalPendings /
-                                                                        2,
+                                                                    valueOrDefault(
+                                                                        currentUserDocument
+                                                                            ?.internalAdjustment,
+                                                                        0.0),
                                                                     formatType:
                                                                         FormatType
                                                                             .decimal,
@@ -5843,8 +5698,10 @@ All... */
                                                                                   ?.isPremium,
                                                                               false) ==
                                                                           true
-                                                                      ? FFAppState()
-                                                                          .sumIncomPending
+                                                                      ? valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.projectedIncome,
+                                                                          0.0)
                                                                       : valueOrDefault<
                                                                           double>(
                                                                           FFAppState()
@@ -6032,8 +5889,10 @@ All... */
                                                                                   ?.isPremium,
                                                                               false) ==
                                                                           true
-                                                                      ? FFAppState()
-                                                                          .sumExpePending
+                                                                      ? valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.projectedExpenses,
+                                                                          0.0)
                                                                       : FFAppState()
                                                                           .sumExpenses,
                                                                   formatType:
@@ -6246,8 +6105,10 @@ All... */
                                                                                   ?.isPremium,
                                                                               false) ==
                                                                           true
-                                                                      ? FFAppState()
-                                                                          .cashFlowProyected
+                                                                      ? valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.projectedFlow,
+                                                                          0.0)
                                                                       : valueOrDefault<
                                                                           double>(
                                                                           functions.calcNetCashflow(
@@ -6625,11 +6486,10 @@ All... */
                                                                                   ?.isPremium,
                                                                               false) ==
                                                                           true
-                                                                      ? (FFAppState().cashFlowProyected -
-                                                                          FFAppState()
-                                                                              .sumSaveAccount -
-                                                                          FFAppState()
-                                                                              .sumSavePending)
+                                                                      ? valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.availableToSpend,
+                                                                          0.0)
                                                                       : valueOrDefault<
                                                                           double>(
                                                                           functions.calcNetCashflow(
@@ -7589,918 +7449,6 @@ All... */
                                                     ),
                                               ),
                                             ),
-                                            if ((valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPremium,
-                                                        false) ==
-                                                    false) &&
-                                                (valueOrDefault<bool>(
-                                                        currentUserDocument
-                                                            ?.isPilotoTest,
-                                                        false) ==
-                                                    false))
-                                              AuthUserStreamWidget(
-                                                builder: (context) => Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    if (valueOrDefault<bool>(
-                                                            currentUserDocument
-                                                                ?.isPremium,
-                                                            false) ==
-                                                        false)
-                                                      Text(
-                                                        FFLocalizations.of(
-                                                                context)
-                                                            .getText(
-                                                          'zzu7d454' /* La integración de cuentas banc... */,
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .accent1,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                      ),
-                                                    Container(
-                                                      width: double.infinity,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFE2E2E2),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                        ),
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
-                                                        ),
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                              'ipii2uoo' /* 🟢 Base (Gratis con anuncios) */,
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  fontSize:
-                                                                      17.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        10.0,
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0),
-                                                            child: Text(
-                                                              FFLocalizations.of(
-                                                                      context)
-                                                                  .getText(
-                                                                'c77uhlci' /* Empieza a tomar control de tu ... */,
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .roboto(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                          if ((valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isPremium,
-                                                                      false) ==
-                                                                  false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  true) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  false))
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                              child:
-                                                                  FFButtonWidget(
-                                                                onPressed: (valueOrDefault<bool>(
-                                                                            currentUserDocument?.isPremium,
-                                                                            false) ==
-                                                                        false)
-                                                                    ? null
-                                                                    : () {
-                                                                        print(
-                                                                            'Button pressed ...');
-                                                                      },
-                                                                text: FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'zvzbms8y' /* Actualizar a Base con Anuncios */,
-                                                                ),
-                                                                options:
-                                                                    FFButtonOptions(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 50.0,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  textStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Colors
-                                                                            .white,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontStyle,
-                                                                      ),
-                                                                  elevation:
-                                                                      0.0,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  true))
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .check_circle,
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  size: 24.0,
-                                                                ),
-                                                                Text(
-                                                                  FFLocalizations.of(
-                                                                          context)
-                                                                      .getText(
-                                                                    '7sobga8t' /* Plan Actual */,
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Color(
-                                                                            0xFF01654D),
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                ),
-                                                              ].divide(SizedBox(
-                                                                  width: 10.0)),
-                                                            ),
-                                                        ]
-                                                            .divide(SizedBox(
-                                                                height: 10.0))
-                                                            .addToStart(
-                                                                SizedBox(
-                                                                    height:
-                                                                        20.0))
-                                                            .addToEnd(SizedBox(
-                                                                height: 20.0)),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: double.infinity,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFF4FBDF),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                        ),
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
-                                                        ),
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        10.0,
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0),
-                                                            child: Text(
-                                                              FFLocalizations.of(
-                                                                      context)
-                                                                  .getText(
-                                                                'tboo4q1u' /* 🔵 Base (Sin anuncios) x $1.99... */,
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .roboto(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    fontSize:
-                                                                        17.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                          Align(
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    -1.0, 0.0),
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          10.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'vlo6fyf1' /* Misma potencia, sin distraccio... */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .roboto(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  true))
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                              child:
-                                                                  FFButtonWidget(
-                                                                onPressed: (valueOrDefault<bool>(
-                                                                            currentUserDocument?.isPremium,
-                                                                            false) ==
-                                                                        false)
-                                                                    ? null
-                                                                    : () {
-                                                                        print(
-                                                                            'Button pressed ...');
-                                                                      },
-                                                                text: FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'e1ubl1vf' /* Actualizar a Base sin Anuncios */,
-                                                                ),
-                                                                options:
-                                                                    FFButtonOptions(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 50.0,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  textStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Colors
-                                                                            .white,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontStyle,
-                                                                      ),
-                                                                  elevation:
-                                                                      0.0,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if ((valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isPremium,
-                                                                      false) ==
-                                                                  false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  true) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  false))
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .check_circle,
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  size: 24.0,
-                                                                ),
-                                                                Text(
-                                                                  FFLocalizations.of(
-                                                                          context)
-                                                                      .getText(
-                                                                    '5kk2lozp' /* Plan Actual */,
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Color(
-                                                                            0xFF01654D),
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                ),
-                                                              ].divide(SizedBox(
-                                                                  width: 10.0)),
-                                                            ),
-                                                        ]
-                                                            .divide(SizedBox(
-                                                                height: 10.0))
-                                                            .addToStart(
-                                                                SizedBox(
-                                                                    height:
-                                                                        20.0))
-                                                            .addToEnd(SizedBox(
-                                                                height: 20.0)),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width: double.infinity,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFFD6FBE1),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  10.0),
-                                                        ),
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
-                                                        ),
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        10.0,
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0),
-                                                            child: Text(
-                                                              FFLocalizations.of(
-                                                                      context)
-                                                                  .getText(
-                                                                '8f9b3uga' /* 🟣 Premium (Todas las funcione... */,
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .roboto(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    fontSize:
-                                                                        17.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                          Align(
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    -1.0, 0.0),
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          10.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  '34h5td7z' /* Sistema completo para construi... */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .roboto(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          if ((valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isPremium,
-                                                                      false) ==
-                                                                  false) ||
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  true) ||
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  true))
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                              child:
-                                                                  FFButtonWidget(
-                                                                onPressed: (valueOrDefault<bool>(
-                                                                            currentUserDocument?.isPremium,
-                                                                            false) ==
-                                                                        false)
-                                                                    ? null
-                                                                    : () {
-                                                                        print(
-                                                                            'Button pressed ...');
-                                                                      },
-                                                                text: FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'lnmha9od' /* Actualizar a Premium */,
-                                                                ),
-                                                                icon: FaIcon(
-                                                                  FontAwesomeIcons
-                                                                      .crown,
-                                                                  size: 15.0,
-                                                                ),
-                                                                options:
-                                                                    FFButtonOptions(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: 50.0,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  iconColor: Color(
-                                                                      0xFFF0B70F),
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  textStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Colors
-                                                                            .white,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .titleSmall
-                                                                            .fontStyle,
-                                                                      ),
-                                                                  elevation:
-                                                                      0.0,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          if ((valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isPremium,
-                                                                      false) ==
-                                                                  true) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasic,
-                                                                      false) ==
-                                                                  false) &&
-                                                              (valueOrDefault<
-                                                                          bool>(
-                                                                      currentUserDocument
-                                                                          ?.isBasicWhitAnunces,
-                                                                      false) ==
-                                                                  false))
-                                                            Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Icon(
-                                                                  Icons
-                                                                      .check_circle,
-                                                                  color: Color(
-                                                                      0xFF01654D),
-                                                                  size: 24.0,
-                                                                ),
-                                                                Text(
-                                                                  FFLocalizations.of(
-                                                                          context)
-                                                                      .getText(
-                                                                    'i2g712db' /* Plan Actual */,
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .roboto(
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        color: Color(
-                                                                            0xFF01654D),
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                ),
-                                                              ].divide(SizedBox(
-                                                                  width: 10.0)),
-                                                            ),
-                                                        ]
-                                                            .divide(SizedBox(
-                                                                height: 10.0))
-                                                            .addToStart(
-                                                                SizedBox(
-                                                                    height:
-                                                                        20.0))
-                                                            .addToEnd(SizedBox(
-                                                                height: 20.0)),
-                                                      ),
-                                                    ),
-                                                  ]
-                                                      .divide(SizedBox(
-                                                          height: 10.0))
-                                                      .addToStart(SizedBox(
-                                                          height: 20.0))
-                                                      .addToEnd(SizedBox(
-                                                          height: 20.0)),
-                                                ),
-                                              ),
                                             if ((valueOrDefault<bool>(
                                                         currentUserDocument
                                                             ?.isPremium,
@@ -9868,62 +8816,137 @@ All... */
                                                   ),
                                                 ),
                                               ),
-                                            if (valueOrDefault<bool>(
-                                                    currentUserDocument
-                                                        ?.isPilotoTest,
-                                                    false) ==
-                                                true)
+                                            if ((valueOrDefault<bool>(
+                                                        currentUserDocument
+                                                            ?.isBasicWhitAnunces,
+                                                        false) ==
+                                                    true) ||
+                                                (valueOrDefault<bool>(
+                                                        currentUserDocument
+                                                            ?.isBasic,
+                                                        false) ==
+                                                    true))
                                               AuthUserStreamWidget(
-                                                builder: (context) => RichText(
-                                                  textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
+                                                builder: (context) => Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    RichText(
+                                                      textScaler:
+                                                          MediaQuery.of(context)
+                                                              .textScaler,
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
                                                                 .getText(
-                                                          'bq7eyc8f' /* Funciones en desarrollo
-
- */
-                                                          ,
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .roboto(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                              ),
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
+                                                              'k0vslz1b' /* Estás utilizando la versión  b... */,
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .roboto(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
                                                                       .fontStyle,
-                                                            ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
+                                                                ),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
                                                                 .getText(
-                                                          'k0vslz1b' /* Estás utilizando la versión pi... */,
-                                                        ),
+                                                              't4slncj6' /* Cuentas Bancarias  */,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              'arq1y8hp' /* está disponible en la versión  */,
+                                                            ),
+                                                            style: TextStyle(),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              '765kgzuj' /* Premium
+
+ */
+                                                              ,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              '2ean90tj' /* Considera actualizar tu plan a... */,
+                                                            ),
+                                                            style: TextStyle(),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              '5l42ihgf' /* ¿Qué funciones trae esta herra... */,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 14.0,
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              'tnvafbcw' /* 1️⃣ 🔗 Todas tus cuentas en un... */,
+                                                            ),
+                                                            style: TextStyle(),
+                                                          ),
+                                                          TextSpan(
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              'guhd99at' /* * Funciones Premium */,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          )
+                                                        ],
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -9952,96 +8975,98 @@ All... */
                                                                       .fontStyle,
                                                                 ),
                                                       ),
-                                                      TextSpan(
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16.0,
+                                                                  0.0,
+                                                                  16.0,
+                                                                  0.0),
+                                                      child: FFButtonWidget(
+                                                        onPressed: (valueOrDefault<
+                                                                        bool>(
+                                                                    currentUserDocument
+                                                                        ?.isPremium,
+                                                                    false) ==
+                                                                false)
+                                                            ? null
+                                                            : () async {
+                                                                context.pushNamed(
+                                                                    SuscriptionsWidget
+                                                                        .routeName);
+                                                              },
                                                         text:
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                          't4slncj6' /* Cuentas Bancarias  */,
+                                                          'dk91l396' /* Actualizar Plan */,
                                                         ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'arq1y8hp' /* aún no está disponible  en est... */,
-                                                        ),
-                                                        style: TextStyle(),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '5l42ihgf' /* ¿Qué funciones trae esta herra... */,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 17.0,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'tnvafbcw' /* 1️⃣ 🔗 Todas tus cuentas en un... */,
-                                                        ),
-                                                        style: TextStyle(),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'guhd99at' /* * Funciones Premiums */,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font: GoogleFonts
-                                                              .roboto(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
+                                                        options:
+                                                            FFButtonOptions(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 50.0,
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      0.0,
+                                                                      16.0,
+                                                                      0.0),
+                                                          iconPadding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          color:
+                                                              Color(0xFF01654D),
+                                                          textStyle:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .roboto(
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: Colors
+                                                                        .white,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                          elevation: 0.0,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
                                                         ),
-                                                  ),
+                                                      ),
+                                                    ),
+                                                  ].divide(
+                                                      SizedBox(height: 25.0)),
                                                 ),
                                               ),
                                           ]
-                                              .divide(SizedBox(height: 10.0))
+                                              .divide(SizedBox(height: 15.0))
                                               .addToStart(
                                                   SizedBox(height: 20.0))
                                               .addToEnd(SizedBox(height: 20.0)),
@@ -10068,7 +9093,7 @@ All... */
                                               child: Text(
                                                 FFLocalizations.of(context)
                                                     .getText(
-                                                  'zwz9eivi' /* Metas Financieras */,
+                                                  'zwz9eivi' /* Gestión automática  */,
                                                 ),
                                                 style: FlutterFlowTheme.of(
                                                         context)
@@ -10100,777 +9125,6 @@ All... */
                                               ),
                                             ),
                                           ),
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.isPremium,
-                                                  false) ==
-                                              false)
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      20.0, 0.0, 20.0, 0.0),
-                                              child: AuthUserStreamWidget(
-                                                builder: (context) =>
-                                                    SingleChildScrollView(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      if ((valueOrDefault<bool>(
-                                                                  currentUserDocument
-                                                                      ?.isPremium,
-                                                                  false) ==
-                                                              false) &&
-                                                          (valueOrDefault<bool>(
-                                                                  currentUserDocument
-                                                                      ?.isPilotoTest,
-                                                                  false) ==
-                                                              false))
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            if (valueOrDefault<
-                                                                        bool>(
-                                                                    currentUserDocument
-                                                                        ?.isPremium,
-                                                                    false) ==
-                                                                false)
-                                                              Text(
-                                                                FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'w40fj3to' /* La creación y el monitoreo de ... */,
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .roboto(
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .accent1,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                              ),
-                                                            Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFE2E2E2),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                ),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                ),
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      '6e82svw1' /* 🟢 Base (Gratis con anuncios) */,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.roboto(
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          fontSize:
-                                                                              17.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            10.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        '7o2luogx' /* Empieza a tomar control de tu ... */,
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            font:
-                                                                                GoogleFonts.roboto(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          true) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          false))
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          FFButtonWidget(
-                                                                        onPressed: (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-                                                                                false)
-                                                                            ? null
-                                                                            : () {
-                                                                                print('Button pressed ...');
-                                                                              },
-                                                                        text: FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          'zcvbkuxs' /* Actualizar a Base con Anuncios */,
-                                                                        ),
-                                                                        options:
-                                                                            FFButtonOptions(
-                                                                          width:
-                                                                              double.infinity,
-                                                                          height:
-                                                                              50.0,
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              16.0,
-                                                                              0.0,
-                                                                              16.0,
-                                                                              0.0),
-                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                ),
-                                                                                color: Colors.white,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                              ),
-                                                                          elevation:
-                                                                              0.0,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(8.0),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          true))
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children:
-                                                                          [
-                                                                        Icon(
-                                                                          Icons
-                                                                              .check_circle,
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                        Text(
-                                                                          FFLocalizations.of(context)
-                                                                              .getText(
-                                                                            '66v0je5c' /* Plan Actual */,
-                                                                          ),
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                ),
-                                                                                color: Color(0xFF01654D),
-                                                                                fontSize: 16.0,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                        ),
-                                                                      ].divide(SizedBox(
-                                                                              width: 10.0)),
-                                                                    ),
-                                                                ]
-                                                                    .divide(SizedBox(
-                                                                        height:
-                                                                            10.0))
-                                                                    .addToStart(
-                                                                        SizedBox(
-                                                                            height:
-                                                                                20.0))
-                                                                    .addToEnd(SizedBox(
-                                                                        height:
-                                                                            20.0)),
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFF4FBDF),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                ),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                ),
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            10.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        'mwi23mxs' /* 🔵 Base (Sin anuncios) x $1.99... */,
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            font:
-                                                                                GoogleFonts.roboto(
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                            fontSize:
-                                                                                17.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                  Align(
-                                                                    alignment:
-                                                                        AlignmentDirectional(
-                                                                            -1.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          10.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Text(
-                                                                        FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          '8i8mqf61' /* Misma potencia, sin distraccio... */,
-                                                                        ),
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              font: GoogleFonts.roboto(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          true))
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          FFButtonWidget(
-                                                                        onPressed: (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-                                                                                false)
-                                                                            ? null
-                                                                            : () {
-                                                                                print('Button pressed ...');
-                                                                              },
-                                                                        text: FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          'tiu5cq25' /* Actualizar a Base sin Anuncios */,
-                                                                        ),
-                                                                        options:
-                                                                            FFButtonOptions(
-                                                                          width:
-                                                                              double.infinity,
-                                                                          height:
-                                                                              50.0,
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              16.0,
-                                                                              0.0,
-                                                                              16.0,
-                                                                              0.0),
-                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                ),
-                                                                                color: Colors.white,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                              ),
-                                                                          elevation:
-                                                                              0.0,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(8.0),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          true) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          false))
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children:
-                                                                          [
-                                                                        Icon(
-                                                                          Icons
-                                                                              .check_circle,
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                        Text(
-                                                                          FFLocalizations.of(context)
-                                                                              .getText(
-                                                                            'einhbqz6' /* Plan Actual */,
-                                                                          ),
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                ),
-                                                                                color: Color(0xFF01654D),
-                                                                                fontSize: 16.0,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                        ),
-                                                                      ].divide(SizedBox(
-                                                                              width: 10.0)),
-                                                                    ),
-                                                                ]
-                                                                    .divide(SizedBox(
-                                                                        height:
-                                                                            10.0))
-                                                                    .addToStart(
-                                                                        SizedBox(
-                                                                            height:
-                                                                                20.0))
-                                                                    .addToEnd(SizedBox(
-                                                                        height:
-                                                                            20.0)),
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFD6FBE1),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          10.0),
-                                                                ),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                ),
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            10.0,
-                                                                            0.0),
-                                                                    child: Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        'qyrwtvgv' /* 🟣 Premium (Todas las funcione... */,
-                                                                      ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            font:
-                                                                                GoogleFonts.roboto(
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                            fontSize:
-                                                                                17.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                  Align(
-                                                                    alignment:
-                                                                        AlignmentDirectional(
-                                                                            -1.0,
-                                                                            0.0),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          10.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          Text(
-                                                                        FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          '882w7a9g' /* Sistema completo para construi... */,
-                                                                        ),
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              font: GoogleFonts.roboto(
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                            ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == false) ||
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          true) ||
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          true))
-                                                                    Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          FFButtonWidget(
-                                                                        onPressed: (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
-                                                                                false)
-                                                                            ? null
-                                                                            : () {
-                                                                                print('Button pressed ...');
-                                                                              },
-                                                                        text: FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          'ez4qjo7z' /* Actualizar a Premium */,
-                                                                        ),
-                                                                        icon:
-                                                                            FaIcon(
-                                                                          FontAwesomeIcons
-                                                                              .crown,
-                                                                          size:
-                                                                              15.0,
-                                                                        ),
-                                                                        options:
-                                                                            FFButtonOptions(
-                                                                          width:
-                                                                              double.infinity,
-                                                                          height:
-                                                                              50.0,
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              16.0,
-                                                                              0.0,
-                                                                              16.0,
-                                                                              0.0),
-                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          iconColor:
-                                                                              Color(0xFFF0B70F),
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                                ),
-                                                                                color: Colors.white,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                                fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                              ),
-                                                                          elevation:
-                                                                              0.0,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(8.0),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  if ((valueOrDefault<bool>(currentUserDocument?.isPremium, false) == true) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.isBasic,
-                                                                              false) ==
-                                                                          false) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument?.isBasicWhitAnunces,
-                                                                              false) ==
-                                                                          false))
-                                                                    Row(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children:
-                                                                          [
-                                                                        Icon(
-                                                                          Icons
-                                                                              .check_circle,
-                                                                          color:
-                                                                              Color(0xFF01654D),
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                        Text(
-                                                                          FFLocalizations.of(context)
-                                                                              .getText(
-                                                                            'gc89j3u6' /* Plan Actual */,
-                                                                          ),
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .override(
-                                                                                font: GoogleFonts.roboto(
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                ),
-                                                                                color: Color(0xFF01654D),
-                                                                                fontSize: 16.0,
-                                                                                letterSpacing: 0.0,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                              ),
-                                                                        ),
-                                                                      ].divide(SizedBox(
-                                                                              width: 10.0)),
-                                                                    ),
-                                                                ]
-                                                                    .divide(SizedBox(
-                                                                        height:
-                                                                            10.0))
-                                                                    .addToStart(
-                                                                        SizedBox(
-                                                                            height:
-                                                                                20.0))
-                                                                    .addToEnd(SizedBox(
-                                                                        height:
-                                                                            20.0)),
-                                                              ),
-                                                            ),
-                                                          ]
-                                                              .divide(SizedBox(
-                                                                  height: 10.0))
-                                                              .addToStart(
-                                                                  SizedBox(
-                                                                      height:
-                                                                          20.0))
-                                                              .addToEnd(SizedBox(
-                                                                  height:
-                                                                      20.0)),
-                                                        ),
-                                                    ].divide(
-                                                        SizedBox(height: 10.0)),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
                                           if ((valueOrDefault<bool>(
                                                       currentUserDocument
                                                           ?.isPremium,
@@ -11132,84 +9386,158 @@ All... */
                                                 ),
                                               ),
                                             ),
-                                          if (valueOrDefault<bool>(
-                                                  currentUserDocument
-                                                      ?.isPilotoTest,
-                                                  false) ==
-                                              true)
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      20.0, 0.0, 20.0, 0.0),
-                                              child: AuthUserStreamWidget(
-                                                builder: (context) => RichText(
-                                                  textScaler:
-                                                      MediaQuery.of(context)
-                                                          .textScaler,
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
+                                          if ((valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isBasicWhitAnunces,
+                                                      false) ==
+                                                  true) ||
+                                              (valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isBasic,
+                                                      false) ==
+                                                  true))
+                                            AuthUserStreamWidget(
+                                              builder: (context) => Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  if (valueOrDefault<bool>(
+                                                          currentUserDocument
+                                                              ?.isPilotoTest,
+                                                          false) ==
+                                                      true)
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  20.0,
+                                                                  0.0,
+                                                                  20.0,
+                                                                  0.0),
+                                                      child: RichText(
+                                                        textScaler:
+                                                            MediaQuery.of(
                                                                     context)
-                                                                .getText(
-                                                          'wffpi2ou' /* Función en desarrollo
+                                                                .textScaler,
+                                                        text: TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'ge0r1rw8' /* Función en desarrollo
 
  */
-                                                          ,
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .roboto(
+                                                                ,
+                                                              ),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 22.0,
+                                                              ),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'g15ea4ig' /* La Gestión automática  */,
+                                                              ),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'vtu887va' /* estará disponible  en la versi... */,
+                                                              ),
+                                                              style:
+                                                                  TextStyle(),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'p9i0qvcg' /* Considera actualizar tu plan a... */,
+                                                              ),
+                                                              style:
+                                                                  TextStyle(),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'ra2f2yu2' /* ¿Qué aporta esta erramienta?
+
+ */
+                                                                ,
+                                                              ),
+                                                              style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
+                                                                fontSize: 14.0,
                                                               ),
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
                                                             ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '1l7i063l' /* Estás utilizando la versión pi... */,
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font: GoogleFonts
-                                                                      .roboto(
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'b4ts9m8c' /* 1️⃣ 🎯 Dirección clara del din... */,
+                                                              ),
+                                                              style:
+                                                                  TextStyle(),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                '4lc9672a' /* ¿Cómo funciona?
+
+ */
+                                                                ,
+                                                              ),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 16.0,
+                                                              ),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                '21hk7x9d' /* 1️⃣ Creas una meta
+Ej: carro, ... */
+                                                                ,
+                                                              ),
+                                                              style:
+                                                                  TextStyle(),
+                                                            ),
+                                                            TextSpan(
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'eivdta2n' /* * Funciones Premium */,
+                                                              ),
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            )
+                                                          ],
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .roboto(
                                                                   fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
@@ -11219,121 +9547,22 @@ All... */
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'g15ea4ig' /* Metas Financieras  */,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'vtu887va' /* aún no está disponible  en est... */,
-                                                        ),
-                                                        style: TextStyle(),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'ra2f2yu2' /* ¿Qué aporta esta funcionalidad... */,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16.0,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'b4ts9m8c' /* 1️⃣ 🎯 Dirección clara del din... */,
-                                                        ),
-                                                        style: TextStyle(),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '4lc9672a' /* ¿Cómo funciona?
-
- */
-                                                          ,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16.0,
-                                                        ),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '21hk7x9d' /* 1️⃣ Creas una meta
-Ej: carro, ... */
-                                                          ,
-                                                        ),
-                                                        style: TextStyle(),
-                                                      ),
-                                                      TextSpan(
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'eivdta2n' /* * Funciones Premiums */,
-                                                        ),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      )
-                                                    ],
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font: GoogleFonts
-                                                              .roboto(
-                                                            fontWeight:
-                                                                FlutterFlowTheme.of(
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .fontWeight,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
+                                                                fontStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .fontStyle,
-                                                          ),
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                                              ),
                                                         ),
-                                                  ),
-                                                ),
+                                                      ),
+                                                    ),
+                                                ].divide(
+                                                    SizedBox(height: 20.0)),
                                               ),
                                             ),
                                         ]
@@ -11435,242 +9664,30 @@ Ej: carro, ... */
                                               currentUserDocument?.isPremium,
                                               false) ==
                                           true) {
-                                        await Future.wait([
-                                          Future(() async {
-                                            _model.incomesPending1 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isIncome',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.chekingAccoun1 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isChequingAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.expensePending1 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isExpenses',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.savesAccoun1 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isSavingAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.savesPending1 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isSave',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.creditAccou1 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isCreditAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.internalPending1 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isInternalTransfer',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                          }),
-                                        ]);
-                                        FFAppState().sumIncomPending = functions
-                                            .sum(_model.incomesPending1!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumExpePending = functions
-                                            .sum(_model.expensePending1!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumSavePending =
-                                            functions.sum(_model.savesPending1!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumChekAccount =
-                                            functions.sum(_model.chekingAccoun1!
-                                                .map((e) => e.availableBalance)
-                                                .toList());
-                                        FFAppState().sumSaveAccount =
-                                            functions.sum(_model.savesAccoun1!
-                                                .map((e) => e.availableBalance)
-                                                .toList());
-                                        FFAppState().sumCreditAccount =
-                                            functions.sum(_model.creditAccou1!
-                                                .map((e) => e.currentBalance)
-                                                .toList());
-                                        FFAppState().sumInternalPendings =
-                                            functions.sum(_model
-                                                .internalPending!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        safeSetState(() {});
-                                        FFAppState().sumPendings =
-                                            (FFAppState().sumIncomPending -
-                                                FFAppState().sumExpePending);
-                                        FFAppState().sumBankBalan =
-                                            (FFAppState().sumChekAccount +
-                                                FFAppState().sumSaveAccount -
-                                                FFAppState().sumCreditAccount);
-                                        safeSetState(() {});
-                                        FFAppState().cashFlowProyected =
-                                            (FFAppState().sumPendings +
-                                                    FFAppState().sumBankBalan) +
-                                                (FFAppState()
-                                                        .sumInternalPendings /
-                                                    2);
-                                        safeSetState(() {});
+                                        unawaited(
+                                          () async {
+                                            try {
+                                              final result = await FirebaseFunctions
+                                                      .instanceFor(
+                                                          region: 'us-central1')
+                                                  .httpsCallable(
+                                                      'goldAdvisorDailyBriefV2')
+                                                  .call({
+                                                "forceRefresh": false,
+                                              });
+                                              _model.welcome =
+                                                  GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                                                succeeded: true,
+                                              );
+                                            } on FirebaseFunctionsException catch (error) {
+                                              _model.welcome =
+                                                  GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                                                errorCode: error.code,
+                                                succeeded: false,
+                                              );
+                                            }
+                                          }(),
+                                        );
                                       } else {
                                         await Future.wait([
                                           Future(() async {
@@ -11801,242 +9818,30 @@ Ej: carro, ... */
                                               currentUserDocument?.isPremium,
                                               false) ==
                                           true) {
-                                        await Future.wait([
-                                          Future(() async {
-                                            _model.incomesPending2 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isIncome',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.chekingAccoun2 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isChequingAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.expensePending2 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isExpenses',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.savesAccoun2 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isSavingAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.savesPending2 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isSave',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                            _model.creditAccou2 =
-                                                await queryBankAccountsRecordOnce(
-                                              queryBuilder:
-                                                  (bankAccountsRecord) =>
-                                                      bankAccountsRecord
-                                                          .where(
-                                                            'userRef',
-                                                            isEqualTo:
-                                                                currentUserReference,
-                                                          )
-                                                          .where(
-                                                            'isCreditAccount',
-                                                            isEqualTo: true,
-                                                          ),
-                                            );
-                                          }),
-                                          Future(() async {
-                                            _model.internalPending2 =
-                                                await queryDocumentsRecordOnce(
-                                              queryBuilder: (documentsRecord) =>
-                                                  documentsRecord
-                                                      .where(
-                                                        'userRef',
-                                                        isEqualTo:
-                                                            currentUserReference,
-                                                      )
-                                                      .where(
-                                                        'isInternalTransfer',
-                                                        isEqualTo: true,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isGreaterThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .firstOrNull,
-                                                      )
-                                                      .where(
-                                                        'occurrenceKey',
-                                                        isLessThanOrEqualTo:
-                                                            functions
-                                                                .monthBoundaries(
-                                                                    getCurrentTimestamp)
-                                                                .lastOrNull,
-                                                      )
-                                                      .where(
-                                                        'isPending',
-                                                        isEqualTo: true,
-                                                      ),
-                                            );
-                                          }),
-                                        ]);
-                                        FFAppState().sumIncomPending = functions
-                                            .sum(_model.incomesPending2!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumExpePending = functions
-                                            .sum(_model.expensePending2!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumSavePending =
-                                            functions.sum(_model.savesPending2!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        FFAppState().sumChekAccount =
-                                            functions.sum(_model.chekingAccoun2!
-                                                .map((e) => e.availableBalance)
-                                                .toList());
-                                        FFAppState().sumSaveAccount =
-                                            functions.sum(_model.savesAccoun2!
-                                                .map((e) => e.availableBalance)
-                                                .toList());
-                                        FFAppState().sumCreditAccount =
-                                            functions.sum(_model.creditAccou2!
-                                                .map((e) => e.currentBalance)
-                                                .toList());
-                                        FFAppState().sumInternalPendings =
-                                            functions.sum(_model
-                                                .internalPending!
-                                                .map((e) => e.amount)
-                                                .toList());
-                                        safeSetState(() {});
-                                        FFAppState().sumPendings =
-                                            (FFAppState().sumIncomPending -
-                                                FFAppState().sumExpePending);
-                                        FFAppState().sumBankBalan =
-                                            (FFAppState().sumChekAccount +
-                                                FFAppState().sumSaveAccount -
-                                                FFAppState().sumCreditAccount);
-                                        safeSetState(() {});
-                                        FFAppState().cashFlowProyected =
-                                            (FFAppState().sumPendings +
-                                                    FFAppState().sumBankBalan) +
-                                                (FFAppState()
-                                                        .sumInternalPendings /
-                                                    2);
-                                        safeSetState(() {});
+                                        unawaited(
+                                          () async {
+                                            try {
+                                              final result = await FirebaseFunctions
+                                                      .instanceFor(
+                                                          region: 'us-central1')
+                                                  .httpsCallable(
+                                                      'goldAdvisorDailyBriefV2')
+                                                  .call({
+                                                "forceRefresh": false,
+                                              });
+                                              _model.welcomi =
+                                                  GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                                                succeeded: true,
+                                              );
+                                            } on FirebaseFunctionsException catch (error) {
+                                              _model.welcomi =
+                                                  GoldAdvisorDailyBriefV2CloudFunctionCallResponse(
+                                                errorCode: error.code,
+                                                succeeded: false,
+                                              );
+                                            }
+                                          }(),
+                                        );
                                       } else {
                                         await Future.wait([
                                           Future(() async {

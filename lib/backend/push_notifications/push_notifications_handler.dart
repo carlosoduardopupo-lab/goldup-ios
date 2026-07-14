@@ -128,6 +128,8 @@ final parametersBuilderMap =
       ),
   'welcome': ParameterData.none(),
   'recurrentes': ParameterData.none(),
+  'ChatIA': ParameterData.none(),
+  'suscriptions': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

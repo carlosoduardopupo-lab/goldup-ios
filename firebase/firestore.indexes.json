@@ -85,6 +85,32 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isPending",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "isPending",
           "order": "ASCENDING"
         },
@@ -163,7 +189,7 @@
       ]
     },
     {
-      "collectionGroup": "documents",
+      "collectionGroup": "chatsIA",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -171,59 +197,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "isIncome",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isPending",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "occurrenceKey",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "documents",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "userRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isSave",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isPending",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "occurrenceKey",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "documents",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "userRef",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isInternalTransfer",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "isPending",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "occurrenceKey",
+          "fieldPath": "createdAt",
           "order": "ASCENDING"
         }
       ]

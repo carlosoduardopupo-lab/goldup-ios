@@ -886,7 +886,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                         ),
                         Text(
                           FFLocalizations.of(context).getText(
-                            'gjcwjsz6' /* Evento recurrente */,
+                            'gjcwjsz6' /* Este evento es recurrente */,
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
@@ -1530,6 +1530,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                       occurrenceKey:
                                           functions.dateToOccurrenceKey(
                                               widget!.docDocument!.date),
+                                      isRealTransaction: false,
                                     ),
                                     ...mapToFirestore(
                                       {
@@ -1623,6 +1624,7 @@ class _EditarEventoWidgetState extends State<EditarEventoWidget> {
                                       occurrenceKey:
                                           functions.dateToOccurrenceKey(
                                               widget!.docDocument!.date),
+                                      isRealTransaction: false,
                                     ),
                                     ...mapToFirestore(
                                       {

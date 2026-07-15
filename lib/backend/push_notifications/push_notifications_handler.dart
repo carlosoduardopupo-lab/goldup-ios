@@ -118,7 +118,6 @@ final parametersBuilderMap =
   'Home': ParameterData.none(),
   'Auth2': ParameterData.none(),
   'sett': ParameterData.none(),
-  'Planes': ParameterData.none(),
   'operations': (data) async => ParameterData(
         allParams: {
           'plaidAccountId': getParameter<String>(data, 'plaidAccountId'),

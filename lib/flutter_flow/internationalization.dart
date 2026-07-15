@@ -661,71 +661,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Home',
     },
   },
-  // Planes
-  {
-    'g8wcoax1': {
-      'es': 'Planes',
-      'en': 'Plans',
-    },
-    '1n12gzth': {
-      'es': '🟢 Base (Gratis con anuncios)',
-      'en': '🟢 Base (Free with ads)',
-    },
-    'zr3armsj': {
-      'es':
-          'Empieza a tomar control de tu dinero\n\n📅 Añadir eventos financieros manualmente (ingresos, gastos, ahorros)\n\n🗓️ Gestión completa desde el calendario\n\n✏️ Edición y eliminación limitada (afecta todas las recurrencias)\n\n📊 Hoja de balance del mes actual\n\n📈 Pronóstico básico de flujo de ingresos\n\n🧾 Visualización de facturas pendientes y pagadas\n\n🔔 Notificaciones predeterminadas (72h y mismo día)\n\n📢 Incluye anuncios',
-      'en':
-          'Start taking control of your money\n\n📅 Add financial events manually (income, expenses, savings)\n\n🗓️ Complete management from the calendar\n\n✏️ Limited editing and deletion (affects all recurring events)\n\n📊 Current month balance sheet\n\n📈 Basic income flow forecast\n\n🧾 View outstanding and paid invoices\n\n🔔 Default notifications (72 hours and same day)\n\n📢 Includes ads',
-    },
-    '8yr46qoo': {
-      'es': 'Actualizar a Base con Anuncios',
-      'en': 'Upgrade to Base with Ads',
-    },
-    'cofn2o5a': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'lhre3ndz': {
-      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
-      'en': '🔵 Base (No ads) x \$1.99 per month',
-    },
-    'sd39jhmn': {
-      'es':
-          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
-      'en':
-          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
-    },
-    'ux0fy8w3': {
-      'es': 'Actualizar a Base sin Anuncios',
-      'en': 'Upgrade to Ad-Free Base',
-    },
-    'cbbcmbe6': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'n8b3fnxc': {
-      'es': '🟣 Premium (Todas las funciones) x \$9.99 al mes',
-      'en': '🟣 Premium (All features) x \$9.99 per month',
-    },
-    'm67sp4zs': {
-      'es':
-          'Sistema completo para construir riqueza\n\n✅ Todo lo incluido en la versión Base mas:\n\n🔗 Vinculación con cuentas bancarias externas\n\n💳 Visualización de balance total (bancos + tarjetas)\n\n📅 Edición y eliminación de eventos independientes\n\n🔔 Notificaciones personalizadas (24h, 48h, 72h, 96h)\n\n📈 Flujo de efectivo anual\n\n💰 Pronóstico anual de ingresos, gastos y ahorros\n\n🎯 Creación y monitoreo de metas financieras\n\n🧠 Control financiero avanzado y automatizado',
-      'en':
-          'Complete Wealth Building System\n\n✅ Everything included in the Base version plus:\n\n🔗 Linking with external bank accounts\n\n💳 Total balance view (banks + cards)\n\n📅 Editing and deleting individual transactions\n\n🔔 Custom notifications (24h, 48h, 72h, 96h)\n\n📈 Annual cash flow\n\n💰 Annual forecast of income, expenses, and savings\n\n🎯 Creation and monitoring of financial goals\n\n🧠 Advanced and automated financial control',
-    },
-    'srs3xf4m': {
-      'es': 'Actualizar a Premium',
-      'en': 'Upgrade to Premium',
-    },
-    'd76ouv8s': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
-    'dmfm3rh3': {
-      'es': 'Home',
-      'en': 'Home',
-    },
-  },
   // operations
   {
     'g4fvdlv8': {
@@ -827,24 +762,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Plan Actual',
       'en': 'Current Plan',
     },
-    '5lelg3oa': {
-      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
-      'en': '🔵 Base (No ads) x \$1.99 per month',
-    },
-    'ks4te4ru': {
-      'es':
-          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
-      'en':
-          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
-    },
-    'glnrerc7': {
-      'es': 'Actualizar a Base sin Anuncios',
-      'en': 'Upgrade to Ad-Free Base',
-    },
-    'lk8muxde': {
-      'es': 'Plan Actual',
-      'en': 'Current Plan',
-    },
     'osngkhyj': {
       'es': '🟢 Base (Gratis con anuncios)',
       'en': '🟢 Base (Free with ads)',
@@ -860,6 +777,24 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Upgrade to Base with Ads',
     },
     'z6v4f02x': {
+      'es': 'Plan Actual',
+      'en': 'Current Plan',
+    },
+    'dt841t2y': {
+      'es': '🔵 Base (Sin anuncios) x \$1.99 al mes ',
+      'en': '🔵 Base (No ads) x \$1.99 per month',
+    },
+    '8tr3fqoy': {
+      'es':
+          'Misma potencia, sin distracciones\n\n✅ Todo lo incluido en la versión Base\n\n🚫 Sin anuncios\n\n⚡ Experiencia más limpia y rápida',
+      'en':
+          'Same power, no distractions\n\n✅ Everything included in the Base version\n\n🚫 No ads\n\n⚡ Cleaner, faster experience',
+    },
+    'rw3imh6z': {
+      'es': 'Actualizar a Base sin Anuncios',
+      'en': 'Upgrade to Ad-Free Base',
+    },
+    'iwclokxu': {
       'es': 'Plan Actual',
       'en': 'Current Plan',
     },

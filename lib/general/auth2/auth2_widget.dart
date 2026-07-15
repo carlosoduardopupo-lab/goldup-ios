@@ -946,6 +946,8 @@ class _Auth2WidgetState extends State<Auth2Widget>
                                                                 false,
                                                             isCreditScoreSet:
                                                                 false,
+                                                            isPlanSelected:
+                                                                false,
                                                           ));
                                                           FFAppState()
                                                                   .isCalendarSet =

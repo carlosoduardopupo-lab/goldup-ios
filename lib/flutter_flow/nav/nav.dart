@@ -110,11 +110,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SettWidget(),
         ),
         FFRoute(
-          name: PlanesWidget.routeName,
-          path: PlanesWidget.routePath,
-          builder: (context, params) => PlanesWidget(),
-        ),
-        FFRoute(
           name: OperationsWidget.routeName,
           path: OperationsWidget.routePath,
           asyncParams: {

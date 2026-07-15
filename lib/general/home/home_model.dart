@@ -27,6 +27,7 @@ import '/tarjetas/metascard/metascard_widget.dart';
 import 'dart:async';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'home_widget.dart' show HomeWidget;

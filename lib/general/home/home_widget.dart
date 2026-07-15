@@ -622,14 +622,23 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                               [
                                                                             if (valueOrDefault<bool>(currentUserDocument?.isPremium, false) ==
                                                                                 true)
-                                                                              custom_widgets.TypewriterText(
-                                                                                width: double.infinity,
-                                                                                height: 1.0,
-                                                                                text: valueOrDefault<String>(
-                                                                                  valueOrDefault(currentUserDocument?.dailyBrief, ''),
-                                                                                  'brif',
+                                                                              InkWell(
+                                                                                splashColor: Colors.transparent,
+                                                                                focusColor: Colors.transparent,
+                                                                                hoverColor: Colors.transparent,
+                                                                                highlightColor: Colors.transparent,
+                                                                                onTap: () async {
+                                                                                  context.pushNamed(ChatIAWidget.routeName);
+                                                                                },
+                                                                                child: custom_widgets.TypewriterText(
+                                                                                  width: double.infinity,
+                                                                                  height: 1.0,
+                                                                                  text: valueOrDefault<String>(
+                                                                                    valueOrDefault(currentUserDocument?.dailyBrief, ''),
+                                                                                    'brif',
+                                                                                  ),
+                                                                                  speed: 15,
                                                                                 ),
-                                                                                speed: 15,
                                                                               ),
                                                                             Align(
                                                                               alignment: AlignmentDirectional(-1.0, 0.0),

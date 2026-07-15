@@ -9,30 +9,6 @@ const kThemeModeKey = '__theme_mode__';
 
 SharedPreferences? _prefs;
 
-
-TextStyle safeRoboto({
-  Color? color,
-  FontWeight? fontWeight,
-  double? fontSize,
-  double? letterSpacing,
-  FontStyle? fontStyle,
-  TextDecoration? decoration,
-  double? height,
-  List<Shadow>? shadows,
-}) {
-  return TextStyle(
-    fontFamily: 'Roboto',
-    color: color,
-    fontWeight: fontWeight,
-    fontSize: fontSize,
-    letterSpacing: letterSpacing,
-    fontStyle: fontStyle,
-    decoration: decoration,
-    height: height,
-    shadows: shadows,
-  );
-}
-
 abstract class FlutterFlowTheme {
   static Future initialize() async =>
       _prefs = await SharedPreferences.getInstance();
@@ -253,105 +229,105 @@ class ThemeTypography extends Typography {
 
   String get displayLargeFamily => 'Roboto';
   bool get displayLargeIsCustom => false;
-  TextStyle get displayLarge => safeRoboto(
+  TextStyle get displayLarge => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 57.0,
       );
   String get displayMediumFamily => 'Roboto';
   bool get displayMediumIsCustom => false;
-  TextStyle get displayMedium => safeRoboto(
+  TextStyle get displayMedium => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 45.0,
       );
   String get displaySmallFamily => 'Roboto';
   bool get displaySmallIsCustom => false;
-  TextStyle get displaySmall => safeRoboto(
+  TextStyle get displaySmall => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 32.0,
       );
   String get headlineLargeFamily => 'Roboto';
   bool get headlineLargeIsCustom => false;
-  TextStyle get headlineLarge => safeRoboto(
+  TextStyle get headlineLarge => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 32.0,
       );
   String get headlineMediumFamily => 'Roboto';
   bool get headlineMediumIsCustom => false;
-  TextStyle get headlineMedium => safeRoboto(
+  TextStyle get headlineMedium => GoogleFonts.roboto(
         color: theme.primary,
         fontWeight: FontWeight.w500,
         fontSize: 28.0,
       );
   String get headlineSmallFamily => 'Roboto';
   bool get headlineSmallIsCustom => false;
-  TextStyle get headlineSmall => safeRoboto(
+  TextStyle get headlineSmall => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 20.0,
       );
   String get titleLargeFamily => 'Roboto';
   bool get titleLargeIsCustom => false;
-  TextStyle get titleLarge => safeRoboto(
+  TextStyle get titleLarge => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
   String get titleMediumFamily => 'Roboto';
   bool get titleMediumIsCustom => false;
-  TextStyle get titleMedium => safeRoboto(
+  TextStyle get titleMedium => GoogleFonts.roboto(
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 18.0,
       );
   String get titleSmallFamily => 'Roboto';
   bool get titleSmallIsCustom => false;
-  TextStyle get titleSmall => safeRoboto(
+  TextStyle get titleSmall => GoogleFonts.roboto(
         color: theme.alternate,
         fontWeight: FontWeight.normal,
         fontSize: 18.0,
       );
   String get labelLargeFamily => 'Roboto';
   bool get labelLargeIsCustom => false;
-  TextStyle get labelLarge => safeRoboto(
+  TextStyle get labelLarge => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
   String get labelMediumFamily => 'Roboto';
   bool get labelMediumIsCustom => false;
-  TextStyle get labelMedium => safeRoboto(
+  TextStyle get labelMedium => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
   String get labelSmallFamily => 'Roboto';
   bool get labelSmallIsCustom => false;
-  TextStyle get labelSmall => safeRoboto(
+  TextStyle get labelSmall => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 11.0,
       );
   String get bodyLargeFamily => 'Roboto';
   bool get bodyLargeIsCustom => false;
-  TextStyle get bodyLarge => safeRoboto(
+  TextStyle get bodyLarge => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
   String get bodyMediumFamily => 'Roboto';
   bool get bodyMediumIsCustom => false;
-  TextStyle get bodyMedium => safeRoboto(
+  TextStyle get bodyMedium => GoogleFonts.roboto(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
   String get bodySmallFamily => 'Roboto';
   bool get bodySmallIsCustom => false;
-  TextStyle get bodySmall => safeRoboto(
+  TextStyle get bodySmall => GoogleFonts.roboto(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,

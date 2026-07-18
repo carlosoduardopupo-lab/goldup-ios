@@ -10,6 +10,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
 import 'dart:ui';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:collection/collection.dart';
@@ -651,6 +652,9 @@ class _ChatIAWidgetState extends State<ChatIAWidget>
                               _model.chatIsStarted = true;
                               _model.text = _model.textController.text;
                               safeSetState(() {});
+                              await actions.removeFocus(
+                                context,
+                              );
                               safeSetState(() {
                                 _model.textController?.clear();
                               });

@@ -325,58 +325,76 @@ class _ChatIAWidgetState extends State<ChatIAWidget>
                                         hoverColor: Colors.transparent,
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
-                                          _model.isLoading = true;
-                                          _model.chatIsStarted = true;
-                                          safeSetState(() {});
-                                          safeSetState(() {
-                                            _model.textController?.clear();
-                                          });
-                                          try {
-                                            final result =
-                                                await FirebaseFunctions
-                                                        .instanceFor(
-                                                            region:
-                                                                'us-central1')
-                                                    .httpsCallable(
-                                                        'askGoldAdvisorV2')
-                                                    .call({
-                                              "question":
-                                                  columnChatsIARecord.text,
+                                          if (columnChatsIARecord
+                                                  .isSuggestion ==
+                                              true) {
+                                            _model.isLoading = true;
+                                            _model.chatIsStarted = true;
+                                            safeSetState(() {});
+                                            safeSetState(() {
+                                              _model.textController?.clear();
                                             });
-                                            _model.cloudFunctionlek3 =
-                                                AskGoldAdvisorV2CloudFunctionCallResponse(
-                                              data: result.data,
-                                              succeeded: true,
-                                              resultAsString:
-                                                  result.data.toString(),
-                                              jsonBody: result.data,
-                                            );
-                                          } on FirebaseFunctionsException catch (error) {
-                                            _model.cloudFunctionlek3 =
-                                                AskGoldAdvisorV2CloudFunctionCallResponse(
-                                              errorCode: error.code,
-                                              succeeded: false,
-                                            );
-                                          }
+                                            try {
+                                              final result =
+                                                  await FirebaseFunctions
+                                                          .instanceFor(
+                                                              region:
+                                                                  'us-central1')
+                                                      .httpsCallable(
+                                                          'askGoldAdvisorV2')
+                                                      .call({
+                                                "question":
+                                                    columnChatsIARecord.text,
+                                              });
+                                              _model.cloudFunctionlek3 =
+                                                  AskGoldAdvisorV2CloudFunctionCallResponse(
+                                                data: result.data,
+                                                succeeded: true,
+                                                resultAsString:
+                                                    result.data.toString(),
+                                                jsonBody: result.data,
+                                              );
+                                            } on FirebaseFunctionsException catch (error) {
+                                              _model.cloudFunctionlek3 =
+                                                  AskGoldAdvisorV2CloudFunctionCallResponse(
+                                                errorCode: error.code,
+                                                succeeded: false,
+                                              );
+                                            }
 
-                                          if (_model
-                                              .cloudFunctionlek3!.succeeded!) {
-                                            _model.isLoading = false;
-                                            safeSetState(() {});
-                                          } else {
-                                            _model.isLoading = false;
-                                            safeSetState(() {});
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  '\"Ocurrió un error. Intenta de nuevo.\"',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleMedium
-                                                      .override(
-                                                        font:
-                                                            GoogleFonts.roboto(
+                                            if (_model.cloudFunctionlek3!
+                                                .succeeded!) {
+                                              _model.isLoading = false;
+                                              safeSetState(() {});
+                                            } else {
+                                              _model.isLoading = false;
+                                              safeSetState(() {});
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    '\"Ocurrió un error. Intenta de nuevo.\"',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .titleMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .roboto(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .alternate,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FlutterFlowTheme.of(
                                                                       context)
@@ -388,30 +406,16 @@ class _ChatIAWidgetState extends State<ChatIAWidget>
                                                                   .titleMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleMedium
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleMedium
-                                                                .fontStyle,
-                                                      ),
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondary,
                                                 ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                              ),
-                                            );
+                                              );
+                                            }
                                           }
 
                                           safeSetState(() {});

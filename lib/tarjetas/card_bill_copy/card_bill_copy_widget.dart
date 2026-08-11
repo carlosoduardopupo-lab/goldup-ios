@@ -3,8 +3,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'card_bill_copy_model.dart';
@@ -140,39 +142,47 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: AlignmentDirectional(-1.0, -1.0),
-                                  child: Container(
-                                    width: 186.0,
-                                    decoration: BoxDecoration(),
-                                    child: Text(
-                                      valueOrDefault<String>(
-                                        widget!.docDocument?.type,
-                                        'type',
-                                      ),
-                                      maxLines: 2,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .accent1,
-                                            fontSize: 14.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-1.0, -1.0),
+                                      child: Container(
+                                        width: 186.0,
+                                        decoration: BoxDecoration(),
+                                        child: Text(
+                                          valueOrDefault<String>(
+                                            widget!.docDocument?.type,
+                                            'type',
                                           ),
+                                          maxLines: 2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.roboto(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent1,
+                                                fontSize: 14.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                                 if (widget!.docDocument?.accountName != null &&
                                     widget!.docDocument?.accountName != '')
@@ -282,6 +292,36 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 5.0, 0.0),
+                                  child: Text(
+                                    dateTimeFormat(
+                                      "MMMMEEEEd",
+                                      functions.stringToDateTime(
+                                          widget!.docDocument?.date),
+                                      locale: FFLocalizations.of(context)
+                                          .languageCode,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.w500,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ),
                                 if (widget!.docDocument?.isEvent == false)
                                   Align(
                                     alignment: AlignmentDirectional(0.0, -1.0),
@@ -305,7 +345,7 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                                       .bodyMedium
                                                       .fontStyle,
                                             ),
-                                            fontSize: 25.0,
+                                            fontSize: 22.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
                                             fontStyle:
@@ -316,6 +356,18 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                                     ),
                                   ),
                               ],
+                            ),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional(0.0, 1.0),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 5.0, 5.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [],
+                              ),
                             ),
                           ),
                         ],
@@ -360,48 +412,47 @@ class _CardBillCopyWidgetState extends State<CardBillCopyWidget> {
                   ],
                 ),
               ),
-              if ((widget!.docDocument?.source == 'plaid') &&
-                  (widget!.docDocument?.isRecurrent == true))
-                Align(
-                  alignment: AlignmentDirectional(1.0, -1.0),
-                  child: Container(
-                    width: 100.0,
-                    height: 18.3,
-                    decoration: BoxDecoration(
-                      color: Color(0xC0373948),
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10.0),
-                        bottomLeft: Radius.circular(10.0),
-                      ),
-                    ),
-                    child: Align(
-                      alignment: AlignmentDirectional(0.0, -1.0),
-                      child: Text(
-                        FFLocalizations.of(context).getText(
-                          '8mzduo3s' /* Recurrente */,
+              Align(
+                alignment: AlignmentDirectional(0.0, 1.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 5.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if ((widget!.docDocument?.source == 'plaid') &&
+                          (widget!.docDocument?.isRecurrent == true))
+                        FaIcon(
+                          FontAwesomeIcons.retweet,
+                          color: Color(0xC5FD0505),
+                          size: 19.0,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.roboto(
-                                fontWeight: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontWeight,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              color: FlutterFlowTheme.of(context).alternate,
-                              letterSpacing: 0.0,
-                              fontWeight: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontWeight,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                      ),
-                    ),
+                      if ((widget!.docDocument?.isRealTransaction == true) &&
+                              (widget!.docDocument?.isPending == true)
+                          ? true
+                          : false)
+                        FaIcon(
+                          FontAwesomeIcons.parking,
+                          color: Color(0xC7052FD4),
+                          size: 19.0,
+                        ),
+                      if ((widget!.docDocument?.isRealTransaction == true) &&
+                              (widget!.docDocument?.isPending == false)
+                          ? true
+                          : false)
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 5.0, 0.0),
+                          child: Icon(
+                            Icons.stars_sharp,
+                            color: Color(0xC704611A),
+                            size: 20.0,
+                          ),
+                        ),
+                    ].divide(SizedBox(width: 5.0)),
                   ),
                 ),
+              ),
             ],
           ),
         ),

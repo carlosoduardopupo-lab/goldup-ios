@@ -21,6 +21,7 @@ List<CalendarDayStruct> getCalendarForMonth(
   List<bool>? docIsSave,
   List<bool>? docIsExpense,
   List<bool>? docIsInternalTransfer,
+  List<bool>? docIsRemoved,
 ) {
   final DateTime baseDate = DateTime(
     inputDate.year,
@@ -34,6 +35,7 @@ List<CalendarDayStruct> getCalendarForMonth(
   final List<bool?> saves = docIsSave ?? <bool?>[];
   final List<bool?> expenses = docIsExpense ?? <bool?>[];
   final List<bool?> internalTransfers = docIsInternalTransfer ?? <bool?>[];
+  final List<bool?> removed = docIsRemoved ?? <bool?>[];
 
   String dayKey(DateTime d) {
     return '${d.year.toString().padLeft(4, '0')}-'
@@ -55,6 +57,11 @@ List<CalendarDayStruct> getCalendarForMonth(
   final Set<String> internalTransferDays = <String>{};
 
   for (int i = 0; i < n; i++) {
+    // Saltar documentos removidos — no deben pintar puntos en el calendario.
+    // Se usa == true (no la lista para el mínimo n) para tolerar listas de
+    // removed más cortas o con nulls: si el flag no existe, el doc se muestra.
+    if (i < removed.length && removed[i] == true) continue;
+
     final String key = dates[i];
 
     if (incomes[i] == true) incomeDays.add(key);

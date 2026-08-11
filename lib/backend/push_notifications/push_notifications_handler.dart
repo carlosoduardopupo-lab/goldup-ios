@@ -129,6 +129,9 @@ final parametersBuilderMap =
   'recurrentes': ParameterData.none(),
   'ChatIA': ParameterData.none(),
   'suscriptions': ParameterData.none(),
+  'filtrop': (data) async => ParameterData(
+        allParams: <String, dynamic>{},
+      ),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'card_billvencido_model.dart';
@@ -163,14 +164,6 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                                   ),
                             ),
                           ),
-                          if (widget!.docDocumen?.isRealTransaction == true
-                              ? true
-                              : false)
-                            Icon(
-                              Icons.stars_sharp,
-                              color: FlutterFlowTheme.of(context).accent1,
-                              size: 20.0,
-                            ),
                         ],
                       ),
                     ],
@@ -238,6 +231,37 @@ class _CardBillvencidoWidgetState extends State<CardBillvencidoWidget> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional(0.0, 1.0),
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 5.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if ((widget!.docDocumen?.source == 'plaid') &&
+                      (widget!.docDocumen?.isRealTransaction == true))
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 0.0),
+                      child: FaIcon(
+                        FontAwesomeIcons.retweet,
+                        color: Color(0xFF4D4D4D),
+                        size: 20.0,
+                      ),
+                    ),
+                  if (widget!.docDocumen?.isRealTransaction == true
+                      ? true
+                      : false)
+                    Icon(
+                      Icons.stars_sharp,
+                      color: Color(0xC4353434),
+                      size: 22.0,
+                    ),
+                ],
+              ),
             ),
           ),
         ],

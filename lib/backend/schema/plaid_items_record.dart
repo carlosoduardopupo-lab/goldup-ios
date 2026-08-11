@@ -101,6 +101,11 @@ class PlaidItemsRecord extends FirestoreRecord {
   bool get needsSync => _needsSync ?? false;
   bool hasNeedsSync() => _needsSync != null;
 
+  // "institutionLogo" field.
+  String? _institutionLogo;
+  String get institutionLogo => _institutionLogo ?? '';
+  bool hasInstitutionLogo() => _institutionLogo != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _createdAt = snapshotData['createdAt'] as DateTime?;
@@ -119,6 +124,7 @@ class PlaidItemsRecord extends FirestoreRecord {
     _needsAttention = snapshotData['needsAttention'] as bool?;
     _needsBalanceRefresh = snapshotData['needsBalanceRefresh'] as bool?;
     _needsSync = snapshotData['needsSync'] as bool?;
+    _institutionLogo = snapshotData['institutionLogo'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -173,6 +179,7 @@ Map<String, dynamic> createPlaidItemsRecordData({
   bool? needsAttention,
   bool? needsBalanceRefresh,
   bool? needsSync,
+  String? institutionLogo,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -193,6 +200,7 @@ Map<String, dynamic> createPlaidItemsRecordData({
       'needsAttention': needsAttention,
       'needsBalanceRefresh': needsBalanceRefresh,
       'needsSync': needsSync,
+      'institutionLogo': institutionLogo,
     }.withoutNulls,
   );
 
@@ -220,7 +228,8 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e1?.updatedAt == e2?.updatedAt &&
         e1?.needsAttention == e2?.needsAttention &&
         e1?.needsBalanceRefresh == e2?.needsBalanceRefresh &&
-        e1?.needsSync == e2?.needsSync;
+        e1?.needsSync == e2?.needsSync &&
+        e1?.institutionLogo == e2?.institutionLogo;
   }
 
   @override
@@ -241,7 +250,8 @@ class PlaidItemsRecordDocumentEquality implements Equality<PlaidItemsRecord> {
         e?.updatedAt,
         e?.needsAttention,
         e?.needsBalanceRefresh,
-        e?.needsSync
+        e?.needsSync,
+        e?.institutionLogo
       ]);
 
   @override

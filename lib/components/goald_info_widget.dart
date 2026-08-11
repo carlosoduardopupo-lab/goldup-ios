@@ -1,9 +1,9 @@
 import '/backend/backend.dart';
+import '/components/ditar_goald_widget.dart';
+import '/components/eliminar_meta_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/metas/ditar_goald/ditar_goald_widget.dart';
-import '/metas/eliminar_meta/eliminar_meta_widget.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';

@@ -718,6 +718,10 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                     'isRealTransaction',
                                     isEqualTo: true,
                                   )
+                                  .where(
+                                    'isRemoved',
+                                    isEqualTo: false,
+                                  )
                                   .orderBy('occurrenceKey'),
                             ),
                             builder: (context, snapshot) {
@@ -878,6 +882,10 @@ class _OperationsWidgetState extends State<OperationsWidget> {
                                   .where(
                                     'source',
                                     isEqualTo: _model.plaid,
+                                  )
+                                  .where(
+                                    'isRemoved',
+                                    isEqualTo: false,
                                   )
                                   .orderBy('occurrenceKey', descending: true),
                             ),

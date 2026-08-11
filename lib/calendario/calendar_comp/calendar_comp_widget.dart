@@ -289,6 +289,10 @@ class _CalendarCompWidgetState extends State<CalendarCompWidget> {
                           widget!.documents
                               ?.map((e) => e.isInternalTransfer)
                               .toList()
+                              ?.toList(),
+                          widget!.documents
+                              ?.map((e) => e.isRemoved)
+                              .toList()
                               ?.toList())
                       .toList();
 

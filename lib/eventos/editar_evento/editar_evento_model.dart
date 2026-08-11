@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'editar_evento_widget.dart' show EditarEventoWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
@@ -87,24 +86,13 @@ class EditarEventoModel extends FlutterFlowModel<EditarEventoWidget> {
   FocusNode? textFieldFocusNode3;
   TextEditingController? textController3;
   String? Function(BuildContext, String?)? textController3Validator;
-  // State field(s) for Checkbox widget.
-  bool? checkboxValue1;
   // State field(s) for DropDown widget.
-  String? dropDownValue1;
-  FormFieldController<String>? dropDownValueController1;
-  // State field(s) for DropDown widget.
-  String? dropDownValue2;
-  FormFieldController<String>? dropDownValueController2;
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
   // State field(s) for Checkbox widget.
-  bool? checkboxValue2;
+  bool? checkboxValue;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<DocumentsRecord>? docRecurrentes3;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  List<DocumentsRecord>? docRecurrentes2;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  DocumentsRecord? action1;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  DocumentsRecord? recurrente;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<DocumentsRecord>? docRecurrentes1;
 

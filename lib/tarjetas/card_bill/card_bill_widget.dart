@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'card_bill_model.dart';
@@ -49,7 +50,7 @@ class _CardBillWidgetState extends State<CardBillWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 85.0,
+      height: 87.5,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         boxShadow: [
@@ -161,14 +162,6 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                                     ),
                               ),
                             ),
-                            if (widget!.docDocument?.isRealTransaction == true
-                                ? true
-                                : false)
-                              Icon(
-                                Icons.stars_sharp,
-                                color: Color(0xFF04611A),
-                                size: 20.0,
-                              ),
                           ],
                         ),
                       ),
@@ -237,6 +230,38 @@ class _CardBillWidgetState extends State<CardBillWidget> {
                   ),
                 ),
               ].divide(SizedBox(height: 0.0)),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional(0.0, 1.0),
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 5.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if ((widget!.docDocument?.source == 'plaid') &&
+                      (widget!.docDocument?.isRecurrent == true))
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 0.0),
+                      child: FaIcon(
+                        FontAwesomeIcons.retweet,
+                        color: Color(0xC5FD0505),
+                        size: 20.0,
+                      ),
+                    ),
+                  if ((widget!.docDocument?.isRealTransaction == true) &&
+                          (widget!.docDocument?.isPending == true)
+                      ? true
+                      : false)
+                    FaIcon(
+                      FontAwesomeIcons.parking,
+                      color: Color(0xC7052FD4),
+                      size: 19.0,
+                    ),
+                ],
+              ),
             ),
           ),
         ],

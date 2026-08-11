@@ -1,33 +1,33 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'eliminar_cuenta_de_banco_model.dart';
-export 'eliminar_cuenta_de_banco_model.dart';
+import 'desvincular_institucion_model.dart';
+export 'desvincular_institucion_model.dart';
 
-class EliminarCuentaDeBancoWidget extends StatefulWidget {
-  const EliminarCuentaDeBancoWidget({
+class DesvincularInstitucionWidget extends StatefulWidget {
+  const DesvincularInstitucionWidget({
     super.key,
     required this.accountRef,
   });
 
-  final DocumentReference? accountRef;
+  final PlaidItemsRecord? accountRef;
 
   @override
-  State<EliminarCuentaDeBancoWidget> createState() =>
-      _EliminarCuentaDeBancoWidgetState();
+  State<DesvincularInstitucionWidget> createState() =>
+      _DesvincularInstitucionWidgetState();
 }
 
-class _EliminarCuentaDeBancoWidgetState
-    extends State<EliminarCuentaDeBancoWidget> {
-  late EliminarCuentaDeBancoModel _model;
+class _DesvincularInstitucionWidgetState
+    extends State<DesvincularInstitucionWidget> {
+  late DesvincularInstitucionModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -38,7 +38,7 @@ class _EliminarCuentaDeBancoWidgetState
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => EliminarCuentaDeBancoModel());
+    _model = createModel(context, () => DesvincularInstitucionModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -91,7 +91,7 @@ class _EliminarCuentaDeBancoWidgetState
                 children: [
                   Text(
                     FFLocalizations.of(context).getText(
-                      'q9zz2dg3' /* ¿Deseas desvincular esta cuent... */,
+                      'q9zz2dg3' /* ¿Deseas desvincular esta insti... */,
                     ),
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
                           font: GoogleFonts.roboto(
@@ -118,7 +118,7 @@ class _EliminarCuentaDeBancoWidgetState
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
-                    'v09ah60v' /* Si desvinculas esta cuenta, se... */,
+                    'v09ah60v' /* Si desvinculas esta institució... */,
                   ),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.roboto(
@@ -217,45 +217,55 @@ class _EliminarCuentaDeBancoWidgetState
                       EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                   child: FFButtonWidget(
                     onPressed: () async {
-                      _model.bankAccounts =
-                          await BankAccountsRecord.getDocumentOnce(
-                              widget!.accountRef!);
-                      _model.delDocument = await queryDocumentsRecordOnce(
-                        queryBuilder: (documentsRecord) => documentsRecord
-                            .where(
-                              'userRef',
-                              isEqualTo: currentUserReference,
-                            )
-                            .where(
-                              'plaidAccountId',
-                              isEqualTo: widget!.accountRef?.id,
-                            ),
-                      );
-                      for (int loop1Index = 0;
-                          loop1Index < _model.delDocument!.length;
-                          loop1Index++) {
-                        final currentLoop1Item =
-                            _model.delDocument![loop1Index];
-                        await currentLoop1Item.reference.delete();
+                      try {
+                        final result = await FirebaseFunctions.instanceFor(
+                                region: 'us-central1')
+                            .httpsCallable('deleteBankInstitutionV2')
+                            .call({
+                          "itemId": widget!.accountRef!.itemId,
+                        });
+                        _model.deleteResult =
+                            DeleteBankInstitutionV2CloudFunctionCallResponse(
+                          succeeded: true,
+                        );
+                      } on FirebaseFunctionsException catch (error) {
+                        _model.deleteResult =
+                            DeleteBankInstitutionV2CloudFunctionCallResponse(
+                          errorCode: error.code,
+                          succeeded: false,
+                        );
                       }
-                      await widget!.accountRef!.delete();
-                      FFAppState().sumExpenses = 0.0;
-                      FFAppState().sumIncomes = 0.0;
-                      FFAppState().sumSave = 0.0;
-                      FFAppState().anualIncome = 0.0;
-                      FFAppState().anualExpenses = 0.0;
-                      FFAppState().anualCashFlow = 0.0;
-                      FFAppState().mensualCashFlow = 0.0;
-                      FFAppState().anualSaves = 0.0;
-                      FFAppState().sumIncomPending = 0.0;
-                      FFAppState().sumExpePending = 0.0;
-                      FFAppState().sumChekAccount = 0.0;
-                      FFAppState().sumSaveAccount = 0.0;
-                      FFAppState().sumSavePending = 0.0;
-                      FFAppState().sumCreditAccount = 0.0;
-                      FFAppState().cashFlowProyected = 0.0;
-                      safeSetState(() {});
-                      Navigator.pop(context);
+
+                      if (_model.deleteResult!.succeeded!) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Banco desvinculado',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).alternate,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).secondary,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'No se pudo desvincular. Inténtalo de nuevo.',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).alternate,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).secondary,
+                          ),
+                        );
+                      }
 
                       safeSetState(() {});
                     },

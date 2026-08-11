@@ -57,6 +57,7 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
 
     return Column(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Material(
           color: Colors.transparent,
@@ -293,21 +294,165 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                         ),
                       ],
                     ),
-                    if (valueOrDefault<bool>(
-                            currentUserDocument?.isPremium, false) ==
-                        false)
-                      AuthUserStreamWidget(
-                        builder: (context) => Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional(-1.0, 0.0),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20.0, 0.0, 0.0, 0.0),
-                                child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    '9facd9y2' /* Descripción  */,
+                    if ((_model.dropDownValue1 == 'Otro') ||
+                        (_model.dropDownValue1 == 'Other'))
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(-1.0, 0.0),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  20.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                FFLocalizations.of(context).getText(
+                                  '9facd9y2' /* Descripción  */,
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.roboto(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                20.0, 0.0, 20.0, 0.0),
+                            child: Container(
+                              width: double.infinity,
+                              height: 137.4,
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomLeft: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0),
+                                ),
+                                border: Border.all(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              child: Container(
+                                width: 200.0,
+                                child: TextFormField(
+                                  controller: _model.textController,
+                                  focusNode: _model.textFieldFocusNode,
+                                  onChanged: (_) => EasyDebounce.debounce(
+                                    '_model.textController',
+                                    Duration(milliseconds: 2000),
+                                    () async {
+                                      _model.description =
+                                          _model.textController.text;
+                                      safeSetState(() {});
+                                    },
+                                  ),
+                                  autofocus: false,
+                                  enabled: true,
+                                  obscureText: false,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    labelStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .override(
+                                          font: GoogleFonts.roboto(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                        ),
+                                    hintText:
+                                        FFLocalizations.of(context).getText(
+                                      'd8p6cbb7' /* Nombre del banco y cuatro últi... */,
+                                    ),
+                                    hintStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .override(
+                                          font: GoogleFonts.roboto(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
+                                        ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color(0x00000000),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -330,176 +475,22 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                             .bodyMedium
                                             .fontStyle,
                                       ),
+                                  cursorColor:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  enableInteractiveSelection: true,
+                                  validator: _model.textControllerValidator
+                                      .asValidator(context),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 0.0),
-                              child: Container(
-                                width: double.infinity,
-                                height: 137.4,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0),
-                                    bottomLeft: Radius.circular(10.0),
-                                    bottomRight: Radius.circular(10.0),
-                                  ),
-                                  border: Border.all(
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
-                                  ),
-                                ),
-                                child: Container(
-                                  width: 200.0,
-                                  child: TextFormField(
-                                    controller: _model.textController,
-                                    focusNode: _model.textFieldFocusNode,
-                                    onChanged: (_) => EasyDebounce.debounce(
-                                      '_model.textController',
-                                      Duration(milliseconds: 2000),
-                                      () async {
-                                        _model.description =
-                                            _model.textController.text;
-                                        safeSetState(() {});
-                                      },
-                                    ),
-                                    autofocus: false,
-                                    enabled: true,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      labelStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      hintText:
-                                          FFLocalizations.of(context).getText(
-                                        'd8p6cbb7' /* Nombre del banco y cuatro últi... */,
-                                      ),
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.roboto(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      filled: true,
-                                      fillColor: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.roboto(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                    cursorColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    enableInteractiveSelection: true,
-                                    validator: _model.textControllerValidator
-                                        .asValidator(context),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    if (valueOrDefault<bool>(
-                            currentUserDocument?.isPremium, false) ==
-                        true)
+                    if ((valueOrDefault<bool>(
+                                currentUserDocument?.isPremium, false) ==
+                            true) &&
+                        ((_model.dropDownValue1 != 'Otro') ||
+                            (_model.dropDownValue1 != 'Other')))
                       AuthUserStreamWidget(
                         builder: (context) => Column(
                           mainAxisSize: MainAxisSize.max,
@@ -604,6 +595,9 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                             () => _model.dropDownValue2 = val);
                                         _model.creditCardName =
                                             _model.dropDownValue2;
+                                        _model.plaidAcountId =
+                                            dropDownBankAccountsRecordList
+                                                .firstOrNull?.plaidAccountId;
                                         safeSetState(() {});
                                       },
                                       width: 200.0,
@@ -1141,6 +1135,14 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                       functions.normalizeToCalendarDatedateTime(
                                           FFAppState().selectedDate!)),
                                   creditCardName: _model.creditCardName,
+                                  isRemoved: false,
+                                  plaidAccountId: valueOrDefault<bool>(
+                                              currentUserDocument?.isPremium,
+                                              false) ==
+                                          true
+                                      ? _model.plaidAcountId
+                                      : '',
+                                  isRealTransaction: false,
                                 ));
                                 _model.action1 =
                                     DocumentsRecord.getDocumentFromData(
@@ -1216,6 +1218,15 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                                       FFAppState()
                                                           .selectedDate!)),
                                           creditCardName: _model.creditCardName,
+                                          isRemoved: false,
+                                          plaidAccountId: valueOrDefault<bool>(
+                                                      currentUserDocument
+                                                          ?.isPremium,
+                                                      false) ==
+                                                  true
+                                              ? _model.plaidAcountId
+                                              : '',
+                                          isRealTransaction: false,
                                         ),
                                         documentsRecordReference1);
 
@@ -1286,6 +1297,15 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                       isInternalTransfer: false,
                                       createdAt: getCurrentTimestamp,
                                       creditCardName: _model.creditCardName,
+                                      isRemoved: false,
+                                      plaidAccountId: valueOrDefault<bool>(
+                                                  currentUserDocument
+                                                      ?.isPremium,
+                                                  false) ==
+                                              true
+                                          ? _model.plaidAcountId
+                                          : '',
+                                      isRealTransaction: false,
                                     ));
                                     _model.duplicado =
                                         DocumentsRecord.getDocumentFromData(
@@ -1330,6 +1350,16 @@ class _EventoFinancieroWidgetState extends State<EventoFinancieroWidget> {
                                               createdAt: getCurrentTimestamp,
                                               creditCardName:
                                                   _model.creditCardName,
+                                              isRemoved: false,
+                                              plaidAccountId: valueOrDefault<
+                                                              bool>(
+                                                          currentUserDocument
+                                                              ?.isPremium,
+                                                          false) ==
+                                                      true
+                                                  ? _model.plaidAcountId
+                                                  : '',
+                                              isRealTransaction: false,
                                             ),
                                             documentsRecordReference2);
                                   }

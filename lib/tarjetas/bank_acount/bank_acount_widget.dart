@@ -14,11 +14,11 @@ export 'bank_acount_model.dart';
 class BankAcountWidget extends StatefulWidget {
   const BankAcountWidget({
     super.key,
-    required this.bankAcountDocument,
+    required this.plaidItems,
     required this.needsAttention,
   });
 
-  final BankAccountsRecord? bankAcountDocument;
+  final BankAccountsRecord? plaidItems;
   final bool? needsAttention;
 
   @override
@@ -111,8 +111,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                             child: custom_widgets.Base64Image(
                               width: 50.0,
                               height: 50.0,
-                              base64String:
-                                  widget!.bankAcountDocument?.bankLogo,
+                              base64String: widget!.plaidItems?.bankLogo,
                             ),
                           ),
                           Align(
@@ -122,8 +121,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                                 queryBuilder: (plaidInstitutionsRecord) =>
                                     plaidInstitutionsRecord.where(
                                   'institutionId',
-                                  isEqualTo:
-                                      widget!.bankAcountDocument?.institutionId,
+                                  isEqualTo: widget!.plaidItems?.institutionId,
                                 ),
                                 singleRecord: true,
                               ),
@@ -157,7 +155,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
 
                                 return Text(
                                   valueOrDefault<String>(
-                                    widget!.bankAcountDocument?.institutionName,
+                                    widget!.plaidItems?.institutionName,
                                     'Bank name',
                                   ),
                                   maxLines: 2,
@@ -200,7 +198,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                                     10.0, 0.0, 0.0, 0.0),
                                 child: Text(
                                   valueOrDefault<String>(
-                                    widget!.bankAcountDocument?.name,
+                                    widget!.plaidItems?.name,
                                     'name',
                                   ),
                                   maxLines: 2,
@@ -248,7 +246,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                       alignment: AlignmentDirectional(0.0, 0.0),
                       child: Text(
                         valueOrDefault<String>(
-                          widget!.bankAcountDocument?.subtype,
+                          widget!.plaidItems?.subtype,
                           'subtype',
                         ),
                         maxLines: 2,
@@ -297,7 +295,7 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                         ),
                         Text(
                           valueOrDefault<String>(
-                            widget!.bankAcountDocument?.mask,
+                            widget!.plaidItems?.mask,
                             'mask',
                           ),
                           style:
@@ -329,13 +327,11 @@ class _BankAcountWidgetState extends State<BankAcountWidget> {
                     Text(
                       valueOrDefault<String>(
                         formatNumber(
-                          (widget!.bankAcountDocument?.isSavingAccount ==
-                                      true) ||
-                                  (widget!.bankAcountDocument
-                                          ?.isChequingAccount ==
+                          (widget!.plaidItems?.isSavingAccount == true) ||
+                                  (widget!.plaidItems?.isChequingAccount ==
                                       true)
-                              ? widget!.bankAcountDocument?.availableBalance
-                              : widget!.bankAcountDocument?.currentBalance,
+                              ? widget!.plaidItems?.availableBalance
+                              : widget!.plaidItems?.currentBalance,
                           formatType: FormatType.decimal,
                           decimalType: DecimalType.automatic,
                           currency: '\$',

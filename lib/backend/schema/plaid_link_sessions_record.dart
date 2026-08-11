@@ -26,9 +26,15 @@ class PlaidLinkSessionsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
   void _initializeFields() {
     _webUrl = snapshotData['webUrl'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -69,11 +75,13 @@ class PlaidLinkSessionsRecord extends FirestoreRecord {
 Map<String, dynamic> createPlaidLinkSessionsRecordData({
   String? webUrl,
   DocumentReference? userRef,
+  DateTime? createdAt,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'webUrl': webUrl,
       'userRef': userRef,
+      'createdAt': createdAt,
     }.withoutNulls,
   );
 
@@ -86,12 +94,14 @@ class PlaidLinkSessionsRecordDocumentEquality
 
   @override
   bool equals(PlaidLinkSessionsRecord? e1, PlaidLinkSessionsRecord? e2) {
-    return e1?.webUrl == e2?.webUrl && e1?.userRef == e2?.userRef;
+    return e1?.webUrl == e2?.webUrl &&
+        e1?.userRef == e2?.userRef &&
+        e1?.createdAt == e2?.createdAt;
   }
 
   @override
   int hash(PlaidLinkSessionsRecord? e) =>
-      const ListEquality().hash([e?.webUrl, e?.userRef]);
+      const ListEquality().hash([e?.webUrl, e?.userRef, e?.createdAt]);
 
   @override
   bool isValidKey(Object? o) => o is PlaidLinkSessionsRecord;

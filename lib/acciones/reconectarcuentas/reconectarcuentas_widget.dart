@@ -1,14 +1,11 @@
-import '/auth/firebase_auth/auth_util.dart';
-import '/backend/backend.dart';
 import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +14,12 @@ import 'reconectarcuentas_model.dart';
 export 'reconectarcuentas_model.dart';
 
 class ReconectarcuentasWidget extends StatefulWidget {
-  const ReconectarcuentasWidget({super.key});
+  const ReconectarcuentasWidget({
+    super.key,
+    this.itemId,
+  });
+
+  final String? itemId;
 
   @override
   State<ReconectarcuentasWidget> createState() =>
@@ -159,32 +161,44 @@ class _ReconectarcuentasWidgetState extends State<ReconectarcuentasWidget> {
                         final result = await FirebaseFunctions.instanceFor(
                                 region: 'us-central1')
                             .httpsCallable('startPlaidUpdateModeV2')
-                            .call({});
-                        _model.cloudFunctionxa9 =
+                            .call({
+                          "itemId": widget!.itemId!,
+                        });
+                        _model.cloudFunctionc2q =
                             StartPlaidUpdateModeV2CloudFunctionCallResponse(
                           succeeded: true,
                         );
                       } on FirebaseFunctionsException catch (error) {
-                        _model.cloudFunctionxa9 =
+                        _model.cloudFunctionc2q =
                             StartPlaidUpdateModeV2CloudFunctionCallResponse(
                           errorCode: error.code,
                           succeeded: false,
                         );
                       }
 
-                      if (_model.cloudFunctionxa9!.succeeded!) {
-                        _model.weburl2 = await queryPlaidLinkSessionsRecordOnce(
-                          queryBuilder: (plaidLinkSessionsRecord) =>
-                              plaidLinkSessionsRecord.where(
-                            'userRef',
-                            isEqualTo: currentUserReference,
+                      if (_model.cloudFunctionc2q!.succeeded!) {
+                        await actions.launchExternalUrl(
+                          getJsonField(
+                            _model.cloudFunctionc2q!.jsonBody,
+                            r'''$.webUrl''',
+                          ).toString(),
+                        );
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'No se pudo iniciar la reconexión. Inténtalo de nuevo.',
+                              style: TextStyle(
+                                color: FlutterFlowTheme.of(context).alternate,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).secondary,
                           ),
-                          singleRecord: true,
-                        ).then((s) => s.firstOrNull);
-                        await launchURL(_model.weburl2!.webUrl);
-                        await _model.weburl2!.reference.delete();
+                        );
                       }
-                      Navigator.pop(context);
 
                       safeSetState(() {});
                     },

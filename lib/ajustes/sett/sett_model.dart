@@ -10,7 +10,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/informacion/politica/politica_widget.dart';
 import '/informacion/terminos/terminos_widget.dart';
-import '/transacciones/bank_accounts/bank_accounts_widget.dart';
+import '/transacciones/institutions/institutions_widget.dart';
 import 'dart:ui';
 import '/index.dart';
 import 'sett_widget.dart' show SettWidget;

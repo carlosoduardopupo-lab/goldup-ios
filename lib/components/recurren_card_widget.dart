@@ -875,7 +875,7 @@ class _RecurrenCardWidgetState extends State<RecurrenCardWidget> {
                                         .update({
                                       ...createDocumentsRecordData(
                                         recurrenceId:
-                                            widget!.docTransact?.recurrenceId,
+                                            widget!.docTransact?.reference.id,
                                         isRecurrent: true,
                                         frequencyCode: () {
                                           if ((_model.dropDownValue ==
@@ -1024,7 +1024,7 @@ class _RecurrenCardWidgetState extends State<RecurrenCardWidget> {
                                             }
                                           }(),
                                           recurrenceId:
-                                              widget!.docTransact?.recurrenceId,
+                                              widget!.docTransact?.reference.id,
                                           occurrenceKey:
                                               functions.dateToOccurrenceKey(
                                                   currentLoop1Item),
@@ -1069,6 +1069,7 @@ class _RecurrenCardWidgetState extends State<RecurrenCardWidget> {
                                           plaidAccountId: widget!
                                               .docTransact?.plaidAccountId,
                                           isRealTransaction: false,
+                                          isRemoved: false,
                                         ),
                                         ...mapToFirestore(
                                           {
@@ -1124,7 +1125,7 @@ class _RecurrenCardWidgetState extends State<RecurrenCardWidget> {
                                             }
                                           }(),
                                           recurrenceId:
-                                              widget!.docTransact?.recurrenceId,
+                                              widget!.docTransact?.reference.id,
                                           occurrenceKey:
                                               functions.dateToOccurrenceKey(
                                                   currentLoop1Item),
@@ -1169,6 +1170,7 @@ class _RecurrenCardWidgetState extends State<RecurrenCardWidget> {
                                           plaidAccountId: widget!
                                               .docTransact?.plaidAccountId,
                                           isRealTransaction: false,
+                                          isRemoved: false,
                                         ),
                                         ...mapToFirestore(
                                           {

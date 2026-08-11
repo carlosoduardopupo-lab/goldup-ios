@@ -203,11 +203,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
     },
     '3uavtxm0': {
-      'es': 'Próximo Gasto Importante Programado',
+      'es': 'Próximo Gasto Programado',
       'en': 'Next Scheduled Major Expense',
     },
     '122mqjz8': {
-      'es': 'Facturas y Gastos del Mes ',
+      'es': 'Facturas y Gastos Totales del Mes ',
       'en': 'Bills and Expenses for the Month',
     },
     'tekzrh36': {
@@ -215,7 +215,15 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Pending',
     },
     'en4oos86': {
-      'es': 'Total a pagar:',
+      'es': '...a pagar',
+      'en': 'Total to pay:',
+    },
+    'fabqjiup': {
+      'es': 'Inicializadas',
+      'en': 'Pending',
+    },
+    'etumk0nb': {
+      'es': '...procesando',
       'en': 'Total to pay:',
     },
     'um1c0wur': {
@@ -223,7 +231,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Overdue',
     },
     '01wlanm9': {
-      'es': 'Total Saldado:',
+      'es': '...posteadas',
       'en': 'Total Paid:',
     },
     'ytcrcd16': {
@@ -283,7 +291,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Financial Events',
     },
     'euaw6srv': {
-      'es': 'Pendientes',
+      'es': 'Recurrentes',
       'en': 'Pending',
     },
     'h60n2v3o': {
@@ -318,48 +326,92 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Mes Actual:',
       'en': 'Current Month:',
     },
+    '2zjlj3w7': {
+      'es': 'Montos totales de:',
+      'en': '',
+    },
+    'lipaysak': {
+      'es': 'Saldos Bancarios',
+      'en': '',
+    },
     'ufdykbvu': {
-      'es': 'Balance Total Entre Cuentas',
+      'es': 'Cheques',
       'en': 'Total Monthly Income (estimated)',
     },
-    'joxvxg3e': {
-      'es': 'Monto Total de Transacciones Pendientes',
+    '1yqu1tmk': {
+      'es': 'Ahorros',
       'en': 'Total Monthly Income (estimated)',
+    },
+    'lrx80c1d': {
+      'es': 'Tarjetas de Crédito',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    'dg5j5mtb': {
+      'es': '-',
+      'en': '',
+    },
+    'y8mnwdum': {
+      'es': 'Balance Total',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    'k4zpg7dv': {
+      'es': 'Ingresos',
+      'en': '',
     },
     'z4vqmbl0': {
-      'es': 'Ingreso Total Mensual Proyectado',
+      'es': 'Proyectados Pendientes ',
       'en': 'Total Monthly Income (estimated)',
     },
+    'yep230cc': {
+      'es': 'Proyectados Recibidos',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    '8859dejl': {
+      'es': 'Recibidos sin proyectar',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    '15qfduob': {
+      'es': 'Totales Recibidos',
+      'en': 'Total Monthly Income (estimated)',
+    },
+    'hssbjqrg': {
+      'es': 'Gastos',
+      'en': '',
+    },
     'vso6qbm7': {
-      'es': 'Gasto Total Mensual Proyectado',
+      'es': 'Proyectados Pendientes',
       'en': 'Total Monthly Expenses (estimated)',
     },
-    'pu03qkui': {
-      'es': 'Flujo de Efectivo Mensual Proyectado',
-      'en': 'Monthly Cash Flow (estimated)',
+    'shp5rg7r': {
+      'es': 'Proyectados Realizados',
+      'en': 'Total Monthly Expenses (estimated)',
     },
-    'pd64did4': {
-      'es': 'Ahorros Totales Proyectado',
-      'en': 'Total Savings (estimated)',
+    'vt58ajr9': {
+      'es': 'Realizados sin proyectar',
+      'en': 'Total Monthly Expenses (estimated)',
     },
-    'qgu1xblp': {
-      'es': 'Disponible Para Gastar Proyectado',
-      'en': 'Available to Spend (estimated)',
+    'bgoi49iq': {
+      'es': 'Totales Realizados',
+      'en': 'Total Monthly Expenses (estimated)',
     },
     'axn33hnv': {
-      'es': 'Ingreso Total Anual Proyectado',
+      'es': 'Ingresos Proyectado',
       'en': 'Total Annual Income (estimated)',
     },
     'dxk4bljk': {
-      'es': 'Gasto Total Anual Proyectado',
+      'es': 'Gastos Proyectado',
       'en': 'Total Annual Expenses (estimated)',
     },
     'wq0lfkq3': {
-      'es': 'Flujo de Efectivo Total Anual Proyectado',
+      'es': 'Flujo de Efectivo Proyectado',
       'en': 'Total Annual Cash Flow (estimated)',
     },
     '6o0abik0': {
-      'es': 'Ahorro Total Anual Proyectado',
+      'es': 'Ahorro Proyectado',
+      'en': 'Total Annual Savings (estimated)',
+    },
+    '84a9w35l': {
+      'es': 'Disponible Para Gastar Proyectado',
       'en': 'Total Annual Savings (estimated)',
     },
     'epbluwwz': {
@@ -447,60 +499,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'dk91l396': {
       'es': 'Actualizar Plan',
       'en': 'Add Accounts',
-    },
-    '845nyomz': {
-      'es': '',
-      'en': '',
-    },
-    'zwz9eivi': {
-      'es': 'Gestión automática ',
-      'en': 'Financial Goals',
-    },
-    't0dm9swd': {
-      'es': 'Añadir Nueva Meta Financiera',
-      'en': 'Add New Financial Goal',
-    },
-    'ge0r1rw8': {
-      'es': 'Función en desarrollo\n\n',
-      'en': '',
-    },
-    'g15ea4ig': {
-      'es': 'La Gestión automática ',
-      'en': 'Financial Goals',
-    },
-    'vtu887va': {
-      'es': 'estará disponible  en la versión Premium\n\n',
-      'en':
-          'This feature is not yet available at this stage.\n\nThese features are currently under development and will be enabled in future updates.\n\nThank you for participating in this early testing phase and helping us improve the app.',
-    },
-    'p9i0qvcg': {
-      'es':
-          'Considera actualizar tu plan actual a Premium para obtener los beneficios de esta erramienta.\n\n',
-      'en': '',
-    },
-    'ra2f2yu2': {
-      'es': '¿Qué aporta esta erramienta?\n\n',
-      'en': 'What does this feature offer?',
-    },
-    'b4ts9m8c': {
-      'es':
-          '1️⃣ 🎯 Dirección clara del dinero\nCada dólar tiene un objetivo definido\n\n2️⃣ 📊 Control del progreso\nVes cuánto llevas y cuánto te falta\n\n3️⃣ 📅 Planificación financiera real\n Divide metas en aportes mensuales alcanzables\n\n4️⃣ 💸 Ahorro estructurado\nEvita gastar dinero que ya tiene un propósito\n\n5️⃣ 📉 Reducción de gastos innecesarios\nTe obliga a priorizar lo importante\n\n6️⃣ 🧠 Disciplina financiera automática\n Convierte el ahorro en hábito, no en esfuerzo\n\n',
-      'en':
-          '1️⃣ 🎯 Clear direction of your money\nEvery dollar has a defined purpose\n\n2️⃣ 📊 Progress tracking\nSee how much you\'ve saved and how much you still need to save\n\n3️⃣ 📅 Realistic financial planning\nBreak down your goals into achievable monthly contributions\n\n4️⃣ 💸 Structured savings\nAvoid spending money that already has a purpose\n\n5️⃣ 📉 Reduction of unnecessary expenses\nForces you to prioritize what\'s important\n\n6️⃣ 🧠 Automatic financial discipline\nTurn saving into a habit, not a chore',
-    },
-    '4lc9672a': {
-      'es': '¿Cómo funciona?\n\n',
-      'en': 'How does it work?',
-    },
-    '21hk7x9d': {
-      'es':
-          '1️⃣ Creas una meta\nEj: carro, casa, fondo de emergencia\n\n2️⃣ Defines monto y tiempo\nEj: \$5,000 en 10 meses\n\n3️⃣ El sistema calcula el aporte\n Cuánto debes ahorrar por periodo\n\n4️⃣ Registras o automatizas aportes\nManual o desde tus ingresos\n\n5️⃣ Ves el progreso en tiempo real\nBarra, porcentaje, restante\n\n6️⃣ Ajustas si es necesario\nMás rápido o más flexible\n\n',
-      'en':
-          '1️⃣ Create a goal\nE.g., car, house, emergency fund\n\n2️⃣ Define the amount and timeframe\nE.g., \$5,000 in 10 months\n\n3️⃣ The system calculates the contribution\nHow much you should save per period\n\n4️⃣ Register or automate contributions\nManually or from your income\n\n5️⃣ View your progress in real time\nBar, percentage, remaining balance\n\n6️⃣ Adjust if needed\nFaster or more flexible',
-    },
-    'eivdta2n': {
-      'es': '* Funciones Premium',
-      'en': '* Premium Features',
     },
     'ai592cl4': {
       'es': 'Gold Up ',
@@ -633,7 +631,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Notification settings',
     },
     'gcm6zvif': {
-      'es': 'Cuentas de Bancos',
+      'es': 'Instituciones',
       'en': 'Bank Accounts',
     },
     'x1cvzure': {
@@ -799,6 +797,29 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Current Plan',
     },
     'g5ykxqvp': {
+      'es': 'Home',
+      'en': '',
+    },
+  },
+  // filtrop
+  {
+    'nxlfls0o': {
+      'es': 'Transacciones',
+      'en': 'Transactions',
+    },
+    'f9wh5hka': {
+      'es': 'Recurrentes',
+      'en': '',
+    },
+    'rkdyx8zf': {
+      'es': 'Procesando',
+      'en': '',
+    },
+    'aw016vh3': {
+      'es': 'Posteadas',
+      'en': '',
+    },
+    'lcuhhjyn': {
       'es': 'Home',
       'en': '',
     },
@@ -990,10 +1011,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'ixic4owu': {
       'es': 'Ahorros',
       'en': 'Saving',
-    },
-    '8mzduo3s': {
-      'es': 'Recurrente',
-      'en': '',
     },
   },
   // Gasto
@@ -1300,6 +1317,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': 'Sitio Web: ',
       'en': 'Website:',
     },
+    '37c9kjzc': {
+      'es': 'Nota: ',
+      'en': 'Website:',
+    },
     'gb1i2ycp': {
       'es': 'Este evento esta vinculado a una Meta Financiera',
       'en': 'This event is linked to a Financial Goal',
@@ -1313,6 +1334,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'mbp5inri': {
       'es': 'Editar Evento',
       'en': 'Edit Event',
+    },
+    'ue3mwodr': {
+      'es': 'Crear Recurrencia',
+      'en': 'Delete Event',
     },
   },
   // eliminar
@@ -1512,46 +1537,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'oktgpaar': {
       'es': 'Puedes dejar una breve descripción...',
       'en': 'You can leave a brief description...',
-    },
-    'gjcwjsz6': {
-      'es': 'Este evento es recurrente',
-      'en': 'Recurring event',
-    },
-    'mm40ygy0': {
-      'es': 'Frecuencia',
-      'en': 'Frequency',
-    },
-    'hildixv2': {
-      'es': 'Seleccionar...',
-      'en': 'Select...',
-    },
-    'pag61r7y': {
-      'es': 'Buscar...',
-      'en': 'Search...',
-    },
-    'zmnw3pdx': {
-      'es': 'Diario',
-      'en': 'Daily',
-    },
-    'fbupax7r': {
-      'es': 'Semanal',
-      'en': 'Weekly',
-    },
-    'pa0leuxr': {
-      'es': 'Quincenal',
-      'en': 'Biweekly',
-    },
-    'jopkbkj0': {
-      'es': 'Mensual',
-      'en': 'Monthly',
-    },
-    'qnirlmj3': {
-      'es': 'Trimestral',
-      'en': 'Quarterly',
-    },
-    'xxj5kcqe': {
-      'es': 'Anual',
-      'en': 'Annual',
     },
     'qiijo0z7': {
       'es': 'Ajustes de Notificación',
@@ -2404,22 +2389,22 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Cancel Action',
     },
   },
-  // BankAccounts
+  // institutions
   {
     '7ymly05i': {
-      'es': 'Cuentas Bancarias',
+      'es': 'Instituciones  Bancarias',
       'en': 'Bank Accounts',
     },
   },
-  // eliminarCuentaDeBanco
+  // desvincularInstitucion
   {
     'q9zz2dg3': {
-      'es': '¿Deseas desvincular esta cuenta?',
+      'es': '¿Deseas desvincular esta institución?',
       'en': 'Do you want to unlink this account?',
     },
     'v09ah60v': {
       'es':
-          'Si desvinculas esta cuenta, se eliminarán todos los datos de la misma dentro de Gold Up y los  eventos asociados.',
+          'Si desvinculas esta institución, se eliminarán todos los datos de la misma, como cuentas de bancos dentro de Gold Up y los  eventos asociados.',
       'en':
           'If you unlink this account, all associated data and related events within Gold Up will be deleted.',
     },
@@ -2572,6 +2557,109 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'indiwler': {
       'es': 'Omitir',
       'en': '',
+    },
+  },
+  // crearRecurrDeDocum
+  {
+    'w0ruz6ep': {
+      'es': 'Crear Recurrencias',
+      'en': 'Edit Event',
+    },
+    'zjrp7v70': {
+      'es': 'Tipo',
+      'en': 'Type',
+    },
+    'gtqfm916': {
+      'es': 'Descripción (opcional)',
+      'en': 'Description (optional)',
+    },
+    'ddplluyk': {
+      'es': 'Puedes dejar una breve descripción...',
+      'en': 'You can leave a brief description...',
+    },
+    '0irue41v': {
+      'es': 'Monto ',
+      'en': 'Amount',
+    },
+    'w78cnj02': {
+      'es': 'Cantidad del efectivo...',
+      'en': 'Amount of cash...',
+    },
+    'zchi2tj9': {
+      'es': 'Este evento es recurrente',
+      'en': 'Recurring event',
+    },
+    '053fngfg': {
+      'es': 'Frecuencia',
+      'en': 'Frequency',
+    },
+    'qn85z4yj': {
+      'es': 'Seleccionar...',
+      'en': 'Select...',
+    },
+    '2lify1wv': {
+      'es': 'Buscar...',
+      'en': 'Search...',
+    },
+    '1ey70vfi': {
+      'es': 'Diario',
+      'en': 'Daily',
+    },
+    '5boj6v3o': {
+      'es': 'Semanal',
+      'en': 'Weekly',
+    },
+    'mkt3inqz': {
+      'es': 'Quincenal',
+      'en': 'Biweekly',
+    },
+    'kynn78un': {
+      'es': 'Mensual',
+      'en': 'Monthly',
+    },
+    'kbxr4nl8': {
+      'es': 'Trimestral',
+      'en': 'Quarterly',
+    },
+    '34ezcfou': {
+      'es': 'Anual',
+      'en': 'Annual',
+    },
+    '2tbb34uu': {
+      'es': 'Ajustes de Notificación',
+      'en': 'Notification Settings',
+    },
+    '7m54qhlm': {
+      'es': '( Horas de antelación para recibir la notificación )',
+      'en': '( Hours in advance to receive the notification)',
+    },
+    'shw1se9k': {
+      'es': '',
+      'en': '',
+    },
+    'oyobr62e': {
+      'es': 'Buscar...',
+      'en': 'Search...',
+    },
+    'vsy9uwn3': {
+      'es': '24',
+      'en': '24',
+    },
+    'cmpkyh1r': {
+      'es': '48',
+      'en': '48',
+    },
+    'ms6md2jw': {
+      'es': '72',
+      'en': '72',
+    },
+    'ds4c01bc': {
+      'es': '96',
+      'en': '96',
+    },
+    '4qagjw75': {
+      'es': 'Crear',
+      'en': 'Edit',
     },
   },
   // Miscellaneous

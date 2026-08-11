@@ -1106,6 +1106,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                               occurrenceKey: functions.dateToOccurrenceKey(
                                   functions.normalizeToCalendarDatedateTime(
                                       FFAppState().selectedDate!)),
+                              isRemoved: false,
                             ));
                             _model.action1 =
                                 DocumentsRecord.getDocumentFromData(
@@ -1162,6 +1163,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                                           .dateToOccurrenceKey(functions
                                               .normalizeToCalendarDatedateTime(
                                                   FFAppState().selectedDate!)),
+                                      isRemoved: false,
                                     ),
                                     documentsRecordReference1);
 
@@ -1218,6 +1220,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                                   isNotificationTodaySent: false,
                                   isInternalTransfer: false,
                                   createdAt: getCurrentTimestamp,
+                                  isRemoved: false,
                                 ));
                                 _model.recurrente =
                                     DocumentsRecord.getDocumentFromData(
@@ -1249,6 +1252,7 @@ class _SaveWidgetState extends State<SaveWidget> {
                                           isNotificationTodaySent: false,
                                           isInternalTransfer: false,
                                           createdAt: getCurrentTimestamp,
+                                          isRemoved: false,
                                         ),
                                         documentsRecordReference2);
                               }

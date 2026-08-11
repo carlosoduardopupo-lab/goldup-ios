@@ -1105,6 +1105,8 @@ class _GastoWidgetState extends State<GastoWidget> {
                               occurrenceKey: functions.dateToOccurrenceKey(
                                   functions.normalizeToCalendarDatedateTime(
                                       FFAppState().selectedDate!)),
+                              isRemoved: false,
+                              isRealTransaction: false,
                             ));
                             _model.action1 =
                                 DocumentsRecord.getDocumentFromData(
@@ -1161,6 +1163,8 @@ class _GastoWidgetState extends State<GastoWidget> {
                                           .dateToOccurrenceKey(functions
                                               .normalizeToCalendarDatedateTime(
                                                   FFAppState().selectedDate!)),
+                                      isRemoved: false,
+                                      isRealTransaction: false,
                                     ),
                                     documentsRecordReference1);
 
@@ -1223,6 +1227,8 @@ class _GastoWidgetState extends State<GastoWidget> {
                                                   getCurrentTimestamp))
                                       ? false
                                       : true,
+                                  isRemoved: false,
+                                  isRealTransaction: false,
                                 ));
                                 _model.recurrente1 =
                                     DocumentsRecord.getDocumentFromData(
@@ -1261,6 +1267,8 @@ class _GastoWidgetState extends State<GastoWidget> {
                                                               getCurrentTimestamp))
                                               ? false
                                               : true,
+                                          isRemoved: false,
+                                          isRealTransaction: false,
                                         ),
                                         documentsRecordReference2);
                               }

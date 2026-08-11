@@ -35,6 +35,40 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isPending",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
         }
@@ -93,7 +127,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "isRealTransaction",
+          "fieldPath": "isRemoved",
           "order": "ASCENDING"
         },
         {
@@ -127,6 +161,10 @@
           "order": "ASCENDING"
         },
         {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
           "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
         }
@@ -150,6 +188,10 @@
         },
         {
           "fieldPath": "source",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
           "order": "ASCENDING"
         },
         {
@@ -253,6 +295,158 @@
         {
           "fieldPath": "occurrenceKey",
           "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isIncome",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isPending",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isIncome",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRecurrent",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isIncome",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRecurrent",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "documents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isExpenses",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRealTransaction",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "isRemoved",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "occurrenceKey",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "plaid_link_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
         }
       ]
     }

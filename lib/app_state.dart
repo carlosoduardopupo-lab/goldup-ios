@@ -135,24 +135,6 @@ class FFAppState extends ChangeNotifier {
     prefs.setDouble('ff_sumSave', value);
   }
 
-  double _anualIncome = 0.0;
-  double get anualIncome => _anualIncome;
-  set anualIncome(double value) {
-    _anualIncome = value;
-  }
-
-  double _anualExpenses = 0.0;
-  double get anualExpenses => _anualExpenses;
-  set anualExpenses(double value) {
-    _anualExpenses = value;
-  }
-
-  double _anualCashFlow = 0.0;
-  double get anualCashFlow => _anualCashFlow;
-  set anualCashFlow(double value) {
-    _anualCashFlow = value;
-  }
-
   double _mensualCashFlow = 0.0;
   double get mensualCashFlow => _mensualCashFlow;
   set mensualCashFlow(double value) {

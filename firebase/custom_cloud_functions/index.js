@@ -29,3 +29,6 @@ exports.goldAdvisorWelcomeV2 = goldAdvisorWelcomeV2.goldAdvisorWelcomeV2;
 const goldAdvisorDailyBriefV2 = require("./gold_advisor_daily_brief_v2.js");
 exports.goldAdvisorDailyBriefV2 =
   goldAdvisorDailyBriefV2.goldAdvisorDailyBriefV2;
+const deleteBankInstitutionV2 = require("./delete_bank_institution_v2.js");
+exports.deleteBankInstitutionV2 =
+  deleteBankInstitutionV2.deleteBankInstitutionV2;

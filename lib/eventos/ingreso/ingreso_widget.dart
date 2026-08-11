@@ -1113,6 +1113,8 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                               occurrenceKey: functions.dateToOccurrenceKey(
                                   functions.normalizeToCalendarDatedateTime(
                                       FFAppState().selectedDate!)),
+                              isRemoved: false,
+                              isRealTransaction: false,
                             ));
                             _model.action1 =
                                 DocumentsRecord.getDocumentFromData(
@@ -1169,6 +1171,8 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                                           .dateToOccurrenceKey(functions
                                               .normalizeToCalendarDatedateTime(
                                                   FFAppState().selectedDate!)),
+                                      isRemoved: false,
+                                      isRealTransaction: false,
                                     ),
                                     documentsRecordReference1);
 
@@ -1225,6 +1229,8 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                                   isNotificationTodaySent: false,
                                   isInternalTransfer: false,
                                   createdAt: _model.action1?.createdAt,
+                                  isRemoved: false,
+                                  isRealTransaction: false,
                                 ));
                                 _model.recurrente =
                                     DocumentsRecord.getDocumentFromData(
@@ -1255,6 +1261,8 @@ class _IngresoWidgetState extends State<IngresoWidget> {
                                           isNotificationTodaySent: false,
                                           isInternalTransfer: false,
                                           createdAt: _model.action1?.createdAt,
+                                          isRemoved: false,
+                                          isRealTransaction: false,
                                         ),
                                         documentsRecordReference2);
                               }

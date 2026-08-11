@@ -201,6 +201,51 @@ class UserRecord extends FirestoreRecord {
   bool get isPlanSelected => _isPlanSelected ?? false;
   bool hasIsPlanSelected() => _isPlanSelected != null;
 
+  // "chequingTotal" field.
+  double? _chequingTotal;
+  double get chequingTotal => _chequingTotal ?? 0.0;
+  bool hasChequingTotal() => _chequingTotal != null;
+
+  // "savingsTotal" field.
+  double? _savingsTotal;
+  double get savingsTotal => _savingsTotal ?? 0.0;
+  bool hasSavingsTotal() => _savingsTotal != null;
+
+  // "creditTotal" field.
+  double? _creditTotal;
+  double get creditTotal => _creditTotal ?? 0.0;
+  bool hasCreditTotal() => _creditTotal != null;
+
+  // "realIncome" field.
+  double? _realIncome;
+  double get realIncome => _realIncome ?? 0.0;
+  bool hasRealIncome() => _realIncome != null;
+
+  // "projectedIncomeReceived" field.
+  double? _projectedIncomeReceived;
+  double get projectedIncomeReceived => _projectedIncomeReceived ?? 0.0;
+  bool hasProjectedIncomeReceived() => _projectedIncomeReceived != null;
+
+  // "unprojectedIncomeReceived" field.
+  double? _unprojectedIncomeReceived;
+  double get unprojectedIncomeReceived => _unprojectedIncomeReceived ?? 0.0;
+  bool hasUnprojectedIncomeReceived() => _unprojectedIncomeReceived != null;
+
+  // "realExpenses" field.
+  double? _realExpenses;
+  double get realExpenses => _realExpenses ?? 0.0;
+  bool hasRealExpenses() => _realExpenses != null;
+
+  // "projectedExpensesPaid" field.
+  double? _projectedExpensesPaid;
+  double get projectedExpensesPaid => _projectedExpensesPaid ?? 0.0;
+  bool hasProjectedExpensesPaid() => _projectedExpensesPaid != null;
+
+  // "unprojectedExpensesPaid" field.
+  double? _unprojectedExpensesPaid;
+  double get unprojectedExpensesPaid => _unprojectedExpensesPaid ?? 0.0;
+  bool hasUnprojectedExpensesPaid() => _unprojectedExpensesPaid != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -246,6 +291,19 @@ class UserRecord extends FirestoreRecord {
       ChartPointStruct.fromMap,
     );
     _isPlanSelected = snapshotData['isPlanSelected'] as bool?;
+    _chequingTotal = castToType<double>(snapshotData['chequingTotal']);
+    _savingsTotal = castToType<double>(snapshotData['savingsTotal']);
+    _creditTotal = castToType<double>(snapshotData['creditTotal']);
+    _realIncome = castToType<double>(snapshotData['realIncome']);
+    _projectedIncomeReceived =
+        castToType<double>(snapshotData['projectedIncomeReceived']);
+    _unprojectedIncomeReceived =
+        castToType<double>(snapshotData['unprojectedIncomeReceived']);
+    _realExpenses = castToType<double>(snapshotData['realExpenses']);
+    _projectedExpensesPaid =
+        castToType<double>(snapshotData['projectedExpensesPaid']);
+    _unprojectedExpensesPaid =
+        castToType<double>(snapshotData['unprojectedExpensesPaid']);
   }
 
   static CollectionReference get collection =>
@@ -318,6 +376,15 @@ Map<String, dynamic> createUserRecordData({
   double? internalAdjustment,
   String? dailyBrief,
   bool? isPlanSelected,
+  double? chequingTotal,
+  double? savingsTotal,
+  double? creditTotal,
+  double? realIncome,
+  double? projectedIncomeReceived,
+  double? unprojectedIncomeReceived,
+  double? realExpenses,
+  double? projectedExpensesPaid,
+  double? unprojectedExpensesPaid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -357,6 +424,15 @@ Map<String, dynamic> createUserRecordData({
       'internalAdjustment': internalAdjustment,
       'dailyBrief': dailyBrief,
       'isPlanSelected': isPlanSelected,
+      'chequingTotal': chequingTotal,
+      'savingsTotal': savingsTotal,
+      'creditTotal': creditTotal,
+      'realIncome': realIncome,
+      'projectedIncomeReceived': projectedIncomeReceived,
+      'unprojectedIncomeReceived': unprojectedIncomeReceived,
+      'realExpenses': realExpenses,
+      'projectedExpensesPaid': projectedExpensesPaid,
+      'unprojectedExpensesPaid': unprojectedExpensesPaid,
     }.withoutNulls,
   );
 
@@ -405,7 +481,16 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e1?.internalAdjustment == e2?.internalAdjustment &&
         e1?.dailyBrief == e2?.dailyBrief &&
         listEquality.equals(e1?.cleanProjection, e2?.cleanProjection) &&
-        e1?.isPlanSelected == e2?.isPlanSelected;
+        e1?.isPlanSelected == e2?.isPlanSelected &&
+        e1?.chequingTotal == e2?.chequingTotal &&
+        e1?.savingsTotal == e2?.savingsTotal &&
+        e1?.creditTotal == e2?.creditTotal &&
+        e1?.realIncome == e2?.realIncome &&
+        e1?.projectedIncomeReceived == e2?.projectedIncomeReceived &&
+        e1?.unprojectedIncomeReceived == e2?.unprojectedIncomeReceived &&
+        e1?.realExpenses == e2?.realExpenses &&
+        e1?.projectedExpensesPaid == e2?.projectedExpensesPaid &&
+        e1?.unprojectedExpensesPaid == e2?.unprojectedExpensesPaid;
   }
 
   @override
@@ -446,7 +531,16 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.internalAdjustment,
         e?.dailyBrief,
         e?.cleanProjection,
-        e?.isPlanSelected
+        e?.isPlanSelected,
+        e?.chequingTotal,
+        e?.savingsTotal,
+        e?.creditTotal,
+        e?.realIncome,
+        e?.projectedIncomeReceived,
+        e?.unprojectedIncomeReceived,
+        e?.realExpenses,
+        e?.projectedExpensesPaid,
+        e?.unprojectedExpensesPaid
       ]);
 
   @override

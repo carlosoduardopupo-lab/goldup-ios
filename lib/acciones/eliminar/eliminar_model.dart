@@ -23,6 +23,8 @@ class EliminarModel extends FlutterFlowModel<EliminarWidget> {
   bool? checkboxValue;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<DocumentsRecord>? document;
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  DocumentsRecord? document1;
   // Stores action output result for [Backend Call - Read Document] action in Button widget.
   DocumentsRecord? doc;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.

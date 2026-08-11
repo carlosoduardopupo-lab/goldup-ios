@@ -31,6 +31,8 @@ class EventoFinancieroModel extends FlutterFlowModel<EventoFinancieroWidget> {
 
   String? creditCardName;
 
+  String? plaidAcountId;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();

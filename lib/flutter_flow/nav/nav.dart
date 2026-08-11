@@ -146,6 +146,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SuscriptionsWidget.routeName,
           path: SuscriptionsWidget.routePath,
           builder: (context, params) => SuscriptionsWidget(),
+        ),
+        FFRoute(
+          name: FiltropWidget.routeName,
+          path: FiltropWidget.routePath,
+          asyncParams: {
+            'docum': getDocList(['documents'], DocumentsRecord.fromSnapshot),
+          },
+          builder: (context, params) => FiltropWidget(
+            docum: params.getParam<DocumentsRecord>(
+              'docum',
+              ParamType.Document,
+              isList: true,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

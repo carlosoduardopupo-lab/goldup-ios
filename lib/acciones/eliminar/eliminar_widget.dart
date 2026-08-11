@@ -308,7 +308,7 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                       if (valueOrDefault<bool>(
                               currentUserDocument?.isPremium, false) ==
                           true) {
-                        if (_model.check == true) {
+                        if (_model.checkboxValue == true) {
                           _model.document = await queryDocumentsRecordOnce(
                             queryBuilder: (documentsRecord) => documentsRecord
                                 .where(
@@ -318,6 +318,10 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                                 .where(
                                   'isRealTransaction',
                                   isEqualTo: false,
+                                )
+                                .where(
+                                  'userRef',
+                                  isEqualTo: currentUserReference,
                                 ),
                           );
                           for (int loop1Index = 0;
@@ -327,6 +331,36 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                                 _model.document![loop1Index];
                             await currentLoop1Item.reference.delete();
                           }
+                          _model.document1 = await queryDocumentsRecordOnce(
+                            queryBuilder: (documentsRecord) => documentsRecord
+                                .where(
+                                  'recurrenceId',
+                                  isEqualTo: widget!.recurrenceID,
+                                )
+                                .where(
+                                  'isRealTransaction',
+                                  isEqualTo: true,
+                                )
+                                .where(
+                                  'userRef',
+                                  isEqualTo: currentUserReference,
+                                ),
+                            singleRecord: true,
+                          ).then((s) => s.firstOrNull);
+
+                          await _model.document1!.reference.update({
+                            ...createDocumentsRecordData(
+                              isRecurrent: false,
+                            ),
+                            ...mapToFirestore(
+                              {
+                                'frequency': FieldValue.delete(),
+                                'frequencyCode': FieldValue.delete(),
+                                'updatedAt': FieldValue.serverTimestamp(),
+                                'recurrenceId': FieldValue.delete(),
+                              },
+                            ),
+                          });
                         } else {
                           _model.doc = await DocumentsRecord.getDocumentOnce(
                               widget!.docRef!);
@@ -350,7 +384,7 @@ class _EliminarWidgetState extends State<EliminarWidget> {
                           }
                         }
                       } else {
-                        if (_model.check == true) {
+                        if (_model.checkboxValue == true) {
                           _model.docume = await queryDocumentsRecordOnce(
                             queryBuilder: (documentsRecord) => documentsRecord
                                 .where(

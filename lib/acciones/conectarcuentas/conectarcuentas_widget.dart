@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:collection/collection.dart';
@@ -232,7 +233,9 @@ class _ConectarcuentasWidgetState extends State<ConectarcuentasWidget> {
                               ).then((s) => s.firstOrNull);
                               _model.webUlr = _model.weburl2?.webUrl;
                               safeSetState(() {});
-                              await launchURL(_model.weburl2!.webUrl);
+                              await actions.launchExternalUrl(
+                                _model.weburl2!.webUrl,
+                              );
 
                               await currentUserReference!
                                   .update(createUserRecordData(

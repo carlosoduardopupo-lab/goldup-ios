@@ -154,3 +154,14 @@ class GoldAdvisorDailyBriefV2CloudFunctionCallResponse {
   bool? succeeded;
   dynamic jsonBody;
 }
+
+class DeleteBankInstitutionV2CloudFunctionCallResponse {
+  DeleteBankInstitutionV2CloudFunctionCallResponse({
+    this.errorCode,
+    this.succeeded,
+    this.jsonBody,
+  });
+  String? errorCode;
+  bool? succeeded;
+  dynamic jsonBody;
+}

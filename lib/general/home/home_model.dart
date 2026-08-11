@@ -15,16 +15,10 @@ import '/eventos/accion_crear/accion_crear_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/informacion/info_efectivorestante/info_efectivorestante_widget.dart';
-import '/informacion/info_flujodeefectivo/info_flujodeefectivo_widget.dart';
-import '/metas/goald_creating/goald_creating_widget.dart';
-import '/metas/goald_info/goald_info_widget.dart';
 import '/tarjetas/bank_acount/bank_acount_widget.dart';
 import '/tarjetas/card_bill/card_bill_widget.dart';
 import '/tarjetas/card_bill_copy/card_bill_copy_widget.dart';
 import '/tarjetas/card_billvencido/card_billvencido_widget.dart';
-import '/tarjetas/metascard/metascard_widget.dart';
-import 'dart:async';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
@@ -38,6 +32,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -94,8 +89,6 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   int get tabBarPreviousIndex =>
       tabBarController != null ? tabBarController!.previousIndex : 0;
 
-  // Stores action output result for [Cloud Function - goldAdvisorDailyBriefV2] action in Tab widget.
-  GoldAdvisorDailyBriefV2CloudFunctionCallResponse? welcome;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? incomes1;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
@@ -118,14 +111,28 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   late FlutterFlowDynamicModels<CardBillModel> cardBillModels3;
   // Models for cardBillvencido dynamic component.
   late FlutterFlowDynamicModels<CardBillvencidoModel> cardBillvencidoModels;
-  // Stores action output result for [Cloud Function - goldAdvisorDailyBriefV2] action in Tab widget.
-  GoldAdvisorDailyBriefV2CloudFunctionCallResponse? welcomi;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? incomes2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? expense2;
   // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
   List<DocumentsRecord>? saves2;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? incomes22;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? incomes23;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? incomes24;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? incomes25;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? expenses21;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? expenses22;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? expenses24;
+  // Stores action output result for [Firestore Query - Query a collection] action in Row widget.
+  List<DocumentsRecord>? expenses25;
   // Models for BankAcount dynamic component.
   late FlutterFlowDynamicModels<BankAcountModel> bankAcountModels1;
   // Models for BankAcount dynamic component.
@@ -140,10 +147,6 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   StartPlaidLinkWebV2CloudFunctionCallResponse? plaidStartResult1;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   PlaidLinkSessionsRecord? weburl1;
-  // Stores action output result for [Firestore Query - Query a collection] action in Tab widget.
-  List<BankAccountsRecord>? accounts;
-  // Models for metascard dynamic component.
-  late FlutterFlowDynamicModels<MetascardModel> metascardModels;
 
   @override
   void initState(BuildContext context) {
@@ -160,7 +163,6 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     bankAcountModels1 = FlutterFlowDynamicModels(() => BankAcountModel());
     bankAcountModels2 = FlutterFlowDynamicModels(() => BankAcountModel());
     bankAcountModels3 = FlutterFlowDynamicModels(() => BankAcountModel());
-    metascardModels = FlutterFlowDynamicModels(() => MetascardModel());
   }
 
   @override
@@ -177,6 +179,5 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     bankAcountModels1.dispose();
     bankAcountModels2.dispose();
     bankAcountModels3.dispose();
-    metascardModels.dispose();
   }
 }

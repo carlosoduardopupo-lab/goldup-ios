@@ -5,3 +5,4 @@ export 'save_fcm_token_to_firestore.dart' show saveFcmTokenToFirestore;
 export 'get_device_time_zone.dart' show getDeviceTimeZone;
 export 'listen_plaid_deep_link.dart' show listenPlaidDeepLink;
 export 'remove_focus.dart' show removeFocus;
+export 'launch_external_url.dart' show launchExternalUrl;

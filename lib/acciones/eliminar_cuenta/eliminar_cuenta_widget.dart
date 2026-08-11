@@ -232,9 +232,6 @@ class _EliminarCuentaWidgetState extends State<EliminarCuentaWidget> {
                       FFAppState().sumExpenses = 0.0;
                       FFAppState().sumIncomes = 0.0;
                       FFAppState().sumSave = 0.0;
-                      FFAppState().anualIncome = 0.0;
-                      FFAppState().anualExpenses = 0.0;
-                      FFAppState().anualCashFlow = 0.0;
                       FFAppState().mensualCashFlow = 0.0;
                       FFAppState().isNotificationRequested = false;
                       FFAppState().anualSaves = 0.0;

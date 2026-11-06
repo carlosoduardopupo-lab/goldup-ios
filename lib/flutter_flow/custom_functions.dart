@@ -75,17 +75,19 @@ List<CalendarDayStruct> getCalendarForMonth(
   final DateTime lastOfMonth = DateTime(baseDate.year, baseDate.month + 1, 0);
 
   final DateTime startCalendar =
-      firstOfMonth.subtract(Duration(days: firstOfMonth.weekday - 1));
+      DateTime(firstOfMonth.year, firstOfMonth.month,
+          firstOfMonth.day - (firstOfMonth.weekday - 1));
 
   final DateTime endCalendar = (lastOfMonth.weekday == 7)
       ? lastOfMonth
-      : lastOfMonth.add(Duration(days: 7 - lastOfMonth.weekday));
+      : DateTime(lastOfMonth.year, lastOfMonth.month,
+          lastOfMonth.day + (7 - lastOfMonth.weekday));
 
   final List<CalendarDayStruct> calendar = <CalendarDayStruct>[];
 
   for (DateTime d = startCalendar;
       !d.isAfter(endCalendar);
-      d = d.add(const Duration(days: 1))) {
+      d = DateTime(d.year, d.month, d.day + 1)) {
     final String key = dayKey(d);
 
     calendar.add(
@@ -225,7 +227,7 @@ List<String> generateRecurrenceDatesByCode(
 
   while (true) {
     if (stepDays > 0) {
-      current = normalizeToMidnight(current.add(Duration(days: stepDays)));
+      current = DateTime(current.year, current.month, current.day + stepDays);
     } else {
       final int totalMonths =
           (current.year * 12 + (current.month - 1)) + stepMonths;
@@ -356,11 +358,11 @@ dynamic calculateGoalInstallmentsFn(
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
       case 1:
-        return current.add(const Duration(days: 1));
+        return DateTime(current.year, current.month, current.day + 1);
       case 7:
-        return current.add(const Duration(days: 7));
+        return DateTime(current.year, current.month, current.day + 7);
       case 14:
-        return current.add(const Duration(days: 14));
+        return DateTime(current.year, current.month, current.day + 14);
       case 1001:
         return addMonthsClamped(current, 1);
       case 1003:
@@ -445,11 +447,11 @@ List<String> buildTransferScheduleDatesFn(
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
       case 1:
-        return current.add(const Duration(days: 1));
+        return DateTime(current.year, current.month, current.day + 1);
       case 7:
-        return current.add(const Duration(days: 7));
+        return DateTime(current.year, current.month, current.day + 7);
       case 14:
-        return current.add(const Duration(days: 14));
+        return DateTime(current.year, current.month, current.day + 14);
       case 1001:
         return addMonthsClamped(current, 1);
       case 1003:
@@ -532,11 +534,11 @@ dynamic goalCurrentStatusFn(
   DateTime nextDate(DateTime current) {
     switch (frequencyCode) {
       case 1:
-        return current.add(const Duration(days: 1));
+        return DateTime(current.year, current.month, current.day + 1);
       case 7:
-        return current.add(const Duration(days: 7));
+        return DateTime(current.year, current.month, current.day + 7);
       case 14:
-        return current.add(const Duration(days: 14));
+        return DateTime(current.year, current.month, current.day + 14);
       case 1001:
         return addMonthsClamped(current, 1);
       case 1003:
@@ -668,7 +670,7 @@ List<DateTime> buildGoalPeriodDatesExcludeStart(
 
   while (true) {
     if (stepDays > 0) {
-      current = normalizeToMidnight(current.add(Duration(days: stepDays)));
+      current = DateTime(current.year, current.month, current.day + stepDays);
     } else {
       final int totalMonths =
           (current.year * 12 + (current.month - 1)) + stepMonths;

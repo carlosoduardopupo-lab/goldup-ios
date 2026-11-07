@@ -14,7 +14,7 @@ import '/backend/schema/structs/index.dart';
 import '/auth/firebase_auth/auth_util.dart';
 
 List<CalendarDayStruct> getCalendarForMonth(
-  DateTime inputDate,
+  DateTime? inputDate,
   List<String>? docDates,
   List<bool>? docIsIncome,
   List<bool>? docIsEvent,
@@ -23,10 +23,12 @@ List<CalendarDayStruct> getCalendarForMonth(
   List<bool>? docIsInternalTransfer,
   List<bool>? docIsRemoved,
 ) {
+  final DateTime fecha = inputDate ?? DateTime.now();
+
   final DateTime baseDate = DateTime(
-    inputDate.year,
-    inputDate.month,
-    inputDate.day,
+    fecha.year,
+    fecha.month,
+    fecha.day,
   );
 
   final List<String> dates = docDates ?? <String>[];
@@ -74,14 +76,14 @@ List<CalendarDayStruct> getCalendarForMonth(
   final DateTime firstOfMonth = DateTime(baseDate.year, baseDate.month, 1);
   final DateTime lastOfMonth = DateTime(baseDate.year, baseDate.month + 1, 0);
 
-  final DateTime startCalendar =
-      DateTime(firstOfMonth.year, firstOfMonth.month,
-          firstOfMonth.day - (firstOfMonth.weekday - 1));
+  // Fechas con DateTime(anio, mes, dia) y no sumando Duration: con el cambio
+  // de horario sumar 24 h no siempre avanza un dia y la ultima fila perdia el
+  // domingo (marzo y noviembre).
+  final DateTime startCalendar = DateTime(
+      firstOfMonth.year, firstOfMonth.month, 1 - (firstOfMonth.weekday - 1));
 
-  final DateTime endCalendar = (lastOfMonth.weekday == 7)
-      ? lastOfMonth
-      : DateTime(lastOfMonth.year, lastOfMonth.month,
-          lastOfMonth.day + (7 - lastOfMonth.weekday));
+  final DateTime endCalendar = DateTime(lastOfMonth.year, lastOfMonth.month,
+      lastOfMonth.day + (7 - lastOfMonth.weekday));
 
   final List<CalendarDayStruct> calendar = <CalendarDayStruct>[];
 
